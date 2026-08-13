@@ -17,13 +17,13 @@ Browser
 Next.js Application
   |-- App Router UI
   |-- Server Components
-  |-- Route Handlers / Server Actions
+  |-- Resource Route Handlers
   |-- Content loaders
   |-- Practice/scoring domain
   |-- Progress domain
   |-- Experiment registry
   |
-  +--> PostgreSQL / Prisma
+  +--> Versioned browser-local visitor state
   |
   +--> Repository MDX/JSON content
   |
@@ -67,8 +67,8 @@ Skill score calculation.
 ### `lib/ai`
 Provider abstraction.
 
-### `lib/db`
-Prisma and persistence helpers.
+### `lib/visitor`
+Zod-validated visitor progress storage, writes, and subscriptions.
 
 ### `content/`
 Product/course source data.
@@ -131,34 +131,19 @@ interface AIProvider {
 
 No provider SDK should leak through lesson/experiment domain APIs.
 
-## Authentication
+## Visitor State
 
-Auth.js.
+The showcase has no authentication provider or learner account. Public lessons, practice, experiments, games, labs, cases, and progress are immediately usable.
 
-Anonymous:
-- browse lessons/resources
+Lesson completion, practice evidence, Field Mission state, and Field Arcade profiles use separate versioned browser-local records. Same-tab custom events and browser storage events keep client views synchronized. **Start fresh** removes only those app-owned records.
 
-Authenticated:
-- progress
-- practice history
-- labs
-- case study persistence
-- capstone
-- recommendations
-
-## Database
-
-PostgreSQL + Prisma.
-
-Keep course content in Git, not database, for V1.
-
-Database is learner-state oriented.
+Keep course content in Git, not browser state.
 
 ## Security
 
 - input validation at all trust boundaries
 - no secrets to browser
-- auth checks on writes
+- validate browser-state payloads before writes
 - safe MDX
 - rate limit sensitive endpoints
 - no arbitrary shell execution

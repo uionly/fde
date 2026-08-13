@@ -1,5 +1,3 @@
-import { randomUUID } from "node:crypto";
-
 import { expect, test } from "@playwright/test";
 
 test("Field Arcade runs a no-typing mission and persists the next deterministic variant", async ({ page }) => {
@@ -34,13 +32,9 @@ test("Field Arcade runs a no-typing mission and persists the next deterministic 
   await expect(profile.getByText("1/6", { exact: true })).toBeVisible();
 });
 
-test("Start fresh resets the next visitor without deleting account work or display settings", async ({ page }) => {
-  const email = `fresh-visitor-${randomUUID()}@example.com`;
+test("Start fresh clears visitor and arcade progress while preserving display and unrelated settings", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
+  await page.goto("/labs");
   await page.getByRole("button", { name: "Toggle color theme" }).click();
   await expect(page.locator("html")).toHaveClass(/dark/);
   await page.evaluate(() => window.localStorage.setItem("showcase-setting", "preserve"));
@@ -55,27 +49,27 @@ test("Start fresh resets the next visitor without deleting account work or displ
   await expect(page.getByText("Mission cleared · +40 XP")).toBeVisible();
 
   await page.getByRole("button", { name: "Start fresh" }).click();
-  const confirmation = page.getByRole("alertdialog", { name: "Start a fresh visitor session?" });
+  const confirmation = page.getByRole("alertdialog", { name: /Clear this visitor(?:’|')s progress\?/ });
   await expect(confirmation).toBeVisible();
-  await expect(confirmation.getByText(/Saved account work and display settings stay intact/)).toBeVisible();
-  await confirmation.getByRole("button", { name: "Confirm start fresh" }).click();
+  await expect(confirmation.getByText(/lesson, practice, Field Mission, and Field Arcade progress/i)).toBeVisible();
+  await confirmation.getByRole("button", { name: "Clear progress" }).click();
 
   await expect(page).toHaveURL(/\/labs$/);
   await expect(page.getByRole("status").getByText(/Fresh session started/)).toBeVisible();
-  await expect(page.getByRole("link", { name: /Sign in/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Sign in/i })).toHaveCount(0);
   const freshProfile = page.getByLabel("AI Labs field profile");
   await expect(freshProfile.getByText("0", { exact: true }).first()).toBeVisible();
   await expect(freshProfile.getByText("0/6", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => window.localStorage.getItem("fde-ai-labs-profile-v1"))).toBeNull();
+  expect(await page.evaluate(() => window.localStorage.getItem("fde-learning-lab-visitor-progress-v1"))).toBeNull();
   expect(await page.evaluate(() => window.localStorage.getItem("showcase-setting"))).toBe("preserve");
   await expect(page.locator("html")).toHaveClass(/dark/);
 
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
   await page.goto("/learn/fde-foundations/what-is-fde");
-  await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Mark complete" })).toBeVisible();
+  await page.goto("/progress");
+  await expect(page.getByText("0 of 4 lessons", { exact: true })).toBeVisible();
+  await expect(page.getByText(/Based on 0 saved practice/)).toBeVisible();
 });
 
 test("Field Arcade is keyboard operable on mobile and respects reduced motion", async ({ page }) => {

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { AuthNav } from "@/components/auth/auth-nav";
 import { ResetVisitorSession } from "@/components/labs/reset-visitor-session";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -118,7 +117,6 @@ export function SiteHeader() {
             );
           })}
           <ThemeToggle />
-          <AuthNav />
           <Button
             aria-controls="mobile-menu"
             aria-expanded={open}

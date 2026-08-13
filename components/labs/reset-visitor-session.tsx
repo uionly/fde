@@ -1,16 +1,15 @@
 "use client";
 
 import { RotateCcw } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import { useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { trackAnalytics } from "@/lib/analytics/events";
 import { clearStoredGameProfile, gameProfileStorageKey } from "@/lib/games/storage";
 import { cn } from "@/lib/utils";
+import { clearVisitorProgress, visitorProgressStorageKey } from "@/lib/visitor/progress";
 
 export function ResetVisitorSession({ className, triggerClassName }: { className?: string; triggerClassName?: string }) {
-  const { status } = useSession();
   const [resetting, setResetting] = useState(false);
   const [error, setError] = useState("");
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
@@ -23,30 +22,25 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
     setResetting(true);
     setError("");
 
-    let profileVerified = false;
+    let progressVerified = false;
     try {
-      profileVerified = clearStoredGameProfile() && window.localStorage.getItem(gameProfileStorageKey) === null;
+      const gameProfileCleared = clearStoredGameProfile();
+      const learningProgressCleared = clearVisitorProgress();
+      progressVerified = gameProfileCleared
+        && learningProgressCleared
+        && window.localStorage.getItem(gameProfileStorageKey) === null
+        && window.localStorage.getItem(visitorProgressStorageKey) === null;
     } catch {
-      profileVerified = false;
+      progressVerified = false;
     }
 
-    if (!profileVerified) {
-      setError("Could not start a fresh session. Check browser storage access and try again.");
+    if (!progressVerified) {
+      setError("Could not clear all progress on this device. Check browser storage access and try again.");
       setResetting(false);
       return;
     }
 
-    if (status === "authenticated") {
-      try {
-        await signOut({ redirect: false });
-      } catch {
-        setError("Field Arcade progress was cleared, but this account could not be signed out. Sign out manually before the next visitor starts.");
-        setResetting(false);
-        return;
-      }
-    }
-
-    trackAnalytics("visitor_session_reset", { signedIn: status === "authenticated" });
+    trackAnalytics("visitor_session_reset", { clearedLearningProgress: true, clearedArcadeProfile: true });
     window.location.assign(new URL("/labs?fresh=1", window.location.origin).toString());
   }
 
@@ -64,7 +58,6 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
     <div className={className}>
       <Button
         className={cn("justify-start", triggerClassName)}
-        disabled={status === "loading"}
         onClick={openConfirmation}
         ref={triggerRef}
         size="sm"
@@ -90,17 +83,17 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
         role="alertdialog"
       >
         <div className="p-5 sm:p-6">
-          <p className="text-lg font-semibold" id={titleId}>Start a fresh visitor session?</p>
+          <p className="text-lg font-semibold" id={titleId}>Clear this visitor&apos;s progress?</p>
           <div className="mt-3 space-y-2 text-sm leading-6 text-muted-foreground" id={descriptionId}>
-            <p>This clears Field Arcade progress on this device and signs out the current account in this browser.</p>
-            <p>Any unsaved work on the current screen will be lost. Saved account work and display settings stay intact.</p>
+            <p>This clears lesson, practice, Field Mission, and Field Arcade progress saved by this app on this device. Your display theme stays unchanged.</p>
+            <p>Any unsaved work on the current screen will be lost.</p>
           </div>
           <p aria-live="assertive" className="mt-3 min-h-5 text-xs leading-5 text-rose-600 dark:text-rose-400">{error}</p>
           <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Button disabled={resetting} onClick={closeConfirmation} ref={cancelButtonRef} variant="ghost">Cancel</Button>
-            <Button disabled={resetting || status === "loading"} onClick={resetVisitorSession}>
+            <Button disabled={resetting} onClick={resetVisitorSession}>
               <RotateCcw aria-hidden="true" className="size-4" />
-              {resetting ? "Starting fresh…" : "Confirm start fresh"}
+              {resetting ? "Clearing progress…" : "Clear progress"}
             </Button>
           </div>
         </div>

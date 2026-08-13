@@ -111,30 +111,24 @@ A user can navigate track → lesson → next lesson entirely from content data.
 
 ---
 
-# Milestone 4 — Authentication & Persistence
+# Milestone 4 — Visitor Persistence Foundation
 
 ## Goal
 
-Create accounts and persistence foundation.
+Create an account-free, browser-local persistence foundation for the AI Labs showcase.
 
 ## Deliverables
 
-- Auth.js
-- Google provider if credentials present
-- development/test auth strategy
-- PostgreSQL
-- Prisma
-- User schema
-- migrations
-- protected routes for learner state
-- session-aware header
+- versioned, Zod-validated visitor profile
+- lesson, practice, and Field Mission state contracts
+- same-tab and cross-tab subscriptions
+- no sign-in or demo identity surface
+- scoped Start fresh behavior
 - `.env.example` updated
 
 ## Acceptance
 
-Anonymous lesson browsing works.
-
-Authenticated user state is available server-side.
+All learning surfaces work without identity. State survives reloads on the same browser, and Start fresh clears only the app-owned learner keys.
 
 ---
 
@@ -146,19 +140,17 @@ Persist learning progress.
 
 ## Deliverables
 
-- LessonProgress model
 - mark started
 - mark complete
-- dashboard "continue learning"
 - per-track progress
 - last activity
 - progress page base UI
-- authenticated write APIs/server actions
+- device-local typed writes and subscriptions
 - tests for progress calculations
 
 ## Acceptance
 
-User can complete a lesson, reload/logout/login, and retain progress.
+User can complete a lesson, reload, and retain progress on the same browser.
 
 ---
 

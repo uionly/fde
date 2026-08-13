@@ -14,14 +14,14 @@ The MVP is releasable only when all P0 items pass.
 - [ ] Previous/Next navigation works.
 - [ ] At least 40 lessons can be added without route-code changes.
 
-## P0 — Authentication & Progress
+## P0 — Visitor Progress
 
 - [ ] Anonymous users can read public lessons.
-- [ ] User can authenticate.
 - [ ] User can mark lesson complete.
-- [ ] Progress persists across sessions.
-- [ ] Dashboard can resume latest lesson.
+- [ ] Lesson, practice, lab, and Arcade progress persists across reloads on the same browser.
 - [ ] Progress page shows track completion.
+- [ ] No demo identity, sign-in option, or authentication gate is exposed.
+- [ ] Start fresh clears only app-owned visitor progress and preserves theme/unrelated browser settings.
 
 ## P0 — Practice
 
@@ -62,7 +62,7 @@ Each:
 - [ ] stores progress
 - [ ] supports hints
 - [ ] supports solution reveal
-- [ ] resumes after relogin
+- [ ] resumes after leaving and returning on the same browser
 
 ## P0 — Northstar
 
@@ -81,7 +81,7 @@ Each:
 - [ ] no secrets in repo
 - [ ] `.env.example` exists
 - [ ] basic accessibility checked
-- [ ] loading/error states exist for authenticated async flows
+- [ ] browser-storage failure states are communicated accessibly
 
 ## P1 — Progress Intelligence
 
@@ -102,12 +102,12 @@ A test learner can:
 1. land on homepage
 2. open a track
 3. read a lesson
-4. register/login
-5. mark it complete
-6. answer a practice scenario
-7. run one experiment
-8. start a guided lab
-9. leave and return
-10. resume the lab
-11. visit Northstar case study
-12. view progress
+4. mark it complete
+5. answer a practice scenario
+6. run one experiment
+7. start a guided lab
+8. leave and return
+9. resume the lab
+10. visit Northstar case study
+11. view progress
+12. start fresh and verify a clean visitor state

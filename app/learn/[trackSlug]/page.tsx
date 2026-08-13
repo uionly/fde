@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { LessonListItem } from "@/components/learning/lesson-list-item";
-import { ProgressBar } from "@/components/learning/progress-bar";
+import { VisitorTrackProgress } from "@/components/progress/visitor-track-progress";
 import { getAllTracks, getLessonsForTrack, getTrackBySlug } from "@/lib/content";
 
 type PageProps = { params: Promise<{ trackSlug: string }> };
@@ -40,8 +40,7 @@ export default async function TrackPage({ params }: PageProps) {
             <div><dt className="text-xs text-muted-foreground">Lessons</dt><dd className="mt-1 font-semibold">{lessons.length}</dd></div>
             <div><dt className="text-xs text-muted-foreground">Time</dt><dd className="mt-1 font-semibold">{lessons.reduce((sum, lesson) => sum + lesson.frontmatter.durationMinutes, 0)} min</dd></div>
           </dl>
-          <ProgressBar className="mt-5" label="Track progress" value={0} />
-          <p className="mt-2 text-xs text-muted-foreground">Progress becomes available after sign-in.</p>
+          <VisitorTrackProgress lessonIds={lessons.map((lesson) => lesson.frontmatter.id)} />
         </aside>
       </div>
 

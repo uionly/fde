@@ -1,14 +1,14 @@
 # Implementation Status
 
-Current milestone: **D1 complete — project documentation and onboarding refreshed**
+Current milestone: **V1 complete — fake authentication removed; visitor-only device progress shipped**
 
 ## Milestones
 
 - [x] M1 — Repository Bootstrap & Design System
 - [x] M2 — Content Engine & Schemas
 - [x] M3 — Learning Tracks & Lesson Experience
-- [x] M4 — Authentication & Persistence
-- [x] M5 — Progress Tracking
+- [x] M4 — Original Authentication & Persistence foundation (superseded by V1)
+- [x] M5 — Original Progress Tracking (superseded by V1)
 - [x] M6 — Practice Engine
 - [x] M7 — Experiment Framework
 - [x] M8 — Five MVP Experiments
@@ -17,6 +17,7 @@ Current milestone: **D1 complete — project documentation and onboarding refres
 - [x] M11 — Skill Scoring & Recommendations
 - [x] M12 — Search, Resources, Polish & MVP Release
 - [x] D1 — Documentation Hygiene & Safe Local Onboarding
+- [x] V1 — Visitor-only Showcase & Device Progress
 
 ## M1 implementation summary
 
@@ -33,25 +34,24 @@ Current milestone: **D1 complete — project documentation and onboarding refres
 - Server Components are the default; only navigation state and theme switching use Client Components.
 - Product visuals are code-native and typography-led to preserve the professional engineering-lab character.
 - Repository data and domain services drive lessons, labs, practice, experiments, case studies, search, and resources; route components stay thin.
-- Production persistence uses PostgreSQL; explicit in-process stores keep local development and browser validation credential-free.
+- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, and Field Arcade state on this device.
 - `AI_MODE=mock` is the credential-free default.
 
 ## Verification
 
 - `npm run lint` — passed
 - `npm run typecheck` — passed
-- `npm run test` — passed (48 unit tests across 15 files)
-- `npm run build` — passed; 53 static, generated, and dynamic route outputs
-- `npm run test:e2e` — passed (21 serial Chromium journeys, including AI Labs hierarchy, debrief continuity, accessible fresh-visitor reset, 320/360px mobile coverage, persistence, legacy redirects, and one integrated MVP path)
+- `npm run test` — passed (60 unit tests across 18 files)
+- `npm run build` — passed; 51 static, generated, and dynamic route outputs
+- `npm run test:e2e` — passed (21 serial Chromium journeys, including no-sign-in regression coverage, browser-local lesson/practice/lab persistence, AI Labs hierarchy, accessible full visitor reset, mobile coverage, legacy redirects, and one integrated visitor path)
 
 ## Known limitations
 
 - Seed curriculum intentionally contains four representative lessons; the content engine supports adding 40+ without route changes.
-- Production learner persistence requires PostgreSQL. The local fallback persists only for the lifetime of the development server.
-- Google sign-in is optional; the local development identity must remain disabled on public deployments.
+- Visitor evidence is intentionally local to one browser and does not synchronize across devices.
 - The capstone route communicates the 12-phase engagement but full phase-level editing/persistence remains a post-MVP extension.
 - Current Field Arcade quick missions share the decision-card renderer; the distinct routing, retrieval, security, and agent mechanics remain G2/G3 work.
-- Field Arcade evidence remains device-local until G4; the fresh-visitor action intentionally clears only that device state and never deletes account evidence.
+- Field Arcade evidence remains separate from practice/Field Mission skill scoring until G4; Start fresh clears both app-owned visitor records while preserving theme and unrelated browser storage.
 - Analytics hooks remain provider-neutral browser events until a collection adapter is configured.
 - The in-app visual inspection connection was unavailable in this environment; local Chromium rendering and comprehensive automated interaction coverage passed.
 
@@ -73,14 +73,14 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Added reusable track cards, lesson list items, progress bars, difficulty badges, and an MDX lesson body.
 - Passed lint, typecheck, 5 unit tests, production build, and 3 Chromium journeys.
 
-## M4 validation record
+## M4 validation record (historical; superseded by V1)
 
 - Added Auth.js with an explicit local development identity and optional Google provider.
 - Added PostgreSQL Prisma 7 schema, generated client, initial migration, and session-aware navigation.
 - Anonymous lesson browsing remains available; learner-state routes can authenticate server-side.
 - Passed lint, typecheck, 5 unit tests, production build, and 4 Chromium journeys including sign-in.
 
-## M5 validation record
+## M5 validation record (historical; superseded by V1)
 
 - Added authenticated lesson completion writes with PostgreSQL persistence and an explicit development fallback.
 - Added learner dashboard, latest-lesson resume, overall/track progress, and persisted completion UI.
@@ -161,7 +161,7 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Rebuilt `/labs` as a curated, server-composed showcase driven by a Zod-validated manifest: one featured incident, two supporting games, three playgrounds, three Field Missions, and one Northstar signal-to-delivery thread.
 - Added customer-first game headlines, explicit mechanics, and validated debrief actions that connect each mission to a lesson, playground, Field Mission, customer file, or field resource.
 - Added games and playgrounds to global search.
-- Added a confirmed `Start fresh` flow that clears only device-local Field Arcade progress, signs out the browser, reloads AI Labs at zero state, and preserves theme, unrelated browser storage, and saved account evidence.
+- Added a confirmed `Start fresh` flow that reloads AI Labs at zero state and preserves theme and unrelated browser storage; V1 later expanded it to all app-owned visitor learning state and removed sign-out/account behavior.
 - Made the reset available across every AI Labs route with an accessible modal, safe partial-failure handling, focus restoration, an unsaved-work warning, and a visible fresh-session confirmation.
 - Added phase-aware keyboard focus and concise result announcements to games, publishable-reference checks to connected content, and direct customer links that reveal the referenced Northstar incident.
 - Verified desktop and 320/360px mobile rendering, zero horizontal document overflow, reduced-motion behavior, keyboard operation, and the reset dialog/status presentation in local Chromium.
@@ -177,3 +177,14 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Removed the unreferenced bootstrap-only `docs/CODEX_START_PROMPT.md` and refreshed the seed document as an active content-expansion plan.
 - Added documentation regression tests for links, scripts, safe environment defaults, and starter-artifact removal.
 - Passed content validation, lint, strict typecheck, 48 unit tests across 15 files, the 53-route production build, and all 21 serial Chromium journeys against an existing local server.
+
+## V1 visitor-only showcase validation record
+
+- Removed the fake Credentials identity, Auth.js runtime/API/session provider, sign-in navigation, auth-gated server actions/routes, auth environment variables, and the unused Auth.js packages/types.
+- Kept legacy `/signin` and `/dashboard` bookmarks safe with permanent redirects to AI Labs and Progress; neither route exposes an identity surface.
+- Added one versioned, Zod-validated visitor profile for lesson completion, practice attempts/evidence, and Field Mission state, including same-tab and cross-tab subscriptions.
+- Made lessons, practice, and all three Field Missions immediately usable without identity, with honest this-device save and storage-failure feedback.
+- Rebuilt `/progress` as a browser-local evidence workspace covering curriculum/track completion, practice and completed-lab skill evidence, recommendations, Field Mission completion, and Arcade profile summary.
+- Expanded **Start fresh** to clear exactly the visitor-progress and Field Arcade keys while preserving theme and unrelated local storage; updated confirmation, success, focus, failure, and mobile behavior.
+- Reconciled the README, environment example, deployment guide, product specification, acceptance criteria, implementation plan, and architecture around visitor-only showcase mode.
+- Passed repository content validation, ESLint, strict TypeScript, 60 unit tests across 18 files, the 51-output production build, and all 21 serial Chromium journeys.

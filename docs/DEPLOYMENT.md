@@ -3,25 +3,19 @@
 ## Runtime requirements
 
 - Node.js `^20.19`, `^22.12`, or `>=24`
-- PostgreSQL 15 or newer
 - A platform capable of running Next.js App Router server functions
 
 ## Required configuration
 
-Set these values in the deployment environment:
+Set the supported AI mode in the deployment environment:
 
 ```text
-DATABASE_URL=postgresql://...
-AUTH_SECRET=<at least 32 random bytes>
 AI_MODE=mock
-ENABLE_DEV_AUTH=false
 ```
 
-Generate a secret with `openssl rand -base64 32` or the deployment platform's secret manager.
-
-Optionally set both `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` to enable Google sign-in. Never enable the development identity on a public deployment.
-
 `AI_MODE=mock` is the only currently implemented mode. The shipped games and playgrounds are deterministic and do not call a model provider.
+
+The application is a visitor-only showcase with no authentication provider or server-side learner database. Lesson completion, practice evidence, Field Mission state, and Field Arcade progress remain in versioned browser-local storage. They do not synchronize across browsers or devices.
 
 ## Pre-deployment validation
 
@@ -44,21 +38,12 @@ PLAYWRIGHT_BASE_URL=https://release-candidate.example.com npm run test:e2e
 
 ## Release procedure
 
-Apply the checked-in migrations to the production database before directing traffic to the new application version:
-
-```bash
-npx prisma migrate deploy
-npm run start
-```
-
-Run the application behind HTTPS. Configure the canonical Auth.js host for the deployment platform, use a pooled database connection where required, and retain migration logs.
+Run the application behind HTTPS and start the validated production build with `npm run start`.
 
 ## Operational checks
 
-- Verify anonymous lesson access and authenticated lesson, practice, and Field Mission writes.
-- Confirm Google callback URLs match the production host when enabled.
+- Verify lesson completion, practice evidence, Field Mission resume, and Field Arcade progress survive a page reload in a supported browser.
 - Exercise the integrated learner journey against the deployed release candidate.
-- Confirm `ENABLE_DEV_AUTH` is absent or `false`.
-- Monitor server errors, database availability, authentication failures, and learner-write latency.
-- Back up PostgreSQL learner state; curriculum and customer content remain version-controlled in the repository.
-- Remember that Field Arcade progress is intentionally device-local and is not part of the PostgreSQL backup.
+- Confirm **Start fresh** clears every app-owned visitor learning key while preserving theme and unrelated browser storage.
+- Monitor server errors, asset delivery, and route latency.
+- Remember that visitor progress is intentionally local to each browser and cannot be restored from the deployment environment.

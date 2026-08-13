@@ -1,10 +1,4 @@
-import { randomUUID } from "node:crypto";
-
 import { expect, test } from "@playwright/test";
-
-function learnerEmail(label: string) {
-  return `${label}-${randomUUID()}@example.com`;
-}
 
 test("landing page, navigation, and theme work", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
@@ -68,20 +62,25 @@ test("learner can navigate track to lesson to next lesson", async ({ page }) => 
   await expect(page.getByRole("heading", { level: 1, name: "From Customer Request to Problem Statement" })).toBeVisible();
 });
 
-test("development learner can sign in without a database", async ({ page }) => {
+test("the showcase has no sign-in surface and legacy account routes redirect", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: /sign in/i })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /sign in/i })).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+  await expect(mobileNavigation.getByRole("link", { name: /sign in/i })).toHaveCount(0);
+
   await page.goto("/signin");
-  await expect(page.getByRole("heading", { level: 1, name: "Keep your fieldwork in context." })).toBeVisible();
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: /Welcome back/ })).toBeVisible();
+  await expect(page).toHaveURL(/\/labs$/);
+  await expect(page.getByRole("heading", { level: 1, name: /Make the architecture call.*See the production consequence/ })).toBeVisible();
+
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/progress$/);
 });
 
-test("signed-in learner completes and resumes a lesson", async ({ page }) => {
-  const email = learnerEmail("progress");
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
+test("visitor completes and resumes a lesson on this device", async ({ page }) => {
   await page.goto("/learn/fde-foundations/what-is-fde");
   await page.getByRole("button", { name: "Mark complete" }).click();
   await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();
@@ -89,15 +88,12 @@ test("signed-in learner completes and resumes a lesson", async ({ page }) => {
   await page.reload();
   await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();
   await page.goto("/progress");
+  await expect(page.getByText(/Saved only in this browser/i)).toBeVisible();
+  await expect(page.getByText("1 of 4 lessons", { exact: true })).toBeVisible();
   await expect(page.locator("#main-content").getByText("25%", { exact: true })).toBeVisible();
 });
 
 test("practice filters, multiple-choice feedback, and persistence work", async ({ page }) => {
-  const email = learnerEmail("practice");
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
   await page.goto("/practice");
   await page.getByLabel("Filter by category").selectOption("security");
   await page.getByLabel("Filter by difficulty").selectOption("advanced");
@@ -105,7 +101,12 @@ test("practice filters, multiple-choice feedback, and persistence work", async (
   await page.getByLabel(/Require approval for outbound messages/).check();
   await page.getByRole("button", { name: "Check decision" }).click();
   await expect(page.getByText("Strong call")).toBeVisible();
-  await expect(page.getByText("Attempt saved")).toBeVisible();
+  await expect(page.getByText(/Attempt saved/)).toBeVisible();
+
+  await page.reload();
+  await page.goto("/progress");
+  await expect(page.getByText(/Based on 1 saved practice/)).toBeVisible();
+  await expect(page.getByRole("progressbar", { name: "Security skill score: 100%" })).toBeVisible();
 });
 
 test("all five deterministic experiments run and reset", async ({ page }) => {
@@ -158,11 +159,6 @@ test("AI Labs home rewards a correct game decision and persists XP", async ({ pa
 });
 
 test("guided lab saves and resumes the current step", async ({ page }) => {
-  const email = learnerEmail("labs");
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
   await page.goto("/labs/discovery-workshop");
   await expect(page.getByRole("heading", { name: "Read the customer request" })).toBeVisible();
   await page.getByRole("button", { name: "Save & continue" }).click();
@@ -192,12 +188,7 @@ test("Northstar case study reveals the continuous customer story", async ({ page
   await expect(linkedIncident.getByText(/curated demo hid a vocabulary mismatch/i)).toBeVisible();
 });
 
-test("skill snapshot changes only after learner evidence", async ({ page }) => {
-  const email = learnerEmail("skills");
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
+test("skill snapshot changes only after visitor evidence", async ({ page }) => {
   await page.goto("/practice");
   await page.getByLabel("Filter by category").selectOption("security");
   await page.getByLabel("Filter by difficulty").selectOption("advanced");
@@ -206,7 +197,7 @@ test("skill snapshot changes only after learner evidence", async ({ page }) => {
   await page.getByRole("button", { name: "Check decision" }).click();
   await expect(page.getByText("Attempt saved")).toBeVisible();
   await page.goto("/progress");
-  await expect(page.locator("#main-content").getByText(/Based on 1 practice/)).toBeVisible();
+  await expect(page.locator("#main-content").getByText(/Based on 1 saved practice/)).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Security skill score: 100%" })).toBeVisible();
 });
 
@@ -245,18 +236,13 @@ test("mobile navigation and skip link are keyboard accessible", async ({ page })
   await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
 });
 
-test("integrated MVP learner journey", async ({ page }) => {
-  const email = learnerEmail("mvp-smoke");
+test("integrated visitor learning journey", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Learn", exact: true }).click();
   await page.getByRole("link", { name: /FDE Foundations/ }).click();
   await page.getByRole("link", { name: /What Is Forward Deployed Engineering/ }).click();
   await expect(page.getByText("Northstar's opening request")).toBeVisible();
 
-  await page.goto("/signin");
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: /Continue as demo learner/ }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
   await page.goto("/learn/fde-foundations/what-is-fde");
   await page.getByRole("button", { name: "Mark complete" }).click();
   await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();

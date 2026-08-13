@@ -2,13 +2,13 @@
 
 import { ArrowRight, CheckCircle2, RotateCcw, XCircle } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 
-import { submitPracticeAttempt } from "@/app/actions/practice";
 import { Button } from "@/components/ui/button";
 import type { Question } from "@/lib/content/schemas";
-import { filterQuestions } from "@/lib/practice/scoring";
+import { filterQuestions, scoreQuestion } from "@/lib/practice/scoring";
 import { cn } from "@/lib/utils";
+import { writeVisitorPracticeAttempt } from "@/lib/visitor/progress";
 
 type Result = { correct: boolean; score: number; persisted: boolean };
 
@@ -19,7 +19,6 @@ export function PracticeEngine({ questions, relatedLessons }: { questions: Quest
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
-  const [pending, startTransition] = useTransition();
   const filtered = useMemo(() => filterQuestions(questions, { category, difficulty }), [questions, category, difficulty]);
   const question = filtered[index] ?? filtered[0];
   const categories = [...new Set(questions.map((item) => item.category))].sort();
@@ -36,11 +35,15 @@ export function PracticeEngine({ questions, relatedLessons }: { questions: Quest
 
   function submit() {
     if (!question || !selected.length) { setError("Choose at least one answer."); return; }
-    startTransition(async () => {
-      const response = await submitPracticeAttempt({ questionId: question.id, answer: selected });
-      if (!response.ok) setError(response.error);
-      else { setResult(response); setError(""); }
+    const scored = scoreQuestion(question, selected);
+    const persisted = writeVisitorPracticeAttempt({
+      questionId: question.id,
+      answer: scored.selected,
+      correct: scored.correct,
+      score: scored.score,
     });
+    setResult({ correct: scored.correct, score: scored.score, persisted });
+    setError(persisted ? "" : "Your result is shown, but browser storage is unavailable.");
   }
 
   function next() {
@@ -78,11 +81,11 @@ export function PracticeEngine({ questions, relatedLessons }: { questions: Quest
               <div className="flex items-center gap-2 font-semibold">{result.correct ? <CheckCircle2 aria-hidden="true" className="size-5 text-emerald-600" /> : <XCircle aria-hidden="true" className="size-5 text-amber-600" />}{result.correct ? "Strong call" : "Not quite"}</div>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{question.explanation}</p>
               <p className="mt-3 border-l-2 border-primary pl-3 text-sm font-medium">{question.principle}</p>
-              <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground"><span>{result.persisted ? "Attempt saved" : "Sign in to save attempts"}</span>{question.relatedLesson && relatedLessons[question.relatedLesson] ? <Link className="font-semibold text-primary" href={relatedLessons[question.relatedLesson]}>Review related lesson →</Link> : null}</div>
+              <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground"><span>{result.persisted ? "Attempt saved on this device" : "Attempt was not saved"}</span>{question.relatedLesson && relatedLessons[question.relatedLesson] ? <Link className="font-semibold text-primary" href={relatedLessons[question.relatedLesson]}>Review related lesson →</Link> : null}</div>
             </div> : null}
 
             <div className="mt-6 flex justify-end">
-              {result ? <Button onClick={next}>Next scenario <ArrowRight aria-hidden="true" className="size-4" /></Button> : <Button disabled={pending} onClick={submit}>{pending ? "Checking…" : "Check decision"}</Button>}
+              {result ? <Button onClick={next}>Next scenario <ArrowRight aria-hidden="true" className="size-4" /></Button> : <Button onClick={submit}>Check decision</Button>}
             </div>
           </div>
         </article>

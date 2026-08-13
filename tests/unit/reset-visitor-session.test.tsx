@@ -3,23 +3,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ResetVisitorSession } from "@/components/labs/reset-visitor-session";
 import { gameProfileStorageKey } from "@/lib/games/storage";
+import { visitorProgressStorageKey } from "@/lib/visitor/progress";
 
-const auth = vi.hoisted(() => ({
-  signOut: vi.fn(),
-  status: "unauthenticated" as "authenticated" | "loading" | "unauthenticated",
-}));
-
-vi.mock("next-auth/react", () => ({
-  signOut: auth.signOut,
-  useSession: () => ({ status: auth.status }),
-}));
-
-describe("fresh visitor reset failures", () => {
-  afterEach(cleanup);
+describe("fresh visitor reset", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
 
   beforeEach(() => {
-    auth.signOut.mockReset();
-    auth.status = "unauthenticated";
     window.localStorage.clear();
     HTMLDialogElement.prototype.showModal = function showModal() {
       this.setAttribute("open", "");
@@ -30,34 +22,30 @@ describe("fresh visitor reset failures", () => {
     };
   });
 
-  it("does not sign out when device progress cannot be cleared", async () => {
-    auth.status = "authenticated";
+  it("explains the exact device-local scope before clearing", () => {
+    render(<ResetVisitorSession />);
+    fireEvent.click(screen.getByRole("button", { name: "Start fresh" }));
+
+    expect(screen.getByRole("alertdialog", { name: "Clear this visitor's progress?" })).toBeVisible();
+    expect(screen.getByText(/lesson, practice, Field Mission, and Field Arcade progress/)).toBeVisible();
+    expect(screen.getByText(/display theme stays unchanged/)).toBeVisible();
+    expect(screen.getByText(/Any unsaved work/)).toBeVisible();
+    expect(screen.getByRole("button", { name: "Cancel" })).toHaveFocus();
+  });
+
+  it("reports a storage failure without claiming a fresh session", async () => {
     window.localStorage.setItem(gameProfileStorageKey, JSON.stringify({ version: 2, xp: 80 }));
-    const removeItem = vi.spyOn(Storage.prototype, "removeItem").mockImplementation(() => {
+    window.localStorage.setItem(visitorProgressStorageKey, JSON.stringify({ version: 1, lessons: {}, practiceAttempts: [], labs: {} }));
+    vi.spyOn(Storage.prototype, "removeItem").mockImplementation(() => {
       throw new Error("Storage blocked");
     });
 
     render(<ResetVisitorSession />);
     fireEvent.click(screen.getByRole("button", { name: "Start fresh" }));
-    fireEvent.click(screen.getByRole("button", { name: "Confirm start fresh" }));
+    fireEvent.click(screen.getByRole("button", { name: "Clear progress" }));
 
-    await waitFor(() => expect(screen.getByText(/Could not start a fresh session/)).toBeVisible());
-    expect(auth.signOut).not.toHaveBeenCalled();
+    await waitFor(() => expect(screen.getByText(/Could not clear all progress/)).toBeVisible());
     expect(window.localStorage.getItem(gameProfileStorageKey)).not.toBeNull();
-    removeItem.mockRestore();
-  });
-
-  it("reports a partial reset when sign-out fails after local progress is cleared", async () => {
-    auth.status = "authenticated";
-    auth.signOut.mockRejectedValueOnce(new Error("Network unavailable"));
-    window.localStorage.setItem(gameProfileStorageKey, JSON.stringify({ version: 2, xp: 80 }));
-
-    render(<ResetVisitorSession />);
-    fireEvent.click(screen.getByRole("button", { name: "Start fresh" }));
-    fireEvent.click(screen.getByRole("button", { name: "Confirm start fresh" }));
-
-    await waitFor(() => expect(screen.getByText(/progress was cleared, but this account could not be signed out/)).toBeVisible());
-    expect(window.localStorage.getItem(gameProfileStorageKey)).toBeNull();
-    expect(auth.signOut).toHaveBeenCalledWith({ redirect: false });
+    expect(window.localStorage.getItem(visitorProgressStorageKey)).not.toBeNull();
   });
 });

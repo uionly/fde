@@ -22,7 +22,7 @@ export function FreshSessionNotice({ show }: { show: boolean }) {
       <div className="mx-auto flex max-w-[1280px] items-start gap-3 px-4 py-3 text-sm sm:items-center sm:px-6 lg:px-8">
         <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-emerald-700 dark:text-emerald-400 sm:mt-0" />
         <p className="flex-1 leading-6">
-          <strong>Fresh session started.</strong> Field Arcade progress was cleared and this browser is ready for the next visitor.
+          <strong>Fresh session started.</strong> This browser is ready for the next visitor.
         </p>
         <Button aria-label="Dismiss fresh session confirmation" className="-mr-2 shrink-0" onClick={() => setVisible(false)} size="icon" variant="ghost">
           <X aria-hidden="true" className="size-4" />

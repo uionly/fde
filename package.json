@@ -17,23 +17,21 @@
     "validate:content": "tsx scripts/validate-content.ts"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.4",
-    "@auth/prisma-adapter": "^2.11.1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
+    "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^1.0.0",
     "next": "16.3.0",
     "next-mdx-remote": "^6.0.0",
-    "next-auth": "5.0.0-beta.32",
     "next-themes": "^0.4.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "tailwind-merge": "^3.3.1",
     "yaml": "^2.9.0",
-    "zod": "^4.4.3",
-    "gray-matter": "^4.0.3"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
@@ -47,10 +45,10 @@
     "eslint": "^9.39.0",
     "eslint-config-next": "16.3.0",
     "jsdom": "^27.0.0",
+    "prisma": "^7.9.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.2",
-    "vitest": "^4.1.10",
-    "prisma": "^7.9.1"
+    "vitest": "^4.1.10"
   }
 }

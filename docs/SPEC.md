@@ -123,11 +123,11 @@ Longer guided labs and capstone phases.
 Utility:
 - Search
 - Theme toggle
-- User profile
+- Start fresh within AI Labs
 
-## 8. Dashboard
+## 8. Progress Workspace
 
-Authenticated dashboard shows:
+The device-local progress workspace shows:
 
 ### Continue Learning
 Current lesson and track progress.
@@ -394,7 +394,7 @@ After selection show:
 - why alternatives are weaker
 - linked lesson/principle
 
-Persist attempt if authenticated.
+Persist the attempt on this device when browser storage is available.
 
 ## 13. Interactive Experiment Framework
 
@@ -720,18 +720,16 @@ Content is version controlled.
 
 Do not introduce CMS for MVP.
 
-## 25. User Progress
+## 25. Visitor Progress
 
-Persist:
+The current showcase has no identity or account system. Persist on this browser:
 
-- lessons started/completed
-- time spent
-- practice attempts
-- quiz scores
-- lab step progress
-- capstone progress
-- skill scores
-- last activity
+- lesson completion
+- practice attempts and scores
+- lab step progress and working notes
+- Field Arcade XP, completions, streaks, and personal bests
+
+Derive skill scores and recommendations from saved practice and completed-lab evidence. Cross-device sync, capstone persistence, time tracking, and account history are future capabilities.
 
 Lesson opening alone must not increase a skill score.
 
@@ -814,22 +812,13 @@ Templates:
 
 V1 may render/download Markdown/CSV templates.
 
-## 31. Authentication
+## 31. Visitor Mode
 
-Support:
-- Google
-- email-based auth if practical
+The AI Labs showcase is intentionally account-free. Do not expose a sign-in, demo identity, or authentication gate.
 
-Anonymous users may browse public lessons.
+All public learning surfaces are available immediately. Lesson completion, practice evidence, guided-lab state, skill recommendations, and Field Arcade progress are stored in versioned, Zod-validated browser storage. They do not synchronize across browsers or devices.
 
-Authentication required for:
-- progress persistence
-- practice history
-- labs
-- capstone
-- personalized recommendations
-
-Use Auth.js.
+The **Start fresh** action clears only app-owned visitor progress keys and preserves theme and unrelated browser settings.
 
 ## 32. Technical Stack
 
@@ -847,11 +836,10 @@ Interactive:
 - Mermaid
 
 Backend:
-- Next.js route handlers/server actions for MVP
+- Next.js Server Components and route handlers where server behavior is required
 
 Persistence:
-- PostgreSQL
-- Prisma
+- versioned browser local storage for visitor learning state
 
 Validation:
 - Zod
@@ -935,22 +923,11 @@ Core entities:
 - score
 - updatedAt
 
-## 35. API Surface
+## 35. Persistence Surface
 
-Initial expected server interfaces:
+Current visitor-state contracts are typed browser APIs for lesson completion, practice attempts, lab progress, and Field Arcade profiles. Content loading and scoring stay in reusable domain modules. Resource downloads may use route handlers.
 
-- `GET /api/progress`
-- `POST /api/progress/lesson`
-- `GET /api/practice/question`
-- `POST /api/practice/attempt`
-- `GET /api/labs/:id`
-- `POST /api/labs/:id/progress`
-- `GET /api/capstone`
-- `POST /api/capstone/:phase`
-- `GET /api/skills`
-- `GET /api/search`
-
-These are product-level contracts, not mandatory implementation details if equivalent typed Server Actions provide a cleaner architecture.
+If durable accounts are added later, define authenticated server contracts as a separate product milestone rather than reviving a demo identity.
 
 ## 36. Experiment Registry
 
@@ -1025,7 +1002,7 @@ Minimum:
 - no learner code on main server process
 - audit live AI requests
 - cap input/prompt sizes
-- safe auth/session configuration
+- clear, narrowly scoped browser-state reset behavior
 
 ## 41. MVP Content Scope
 
@@ -1052,15 +1029,14 @@ Users can:
 1. browse the landing page
 2. browse learning tracks
 3. read validated MDX lessons
-4. create/login to an account
-5. persist lesson progress
-6. use at least 5 interactive experiments
-7. answer scenario questions
-8. receive useful explanations
-9. complete at least 3 guided labs
-10. view skill/progress dashboard
-11. start Northstar case study
-12. leave and resume later
+4. persist lesson progress on the current browser
+5. use at least 5 interactive experiments
+6. answer scenario questions
+7. receive useful explanations
+8. complete at least 3 guided labs
+9. view the skill/progress dashboard
+10. start the Northstar case study
+11. leave and resume later on the same browser
 
 ## 43. Landing Page
 

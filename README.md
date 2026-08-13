@@ -19,7 +19,7 @@ This is not a beginner programming course or a video LMS. Every concept starts w
 | Learn — `/learn` | Build FDE and enterprise-AI mental models through repository-authored, validated MDX lessons. | 2 tracks, 4 representative lessons |
 | Practice — `/practice` | Work through scenario-heavy single- and multiple-choice decisions with rationales. | 25 questions |
 | Customer Engagement — `/case-studies` | Follow Northstar across progressive enterprise incidents and preview the end-to-end capstone. | 10 incidents, 6 fictional systems |
-| Dashboard, progress, search, and resources | Resume work, inspect evidence-based skills, find content, and download field templates. | 9 skills, 8 glossary entries, 6 templates |
+| Progress, search, and resources | Review browser-local learning evidence, find content, and download field templates. | 9 skills, 8 glossary entries, 6 templates |
 
 All Northstar people, systems, records, and policies are synthetic.
 
@@ -37,39 +37,22 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Development sign-in is available automatically outside production. Lesson, practice, and lab state use an in-process fallback and therefore reset when the development server restarts.
+Open [http://localhost:3000](http://localhost:3000). The app is a visitor-only showcase: there is no account or sign-in flow. Lesson completion, practice evidence, Field Mission state, and Field Arcade progress persist in versioned, validated browser storage on this device.
 
 The current AI experiences are deterministic and credential-free. `AI_MODE=mock` is the supported product mode; a live provider adapter is not implemented yet.
 
-## Optional durable persistence
-
-PostgreSQL is required only when learner state must survive application restarts. Prisma and Next.js both read the root `.env` file, so use that filename for a shared local configuration:
-
-```bash
-cp .env.example .env
-```
-
-Then uncomment and replace `DATABASE_URL`, set a strong `AUTH_SECRET`, and apply the migrations:
-
-```bash
-npx prisma migrate deploy
-npm run dev
-```
-
-Google sign-in is optional. Configure both `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` to expose it. Keep `ENABLE_DEV_AUTH=false` in every public deployment.
-
-See the [production deployment guide](docs/DEPLOYMENT.md) for the complete release configuration.
+Experiments remain ephemeral and provide their own reset controls. There is no cross-device or account synchronization. See the [production deployment guide](docs/DEPLOYMENT.md) for release guidance.
 
 ## Persistence and visitor reset
 
 | State | Storage | What **Start fresh** does |
 | --- | --- | --- |
-| Lessons, practice attempts, labs, and skill evidence | PostgreSQL when configured; process memory during credential-free development | Preserves saved account work |
+| Lesson completion, practice attempts/evidence, and Field Mission state | Versioned, Zod-validated local storage in this browser | Clears all visitor learning state |
 | Field Arcade XP, streak, completions, and personal bests | This browser's local storage | Clears the device profile |
-| Authentication session | Browser session cookie | Signs out the current browser |
+| Playground inputs and results | Ephemeral component state | Already reset within each playground |
 | Theme and unrelated browser settings | Browser storage | Preserves them |
 
-The persistent **Start fresh** control appears throughout AI Labs. It is intended for demos, labs, and shared devices so the next visitor can begin at zero without deleting the previous learner's account evidence.
+The persistent **Start fresh** control appears throughout AI Labs. It is intended for demos, labs, and shared devices so the next visitor can begin at zero while preserving theme and unrelated browser storage.
 
 ## Quality checks
 
@@ -105,12 +88,11 @@ lib/ai-labs/            Curated AI Labs showcase resolution
 lib/content/            Zod schemas, loaders, indexing, and graph validation
 lib/games/              Deterministic game runtime and device profile
 lib/experiments/        Deterministic technical simulations
-lib/labs/               Guided-mission progression and persistence
-lib/practice/           Practice scoring and attempt persistence
-lib/progress/           Lesson completion aggregation and persistence
+lib/labs/               Guided-mission progression and browser persistence
+lib/practice/           Practice scoring and browser evidence
+lib/progress/           Lesson completion aggregation and browser persistence
 lib/skills/             Evidence-based scoring and recommendations
 lib/search/             Cross-content search index
-prisma/                 PostgreSQL schema and migrations
 tests/unit/             Vitest domain, component, and documentation tests
 tests/e2e/              Playwright product and accessibility journeys
 docs/                   Product source, architecture, plans, and deployment guidance
@@ -120,7 +102,7 @@ docs/                   Product source, architecture, plans, and deployment guid
 
 - The content engine is ready to scale, but the current seed has 4 representative lessons rather than the planned 40–50.
 - The six Field Arcade games currently share a decision-card renderer; distinct routing, retrieval, security, and agent mechanics are planned in G2 and G3.
-- Field Arcade evidence is device-local and does not yet contribute to account skill scores or recommendations.
+- All learner evidence is device-local and is not synchronized across browsers or devices.
 - The capstone describes the full engagement but is not yet an editable, resumable workspace.
 - Analytics are typed browser events without a configured collection adapter.
 - Live AI-provider execution is not implemented; all shipped simulations remain deterministic.
