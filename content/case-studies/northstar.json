@@ -1,0 +1,29 @@
+{
+  "id": "northstar-financial",
+  "slug": "northstar",
+  "company": "Northstar Financial",
+  "industry": "Financial Services",
+  "employeeCount": 5000,
+  "startingRequest": "We want an AI agent that can automate customer service.",
+  "profile": "A regulated financial-services company with 450 support specialists, centralized identity, mixed cloud and legacy systems, and strict audit requirements.",
+  "systems": [
+    { "name": "Northstar SSO", "type": "Identity provider", "note": "OIDC, employee groups, and step-up authentication" },
+    { "name": "Atlas CRM", "type": "CRM", "note": "Customer profile data synchronized every 24 hours" },
+    { "name": "Compass Support", "type": "Ticketing", "note": "Primary workflow for 450 support specialists" },
+    { "name": "Polaris Knowledge", "type": "Document platform", "note": "Public, operations, manager, and compliance policies" },
+    { "name": "Ledger API", "type": "Internal API", "note": "Real-time balances and payment status behind an API gateway" },
+    { "name": "Beacon Warehouse", "type": "Data warehouse", "note": "Historical reporting with overnight freshness" }
+  ],
+  "scenarios": [
+    { "id": "vague-request", "order": 1, "title": "The vague request", "signal": "Executives ask for an AI agent before establishing a support baseline.", "customerProblem": "Slow resolution is a symptom; the actual workflow bottleneck and desired outcome are unknown.", "skills": ["Discovery", "Business Thinking"], "fieldQuestion": "What must you learn before selecting a solution?" },
+    { "id": "permission-sensitive", "order": 2, "title": "Permission-sensitive knowledge", "signal": "A specialist retrieves a manager-only refund exception during a demo.", "customerProblem": "Naive retrieval discarded source permissions and created a regulated data leak.", "skills": ["Architecture", "Security"], "fieldQuestion": "Where must identity and authorization be enforced?" },
+    { "id": "stale-data", "order": 3, "title": "Correct model, stale data", "signal": "The assistant returns yesterday's balance with high confidence.", "customerProblem": "Atlas CRM synchronization is 24 hours behind the real-time Ledger API.", "skills": ["Data", "Production"], "fieldQuestion": "Which source owns freshness for this answer?" },
+    { "id": "risky-action", "order": 4, "title": "The risky refund", "signal": "The agent attempts a high-value refund without review.", "customerProblem": "Tool access exceeds the agent's safe autonomy boundary and lacks approval.", "skills": ["AI Engineering", "Security"], "fieldQuestion": "Which actions require deterministic policy and human approval?" },
+    { "id": "retrieval-failure", "order": 5, "title": "The demo does not generalize", "signal": "Production staff use abbreviations absent from formal policy documents.", "customerProblem": "The curated demo hid a vocabulary mismatch and weak retrieval evaluation set.", "skills": ["AI Engineering", "Data"], "fieldQuestion": "How will you isolate and measure retrieval quality?" },
+    { "id": "rate-limits", "order": 6, "title": "CRM rate limits", "signal": "Peak support traffic causes cascading Atlas CRM failures.", "customerProblem": "The synchronous integration has no caching, backoff, queue, or graceful fallback.", "skills": ["Architecture", "Production"], "fieldQuestion": "How should the solution behave when the dependency is constrained?" },
+    { "id": "low-trust", "order": 7, "title": "Users do not trust it", "signal": "Answers are mostly correct, but weekly adoption remains below ten percent.", "customerProblem": "The assistant lacks citations, workflow fit, and a credible feedback path.", "skills": ["Customer Delivery", "Business Thinking"], "fieldQuestion": "What evidence would make a specialist rely on the answer?" },
+    { "id": "cost-escalation", "order": 8, "title": "Cost per task rises", "signal": "Long contexts and expensive model routing make each resolution uneconomic.", "customerProblem": "The architecture optimized demo quality without a unit-economics constraint.", "skills": ["AI Engineering", "Business Thinking"], "fieldQuestion": "Which quality-preserving levers reduce cost per successful task?" },
+    { "id": "production-outage", "order": 9, "title": "A downstream outage", "signal": "Ledger API failure traps the agent in repeated tool calls.", "customerProblem": "The agent lacks bounded retries, failure isolation, fallback, and escalation.", "skills": ["Production", "AI Engineering"], "fieldQuestion": "How will the system stop safely and preserve user context?" },
+    { "id": "roi-review", "order": 10, "title": "The executive ROI review", "signal": "The CIO asks what business result the program actually created.", "customerProblem": "The team tracked model accuracy but not adoption, cycle time, cost, or intervention rate.", "skills": ["Business Thinking", "Customer Delivery"], "fieldQuestion": "Which baseline and outcome metrics make impact defensible?" }
+  ]
+}

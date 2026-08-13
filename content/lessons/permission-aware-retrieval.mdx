@@ -1,0 +1,44 @@
+---
+id: permission-aware-retrieval
+slug: permission-aware-retrieval
+title: Permission-Aware Enterprise Retrieval
+track: enterprise-ai-systems
+module: enterprise-rag
+order: 1
+difficulty: intermediate
+durationMinutes: 18
+status: published
+prerequisites: []
+skills:
+  - Architecture
+  - AI Engineering
+  - Security
+objectives:
+  - Propagate identity into retrieval
+  - Identify unsafe document access paths
+experiments:
+  - retrieval-playground
+practice: []
+---
+
+## Retrieval is an authorization boundary
+
+An answer is not safe merely because the user is authenticated. The retrieval layer must enforce the source permissions that apply to that specific identity.
+
+<CustomerScenario title="A demo that leaks">
+  A support specialist asks about refund exceptions. Naive vector search retrieves a manager-only policy because the chunks were indexed without access metadata.
+</CustomerScenario>
+
+<MermaidDiagram chart={`flowchart LR
+  U[User + identity] --> A[Application]
+  A --> R[Permission-aware retrieval]
+  R --> P[(Policy index)]
+  R --> M[Model]`} />
+
+<FDEPrinciple variant="warning">
+  Authorization must travel with the query; prompt instructions are not an access-control system.
+</FDEPrinciple>
+
+<Experiment id="retrieval-playground" />
+
+See how this failure appears in the [Northstar permission reveal](/case-studies/northstar#permission-sensitive).

@@ -1,0 +1,8 @@
+{
+  "id": "ai-cost-calculator",
+  "type": "cost",
+  "title": "AI Cost Calculator",
+  "description": "Model monthly token volume, retries, caching, and cost per successful task.",
+  "learningGoal": "Connect architecture decisions to unit economics and business viability.",
+  "config": { "currency": "USD" }
+}

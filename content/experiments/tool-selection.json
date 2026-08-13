@@ -1,0 +1,8 @@
+{
+  "id": "agent-tool-selection",
+  "type": "tool-selection",
+  "title": "Agent Tool Selection",
+  "description": "Build a safe tool sequence for a live customer-support request.",
+  "learningGoal": "Distinguish the minimum useful tool path from unsafe or unnecessary agent actions.",
+  "config": { "scenario": "A verified customer asks why a card payment was declined and wants a support ticket if unresolved." }
+}

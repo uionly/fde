@@ -1,0 +1,37 @@
+id: discovery-workshop
+slug: discovery-workshop
+title: Customer Discovery Workshop
+description: Turn a vague AI request into a measurable customer problem definition.
+scenario: Northstar asks you to build an AI chatbot for support without defining the workflow or outcome.
+goals:
+  - Identify stakeholders and unknowns
+  - Write a measurable problem statement
+difficulty: beginner
+estimatedMinutes: 45
+skills:
+  - Discovery
+steps:
+  - id: understand-request
+    title: Read the customer request
+    type: content
+    instruction: Identify what is known and what is merely assumed.
+    hint: Separate facts in the request from your proposed solution.
+    solution: The only facts are that support is involved and leadership is interested in AI.
+  - id: stakeholder-map
+    title: Map the stakeholders
+    type: multi_input
+    instruction: List the users, decision makers, technical owners, and likely blockers.
+    hint: Include frontline support specialists, operations leaders, security, and data owners.
+    solution: A useful map covers sponsor, users, process owner, identity/security, data, and integration owners.
+  - id: discovery-questions
+    title: Draft discovery questions
+    type: text
+    instruction: Write the five questions that would most reduce uncertainty.
+    hint: Ask about workflow, volume, baseline, data, risk, and desired outcome.
+    solution: Strong questions expose current time, handoffs, source systems, access rules, failure cost, and target KPI.
+  - id: problem-statement
+    title: Define the problem
+    type: text
+    instruction: Write one measurable problem statement without prescribing an AI solution.
+    hint: Use user, workflow, baseline, impact, target, and constraints.
+    solution: Northstar support specialists spend 31% of handling time searching three repositories; reduce median resolution time while preserving document permissions.

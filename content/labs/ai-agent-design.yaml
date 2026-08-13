@@ -1,0 +1,39 @@
+id: ai-agent-design
+slug: ai-agent-design
+title: AI Agent Design
+description: Bound a Northstar support agent with safe tools, approvals, and recovery.
+scenario: Northstar wants an agent that searches policy, reads account data, creates tickets, and can propose refunds.
+goals:
+  - Select the minimum useful tools and permissions
+  - Design approval, termination, and recovery behavior
+difficulty: advanced
+estimatedMinutes: 70
+skills:
+  - AI Engineering
+  - Security
+  - Production
+steps:
+  - id: task-boundary
+    title: Define the agent boundary
+    type: text
+    instruction: State which decisions need dynamic planning and which remain deterministic.
+    hint: Do not make a workflow agentic merely because an LLM is available.
+    solution: Use the agent for intent and tool choice; keep identity, thresholds, authorization, and writes deterministic.
+  - id: tool-contracts
+    title: Design tool contracts
+    type: code
+    instruction: Describe narrow schemas and permissions for search, account lookup, and ticket creation.
+    hint: Prefer task-specific tools over generic database or HTTP access.
+    solution: Each typed tool validates input, uses caller identity, returns bounded data, and records an audit event.
+  - id: approval-policy
+    title: Add human approval
+    type: architecture
+    instruction: Define which actions pause for approval and what the reviewer sees.
+    hint: Consider financial value, irreversibility, and confidence.
+    solution: Refunds and external messages require approval with rationale, evidence, amount, target, and proposed arguments.
+  - id: recovery
+    title: Plan termination and recovery
+    type: text
+    instruction: Define retry limits, fallback, escalation, and user-visible failure behavior.
+    hint: Every agent loop needs a safe way to stop.
+    solution: Classify retryable errors, cap attempts, prevent duplicate writes, preserve state, and hand off with context.

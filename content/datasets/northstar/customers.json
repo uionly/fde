@@ -1,0 +1,8 @@
+[
+  { "id": "CUS-1001", "name": "Avery Synthetic", "segment": "personal", "region": "west", "riskTier": "standard" },
+  { "id": "CUS-1002", "name": "Jordan Example", "segment": "business", "region": "north", "riskTier": "enhanced" },
+  { "id": "CUS-1003", "name": "Morgan Fixture", "segment": "personal", "region": "south", "riskTier": "standard" },
+  { "id": "CUS-1004", "name": "Riley Sample", "segment": "premium", "region": "east", "riskTier": "standard" },
+  { "id": "CUS-1005", "name": "Taylor Test", "segment": "business", "region": "west", "riskTier": "enhanced" },
+  { "id": "CUS-1006", "name": "Casey Demo", "segment": "personal", "region": "north", "riskTier": "standard" }
+]

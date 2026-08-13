@@ -1,0 +1,8 @@
+{
+  "id": "chunking-playground",
+  "type": "chunking",
+  "title": "Chunking Playground",
+  "description": "Split enterprise text and inspect the boundaries your retriever will see.",
+  "learningGoal": "Understand how chunk size, overlap, and split strategy affect retrieval context.",
+  "config": { "defaultSize": 32, "defaultOverlap": 6, "strategies": ["words", "sentences"] }
+}

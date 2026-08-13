@@ -1,0 +1,10 @@
+id: enterprise-ai-systems
+slug: enterprise-ai-systems
+title: Enterprise AI Systems
+description: Design reliable, secure AI systems around customer data, workflows, and constraints.
+order: 2
+status: published
+skills:
+  - Architecture
+  - AI Engineering
+  - Security

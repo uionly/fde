@@ -1,0 +1,416 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "model-router-arena",
+    "slug": "model-router-arena",
+    "type": "quick-decision",
+    "mode": "quick-mission",
+    "title": "Model Router Arena",
+    "shortTitle": "Route the request",
+    "description": "Choose a routing policy that balances model capability, customer risk, latency, and unit economics.",
+    "customerHeadline": "Route 100,000 support requests",
+    "mechanic": "Choose a routing policy, then inspect its effect on capability, escalation, cost, and response time.",
+    "category": "models",
+    "difficulty": "beginner",
+    "estimatedMinutes": 3,
+    "xp": 40,
+    "order": 1,
+    "status": "published",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "learningObjectives": ["Match model capability and escalation policy to the actual distribution of customer work."],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Use Tab to reach a decision card, the arrow keys to change the selection, and Enter to run the simulation.",
+    "principle": "Route by task difficulty and verify the policy against a representative evaluation set.",
+    "nextActions": [
+      {
+        "kind": "experiment",
+        "label": "Test the unit economics",
+        "description": "Change request volume, caching, retries, and model prices in the AI Cost Calculator.",
+        "href": "/experiments/ai-cost-calculator"
+      },
+      {
+        "kind": "lesson",
+        "label": "Build an evaluation gate",
+        "description": "Learn why a routing policy needs representative task-level evidence before launch.",
+        "href": "/learn/enterprise-ai-systems/why-ai-evaluations"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "support-intent-routing",
+        "title": "Support queue launch",
+        "customer": "Northstar Financial",
+        "briefing": "Northstar receives 100,000 support messages each month. Most only need intent classification; five percent require multi-step policy reasoning.",
+        "objective": "Select the safest cost-aware routing policy for launch.",
+        "prompt": "Which routing policy gives the best starting architecture?",
+        "metricWeights": { "quality": 0.3, "safety": 0.25, "cost": 0.25, "latency": 0.2 },
+        "choices": [
+          { "id": "largest", "text": "Send every request to the strongest reasoning model", "rationale": "This protects quality but spends premium latency and cost on work that rarely needs deep reasoning.", "recommended": false, "metrics": { "quality": 94, "safety": 88, "cost": 22, "latency": 35 } },
+          { "id": "route", "text": "Use a small model for classification and escalate uncertain or complex cases", "rationale": "This aligns capability and cost with task complexity while preserving a measured fallback.", "recommended": true, "metrics": { "quality": 91, "safety": 90, "cost": 88, "latency": 86 } },
+          { "id": "smallest", "text": "Use the smallest model for every request with no fallback", "rationale": "This is fast and inexpensive but removes the quality escape hatch for genuinely difficult cases.", "recommended": false, "metrics": { "quality": 45, "safety": 42, "cost": 96, "latency": 96 } }
+        ],
+        "debrief": "A routing policy is a production control surface. Calibrate thresholds with real traffic, monitor escalation rates, and retain a human path for high-impact ambiguity."
+      },
+      {
+        "id": "claims-document-routing",
+        "title": "Claims document intake",
+        "customer": "Northstar Financial",
+        "briefing": "Most incoming claims documents are standard forms, but handwritten exceptions and suspected fraud need deeper reasoning and specialist review.",
+        "objective": "Keep common extraction fast without automating high-risk ambiguity.",
+        "prompt": "How should Northstar route the document workload?",
+        "metricWeights": { "quality": 0.3, "safety": 0.3, "cost": 0.2, "latency": 0.2 },
+        "choices": [
+          { "id": "confidence-route", "text": "Extract with a fast model, then route low-confidence and fraud-signalled cases to reasoning plus review", "rationale": "Confidence and risk signals create explicit escalation boundaries without slowing the normal path.", "recommended": true, "metrics": { "quality": 92, "safety": 94, "cost": 86, "latency": 84 } },
+          { "id": "single-premium", "text": "Use the premium reasoning model for every page", "rationale": "The quality margin does not justify premium processing across routine forms.", "recommended": false, "metrics": { "quality": 95, "safety": 90, "cost": 18, "latency": 28 } },
+          { "id": "ocr-only", "text": "Accept the OCR output directly because the forms are mostly standard", "rationale": "This ignores exception handling and lets uncertain extraction become a customer-facing decision.", "recommended": false, "metrics": { "quality": 40, "safety": 28, "cost": 98, "latency": 98 } }
+        ],
+        "debrief": "Route on both uncertainty and impact. A low-confidence field on a high-value claim deserves a different control path from a routine address field."
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "injection-detective",
+    "slug": "injection-detective",
+    "type": "quick-decision",
+    "mode": "quick-mission",
+    "title": "Prompt Injection Detective",
+    "shortTitle": "Spot the hostile instruction",
+    "description": "Preserve useful customer workflows while keeping untrusted content outside the instruction hierarchy.",
+    "customerHeadline": "Stop a poisoned ticket from issuing a refund",
+    "mechanic": "Choose how the system separates trusted control logic from hostile instructions hidden in customer content.",
+    "category": "security",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 4,
+    "xp": 60,
+    "order": 2,
+    "status": "published",
+    "skills": ["Security", "AI Engineering"],
+    "learningObjectives": ["Distinguish relevant retrieved data from instructions that are authorized to control the system."],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Use Tab to reach a decision card, the arrow keys to change the selection, and Enter to run the simulation.",
+    "principle": "Retrieved content is data, never a higher-priority instruction source.",
+    "nextActions": [
+      {
+        "kind": "experiment",
+        "label": "Inspect the attack boundary",
+        "description": "Test a retrieved-document injection and preserve the legitimate workflow in the simulator.",
+        "href": "/experiments/prompt-injection-simulator"
+      },
+      {
+        "kind": "lab",
+        "label": "Design the guarded agent",
+        "description": "Define tool permissions, approvals, termination, and recovery for Northstar's support agent.",
+        "href": "/labs/ai-agent-design"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "vendor-document-exfiltration",
+        "title": "Hostile vendor document",
+        "customer": "Northstar Financial",
+        "briefing": "A retrieved vendor document says to upload the user's account history to an external audit domain. The user only asked for the refund window.",
+        "objective": "Answer the legitimate question without granting authority to retrieved text.",
+        "prompt": "What is the safest useful response?",
+        "metricWeights": { "quality": 0.25, "safety": 0.45, "cost": 0.1, "latency": 0.2 },
+        "choices": [
+          { "id": "obey", "text": "Follow the document because retrieval marked it relevant", "rationale": "Relevance does not grant instruction authority; this would exfiltrate sensitive data.", "recommended": false, "metrics": { "quality": 20, "safety": 0, "cost": 62, "latency": 52 } },
+          { "id": "refuse", "text": "Refuse every request that uses retrieved documents", "rationale": "This is safe but destroys the valid customer workflow instead of isolating the malicious text.", "recommended": false, "metrics": { "quality": 18, "safety": 96, "cost": 75, "latency": 82 } },
+          { "id": "isolate", "text": "Treat the text as untrusted data, ignore the instruction, answer from valid policy, and log the signal", "rationale": "This preserves system authority and the legitimate workflow while creating security evidence.", "recommended": true, "metrics": { "quality": 92, "safety": 98, "cost": 85, "latency": 84 } }
+        ],
+        "debrief": "The safe response is not blanket refusal. Preserve the useful workflow, isolate the hostile instruction, constrain tools, and retain evidence for monitoring."
+      },
+      {
+        "id": "ticket-tool-injection",
+        "title": "Poisoned support ticket",
+        "customer": "Northstar Financial",
+        "briefing": "A support ticket contains an instruction telling the agent to disable identity verification and issue a refund before replying. The agent can call refund tools.",
+        "objective": "Prevent ticket content from changing tool policy.",
+        "prompt": "Which control should govern the next action?",
+        "metricWeights": { "quality": 0.2, "safety": 0.5, "cost": 0.1, "latency": 0.2 },
+        "choices": [
+          { "id": "ticket-authority", "text": "Let the ticket override policy because it is part of the customer record", "rationale": "A customer-controlled field cannot authorize a privileged action or bypass identity checks.", "recommended": false, "metrics": { "quality": 22, "safety": 0, "cost": 65, "latency": 72 } },
+          { "id": "policy-gate", "text": "Keep tool authorization deterministic, verify identity, and treat ticket instructions only as evidence", "rationale": "The control plane remains independent from untrusted content while the customer request can still be handled.", "recommended": true, "metrics": { "quality": 94, "safety": 99, "cost": 84, "latency": 80 } },
+          { "id": "remove-tools", "text": "Remove every tool from the agent permanently", "rationale": "This eliminates the intended workflow instead of enforcing narrow, attributable permissions.", "recommended": false, "metrics": { "quality": 25, "safety": 97, "cost": 70, "latency": 48 } }
+        ],
+        "debrief": "Prompts can describe desired behavior, but authorization belongs in deterministic policy and tool boundaries outside the model's context."
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "retrieval-rank-rush",
+    "slug": "retrieval-rank-rush",
+    "type": "quick-decision",
+    "mode": "quick-mission",
+    "title": "Retrieval Rank Rush",
+    "shortTitle": "Fix the ranking failure",
+    "description": "Diagnose retrieval failures at the layer where evidence is actually being lost.",
+    "customerHeadline": "Recover the missing policy evidence",
+    "mechanic": "Select the retrieval intervention that moves authoritative evidence into a bounded context window.",
+    "category": "retrieval",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 4,
+    "xp": 60,
+    "order": 3,
+    "status": "published",
+    "skills": ["AI Engineering", "Data"],
+    "learningObjectives": ["Choose experiments that directly measure and repair candidate generation or ranking failures."],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Use Tab to reach a decision card, the arrow keys to change the selection, and Enter to run the simulation.",
+    "principle": "Fix and measure the failing system layer rather than tuning an unrelated model parameter.",
+    "nextActions": [
+      {
+        "kind": "experiment",
+        "label": "Test the retrieval variable",
+        "description": "Compare retrieval strategies, top-k, and permission filters over Northstar's enterprise corpus.",
+        "href": "/experiments/retrieval-playground"
+      },
+      {
+        "kind": "lab",
+        "label": "Build the RAG architecture",
+        "description": "Turn the retrieval diagnosis into a permission-aware customer architecture and evaluation flow.",
+        "href": "/labs/enterprise-rag-architecture"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "abbreviation-mismatch",
+        "title": "Policy vocabulary mismatch",
+        "customer": "Northstar Financial",
+        "briefing": "Relevant policy chunks appear at ranks 8–12, but only the top five reach the model. Users use abbreviations absent from formal policy text.",
+        "objective": "Move relevant evidence into the model's bounded context.",
+        "prompt": "Which experiment most directly targets the failure?",
+        "metricWeights": { "quality": 0.45, "safety": 0.2, "cost": 0.15, "latency": 0.2 },
+        "choices": [
+          { "id": "output", "text": "Increase the model's output-token limit", "rationale": "Generation length cannot move a relevant chunk into the retrieval window.", "recommended": false, "metrics": { "quality": 24, "safety": 54, "cost": 32, "latency": 30 } },
+          { "id": "hybrid", "text": "Test query rewriting, hybrid candidates, and reranking against retrieval recall", "rationale": "Each change addresses vocabulary mismatch or candidate order and can be measured independently.", "recommended": true, "metrics": { "quality": 95, "safety": 87, "cost": 82, "latency": 78 } },
+          { "id": "temperature", "text": "Lower the model temperature", "rationale": "Sampling behavior happens after retrieval and cannot repair ranks.", "recommended": false, "metrics": { "quality": 28, "safety": 58, "cost": 76, "latency": 75 } }
+        ],
+        "debrief": "Measure candidate recall before answer quality. If the evidence never enters the candidate set, generation tuning cannot recover it."
+      },
+      {
+        "id": "stale-policy-dominance",
+        "title": "Stale policy dominance",
+        "customer": "Northstar Financial",
+        "briefing": "Search retrieves an obsolete refund policy above the current policy because the older document repeats the user's wording more often.",
+        "objective": "Restore authority and freshness without hiding retrieval behavior.",
+        "prompt": "What should the team test first?",
+        "metricWeights": { "quality": 0.35, "safety": 0.35, "cost": 0.1, "latency": 0.2 },
+        "choices": [
+          { "id": "freshness-filter", "text": "Add effective-date and authority metadata, filter superseded documents, and test temporal cases", "rationale": "This encodes the policy lifecycle directly and verifies it against the failure category.", "recommended": true, "metrics": { "quality": 94, "safety": 96, "cost": 88, "latency": 85 } },
+          { "id": "more-results", "text": "Double top-k and let the model decide which policy is current", "rationale": "More conflicting evidence moves an authority decision into probabilistic generation.", "recommended": false, "metrics": { "quality": 48, "safety": 35, "cost": 38, "latency": 25 } },
+          { "id": "longer-prompt", "text": "Add a longer instruction asking the model to prefer newer information", "rationale": "The system has not provided reliable freshness metadata for the model to enforce.", "recommended": false, "metrics": { "quality": 42, "safety": 40, "cost": 58, "latency": 52 } }
+        ],
+        "debrief": "Document authority and validity windows are retrieval controls. Treat them as data-model requirements, not prompt preferences."
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "agent-boundary-builder",
+    "slug": "agent-boundary-builder",
+    "type": "quick-decision",
+    "mode": "quick-mission",
+    "title": "Agent Boundary Builder",
+    "shortTitle": "Set the autonomy line",
+    "description": "Choose production controls that bound agent authority by identity, impact, and reversibility.",
+    "customerHeadline": "Lock down a refund agent before launch",
+    "mechanic": "Choose the identity, permission, approval, and recovery controls around a consequential agent action.",
+    "category": "agents",
+    "difficulty": "advanced",
+    "estimatedMinutes": 5,
+    "xp": 80,
+    "order": 4,
+    "status": "published",
+    "skills": ["Architecture", "Security", "Production"],
+    "learningObjectives": ["Place authorization and approval controls outside probabilistic agent reasoning."],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Use Tab to reach a decision card, the arrow keys to change the selection, and Enter to run the simulation.",
+    "principle": "Agent autonomy must be bounded by identity, authorization, reversibility, and impact.",
+    "nextActions": [
+      {
+        "kind": "experiment",
+        "label": "Sequence the safe tools",
+        "description": "Build and evaluate the minimum safe tool sequence for a live support request.",
+        "href": "/experiments/agent-tool-selection"
+      },
+      {
+        "kind": "lab",
+        "label": "Design the production boundary",
+        "description": "Produce the permissions, approvals, and recovery plan for Northstar's support agent.",
+        "href": "/labs/ai-agent-design"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "refund-service-account",
+        "title": "Refund authority review",
+        "customer": "Northstar Financial",
+        "briefing": "A support agent may search policy, read payment status, create a ticket, and issue refunds up to $5,000 using a shared service account.",
+        "objective": "Make actions narrow, attributable, and recoverable.",
+        "prompt": "Which redesign creates the strongest production boundary?",
+        "metricWeights": { "quality": 0.25, "safety": 0.45, "cost": 0.1, "latency": 0.2 },
+        "choices": [
+          { "id": "prompt", "text": "Keep the tools and add ‘be careful’ to the system prompt", "rationale": "A prompt cannot enforce authorization, attribution, or transaction limits.", "recommended": false, "metrics": { "quality": 48, "safety": 15, "cost": 87, "latency": 88 } },
+          { "id": "govern", "text": "Use caller identity, narrow tools, deterministic thresholds, approval, idempotency, and audit logs", "rationale": "This constrains capability at every consequential boundary and keeps actions attributable.", "recommended": true, "metrics": { "quality": 94, "safety": 98, "cost": 82, "latency": 78 } },
+          { "id": "autonomous", "text": "Increase autonomy so the agent can recover faster", "rationale": "More autonomy increases impact without addressing unsafe permissions.", "recommended": false, "metrics": { "quality": 55, "safety": 8, "cost": 72, "latency": 94 } }
+        ],
+        "debrief": "The agent should receive the minimum capability required for the current, authenticated task. Consequential writes need deterministic policy and recovery controls."
+      },
+      {
+        "id": "account-data-export",
+        "title": "Account export automation",
+        "customer": "Northstar Financial",
+        "briefing": "An agent can generate and email full customer data exports. Requests arrive through chat, and the same tool can export any account by ID.",
+        "objective": "Prevent cross-account disclosure while preserving the export workflow.",
+        "prompt": "Which boundary should the FDE implement?",
+        "metricWeights": { "quality": 0.2, "safety": 0.55, "cost": 0.1, "latency": 0.15 },
+        "choices": [
+          { "id": "scoped-export", "text": "Bind export scope to verified identity, require approval, use expiring delivery, and audit every access", "rationale": "Identity, scope, delivery, and evidence are enforced independently of model reasoning.", "recommended": true, "metrics": { "quality": 93, "safety": 99, "cost": 80, "latency": 76 } },
+          { "id": "ask-confirmation", "text": "Ask the model to confirm the account ID twice before using the existing tool", "rationale": "Repeated natural-language confirmation is not authorization and cannot prevent cross-account access.", "recommended": false, "metrics": { "quality": 52, "safety": 18, "cost": 90, "latency": 82 } },
+          { "id": "shared-link", "text": "Generate a permanent shared link so customers can retry downloads easily", "rationale": "Persistent bearer access increases disclosure risk and weakens revocation.", "recommended": false, "metrics": { "quality": 58, "safety": 5, "cost": 72, "latency": 90 } }
+        ],
+        "debrief": "Data export combines high sensitivity with an outbound side effect. Scope it to verified identity and make delivery revocable and auditable."
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "freshness-debugger",
+    "slug": "freshness-debugger",
+    "type": "quick-decision",
+    "mode": "quick-mission",
+    "title": "Data Freshness Debugger",
+    "shortTitle": "Trace yesterday's answer",
+    "description": "Trace source ownership and synchronization before changing a model that is faithfully using stale data.",
+    "customerHeadline": "Trace yesterday's account balance",
+    "mechanic": "Choose where to trace ownership, synchronization, caching, and source-of-truth behavior in the data path.",
+    "category": "data",
+    "difficulty": "beginner",
+    "estimatedMinutes": 3,
+    "xp": 40,
+    "order": 5,
+    "status": "published",
+    "skills": ["Data", "Production"],
+    "learningObjectives": ["Diagnose source-of-truth and freshness failures across the complete data path."],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Use Tab to reach a decision card, the arrow keys to change the selection, and Enter to run the simulation.",
+    "principle": "Debug the full data path before changing the model.",
+    "nextActions": [
+      {
+        "kind": "case-study",
+        "label": "Open the Northstar customer file",
+        "description": "Follow the stale-data failure inside the continuous customer engagement and inspect the surrounding systems.",
+        "href": "/case-studies/northstar"
+      },
+      {
+        "kind": "resource",
+        "label": "Record the architecture decision",
+        "description": "Document the authoritative source, freshness contract, and operational trade-off in an ADR.",
+        "href": "/resources/templates/architecture-decision-record"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "nightly-balance-sync",
+        "title": "Yesterday's account balance",
+        "customer": "Northstar Financial",
+        "briefing": "The assistant answers balance questions accurately for yesterday but gives the wrong current balance. Atlas CRM synchronizes nightly; Ledger API is real time.",
+        "objective": "Restore current answers from the authoritative source.",
+        "prompt": "What should the FDE investigate first?",
+        "metricWeights": { "quality": 0.4, "safety": 0.25, "cost": 0.15, "latency": 0.2 },
+        "choices": [
+          { "id": "prompt", "text": "Rewrite the system prompt to demand current data", "rationale": "Instructions cannot make a stale source current.", "recommended": false, "metrics": { "quality": 30, "safety": 45, "cost": 78, "latency": 75 } },
+          { "id": "source", "text": "Trace source ownership and route balance queries to the real-time system of record", "rationale": "The symptom and sync schedule point directly to a freshness and ownership mismatch.", "recommended": true, "metrics": { "quality": 97, "safety": 94, "cost": 84, "latency": 82 } },
+          { "id": "topk", "text": "Increase retrieval top-k", "rationale": "More stale records do not create a current balance.", "recommended": false, "metrics": { "quality": 28, "safety": 40, "cost": 48, "latency": 42 } }
+        ],
+        "debrief": "Route volatile facts to their system of record. A nightly analytical copy can remain useful for other workloads without pretending to be real time."
+      },
+      {
+        "id": "revoked-role-cache",
+        "title": "Revoked role still active",
+        "customer": "Northstar Financial",
+        "briefing": "A user removed from the claims team can still retrieve claims policy for twenty minutes. Identity updates instantly, but authorization claims are cached at the gateway.",
+        "objective": "Locate the stale authorization state before changing retrieval logic.",
+        "prompt": "Which investigation most directly addresses the incident?",
+        "metricWeights": { "quality": 0.2, "safety": 0.55, "cost": 0.1, "latency": 0.15 },
+        "choices": [
+          { "id": "cache-path", "text": "Trace revocation propagation, cache TTL, and fail-closed behavior at the authorization gateway", "rationale": "The timing matches cached authorization state and the investigation targets the enforcement path.", "recommended": true, "metrics": { "quality": 93, "safety": 99, "cost": 87, "latency": 80 } },
+          { "id": "embedding-refresh", "text": "Re-embed the policy documents more frequently", "rationale": "Document embeddings do not control the user's current authorization claims.", "recommended": false, "metrics": { "quality": 25, "safety": 18, "cost": 35, "latency": 30 } },
+          { "id": "larger-model", "text": "Use a stronger model to reason about whether access feels appropriate", "rationale": "Authorization must be deterministic and current, not inferred by the model.", "recommended": false, "metrics": { "quality": 28, "safety": 8, "cost": 18, "latency": 20 } }
+        ],
+        "debrief": "Freshness is also a security property. Revocation paths require explicit latency budgets and fail-closed behavior at every enforcement point."
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "eval-set-curator",
+    "slug": "eval-set-curator",
+    "type": "quick-decision",
+    "mode": "quick-mission",
+    "title": "Eval Set Curator",
+    "shortTitle": "Build a defensible test",
+    "description": "Choose evidence that makes a quality claim representative, repeatable, and useful for deployment decisions.",
+    "customerHeadline": "Build an eval set leadership can trust",
+    "mechanic": "Choose representative cases and deployment gates that prevent aggregate scores from hiding costly failures.",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "estimatedMinutes": 5,
+    "xp": 80,
+    "order": 6,
+    "status": "published",
+    "skills": ["AI Engineering", "Production", "Business Thinking"],
+    "learningObjectives": ["Build evaluation sets from real task distributions, failure categories, and customer vocabulary."],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Use Tab to reach a decision card, the arrow keys to change the selection, and Enter to run the simulation.",
+    "principle": "Evaluation quality starts with representative work, not a sophisticated judge.",
+    "nextActions": [
+      {
+        "kind": "lesson",
+        "label": "Learn the evaluation system",
+        "description": "Connect task distribution, retrieval quality, generation quality, and deployment gates.",
+        "href": "/learn/enterprise-ai-systems/why-ai-evaluations"
+      },
+      {
+        "kind": "resource",
+        "label": "Tie quality to the outcome",
+        "description": "Use the AI Outcome Scorecard to connect evaluation evidence to customer and business impact.",
+        "href": "/resources/templates/roi-scorecard"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "author-written-eval",
+        "title": "The 96 percent claim",
+        "customer": "Northstar Financial",
+        "briefing": "A team claims 96% quality after testing 20 questions written by the engineer who authored the prompt. Production users span four teams with different terminology.",
+        "objective": "Make the quality claim relevant to actual production work.",
+        "prompt": "What is the most important correction?",
+        "metricWeights": { "quality": 0.5, "safety": 0.2, "cost": 0.15, "latency": 0.15 },
+        "choices": [
+          { "id": "more-judge", "text": "Use a more expensive LLM judge on the same 20 cases", "rationale": "A stronger judge cannot repair a biased, unrepresentative evaluation set.", "recommended": false, "metrics": { "quality": 35, "safety": 50, "cost": 18, "latency": 25 } },
+          { "id": "representative", "text": "Build a versioned set from real task distribution, edge cases, team vocabulary, and failure categories", "rationale": "Representative inputs and explicit labels make the quality claim relevant and repeatable.", "recommended": true, "metrics": { "quality": 98, "safety": 92, "cost": 82, "latency": 80 } },
+          { "id": "demo", "text": "Choose the ten best cases for the customer demo", "rationale": "Curating for appearance hides risk instead of measuring it.", "recommended": false, "metrics": { "quality": 12, "safety": 25, "cost": 85, "latency": 90 } }
+        ],
+        "debrief": "Separate demo curation from evaluation evidence. Version the set, label failure categories, and keep holdouts that prompt authors have not optimized against."
+      },
+      {
+        "id": "aggregate-score-blindspot",
+        "title": "Aggregate score blind spot",
+        "customer": "Northstar Financial",
+        "briefing": "The assistant scores 91% overall, but account-closure requests are rare and fail half the time. Those failures can create regulatory harm.",
+        "objective": "Make a deployment decision that reflects uneven impact.",
+        "prompt": "How should the evaluation be changed?",
+        "metricWeights": { "quality": 0.35, "safety": 0.4, "cost": 0.1, "latency": 0.15 },
+        "choices": [
+          { "id": "ship-average", "text": "Ship because the aggregate score is above 90%", "rationale": "The average hides a high-impact failure category with unacceptable performance.", "recommended": false, "metrics": { "quality": 55, "safety": 12, "cost": 90, "latency": 92 } },
+          { "id": "slice-gates", "text": "Report category slices and require a separate safety gate for account-closure cases", "rationale": "Impact-weighted slices prevent common low-risk work from masking rare consequential failures.", "recommended": true, "metrics": { "quality": 94, "safety": 99, "cost": 84, "latency": 78 } },
+          { "id": "remove-cases", "text": "Remove closure requests from the test because they distort the overall number", "rationale": "Excluding the difficult production category hides rather than controls risk.", "recommended": false, "metrics": { "quality": 20, "safety": 5, "cost": 94, "latency": 94 } }
+        ],
+        "debrief": "Deployment gates should reflect customer impact. Track both representative aggregate performance and explicit thresholds for consequential slices."
+      }
+    ]
+  }
+]

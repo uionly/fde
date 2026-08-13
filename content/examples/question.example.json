@@ -1,0 +1,39 @@
+{
+  "id": "fde-discovery-001",
+  "type": "single_choice",
+  "category": "discovery",
+  "difficulty": "beginner",
+  "skills": [
+    "Discovery"
+  ],
+  "scenario": "A customer asks you to build an AI chatbot because support tickets take too long to resolve.",
+  "prompt": "What should you do first?",
+  "choices": [
+    {
+      "id": "a",
+      "text": "Choose an LLM",
+      "rationale": "Technology selection is premature."
+    },
+    {
+      "id": "b",
+      "text": "Build a RAG proof of concept",
+      "rationale": "You do not yet know the root problem."
+    },
+    {
+      "id": "c",
+      "text": "Understand the current support workflow and delay causes",
+      "rationale": "Start from the business problem and workflow."
+    },
+    {
+      "id": "d",
+      "text": "Estimate token cost",
+      "rationale": "Cost matters later, after the problem is understood."
+    }
+  ],
+  "correct": [
+    "c"
+  ],
+  "explanation": "The FDE should discover the workflow, bottlenecks and desired outcome before selecting a technical solution.",
+  "relatedLesson": "problem-thinking",
+  "principle": "Validate the problem before optimizing the solution."
+}

@@ -1,0 +1,5 @@
+{
+  "atlasCrm": { "requestsPerMinute": 300, "burst": 40, "retryAfterSeconds": 15 },
+  "ledgerApi": { "requestsPerMinute": 1200, "burst": 150, "retryAfterSeconds": 5 },
+  "compassSupport": { "requestsPerMinute": 600, "burst": 80, "retryAfterSeconds": 10 }
+}

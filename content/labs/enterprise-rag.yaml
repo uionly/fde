@@ -1,0 +1,39 @@
+id: enterprise-rag-architecture
+slug: enterprise-rag-architecture
+title: Enterprise RAG Architecture
+description: Design a permission-aware knowledge assistant for Northstar Financial.
+scenario: Northstar support staff need answers from public, operations, manager-only, and compliance documents.
+goals:
+  - Preserve source permissions through retrieval
+  - Define a testable retrieval and evaluation flow
+difficulty: intermediate
+estimatedMinutes: 60
+skills:
+  - Architecture
+  - AI Engineering
+  - Security
+steps:
+  - id: map-sources
+    title: Map knowledge sources
+    type: multi_input
+    instruction: List source systems, owners, freshness, and access models.
+    hint: Treat permissions and deletion as ingestion requirements.
+    solution: Capture Polaris Knowledge, compliance store, owner, sync SLA, ACL shape, and deletion propagation.
+  - id: identity-flow
+    title: Design identity propagation
+    type: architecture
+    instruction: Describe how user identity reaches retrieval and filters candidates.
+    hint: The model should never receive content the user cannot retrieve.
+    solution: Browser session to server identity, mapped group claims, ACL-filtered search, then authorized chunks to the model.
+  - id: retrieval-plan
+    title: Choose retrieval strategy
+    type: text
+    instruction: Propose candidate retrieval, filtering, reranking, and citation behavior.
+    hint: Northstar users and policies use different vocabulary.
+    solution: Hybrid candidates, pre-filter by ACL, rerank, then return source-linked authorized passages.
+  - id: evaluation-plan
+    title: Define evaluation
+    type: text
+    instruction: Define offline tests for retrieval quality, groundedness, and permission leakage.
+    hint: Evaluate retrieval and generation separately.
+    solution: Representative query set with recall@k, grounded answer rubric, citation accuracy, and zero-tolerance access tests.

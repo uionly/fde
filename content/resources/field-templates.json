@@ -1,0 +1,26 @@
+[
+  {
+    "id": "discovery-canvas", "slug": "discovery-canvas", "title": "FDE Discovery Canvas", "description": "Capture the customer problem, workflow, users, systems, data, constraints, and outcome.", "category": "discovery", "format": "markdown",
+    "body": "# FDE Discovery Canvas\n\n## Business\n- Problem:\n- Users:\n- Current workflow:\n- Baseline:\n- Desired outcome:\n- KPI:\n\n## Technical\n- Applications and APIs:\n- Data and freshness:\n- Identity and network:\n\n## AI\n- Task:\n- Context:\n- Tools:\n- Human oversight:\n- Evaluation:\n\n## Constraints\n- Security:\n- Privacy/compliance:\n- Cost/latency:\n- Timeline:\n"
+  },
+  {
+    "id": "assumption-log", "slug": "assumption-log", "title": "Assumption Log", "description": "Turn hidden beliefs into explicit, prioritized experiments and owners.", "category": "discovery", "format": "csv",
+    "body": "id,assumption,evidence,impact,confidence,owner,test,status\nA-001,,,,,,,open\n"
+  },
+  {
+    "id": "architecture-decision-record", "slug": "architecture-decision-record", "title": "Architecture Decision Record", "description": "Record context, options, constraints, decision, trade-offs, and follow-up signals.", "category": "architecture", "format": "markdown",
+    "body": "# ADR: Decision title\n\n- Status: Proposed\n- Date:\n- Owner:\n\n## Customer context\n\n## Decision drivers and constraints\n\n## Options considered\n\n## Decision\n\n## Consequences and trade-offs\n\n## Validation and revisit trigger\n"
+  },
+  {
+    "id": "rag-readiness-checklist", "slug": "rag-readiness-checklist", "title": "Enterprise RAG Readiness", "description": "Review sources, permissions, freshness, retrieval, evaluation, trust, and operations.", "category": "ai", "format": "markdown",
+    "body": "# Enterprise RAG Readiness\n\n- [ ] Source owner and system of record identified\n- [ ] Freshness and deletion SLA defined\n- [ ] Identity reaches retrieval\n- [ ] ACL metadata is indexed and tested\n- [ ] Representative query dataset exists\n- [ ] Retrieval and generation are evaluated separately\n- [ ] Citations are visible and verifiable\n- [ ] Cost, latency, fallback, and monitoring are defined\n"
+  },
+  {
+    "id": "raid-log", "slug": "raid-log", "title": "RAID Log", "description": "Track risks, assumptions, issues, and dependencies across a customer engagement.", "category": "delivery", "format": "csv",
+    "body": "id,type,description,impact,likelihood,owner,mitigation,due_date,status\nR-001,risk,,,,,,,open\n"
+  },
+  {
+    "id": "roi-scorecard", "slug": "roi-scorecard", "title": "AI Outcome Scorecard", "description": "Connect adoption and task performance to time, cost, quality, and business impact.", "category": "business", "format": "csv",
+    "body": "metric,baseline,target,current,unit,source,owner,frequency\nmedian_task_time,,,,minutes,,,weekly\nautomation_rate,,,,percent,,,weekly\nhuman_intervention_rate,,,,percent,,,weekly\ncost_per_successful_task,,,,USD,,,monthly\nweekly_active_adoption,,,,percent,,,weekly\n"
+  }
+]

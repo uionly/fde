@@ -1,0 +1,9 @@
+[
+  { "term": "Retrieval-Augmented Generation", "slug": "retrieval-augmented-generation", "shortDefinition": "An application pattern that retrieves relevant source evidence and supplies it as context for generation.", "relatedLessons": ["permission-aware-retrieval"] },
+  { "term": "Permission-Aware Retrieval", "slug": "permission-aware-retrieval", "shortDefinition": "Retrieval that enforces the requesting identity's source permissions before content reaches the model.", "relatedLessons": ["permission-aware-retrieval"] },
+  { "term": "Agent", "slug": "agent", "shortDefinition": "A system that uses a model to choose actions or tools dynamically within explicit permissions and stopping rules.", "relatedLessons": [] },
+  { "term": "Golden Dataset", "slug": "golden-dataset", "shortDefinition": "A curated, representative set of inputs and expected quality labels used for repeatable evaluation.", "relatedLessons": ["why-ai-evaluations"] },
+  { "term": "Human Approval", "slug": "human-approval", "shortDefinition": "A control that pauses a consequential automated action until an authorized person reviews its context and arguments.", "relatedLessons": [] },
+  { "term": "Model Context Protocol", "slug": "model-context-protocol", "shortDefinition": "An open protocol for exposing tools, resources, and prompts to compatible AI applications through standard interfaces.", "relatedLessons": [] },
+  { "term": "Problem Statement", "slug": "problem-statement", "shortDefinition": "A concise description of the affected user, failing workflow, measurable impact, desired outcome, and constraints.", "relatedLessons": ["customer-request-to-problem"] }
+]

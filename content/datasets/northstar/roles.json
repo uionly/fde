@@ -1,0 +1,5 @@
+[
+  { "id": "support-specialist", "documentScopes": ["public", "operations"], "toolScopes": ["customer-read", "ticket-create"] },
+  { "id": "support-manager", "documentScopes": ["public", "operations", "manager"], "toolScopes": ["customer-read", "ticket-create", "refund-propose"] },
+  { "id": "compliance-reviewer", "documentScopes": ["public", "operations", "manager", "compliance"], "toolScopes": ["audit-read"] }
+]

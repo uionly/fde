@@ -1,0 +1,8 @@
+[
+  { "id": "TKT-3001", "customerId": "CUS-1001", "topic": "declined-card", "priority": "normal", "minutesOpen": 42 },
+  { "id": "TKT-3002", "customerId": "CUS-1002", "topic": "refund-status", "priority": "high", "minutesOpen": 187 },
+  { "id": "TKT-3003", "customerId": "CUS-1003", "topic": "account-review", "priority": "high", "minutesOpen": 515 },
+  { "id": "TKT-3004", "customerId": "CUS-1004", "topic": "policy-question", "priority": "normal", "minutesOpen": 28 },
+  { "id": "TKT-3005", "customerId": "CUS-1005", "topic": "api-access", "priority": "urgent", "minutesOpen": 76 },
+  { "id": "TKT-3006", "customerId": "CUS-1006", "topic": "balance-discrepancy", "priority": "high", "minutesOpen": 244 }
+]

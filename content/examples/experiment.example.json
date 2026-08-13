@@ -1,0 +1,16 @@
+{
+  "id": "retrieval-playground",
+  "type": "retrieval",
+  "title": "Retrieval Playground",
+  "description": "Compare keyword, vector and hybrid retrieval strategies.",
+  "learningGoal": "Understand retrieval as an architecture choice rather than a fixed RAG recipe.",
+  "config": {
+    "strategies": [
+      "keyword",
+      "vector",
+      "hybrid"
+    ],
+    "enableTopK": true,
+    "enableMetadataFilters": true
+  }
+}

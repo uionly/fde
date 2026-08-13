@@ -1,0 +1,9 @@
+id: fde-foundations
+slug: fde-foundations
+title: FDE Foundations
+description: Understand the Forward Deployed Engineer role and operating model.
+order: 1
+status: published
+skills:
+  - Customer Delivery
+  - Discovery

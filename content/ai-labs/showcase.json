@@ -1,0 +1,51 @@
+{
+  "id": "ai-labs-showcase",
+  "hero": {
+    "eyebrow": "Interactive enterprise AI lab",
+    "title": "Make the architecture call.",
+    "accent": "See the production consequence.",
+    "description": "Route models, recover missing evidence, lock down agents, and test deployment decisions against a live customer engagement—no setup required."
+  },
+  "modes": [
+    {
+      "id": "simulate",
+      "title": "Simulate",
+      "description": "Make fast customer decisions and see their effect on quality, safety, cost, and latency.",
+      "href": "/games"
+    },
+    {
+      "id": "experiment",
+      "title": "Experiment",
+      "description": "Change one technical variable at a time and inspect how the system responds.",
+      "href": "/experiments"
+    },
+    {
+      "id": "deliver",
+      "title": "Deliver",
+      "description": "Work through a guided customer engagement and produce an artifact an FDE would use.",
+      "href": "/labs#field-missions"
+    }
+  ],
+  "featuredGameId": "model-router-arena",
+  "supportingGameIds": [
+    "injection-detective",
+    "retrieval-rank-rush"
+  ],
+  "featuredExperimentIds": [
+    "retrieval-playground",
+    "prompt-injection-simulator",
+    "ai-cost-calculator"
+  ],
+  "featuredLabIds": [
+    "discovery-workshop",
+    "enterprise-rag-architecture",
+    "ai-agent-design"
+  ],
+  "northstarThread": {
+    "caseStudyId": "northstar-financial",
+    "scenarioId": "retrieval-failure",
+    "gameId": "retrieval-rank-rush",
+    "experimentId": "retrieval-playground",
+    "labId": "enterprise-rag-architecture"
+  }
+}

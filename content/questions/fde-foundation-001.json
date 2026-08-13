@@ -1,0 +1,18 @@
+{
+  "id": "fde-foundation-001",
+  "type": "single_choice",
+  "category": "discovery",
+  "difficulty": "beginner",
+  "skills": ["Discovery", "Business Thinking"],
+  "scenario": "An executive asks your team to build an AI customer-service agent, but no workflow baseline exists.",
+  "prompt": "What should the FDE do first?",
+  "choices": [
+    { "id": "select-model", "text": "Select the strongest available model", "rationale": "Model selection is premature before the task and constraints are known." },
+    { "id": "map-workflow", "text": "Map the current workflow and establish a baseline", "rationale": "This identifies the real problem and creates a measurable starting point." },
+    { "id": "build-prototype", "text": "Build a chatbot prototype", "rationale": "A prototype should test a known high-risk assumption, not substitute for discovery." }
+  ],
+  "correct": ["map-workflow"],
+  "explanation": "Discovery establishes the affected workflow, users, baseline, constraints, and target outcome before solution selection.",
+  "relatedLesson": "what-is-fde",
+  "principle": "Validate the problem before optimizing the solution."
+}

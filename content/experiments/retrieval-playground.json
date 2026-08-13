@@ -1,0 +1,12 @@
+{
+  "id": "retrieval-playground",
+  "type": "retrieval",
+  "title": "Retrieval Playground",
+  "description": "Compare retrieval strategies over a small enterprise corpus.",
+  "learningGoal": "Understand retrieval strategy as a system design decision.",
+  "config": {
+    "strategies": ["keyword", "vector", "hybrid"],
+    "enableTopK": true,
+    "enableMetadataFilters": true
+  }
+}

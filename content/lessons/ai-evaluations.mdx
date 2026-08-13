@@ -1,0 +1,39 @@
+---
+id: why-ai-evaluations
+slug: why-ai-evaluations
+title: Why AI Systems Need Evaluations
+track: enterprise-ai-systems
+module: evaluations
+order: 2
+difficulty: intermediate
+durationMinutes: 16
+status: published
+prerequisites:
+  - permission-aware-retrieval
+skills:
+  - AI Engineering
+  - Production
+objectives:
+  - Define task-level AI quality
+  - Separate retrieval and generation evaluation
+experiments: []
+practice: []
+---
+
+## Quality is a system property
+
+Traditional assertions are still necessary, but they cannot describe whether a probabilistic system consistently completes the customer's task.
+
+<CustomerScenario>
+  Northstar's demo answers five curated questions perfectly. In production, support staff use different terminology and retrieval quality collapses. The team never tested representative queries.
+</CustomerScenario>
+
+## Evaluate the failure layers
+
+Measure retrieval relevance, grounded answer quality, tool selection, safety behavior, latency, and cost separately. Then add end-to-end task-success measures.
+
+<FDEPrinciple>
+  Build the evaluation before arguing about which model is best.
+</FDEPrinciple>
+
+Apply the lesson to [Northstar's retrieval failure](/case-studies/northstar#retrieval-failure).
