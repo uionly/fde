@@ -1,0 +1,58 @@
+---
+id: auditability-and-ai-incident-response
+slug: auditability-and-ai-incident-response
+title: Auditability and AI Incident Response
+track: enterprise-ai-security
+module: operations
+order: 5
+difficulty: advanced
+durationMinutes: 18
+status: published
+prerequisites:
+  - threat-modeling-ai-workflows
+skills:
+  - Security
+  - Production
+  - Customer Delivery
+objectives:
+  - Define attributable audit evidence for model and tool behavior
+  - Build containment and recovery playbooks for AI incidents
+experiments: []
+practice:
+  - security-004
+  - security-017
+  - security-018
+  - security-019
+  - security-020
+---
+
+## An audit trail must reconstruct the decision
+
+A chat transcript is only one view of an AI workflow. Investigators need the authenticated user, agent and workload identity, policy decision, retrieved source references, model and prompt version, tool arguments, approval record, result, and relevant timestamps.
+
+<CustomerScenario title="A refund nobody can explain">
+  Northstar discovers an unauthorized refund. The transcript shows a friendly customer conversation, but tool-call arguments and the approval check were not recorded. The team cannot determine whether injection, policy, or operator error caused it.
+</CustomerScenario>
+
+Capture structured, tamper-resistant evidence with strict access and retention controls. Avoid logging raw sensitive context when identifiers, hashes, or redacted summaries support the investigation.
+
+## Prepare containment before launch
+
+AI incident playbooks should define how to:
+
+- disable a tool or action class without taking down safe read-only use
+- revoke workload credentials and approvals
+- quarantine a data source or index version
+- pin or roll back model, prompt, and policy versions
+- identify affected users and transactions
+- preserve evidence and notify owners
+
+<FDEPrinciple>
+  If the customer cannot attribute, contain, and recover from an AI action, the workflow is not production-ready.
+</FDEPrinciple>
+
+## Learn without overreacting
+
+Classify the failed layer before applying a fix. A retrieval-permission incident needs different remediation from hallucinated wording or a compromised connector. Add the incident as a regression case and verify the control under representative conditions.
+
+Run a tabletop exercise with security, support, operations, legal, and the product owner. Include off-hours escalation and degraded operation. The goal is not to promise that incidents never happen; it is to demonstrate that the organization can detect harm quickly, limit its scope, restore safe service, and explain what changed.

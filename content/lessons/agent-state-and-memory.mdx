@@ -1,0 +1,56 @@
+---
+id: agent-state-and-memory
+slug: agent-state-and-memory
+title: State and Memory Without Hidden Risk
+track: agents-tools
+module: state
+order: 3
+difficulty: intermediate
+durationMinutes: 17
+status: published
+prerequisites:
+  - agent-tool-contracts
+skills:
+  - AI Engineering
+  - Data
+  - Security
+objectives:
+  - Separate authoritative workflow state from model context
+  - Define retention and provenance for agent memory
+experiments: []
+practice:
+  - agents-008
+  - agents-009
+---
+
+## State is not the same as context
+
+The context window is a temporary working surface. It should not become the system of record for a customer workflow. Authoritative state—case status, approvals, tool results, ownership, and deadlines—belongs in typed storage with explicit transitions.
+
+<CustomerScenario title="A case that changes between turns">
+  Northstar's assistant remembers that a refund was pending from an earlier conversation. Operations has since rejected it, but the old summary remains in model context and the assistant tells the customer it will be paid.
+</CustomerScenario>
+
+Read current facts from authoritative systems when they matter. Store a reference to the refund request and its last observed version, not a free-form claim that it is approved. If the version changes, invalidate or regenerate the working summary.
+
+## Classify memory before storing it
+
+Useful categories include:
+
+- **Workflow state:** authoritative, typed, and transactionally updated.
+- **Conversation history:** retained for a defined support purpose and period.
+- **User preferences:** explicit, reviewable, and separable from sensitive inference.
+- **Working memory:** short-lived notes used during one bounded run.
+- **Retrieved evidence:** source-linked and subject to current access checks.
+
+For each category define owner, source, retention, access, refresh, deletion, and conflict behavior. “The agent remembers” is not an adequate data policy.
+
+<FDEPrinciple>
+  Persist business state as data with provenance; treat model summaries as replaceable views.
+</FDEPrinciple>
+
+## Prevent cross-boundary contamination
+
+Key memory by tenant, user, case, and purpose. Apply the same authorization rules on reads as on writes. Never reuse another customer's conversation simply because semantic similarity is high. Sensitive facts should expire when their business purpose ends.
+
+When a customer asks for long-term memory, translate it into concrete requirements: which facts improve which task, how users correct them, and what risk their retention creates. The best memory design is often smaller than the initial request.

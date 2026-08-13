@@ -4,7 +4,17 @@ import Link from "next/link";
 import { ProgressBar } from "@/components/learning/progress-bar";
 import type { Track } from "@/lib/content/schemas";
 
-export function TrackCard({ track, lessonCount, index }: { track: Track; lessonCount: number; index: number }) {
+export function TrackCard({
+  track,
+  lessonCount,
+  estimatedMinutes,
+  index,
+}: {
+  track: Track;
+  lessonCount: number;
+  estimatedMinutes: number;
+  index: number;
+}) {
   return (
     <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-6 transition-[border-color,transform,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg" href={`/learn/${track.slug}`}>
       <div className="flex items-center justify-between">
@@ -16,7 +26,7 @@ export function TrackCard({ track, lessonCount, index }: { track: Track; lessonC
       <div className="mt-auto pt-8">
         <div className="mb-3 flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5"><BookOpen aria-hidden="true" className="size-3.5" />{lessonCount} lessons</span>
-          <span className="flex items-center gap-1.5"><Clock3 aria-hidden="true" className="size-3.5" />{lessonCount * 12} min</span>
+          <span className="flex items-center gap-1.5"><Clock3 aria-hidden="true" className="size-3.5" />{estimatedMinutes} min</span>
         </div>
         <ProgressBar label={`${track.title} progress`} value={0} />
       </div>

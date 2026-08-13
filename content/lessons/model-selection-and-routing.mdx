@@ -1,0 +1,49 @@
+---
+id: model-selection-and-routing
+slug: model-selection-and-routing
+title: Model Selection and Routing
+track: llm-engineering
+module: model-strategy
+order: 3
+difficulty: intermediate
+durationMinutes: 22
+status: published
+prerequisites:
+  - prompt-contracts-and-structured-output
+skills:
+  - AI Engineering
+  - Architecture
+  - Business Thinking
+objectives:
+  - Select models using task evidence and operational constraints
+  - Design routing and fallback policies for mixed workloads
+experiments:
+  - ai-cost-calculator
+practice:
+  - llm-002
+  - llm-009
+  - llm-010
+  - llm-011
+---
+
+## Select for the workload, not the leaderboard
+
+Model choice is a system decision across quality, safety, latency, cost, privacy, regional availability, context limits, and provider reliability. Convert the customer workflow into a representative evaluation set and a service-level envelope. Then choose the least expensive configuration that clears the required thresholds. A benchmark score without the customer's distribution is weak evidence.
+
+<CustomerScenario title="One model for every ticket">
+  Northstar sends language detection, intent routing, policy interpretation, and sensitive refund exceptions to the same premium reasoning model. Quality is good, but peak-hour latency misses the support SLA and projected cost prevents a wider rollout.
+</CustomerScenario>
+
+Segment the workload. A small model can handle high-volume, low-risk classifications after it passes the task evaluation. A stronger model can receive ambiguous policy cases. Deterministic rules or humans should handle actions where model judgment adds no value or the consequence is too high. Routing inputs might include task type, confidence, risk, language, and data residency—never protected customer attributes used without a legitimate purpose.
+
+A fallback policy is different from blind retry. Define which failures are transient, which alternate model has compatible data handling, whether the remaining latency budget permits another attempt, and when to degrade to a queue or human review. Preserve the same output contract across routes so downstream code does not depend on a provider-specific response.
+
+<Experiment id="ai-cost-calculator" />
+
+Use volume and token assumptions from the customer, not a polished demo. Compare p50 and p95 latency, quality by important segment, and total cost per completed customer task. A cheaper call that creates more manual rework may be the more expensive system.
+
+<FDEPrinciple>
+  Route by measured task complexity and consequence. “Largest model everywhere” and “cheapest model everywhere” are both substitutes for engineering.
+</FDEPrinciple>
+
+Revisit the routing policy as traffic, models, prices, and failure patterns change; it is production logic, not a one-time procurement choice.

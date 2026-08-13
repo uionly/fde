@@ -1,0 +1,278 @@
+[
+  {
+    "id": "llm-004",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Architecture"],
+    "scenario": "Northstar's refund assistant lets the model read a ticket, calculate the refund amount, and invoke the payment service without another policy check.",
+    "prompt": "Which redesign creates the safest system boundary?",
+    "choices": [
+      {"id": "deterministic-envelope", "text": "Let the model propose intent and fields, then validate amount, eligibility, and authorization in server code", "rationale": "Flexible interpretation remains useful while deterministic code enforces financial and access invariants."},
+      {"id": "stronger-model", "text": "Use the strongest model and keep direct payment access", "rationale": "Higher model capability does not turn probabilistic output into an authorization or accounting control."},
+      {"id": "prompt-warning", "text": "Add a prompt warning that refunds must be accurate", "rationale": "An instruction cannot guarantee a financial invariant or stop an unauthorized tool call."}
+    ],
+    "correct": ["deterministic-envelope"],
+    "explanation": "The model should interpret and propose while trusted server code obtains authoritative facts, validates policy, and controls execution.",
+    "relatedLesson": "llm-system-boundaries",
+    "principle": "Put probabilistic judgment inside a deterministic envelope."
+  },
+  {
+    "id": "llm-005",
+    "type": "multiple_choice",
+    "category": "llm",
+    "difficulty": "intermediate",
+    "skills": ["Software Engineering", "Security"],
+    "scenario": "A case-summary service combines system instructions, retrieved customer notes, an LLM response, and a server-side CRM update.",
+    "prompt": "Which two artifacts most clearly define the model trust boundary?",
+    "choices": [
+      {"id": "input-provenance", "text": "A map of input provenance and instruction authority", "rationale": "It distinguishes trusted policy from untrusted user and retrieved content."},
+      {"id": "output-contract", "text": "A validated output schema plus allowed downstream actions", "rationale": "It states what the response may contain and what application code may do with it."},
+      {"id": "model-logo", "text": "The model vendor's logo and launch date", "rationale": "Branding does not define data trust or execution authority."},
+      {"id": "demo-transcript", "text": "One successful demo transcript", "rationale": "A happy-path example does not specify failure behavior or enforceable boundaries."}
+    ],
+    "correct": ["input-provenance", "output-contract"],
+    "explanation": "The boundary must define the authority of inputs and the validated contract and permissions applied to outputs.",
+    "relatedLesson": "llm-system-boundaries",
+    "principle": "Name the owner and trust level of every model-facing decision."
+  },
+  {
+    "id": "llm-006",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Software Engineering"],
+    "scenario": "A model extracts a proposed support credit and gives a plausible value, but the authoritative account balance is available from an internal API.",
+    "prompt": "Where should the final credit amount be determined?",
+    "choices": [
+      {"id": "trusted-service", "text": "In deterministic server logic using the authoritative balance and policy", "rationale": "The amount is a business invariant supported by trusted facts and should be reproducible."},
+      {"id": "model-chain", "text": "In a second model call that critiques the first", "rationale": "Two probabilistic judgments do not replace authoritative data and enforceable policy."},
+      {"id": "client-browser", "text": "In client-side JavaScript after displaying the proposal", "rationale": "A client boundary can be manipulated and should not enforce a consequential financial rule."}
+    ],
+    "correct": ["trusted-service"],
+    "explanation": "The model can extract evidence or recommend a path, but deterministic code should calculate consequential values from systems of record.",
+    "relatedLesson": "llm-system-boundaries",
+    "principle": "Use models for judgment and code for guarantees."
+  },
+  {
+    "id": "llm-007",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Software Engineering"],
+    "scenario": "A ticket router expects JSON, but the model occasionally returns Markdown, an invented category, or an evidence quote not found in the ticket.",
+    "prompt": "What is the best production contract?",
+    "choices": [
+      {"id": "schema-and-validation", "text": "Request schema-constrained output and validate enums, ranges, and evidence on the server", "rationale": "Provider constraints improve format while application validation protects semantic and business invariants."},
+      {"id": "regex-only", "text": "Parse any prose with a larger regular expression", "rationale": "A permissive parser cannot prevent unknown categories or fabricated evidence."},
+      {"id": "retry-forever", "text": "Retry the identical call until JSON appears", "rationale": "Unbounded retries increase cost and do not validate whether a well-formed response is true."}
+    ],
+    "correct": ["schema-and-validation"],
+    "explanation": "Structured generation and strict server validation work together; neither syntax guarantees nor prompt wording alone establishes correctness.",
+    "relatedLesson": "prompt-contracts-and-structured-output",
+    "principle": "Treat model output as untrusted input."
+  },
+  {
+    "id": "llm-008",
+    "type": "multiple_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "A prompt update improves the demo but creates regressions that cannot be reproduced because the team stores only the final response.",
+    "prompt": "Which two changes make prompt behavior reviewable and reproducible?",
+    "choices": [
+      {"id": "version-package", "text": "Version instructions, examples, schema, and parsing behavior as one package", "rationale": "All of these elements influence the behavioral contract and must be compared together."},
+      {"id": "trace-version", "text": "Record the prompt-package and model versions with each trace", "rationale": "A production response can then be connected to the exact configuration that generated it."},
+      {"id": "longer-system", "text": "Make every system prompt longer", "rationale": "Prompt length does not provide version history or reproducibility."},
+      {"id": "hide-examples", "text": "Keep few-shot examples only in an engineer's private notes", "rationale": "Untracked examples make the deployed behavior harder to audit and reproduce."}
+    ],
+    "correct": ["version-package", "trace-version"],
+    "explanation": "The complete behavioral package must be versioned and attached to traces so regressions can be compared and replayed.",
+    "relatedLesson": "prompt-contracts-and-structured-output",
+    "principle": "Prompts are production interfaces and deserve software lifecycle controls."
+  },
+  {
+    "id": "llm-009",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "scenario": "Northstar uses a premium reasoning model for 80,000 daily language-detection requests, and cost blocks rollout to another region.",
+    "prompt": "What should the FDE do first?",
+    "choices": [
+      {"id": "evaluate-smaller", "text": "Evaluate a smaller model on representative language and edge-case traffic", "rationale": "The decision should compare task quality, latency, and cost on the actual workload."},
+      {"id": "switch-blindly", "text": "Switch all traffic to the cheapest model immediately", "rationale": "A blind switch can create segment-specific quality failures that erase the savings."},
+      {"id": "remove-language", "text": "Remove language detection from the workflow", "rationale": "The task may remain necessary; the issue is choosing a proportionate implementation."}
+    ],
+    "correct": ["evaluate-smaller"],
+    "explanation": "A bounded classification task may be served well by a smaller model, but the customer workload and thresholds must prove it.",
+    "relatedLesson": "model-selection-and-routing",
+    "principle": "Choose the least expensive configuration that reliably clears the task threshold."
+  },
+  {
+    "id": "llm-010",
+    "type": "multiple_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Production"],
+    "scenario": "A routing service uses a fast model for ordinary support requests and a reasoning model for ambiguous policy exceptions. The team is defining fallback behavior.",
+    "prompt": "Which two constraints belong in the fallback policy?",
+    "choices": [
+      {"id": "remaining-deadline", "text": "The remaining end-to-end latency budget", "rationale": "A fallback that finishes after the user deadline does not preserve the interactive workflow."},
+      {"id": "data-policy", "text": "The alternate provider's data residency and retention compatibility", "rationale": "Availability cannot justify sending customer data across an unapproved boundary."},
+      {"id": "random-route", "text": "A random provider choice for load diversity", "rationale": "Randomness ignores task capability, policy, and remaining budget."},
+      {"id": "infinite-attempts", "text": "Unlimited attempts until some provider responds", "rationale": "Unbounded retries amplify incidents, latency, and cost."}
+    ],
+    "correct": ["remaining-deadline", "data-policy"],
+    "explanation": "Fallback routing must remain inside the customer's deadline and approved data-handling boundary, with bounded attempts and compatible contracts.",
+    "relatedLesson": "model-selection-and-routing",
+    "principle": "A fallback must preserve policy as well as availability."
+  },
+  {
+    "id": "llm-011",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "scenario": "A smaller router saves 55% per model call but sends enough tickets to the wrong queue that manual rework increases substantially.",
+    "prompt": "Which comparison should decide whether to keep it?",
+    "choices": [
+      {"id": "cost-per-outcome", "text": "Total cost and quality per correctly resolved ticket", "rationale": "This includes downstream rework and ties model economics to the customer outcome."},
+      {"id": "token-price", "text": "Input-token price alone", "rationale": "Per-token price ignores error volume, retries, labor, and task completion."},
+      {"id": "parameter-count", "text": "The number of model parameters", "rationale": "Model size does not directly measure workflow value or total operating cost."}
+    ],
+    "correct": ["cost-per-outcome"],
+    "explanation": "Model savings are real only if the complete system still achieves the required outcome without offsetting rework.",
+    "relatedLesson": "model-selection-and-routing",
+    "principle": "Optimize unit economics at the completed-task boundary."
+  },
+  {
+    "id": "llm-012",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Architecture"],
+    "scenario": "An account assistant sends twelve months of CRM notes for every status question, causing high latency and occasionally truncating the newest update.",
+    "prompt": "What is the best first redesign?",
+    "choices": [
+      {"id": "bounded-context", "text": "Reserve a context budget and select recent, task-relevant, authoritative evidence", "rationale": "A bounded assembly preserves important instructions and current evidence while reducing noise and cost."},
+      {"id": "larger-window", "text": "Move to the largest available context window and send more notes", "rationale": "A larger limit does not solve relevance, ordering, data minimization, or unit economics."},
+      {"id": "remove-sources", "text": "Answer without CRM evidence", "rationale": "Removing authoritative grounding trades a context problem for unreliable answers."}
+    ],
+    "correct": ["bounded-context"],
+    "explanation": "The context should contain the smallest sufficient set of current, authoritative evidence while preserving space for instructions and output.",
+    "relatedLesson": "context-windows-and-token-economics",
+    "principle": "Context is a bounded product budget."
+  },
+  {
+    "id": "llm-013",
+    "type": "multiple_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Security", "Business Thinking"],
+    "scenario": "Northstar wants to cache repeated account questions to reduce token cost across a multi-tenant deployment.",
+    "prompt": "Which two requirements are essential for a safe economic estimate?",
+    "choices": [
+      {"id": "auth-cache-key", "text": "Include tenant, identity scope, and content version in cache isolation", "rationale": "Any value affecting authorization or truth must prevent unsafe cross-user reuse."},
+      {"id": "full-traffic", "text": "Model realistic traffic, long-tail context, retries, and tool loops", "rationale": "Monthly economics depend on the full request distribution rather than a median demo."},
+      {"id": "shared-answer", "text": "Reuse semantically similar answers across all tenants", "rationale": "Similarity does not establish equal authorization or source state."},
+      {"id": "input-only", "text": "Count input tokens but exclude outputs and retries", "rationale": "Ignoring material consumption systematically understates operating cost."}
+    ],
+    "correct": ["auth-cache-key", "full-traffic"],
+    "explanation": "Caching must preserve authorization and source truth, while forecasting must include all token-consuming paths across representative traffic.",
+    "relatedLesson": "context-windows-and-token-economics",
+    "principle": "Optimize tokens without weakening isolation or hiding total workflow cost."
+  },
+  {
+    "id": "llm-014",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["Software Engineering", "Production"],
+    "scenario": "A worker asks a model to draft a CRM note, writes the note, then times out before recording completion. Retrying the workflow creates duplicate notes.",
+    "prompt": "Which design most directly fixes the failure?",
+    "choices": [
+      {"id": "idempotent-state", "text": "Persist workflow state and use an idempotency key for the consequential write", "rationale": "A retry can detect that the write already completed and avoid repeating the side effect."},
+      {"id": "longer-timeout", "text": "Double every timeout", "rationale": "Longer waits do not prove whether a timed-out side effect already occurred."},
+      {"id": "parallel-writes", "text": "Send the CRM update to two workers in parallel", "rationale": "Parallel execution increases duplicate-write risk rather than establishing exactly-once behavior."}
+    ],
+    "correct": ["idempotent-state"],
+    "explanation": "Generation and side effects need explicit persisted states and idempotency so retries preserve the customer's invariant.",
+    "relatedLesson": "resilient-llm-integration",
+    "principle": "Reliability protects invariants across partial failure."
+  },
+  {
+    "id": "llm-015",
+    "type": "multiple_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["Production", "AI Engineering"],
+    "scenario": "During a provider throttling incident, every failed request retries immediately three times and the support API becomes unavailable.",
+    "prompt": "Which two controls best prevent retry amplification?",
+    "choices": [
+      {"id": "circuit-breaker", "text": "A circuit breaker with concurrency limits", "rationale": "It stops a failing dependency from consuming all capacity in the calling service."},
+      {"id": "bounded-backoff", "text": "Bounded retries with backoff, jitter, and an end-to-end deadline", "rationale": "This spreads transient retries and stops attempts that cannot still meet the workflow budget."},
+      {"id": "retry-all", "text": "Retry schema and policy failures exactly like throttling", "rationale": "Non-transient failures will repeat and waste capacity without changing the input."},
+      {"id": "hide-degradation", "text": "Return a normal success status for dropped requests", "rationale": "Misreporting failure destroys trust and makes recovery impossible to verify."}
+    ],
+    "correct": ["circuit-breaker", "bounded-backoff"],
+    "explanation": "Circuit breaking, capacity limits, classified retries, and deadlines prevent a dependency incident from cascading through the customer workflow.",
+    "relatedLesson": "resilient-llm-integration",
+    "principle": "Retry only when the error is transient and the customer budget permits it."
+  },
+  {
+    "id": "llm-016",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "intermediate",
+    "skills": ["Production", "AI Engineering"],
+    "scenario": "The model endpoint reports 99.9% availability while support agents say billing tickets are increasingly sent to the wrong queue.",
+    "prompt": "Which signal is missing from the operational view?",
+    "choices": [
+      {"id": "task-outcome", "text": "Routing quality and completed-task outcomes segmented by ticket type", "rationale": "Successful API calls do not reveal whether the model served the business workflow correctly."},
+      {"id": "cpu-model", "text": "CPU utilization inside the model provider", "rationale": "Provider infrastructure utilization does not establish Northstar's routing quality."},
+      {"id": "page-views", "text": "Marketing-site page views", "rationale": "Unrelated product traffic cannot explain a workflow-specific quality regression."}
+    ],
+    "correct": ["task-outcome"],
+    "explanation": "Observability must connect technical traces to validation, routing disposition, overrides, and final workflow outcomes by meaningful slice.",
+    "relatedLesson": "llm-production-observability",
+    "principle": "Observe the customer task, not only the provider request."
+  },
+  {
+    "id": "llm-017",
+    "type": "multiple_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["Production", "Security"],
+    "scenario": "Engineers want to export complete prompts, retrieved documents, and responses to a general analytics platform for debugging regulated customer incidents.",
+    "prompt": "Which two controls should shape the telemetry design?",
+    "choices": [
+      {"id": "minimize-redact", "text": "Minimize content and redact sensitive fields before export", "rationale": "Telemetry should retain only the evidence necessary for its operational purpose."},
+      {"id": "controlled-reference", "text": "Use protected source references with access controls and retention limits", "rationale": "Operators can investigate authorized data without creating an uncontrolled duplicate corpus."},
+      {"id": "log-all", "text": "Log all content indefinitely because debugging is important", "rationale": "Operational usefulness does not remove privacy, access, and retention obligations."},
+      {"id": "public-dashboard", "text": "Expose raw traces to every employee for faster triage", "rationale": "Broad access expands the impact of sensitive customer content leakage."}
+    ],
+    "correct": ["minimize-redact", "controlled-reference"],
+    "explanation": "Privacy-safe observability uses structured metadata, content minimization, protected references, least-privilege access, and purposeful retention.",
+    "relatedLesson": "llm-production-observability",
+    "principle": "Do not turn observability into a shadow customer-data store."
+  },
+  {
+    "id": "llm-018",
+    "type": "single_choice",
+    "category": "llm",
+    "difficulty": "advanced",
+    "skills": ["Production", "AI Engineering"],
+    "scenario": "After a prompt release, invalid structured outputs triple for one ticket category while overall traffic metrics barely move.",
+    "prompt": "What is the most useful response?",
+    "choices": [
+      {"id": "slice-rollback-regression", "text": "Inspect versioned traces for that slice, roll back if the gate is breached, and add reviewed failures to regression coverage", "rationale": "This uses reproducible evidence, limits customer impact, and makes the incident a durable test."},
+      {"id": "wait-average", "text": "Wait until the aggregate success rate also drops", "rationale": "A serious slice-specific failure can remain hidden inside a stable overall average."},
+      {"id": "delete-traces", "text": "Delete the failing traces so the dashboard returns to baseline", "rationale": "Removing evidence conceals impact and prevents diagnosis or prevention."}
+    ],
+    "correct": ["slice-rollback-regression"],
+    "explanation": "Versioned, segmented observability should trigger an actionable rollback path and feed confirmed failures into future evaluation.",
+    "relatedLesson": "llm-production-observability",
+    "principle": "Production evidence should shorten recovery and strengthen the next release."
+  }
+]

@@ -1,0 +1,54 @@
+---
+id: trust-boundaries-and-identity
+slug: trust-boundaries-and-identity
+title: Design Trust Boundaries and Identity Flow
+track: solution-architecture
+module: trust
+order: 2
+difficulty: advanced
+durationMinutes: 19
+status: published
+prerequisites:
+  - architecture-from-outcomes
+skills:
+  - Architecture
+  - Security
+  - Software Engineering
+objectives:
+  - Trace identity and authorization across an enterprise workflow
+  - Place enforcement, audit, and approval at appropriate trust boundaries
+experiments: []
+practice:
+  - architecture-008
+  - architecture-009
+  - architecture-010
+---
+
+## Authentication is only the first boundary
+
+Enterprise systems must preserve who is acting, what they may access, and who is accountable as work crosses browsers, services, models, data stores, and tools. A user being signed in does not authorize every downstream retrieval or action.
+
+<CustomerScenario title="One service account, many invisible actors">
+  Northstar's assistant uses a shared privileged credential to search policies and update tickets. Specialists have different policy access, but downstream logs show only the assistant account. A generated refund suggestion can be written without recording which user requested it.
+</CustomerScenario>
+
+Draw data-flow boundaries and annotate identity at every hop. Distinguish the human principal, application identity, workload identity, and delegated authority. Decide whether a service acts **as the user** or **on behalf of the service** with a narrower entitlement. Preserve correlation IDs and decision context for attribution.
+
+Authorization belongs at each resource boundary. The policy source or retrieval layer must filter by enforceable access attributes before content reaches a model. A tool gateway must check action scope, resource, amount, environment, and approval state. Prompts can guide behavior but cannot replace these controls.
+
+Apply least privilege and short-lived credentials. Separate read, propose, and execute capabilities. High-impact or irreversible actions need explicit approval tied to the exact proposed transaction; a generic approval at session start is too broad.
+
+<MermaidDiagram chart={`flowchart LR
+  U[User identity] --> S[Server boundary]
+  S --> R[ACL-aware retrieval]
+  S --> G[Scoped tool gateway]
+  G --> A{Approval required?}
+  A --> X[Enterprise system]`} />
+
+Audit records should answer who initiated the action, which policy and data informed it, what was proposed, what control allowed it, and the result. Protect logs as sensitive data and define retention deliberately.
+
+<FDEPrinciple variant="warning">
+  Carry identity and authorization through the full workflow; never let a model or shared credential become an implicit trust boundary.
+</FDEPrinciple>
+
+Review abuse and failure cases with customer security owners: confused deputies, stale group membership, cross-tenant data, replayed approvals, and excessive tool scope. Designing these paths early turns governance from a launch blocker into a verifiable system property.

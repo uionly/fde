@@ -236,14 +236,64 @@ export function validateContent() {
   const resources = getAllResources();
   const aiLabsShowcase = getAILabsShowcase();
   const trackIds = new Set(tracks.map((track) => track.id));
+  const trackById = new Map(tracks.map((track) => [track.id, track]));
+  const lessonIds = new Set(lessons.map((lesson) => lesson.frontmatter.id));
+  const lessonById = new Map(lessons.map((lesson) => [lesson.frontmatter.id, lesson]));
   const questionIds = new Set(questions.map((question) => question.id));
   const experimentIds = new Set(experiments.map((experiment) => experiment.id));
+  const questionOwners = new Map<string, string[]>();
+
+  assertUnique(tracks, (track) => String(track.order), "track order");
+  for (const track of tracks) {
+    assertUnique(
+      lessons.filter((lesson) => lesson.frontmatter.track === track.id),
+      (lesson) => String(lesson.frontmatter.order),
+      `lesson order in track ${track.id}`,
+    );
+  }
+  for (const lesson of lessons) {
+    if (!trackIds.has(lesson.frontmatter.track)) {
+      throw new Error(`Lesson ${lesson.frontmatter.id} references missing track ${lesson.frontmatter.track}`);
+    }
+  }
 
   for (const lesson of lessons) {
     const { frontmatter } = lesson;
-    if (!trackIds.has(frontmatter.track)) throw new Error(`Lesson ${frontmatter.id} references missing track ${frontmatter.track}`);
-    for (const id of frontmatter.practice) if (!questionIds.has(id)) throw new Error(`Lesson ${frontmatter.id} references missing question ${id}`);
+    for (const id of frontmatter.prerequisites) {
+      if (!lessonIds.has(id)) throw new Error(`Lesson ${frontmatter.id} references missing prerequisite ${id}`);
+      if (id === frontmatter.id) throw new Error(`Lesson ${frontmatter.id} cannot require itself`);
+      const prerequisite = lessonById.get(id)!;
+      const currentTrackOrder = trackById.get(frontmatter.track)!.order;
+      const prerequisiteTrackOrder = trackById.get(prerequisite.frontmatter.track)!.order;
+      const comesEarlier =
+        prerequisiteTrackOrder < currentTrackOrder ||
+        (prerequisiteTrackOrder === currentTrackOrder && prerequisite.frontmatter.order < frontmatter.order);
+      if (!comesEarlier) {
+        throw new Error(`Lesson ${frontmatter.id} prerequisite ${id} must appear earlier in the curriculum`);
+      }
+    }
+    assertUnique(frontmatter.practice, (id) => id, `practice question in lesson ${frontmatter.id}`);
+    for (const id of frontmatter.practice) {
+      if (!questionIds.has(id)) throw new Error(`Lesson ${frontmatter.id} references missing question ${id}`);
+      questionOwners.set(id, [...(questionOwners.get(id) ?? []), frontmatter.id]);
+    }
     for (const id of frontmatter.experiments) if (!experimentIds.has(id)) throw new Error(`Lesson ${frontmatter.id} references missing experiment ${id}`);
+  }
+
+  for (const question of questions) {
+    if (!question.relatedLesson) {
+      throw new Error(`Question ${question.id} must reference a related lesson`);
+    }
+    if (!lessonIds.has(question.relatedLesson)) {
+      throw new Error(`Question ${question.id} references missing related lesson ${question.relatedLesson}`);
+    }
+    const owners = questionOwners.get(question.id) ?? [];
+    if (owners.length !== 1) {
+      throw new Error(`Question ${question.id} must belong to exactly one lesson practice list; found ${owners.length}`);
+    }
+    if (owners[0] !== question.relatedLesson) {
+      throw new Error(`Question ${question.id} belongs to lesson ${owners[0]} but links to ${question.relatedLesson}`);
+    }
   }
 
   validateGameNextActionReferences(games, { lessons, experiments, labs, caseStudies, resources });

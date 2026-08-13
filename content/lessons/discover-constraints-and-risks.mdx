@@ -1,0 +1,53 @@
+---
+id: discover-constraints-and-risks
+slug: discover-constraints-and-risks
+title: Discover Constraints Before They Become Incidents
+track: discovery-problem-framing
+module: measurable-outcomes
+order: 4
+difficulty: intermediate
+durationMinutes: 18
+status: published
+prerequisites:
+  - baselines-and-success-metrics
+skills:
+  - Discovery
+  - Security
+  - Architecture
+objectives:
+  - Elicit hard constraints across data, systems, policy, and operations
+  - Convert uncertain risks into owned validation actions
+experiments: []
+practice:
+  - discovery-014
+  - discovery-015
+  - discovery-016
+---
+
+## Constraints define the feasible solution space
+
+Discovery must expose what a solution must never do, what it must integrate with, and what the customer can realistically operate. A constraint discovered late looks like an engineering surprise even when the organization knew it all along.
+
+<CustomerScenario title="The pilot that cannot ship">
+  Northstar builds a convincing assistant using exported policy files and a shared test account. Before production review, the team learns that data cannot leave its regional boundary, source permissions differ by user, the CRM permits only 100 requests per minute, and every generated recommendation must remain auditable for seven years.
+</CustomerScenario>
+
+Investigate six areas. **Data:** ownership, classification, residency, freshness, deletion, and representative access. **Identity:** users, roles, authorization propagation, and service accounts. **Integration:** supported interfaces, rate limits, environments, change windows, and failure behavior. **Policy:** prohibited uses, approval thresholds, records, and human accountability. **Operations:** support hours, observability, incident response, and rollback. **Delivery:** deadline, procurement, staffing, and reviewer lead times.
+
+Separate a hard constraint from a preference and an assumption. “Customer data must remain in-region” may be a policy boundary. “We prefer vendor A” may be negotiable. “The CRM can handle peak traffic” needs evidence.
+
+## Turn risk into a testable action
+
+A risk register is useful only when it changes work. State the condition, consequence, likelihood evidence, owner, validation action, due date, and response. Prioritize risks that are both consequential and capable of invalidating the current approach.
+
+<Callout title="Risk statement pattern">
+  If identity cannot propagate to retrieval, manager-only policy may reach specialists; the security owner will test group claims against the search index by Friday, and the fallback is a public-policy-only pilot.
+</Callout>
+
+Invite control functions early with a concrete workflow and data path. Asking security to “approve AI” produces abstract debate. Asking them to review how a named user retrieves a classified document creates an actionable conversation.
+
+<FDEPrinciple variant="warning">
+  Treat every unverified constraint as a delivery risk with an owner and a date, not as a footnote in the architecture.
+</FDEPrinciple>
+
+The goal is not to eliminate uncertainty. It is to make release-blocking uncertainty visible soon enough to test, redesign, or narrow scope deliberately.

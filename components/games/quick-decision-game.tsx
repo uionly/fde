@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { GameShell } from "@/components/games/game-shell";
 import { useGameProfile } from "@/components/games/use-game-profile";
 import { Button } from "@/components/ui/button";
-import type { FieldGame, GameMetric } from "@/lib/content/schemas";
+import type { GameMetric, QuickDecisionGame as QuickDecisionGameContent } from "@/lib/content/schemas";
 import { trackAnalytics } from "@/lib/analytics/events";
 import { recordGameEvaluation, scenarioProgressKey } from "@/lib/games/progress";
 import { evaluateQuickDecision, gameMetricLabels, localDateKey, resolveQuickDecision, type GameEvaluation } from "@/lib/games/runtime";
@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 const outcomeLabels = { "needs-review": "Needs review", viable: "Viable", "production-ready": "Production ready" } as const;
 const actionKindLabels = { lesson: "Lesson", experiment: "Playground", lab: "Field mission", "case-study": "Customer file", resource: "Field kit", game: "Simulation" } as const;
 
-export function QuickDecisionGame({ game }: { game: FieldGame }) {
+export function QuickDecisionGame({ game }: { game: QuickDecisionGameContent }) {
   const { profile, hydrated, saveProfile } = useGameProfile();
   const [phase, setPhase] = useState<"briefing" | "active" | "debrief">("briefing");
   const [runIndex, setRunIndex] = useState(0);

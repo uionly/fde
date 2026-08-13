@@ -1,0 +1,45 @@
+---
+id: evaluators-and-judgment
+slug: evaluators-and-judgment
+title: Choose Evaluators and Calibrate Judgment
+track: ai-evaluations
+module: measurement
+order: 4
+difficulty: advanced
+durationMinutes: 24
+status: published
+prerequisites:
+  - layered-ai-evaluation
+skills:
+  - AI Engineering
+  - Data
+  - Business Thinking
+objectives:
+  - Match deterministic, human, and model-based evaluators to evaluation claims
+  - Calibrate subjective rubrics with expert agreement and counterexamples
+experiments: []
+practice:
+  - evaluations-013
+  - evaluations-014
+  - evaluations-015
+---
+
+## Use the simplest credible judge
+
+Different claims require different evaluators. Deterministic checks are strongest for schemas, exact business rules, permissions, citations, tool arguments, latency, and cost. Human experts are essential when intent, usefulness, tone, or policy interpretation requires judgment. Model-based evaluators can scale nuanced review, but their output is another probabilistic measurement and must be calibrated against trusted labels.
+
+<CustomerScenario title="The generous automated judge">
+  Northstar uses an LLM to grade whether support answers are grounded. Scores rise after the prompt is rewritten, yet reviewers still find unsupported refund claims. The judge rewards fluent explanations and rarely penalizes claims phrased cautiously.
+</CustomerScenario>
+
+Define an observable rubric before choosing the judge. Replace “good answer” with criteria such as every material claim is entailed by cited evidence, the current policy is used, and uncertainty is explicit when evidence conflicts. Supply positive and negative examples around difficult boundaries. Ask multiple subject-matter experts to label a calibration set, resolve disagreements, and record accepted interpretations.
+
+Measure an automated judge against that set: agreement by class, false passes on critical failures, stability across paraphrases, and behavior across customer segments. Blind the judge to irrelevant candidate identity and randomize ordering when comparing responses. Avoid using the same model family as generator and sole judge for high-stakes claims without independent evidence.
+
+Some rubric dimensions should be hard gates. A strong tone score cannot compensate for unauthorized disclosure. Others can be weighted. Report uncertainty and the volume of items routed to human adjudication rather than presenting judge scores as objective truth.
+
+<FDEPrinciple>
+  An evaluator earns trust through a defined rubric, calibrated agreement, and known failure boundaries—not because it produces a precise number.
+</FDEPrinciple>
+
+Periodically recheck calibration as policies, traffic, and models change. Judgment infrastructure drifts too.

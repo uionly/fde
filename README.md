@@ -13,11 +13,11 @@ This is not a beginner programming course or a video LMS. Every concept starts w
 | Surface | What the learner does | Current seed |
 | --- | --- | --- |
 | AI Labs — `/labs` | Enter the hands-on product through a curated incident, simulation, playground, or Field Mission. | One connected showcase journey |
-| Field Arcade — `/games` | Make no-typing deployment decisions and inspect deterministic quality, safety, cost, and latency consequences. | 6 games, 12 authored scenarios |
+| Field Arcade — `/games` | Route production traffic, rank bounded retrieval evidence, make no-typing deployment decisions, and inspect deterministic quality, safety, cost, and latency consequences. | 6 games, 12 authored scenarios |
 | Playgrounds — `/experiments` | Change technical variables in chunking, retrieval, agent tools, prompt injection, and AI economics. | 5 deterministic experiments |
 | Field Missions — `/labs#field-missions` | Complete longer customer deliverables with ordered steps, notes, hints, solutions, and resume support. | 3 guided missions |
-| Learn — `/learn` | Build FDE and enterprise-AI mental models through repository-authored, validated MDX lessons. | 2 tracks, 4 representative lessons |
-| Practice — `/practice` | Work through scenario-heavy single- and multiple-choice decisions with rationales. | 25 questions |
+| Learn — `/learn` | Build FDE and enterprise-AI mental models through repository-authored, validated MDX lessons. | 9 tracks, 48 lessons |
+| Practice — `/practice` | Work through scenario-heavy single- and multiple-choice decisions with rationales. | 150 questions across 8 categories |
 | Customer Engagement — `/case-studies` | Follow Northstar across progressive enterprise incidents and preview the end-to-end capstone. | 10 incidents, 6 fictional systems |
 | Progress, search, and resources | Review browser-local learning evidence, find content, and download field templates. | 9 skills, 8 glossary entries, 6 templates |
 
@@ -100,8 +100,8 @@ docs/                   Product source, architecture, plans, and deployment guid
 
 ## Current limitations
 
-- The content engine is ready to scale, but the current seed has 4 representative lessons rather than the planned 40–50.
-- The six Field Arcade games currently share a decision-card renderer; distinct routing, retrieval, security, and agent mechanics are planned in G2 and G3.
+- The MVP curriculum target is complete at 48 lessons and 150 questions; deeper coverage for data engineering, production observability, MCP integrations, customer delivery, and business impact can be added as post-MVP tracks.
+- Model routing and retrieval now use distinct interactive mechanics. The remaining four Arcade missions use the decision-card renderer; dedicated security and agent mechanics are planned in G3.
 - All learner evidence is device-local and is not synchronized across browsers or devices.
 - The capstone describes the full engagement but is not yet an editable, resumable workspace.
 - Analytics are typed browser events without a configured collection adapter.
@@ -119,4 +119,4 @@ docs/                   Product source, architecture, plans, and deployment guid
 - [Content expansion plan](docs/SEED_CONTENT_PLAN.md)
 - [Implementation status](IMPLEMENTATION_STATUS.md)
 
-The next product milestone is **G2 — Routing and Retrieval Simulations**, defined in the [Field Arcade roadmap](docs/GAME_IMPLEMENTATION_PLAN.md).
+The next product milestone is **G3 — Security and Agent Simulations**, defined in the [Field Arcade roadmap](docs/GAME_IMPLEMENTATION_PLAN.md).

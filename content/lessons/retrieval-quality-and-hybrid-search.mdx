@@ -1,0 +1,51 @@
+---
+id: retrieval-quality-and-hybrid-search
+slug: retrieval-quality-and-hybrid-search
+title: Retrieval Quality and Hybrid Search
+track: enterprise-rag
+module: retrieval
+order: 3
+difficulty: intermediate
+durationMinutes: 24
+status: published
+prerequisites:
+  - ingestion-and-document-lifecycle
+skills:
+  - AI Engineering
+  - Data
+  - Architecture
+objectives:
+  - Match lexical, semantic, hybrid, filtering, and reranking techniques to query behavior
+  - Diagnose retrieval failures with ranked evidence rather than answer impressions
+experiments:
+  - retrieval-playground
+practice:
+  - rag-001
+  - rag-003
+  - rag-011
+  - rag-012
+  - rag-013
+  - rag-014
+---
+
+## Retrieve evidence before generating prose
+
+Lexical search is strong for exact codes, names, and uncommon terms. Semantic search helps when user and document vocabulary differ. Hybrid search combines candidate signals, while metadata filters enforce scope such as product, region, effective date, and user access. Reranking spends more computation on a bounded candidate set to improve the final order. Choose among them from corpus and query evidence, not fashion.
+
+<CustomerScenario title="Two vocabularies, one queue">
+  Northstar specialists ask about “P2P,” but current policies spell out “peer-to-peer transfer.” Keyword search misses the documents. A semantic-only replacement finds conceptually similar marketing pages and ranks them above the governing policy.
+</CustomerScenario>
+
+Build a query set with expected relevant sources and hard negatives. Inspect recall at the candidate stage and ranking metrics inside the context cutoff. If the right document never appears, test query expansion, synonyms, index fields, or embeddings. If it appears too low, test scoring fusion and reranking. If wrong sources dominate, strengthen authority, freshness, and product filters. Increasing top-k alone may add noise, latency, and exposure.
+
+<Experiment id="retrieval-playground" />
+
+Query rewriting can resolve abbreviations or conversational references, but preserve the original request and validate rewritten constraints. Never allow rewriting to broaden an authorization scope. Diversification can prevent five nearly identical chunks from consuming the budget. Context assembly should order evidence deliberately, remove duplicates, and retain citations.
+
+Evaluate retrieval separately from generation. Record candidate IDs, scores, filter decisions, ranks, and the context actually sent. Then an incorrect answer can be traced to missing evidence, bad ranking, context loss, or unsupported generation.
+
+<FDEPrinciple>
+  Optimize the ranked evidence path for the customer's vocabulary, authority rules, and context budget—not a retrieval metric in isolation.
+</FDEPrinciple>
+
+The best retrieval configuration is the simplest one that consistently places sufficient, authorized, current evidence where the generator can use it.

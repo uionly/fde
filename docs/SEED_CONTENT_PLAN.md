@@ -1,47 +1,50 @@
 # Seed Content and Expansion Plan
 
-The platform and content engine are complete, but the authored curriculum remains intentionally small. Expand it incrementally and validate each addition against a customer problem.
+The platform, content engine, and MVP curriculum corpus are complete. Extend the curriculum incrementally and validate every addition against a customer problem.
 
-## Current Seed
+## Completed MVP Corpus
 
-- 2 published tracks
-- 4 representative lessons
-- 25 scenario-heavy practice questions
+- 9 published tracks
+- 48 customer-framed lessons
+- 150 scenario-heavy practice questions
 - 5 deterministic playgrounds
 - 3 guided Field Missions
 - 6 Field Arcade games with 12 authored scenarios
 
-Do not attempt to write the entire remaining curriculum in one milestone.
+The original content expansion target is complete. Future additions should remain incremental and validated against a customer problem.
 
 ## MVP Content Areas
 
-1. FDE Foundations
-2. Discovery & Problem Framing
-3. Solution Architecture
-4. LLM Engineering
-5. AI Evaluations
-6. Enterprise RAG
-7. Agents & Tools
-8. Enterprise AI Security
+Nine curriculum tracks implement the eight scope areas from the product specification. The retained Enterprise AI Systems track is an early, cross-cutting bridge from foundations into the specialist AI tracks and remains second to preserve existing learner routes and sequencing.
 
-## Lesson Target
+1. FDE Foundations
+2. Enterprise AI Systems (cross-cutting bridge)
+3. Discovery & Problem Framing
+4. Solution Architecture
+5. LLM Engineering
+6. AI Evaluations
+7. Enterprise RAG
+8. Agents & Tools
+9. Enterprise AI Security
+
+## Lesson Target — Complete
 
 40–50 lessons total.
 
-The current four representative lessons are:
+The original four representative lessons remain available at their existing routes:
 
 1. What Is Forward Deployed Engineering?
 2. From Customer Request to Problem Statement
 3. Permission-Aware Enterprise Retrieval
 4. Why AI Systems Need Evaluations
 
-These exercise the main MDX component types and provide the patterns for further authoring.
+The expanded corpus adds Foundations, Discovery, Solution Architecture, LLM Engineering, AI Evaluations, Enterprise RAG, Agents & Tools, Enterprise AI Security, and cross-cutting production/outcome lessons.
 
-## Question Target
+## Question Target — Complete
 
-The current seed contains 25 questions.
+The current corpus contains 150 questions across discovery, architecture, LLM, evaluations, RAG, agents, security, and delivery.
 
-Scale toward 150 for MVP content readiness.
+The bank uses only interactive single- and multiple-choice scenarios in the current practice renderer; each answer includes a rationale, explanation, principle, and related lesson link.
 
 Question philosophy:
 

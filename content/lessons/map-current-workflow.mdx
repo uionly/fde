@@ -1,0 +1,60 @@
+---
+id: map-current-workflow
+slug: map-current-workflow
+title: Map the Current Workflow Before Redesigning It
+track: discovery-problem-framing
+module: current-state
+order: 1
+difficulty: beginner
+durationMinutes: 16
+status: published
+prerequisites:
+  - customer-request-to-problem
+skills:
+  - Discovery
+  - Business Thinking
+objectives:
+  - Build an evidence-based current-state workflow map
+  - Locate queues, rework, and decision points worth investigating
+experiments: []
+practice:
+  - discovery-005
+  - discovery-006
+  - discovery-007
+---
+
+## Follow work, not the official procedure
+
+Customer requests often describe the visible symptom while the actual constraint sits in a handoff, exception path, or unofficial workaround. A current-state map makes the work observable before a proposed solution narrows the investigation.
+
+<CustomerScenario title="One ticket, six hidden steps">
+  Northstar leaders believe specialists answer refund questions in the ticketing tool. Observation shows that a specialist searches two policy sites, messages a manager for exceptions, copies evidence into a spreadsheet, and returns later after approval. The official process diagram contains only “review policy.”
+</CustomerScenario>
+
+Choose a bounded unit of work, such as one refund inquiry from arrival to resolution. Interview the people who perform it, then observe representative cases. Capture the trigger, actors, systems, information, decisions, waits, rework, exception paths, and final outcome. Note where the documented process differs from actual practice.
+
+<MermaidDiagram chart={`flowchart LR
+  T[Ticket arrives] --> C[Classify]
+  C --> P[Find policy]
+  P --> E{Exception?}
+  E -->|No| R[Respond]
+  E -->|Yes| A[Manager approval]
+  A --> R`} />
+
+Add evidence to each step: frequency, median duration, queue time, error or return rate, and source. Distinguish touch time from waiting. An activity that takes two minutes but waits two days may be the more important design target.
+
+## Find leverage without assuming AI
+
+Mark pain points, but do not immediately label them automation opportunities. A missing ownership rule may need policy clarification. Duplicate data entry may need integration. A judgment-heavy step may benefit from decision support rather than autonomous execution.
+
+<Callout title="Observation prompt">
+  Ask, “Show me the last real case that did not follow the happy path.” Exceptions reveal constraints that generic interviews miss.
+</Callout>
+
+Validate the map in a playback session. Let participants correct it and identify variations across teams, regions, or customer segments. The map becomes a shared diagnostic artifact, not a perfect process encyclopedia.
+
+<FDEPrinciple>
+  Trace real work end to end before deciding which step, if any, technology should change.
+</FDEPrinciple>
+
+The result should explain where time and risk accumulate and give the team a defensible boundary for deeper discovery.

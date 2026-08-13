@@ -1,0 +1,57 @@
+---
+id: evaluating-agent-systems
+slug: evaluating-agent-systems
+title: Evaluate Agent Behavior, Not Just Answers
+track: agents-tools
+module: evaluation
+order: 5
+difficulty: advanced
+durationMinutes: 18
+status: published
+prerequisites:
+  - agent-approval-and-recovery
+skills:
+  - AI Engineering
+  - Production
+  - Business Thinking
+objectives:
+  - Measure task outcome, path quality, and control compliance separately
+  - Build representative agent traces for regression testing
+experiments:
+  - agent-tool-selection
+practice:
+  - agents-012
+  - agents-013
+  - agents-014
+---
+
+## A correct final answer can hide an unsafe path
+
+Agent evaluation must inspect what the system did, not only what it said. An agent may eventually resolve a case while calling the wrong customer record, exceeding retry limits, requesting unnecessary permissions, or relying on a human to repair its mistakes.
+
+<CustomerScenario title="Success at an unacceptable cost">
+  Northstar's agent resolves 92% of test tickets, but it averages eleven tool calls per case and attempts a privileged refund tool on routine status questions. The final-answer metric marks both behaviors as successful.
+</CustomerScenario>
+
+## Build layered evidence
+
+Evaluate at least four layers:
+
+1. **Task outcome:** Was the customer workflow completed correctly?
+2. **Trajectory:** Were the selected tools and their order efficient and defensible?
+3. **Control compliance:** Were permissions, approvals, limits, and tenant boundaries preserved?
+4. **Operational quality:** Were latency, cost, retries, and recovery within service targets?
+
+Create trace fixtures from real task categories, including ambiguity, unavailable tools, hostile content, stale data, and approval denial. Use deterministic assertions for hard boundaries and calibrated rubrics for judgment-heavy behavior.
+
+<FDEPrinciple>
+  Evaluate the result, the path, and the boundaries independently before trusting end-to-end success.
+</FDEPrinciple>
+
+## Diagnose before optimizing
+
+Aggregate success can hide a dangerous tail. Break results down by workflow, action risk, user role, data source, and failure mode. When a regression appears, identify whether planning, tool selection, argument construction, policy enforcement, or recovery failed.
+
+<Experiment id="agent-tool-selection" />
+
+Connect evaluation to the customer baseline. Fewer tool calls matter if they reduce handling time without lowering resolution quality. More autonomous completions matter only when overrides, incidents, and customer complaints remain within agreed limits.

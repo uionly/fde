@@ -1,0 +1,51 @@
+---
+id: customer-outcome-operating-loop
+slug: customer-outcome-operating-loop
+title: Operate Toward the Customer Outcome
+track: enterprise-ai-systems
+module: adoption-and-impact
+order: 4
+difficulty: intermediate
+durationMinutes: 16
+status: published
+prerequisites:
+  - production-readiness-for-ai-systems
+skills:
+  - Business Thinking
+  - Customer Delivery
+  - Production
+objectives:
+  - Connect system metrics to adoption and business outcomes
+  - Establish a post-launch learning and improvement cadence
+experiments:
+  - ai-cost-calculator
+practice:
+  - agents-017
+  - agents-018
+---
+
+## Deployment begins the evidence loop
+
+An AI system can meet offline quality targets and still fail the customer. Users may not trust it, the workflow may require too much copying, supervisors may override it, or a downstream bottleneck may absorb all saved time.
+
+<CustomerScenario title="Accurate but ignored">
+  Northstar's support assistant reaches 90% grounded-answer accuracy, yet weekly adoption stalls at 18%. Specialists say citations are useful, but opening a separate application takes longer than their existing search shortcut.
+</CustomerScenario>
+
+Connect technical and workflow measures. Track task success, groundedness, latency, and cost alongside active use, time to resolution, escalation rate, rework, customer satisfaction, and cost per completed task. Compare against the baseline captured during discovery.
+
+## Segment before drawing conclusions
+
+An average can hide where value exists. Break outcomes down by user role, case type, region, risk level, and adoption cohort. Interview users who abandon the workflow and observe the work where it happens. A model change is only one possible response; integration, training, policy, or scope may be the real constraint.
+
+<FDEPrinciple>
+  Shipping creates the opportunity for impact; adoption and measured workflow change demonstrate that impact.
+</FDEPrinciple>
+
+## Run a joint operating cadence
+
+Agree on owners and a regular review of incidents, evaluation regressions, adoption friction, cost, and outcome movement. Convert findings into explicit experiments with a hypothesis and success threshold. Preserve rollback and change history as the system evolves.
+
+<Experiment id="ai-cost-calculator" />
+
+Distill what worked into reusable architecture, evaluation cases, and delivery playbooks, while keeping customer-specific constraints visible. The FDE loop closes when the team can explain not just what was built, but which customer behavior changed, what value resulted, and what evidence should guide the next iteration.

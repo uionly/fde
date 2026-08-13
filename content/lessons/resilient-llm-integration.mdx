@@ -1,0 +1,44 @@
+---
+id: resilient-llm-integration
+slug: resilient-llm-integration
+title: Resilient LLM Integration
+track: llm-engineering
+module: production
+order: 5
+difficulty: advanced
+durationMinutes: 22
+status: published
+prerequisites:
+  - context-windows-and-token-economics
+skills:
+  - Software Engineering
+  - AI Engineering
+  - Production
+objectives:
+  - Design bounded retries, fallbacks, and idempotent model workflows
+  - Protect customer workflows from provider and parsing failures
+experiments: []
+practice:
+  - llm-014
+  - llm-015
+---
+
+## Failure is part of the interface
+
+LLM providers can time out, throttle, return malformed output, change safety behavior, or complete after the caller has given up. Treat the provider as a fallible distributed-system dependency. Set deadlines from the customer's end-to-end latency budget, classify errors, and make every retry bounded. Exponential backoff helps with transient throttling; it does not repair an invalid prompt or an exhausted business deadline.
+
+<CustomerScenario title="Duplicate case updates">
+  Northstar asks a model to draft a case note and then writes it to the CRM. A timeout occurs after the write, the worker retries the whole operation, and the customer record receives duplicate notes. During a provider incident, retries multiply traffic and make recovery slower.
+</CustomerScenario>
+
+Separate generation from the consequential write. Assign an idempotency key to the workflow, persist state transitions, and check whether the write already succeeded before retrying. Use circuit breakers and concurrency limits to stop a dependency incident from exhausting your own service. Queue work that can finish later; return an honest fallback for synchronous work that cannot.
+
+Fallbacks must preserve policy. An alternate provider needs compatible data residency, retention, safety, and output behavior. A smaller model may be appropriate for low-risk tasks, while a sensitive or ambiguous task should move to human review. Never silently produce a lower-trust answer just to keep the success-rate dashboard green.
+
+Test the unhappy paths deliberately: timeout before and after completion, rate limit, schema violation, partial stream, unavailable retrieval, and cancellation by the user. Verify that traces retain correlation IDs without logging prohibited content.
+
+<FDEPrinciple>
+  Reliability means preserving the customer's invariant during failure, not merely obtaining a response after enough retries.
+</FDEPrinciple>
+
+Define the degraded experience with operations and support teams before launch. They need to know what users see, which work is queued, and how recovery is confirmed.

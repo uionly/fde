@@ -1,0 +1,45 @@
+---
+id: representative-evaluation-sets
+slug: representative-evaluation-sets
+title: Build Representative Evaluation Sets
+track: ai-evaluations
+module: datasets
+order: 2
+difficulty: intermediate
+durationMinutes: 22
+status: published
+prerequisites:
+  - evaluation-strategy
+skills:
+  - AI Engineering
+  - Data
+  - Customer Delivery
+objectives:
+  - Sample production work across frequency, risk, and important segments
+  - Prevent test leakage while evolving an evaluation dataset
+experiments: []
+practice:
+  - evaluations-007
+  - evaluations-008
+  - evaluations-009
+---
+
+## Represent the work and the risk
+
+A useful evaluation set is neither a random handful of tickets nor a museum of extreme edge cases. It represents common traffic, meaningful customer segments, known failure modes, and rare high-consequence events. Start with a taxonomy of tasks and risks, then sample or author examples against that map. Document source, timestamp, consent or legal basis, expected behavior, and who reviewed each item.
+
+<CustomerScenario title="A launch set from the demo script">
+  Northstar's assistant passes twenty polished English questions written by the implementation team. After launch, abbreviations, copied email threads, multilingual requests, and newly revised policies produce failures the set never exercised.
+</CustomerScenario>
+
+Use production-shaped data where permitted, with de-identification and access controls. Combine frequency-based sampling with targeted slices for important groups and adversarial cases. Keep temporal coverage: a retrieval system tested only on current documents cannot reveal how it handles superseded versions. Include abstention and out-of-scope examples so the system is rewarded for refusing appropriately.
+
+Split data by purpose. A development set supports iteration, while a held-out release set protects the final decision from overfitting. Restrict access to hidden cases and track repeated use; if developers manually tune against every item, it is no longer a credible holdout. Version examples and labels so a changed policy does not masquerade as a model regression.
+
+Size alone is not assurance. Review coverage by category and consequence, attach confidence to uncertain labels, and inspect disagreement among subject-matter experts. A small, well-stratified set with reliable labels can be more valuable than thousands of noisy examples.
+
+<FDEPrinciple>
+  Evaluation data is a governed product asset. Its coverage, provenance, freshness, and leakage controls determine what claims you can make.
+</FDEPrinciple>
+
+Add production failures through a reviewed intake process, but preserve trend continuity with frozen benchmark snapshots for important release comparisons.

@@ -16,24 +16,27 @@ Deliverables:
 - Quality, Safety, Cost Efficiency, and Latency Performance scoring
 - versioned device profile with legacy migration, XP, streaks, scenario completion, personal bests, attempts, and mastery
 - keyboard, touch, mobile, and reduced-motion support
-- six quick missions with two variants each
+- six initial quick missions with two variants each; G2 later upgrades routing and retrieval to dedicated mechanics
 
 Acceptance:
 
 - A learner can complete a mission without typing, see system consequences, reload, and continue with the next deterministic variant.
 - XP is awarded once per scenario and a replay can improve a personal best without duplicating the reward.
 
-## G2 — Routing and Retrieval Simulations
+## G2 — Routing and Retrieval Simulations — Complete
 
-Implement:
+Delivered:
 
-1. Model Router Rush using accessible card-to-lane assignment
-2. Retrieval Rank Race using accessible reordering and a bounded context budget
+1. Model Router Rush with traffic-weighted request-to-lane assignment and route inspection
+2. Retrieval Rank Race with evidence inclusion, explicit reordering, a bounded context budget, and independent launch gates
+3. A discriminated game-content schema and exhaustive renderer registry for distinct mechanics
+4. New authored scenario IDs so returning G1 visitors can earn G2 progress without legacy collisions
 
 Acceptance:
 
 - Both games provide pointer/touch controls and named keyboard alternatives.
 - Scoring is deterministic and independently measures quality, safety, cost efficiency, and latency performance.
+- Completed scenarios award XP once, advance to the next authored variant, and preserve replay personal bests.
 
 ## G3 — Security and Agent Simulations
 

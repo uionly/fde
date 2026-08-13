@@ -1,0 +1,49 @@
+---
+id: permission-aware-rag
+slug: permission-aware-rag
+title: Permission-Aware RAG Architecture
+track: enterprise-rag
+module: governance
+order: 4
+difficulty: advanced
+durationMinutes: 24
+status: published
+prerequisites:
+  - retrieval-quality-and-hybrid-search
+  - permission-aware-retrieval
+skills:
+  - Security
+  - Architecture
+  - AI Engineering
+objectives:
+  - Enforce source authorization before evidence reaches the model
+  - Design safe caching, indexing, and citation paths for multi-tenant retrieval
+experiments:
+  - retrieval-playground
+practice:
+  - rag-015
+  - rag-016
+  - rag-017
+---
+
+## Authorization travels with retrieval
+
+Authentication answers who is asking. Authorization determines which documents, fields, and versions that identity may use for this request. Enforce it before content enters model context. A system prompt that says “do not reveal secrets” cannot undo a retrieval leak, and post-generation redaction cannot reliably remove facts the model has already seen.
+
+<CustomerScenario title="A helpful answer from the wrong folder">
+  Northstar indexes team policies and manager-only exception guidance together. A support specialist asks an ordinary refund question. Semantic search returns a restricted exception because it is highly relevant, and the answer reveals both the threshold and the hidden document title.
+</CustomerScenario>
+
+Propagate a verified user or service identity to the server-side retrieval boundary. Represent source access controls in enforceable metadata or query the source with the caller's delegated authorization. Prefer pre-retrieval filtering when the index can evaluate policy correctly; use a defense-in-depth post-retrieval check before context assembly. Deny safely when identity, policy, or metadata is missing.
+
+Multi-tenant indexes require explicit partitioning and tests for cross-tenant paths. Cache keys must include every authorization and content-version attribute that affects a result. Shared semantic caches are dangerous when similar questions are asked by users with different access. Generated citations and previews must apply the same permission check as the retrieved body.
+
+Permission changes and deletions create operational requirements. Define revocation latency, update indexes and caches, and preserve auditable policy decisions without logging restricted content unnecessarily. Test ordinary users, managers, removed users, changed groups, ambiguous identities, and stale metadata.
+
+<Experiment id="retrieval-playground" />
+
+<FDEPrinciple variant="warning">
+  Retrieval is a data-access operation. If authorization cannot be proven, no content should reach the model.
+</FDEPrinciple>
+
+This architecture makes relevance subordinate to entitlement—the correct priority for enterprise knowledge.

@@ -1,0 +1,50 @@
+---
+id: prioritize-customer-use-cases
+slug: prioritize-customer-use-cases
+title: Prioritize Customer Use Cases with Evidence
+track: discovery-problem-framing
+module: decision
+order: 5
+difficulty: intermediate
+durationMinutes: 17
+status: published
+prerequisites:
+  - discover-constraints-and-risks
+skills:
+  - Discovery
+  - Business Thinking
+  - Customer Delivery
+objectives:
+  - Compare use cases across value, feasibility, risk, and learning
+  - Define a release boundary around a coherent workflow slice
+experiments: []
+practice:
+  - discovery-017
+  - discovery-018
+---
+
+## A long use-case list is not a strategy
+
+Discovery usually produces more opportunities than a team can validate. Prioritization converts those possibilities into a defensible sequence. The loudest sponsor request, most impressive demo, or largest theoretical savings is rarely enough evidence on its own.
+
+<CustomerScenario title="Twelve ideas, one quarter">
+  Northstar proposes policy search, ticket summarization, reply drafting, refund approval, fraud triage, sentiment alerts, and six more capabilities. Refund approval has high headline value but unclear authority. Policy search affects most tickets and can be evaluated with existing records.
+</CustomerScenario>
+
+Describe each use case as a user completing a bounded job in a named workflow. Then compare four dimensions. **Value:** frequency, time, error, risk, or revenue impact. **Feasibility:** available data, integration readiness, evaluation method, and delivery effort. **Risk:** consequence of error, sensitivity, reversibility, and required governance. **Learning value:** whether the slice tests assumptions needed for later opportunities.
+
+Scores are prompts for evidence, not objective truth. Attach the source and confidence to each rating. “High value” supported by one executive opinion should not outrank observed volume and cycle-time data without discussion.
+
+Choose a release boundary that is coherent end to end. “Build the retrieval layer” is a technical component, not a customer slice. “Help Tier 1 specialists find and cite public refund policy for domestic accounts” identifies users, content, task, and risk boundary. Exclude exception approval until identity and decision authority are validated.
+
+<Callout title="Useful sequencing question">
+  Which first slice can improve a real task while generating evidence for the next, riskier decision?
+</Callout>
+
+Document what is explicitly out of scope and why. Include the evidence that would justify reconsideration. This prevents deferred ideas from returning as silent expectations during delivery.
+
+<FDEPrinciple variant="insight">
+  Prioritize the smallest valuable workflow that can be operated safely and that resolves important uncertainty.
+</FDEPrinciple>
+
+Good prioritization preserves ambition while making it executable. It gives the customer a reasoned first commitment, a learning sequence, and clear conditions for expanding beyond the initial boundary.

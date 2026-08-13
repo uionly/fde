@@ -1,0 +1,276 @@
+[
+  {
+    "id": "delivery-002",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "beginner",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "A claims assistant launched on time and has 99.9% availability, but claim cycle time has not changed after four weeks.",
+    "prompt": "What is the strongest FDE response?",
+    "choices": [
+      {"id": "close-launch", "text": "Close the engagement because the software met its service level", "rationale": "Availability proves a technical output, not the promised workflow outcome."},
+      {"id": "trace-workflow", "text": "Trace the post-launch workflow and locate the remaining delay", "rationale": "Outcome ownership requires finding why the deployed change did not move cycle time."},
+      {"id": "add-features", "text": "Add more assistant features before investigating", "rationale": "More scope may amplify effort without addressing the actual constraint."}
+    ],
+    "correct": ["trace-workflow"],
+    "explanation": "The FDE should compare the outcome baseline with the current workflow, identify where time still accumulates, and revise the bounded intervention with the customer.",
+    "relatedLesson": "outcome-ownership",
+    "principle": "A production release is evidence on the path to customer value, not the definition of customer value."
+  },
+  {
+    "id": "delivery-003",
+    "type": "multiple_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "A sponsor asks the team to declare success when an underwriting dashboard goes live, although the stated goal is faster application decisions.",
+    "prompt": "Which two additions turn the launch into a bounded outcome commitment?",
+    "choices": [
+      {"id": "baseline-target", "text": "A baseline and target for decision cycle time", "rationale": "They define the measurable change the dashboard is intended to create."},
+      {"id": "observation-window", "text": "An agreed observation window and responsible outcome owner", "rationale": "A duration and owner make realization and follow-up accountable."},
+      {"id": "more-widgets", "text": "A commitment to add five more dashboard widgets", "rationale": "Feature quantity does not establish whether decisions become faster."},
+      {"id": "launch-count", "text": "A count of deployment pipeline runs", "rationale": "Pipeline activity is operational telemetry, not underwriting performance."}
+    ],
+    "correct": ["baseline-target", "observation-window"],
+    "explanation": "A useful outcome boundary names the measurable baseline and target, observation period, and accountable owner rather than equating availability with impact.",
+    "relatedLesson": "outcome-ownership",
+    "principle": "Bound outcome ownership with measures, time, people, and explicit dependencies."
+  },
+  {
+    "id": "delivery-004",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Customer Delivery", "Production"],
+    "scenario": "Telemetry shows frequent use of a new case-summary tool, while specialists report that correcting summaries adds two minutes per case.",
+    "prompt": "Which evidence should govern the next decision?",
+    "choices": [
+      {"id": "usage-alone", "text": "Usage alone, because adoption proves value", "rationale": "A required or convenient click can be frequent while making the workflow worse."},
+      {"id": "task-outcome", "text": "Net handling time and correction quality for representative cases", "rationale": "These measures connect use to the task outcome and expose rework."},
+      {"id": "demo-rating", "text": "The sponsor's rating of the launch demonstration", "rationale": "A scripted demonstration cannot substitute for field performance."}
+    ],
+    "correct": ["task-outcome"],
+    "explanation": "The team should measure the complete task, including correction time and quality, then decide whether to improve, narrow, or remove the capability.",
+    "relatedLesson": "outcome-ownership",
+    "principle": "Measure realized workflow impact rather than treating activity as value."
+  },
+  {
+    "id": "delivery-005",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "advanced",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "A regulatory approval owned by the customer is late and now threatens the target outcome date.",
+    "prompt": "How should the FDE handle the dependency?",
+    "choices": [
+      {"id": "hide-delay", "text": "Continue reporting green status until engineering is blocked", "rationale": "Late visibility removes the customer's chance to recover or make a tradeoff."},
+      {"id": "own-everything", "text": "Promise to obtain the regulatory approval personally", "rationale": "Outcome ownership does not transfer authority the FDE does not have."},
+      {"id": "surface-options", "text": "Surface the impact, owner, decision date, and safe scope alternatives", "rationale": "This preserves shared accountability and enables an informed recovery decision."}
+    ],
+    "correct": ["surface-options"],
+    "explanation": "The FDE should make the dependency and consequence explicit, support the accountable owner, and offer evidence-based options without pretending to control external authority.",
+    "relatedLesson": "outcome-ownership",
+    "principle": "Own visibility and recovery around dependencies, while keeping authority with the real owner."
+  },
+  {
+    "id": "delivery-006",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "beginner",
+    "skills": ["Discovery", "Customer Delivery"],
+    "scenario": "A team says its greatest uncertainty is that the customer's documents may be messy.",
+    "prompt": "Which rewrite makes the uncertainty testable?",
+    "choices": [
+      {"id": "more-discovery", "text": "We should do more discovery about documents", "rationale": "This still lacks a falsifiable claim and decision consequence."},
+      {"id": "coverage-claim", "text": "At least 95% of active policies have an owner and revision date", "rationale": "The claim can be sampled, measured, and used to set a release boundary."},
+      {"id": "modern-platform", "text": "The customer needs a modern content platform", "rationale": "This jumps to a solution without establishing the relevant data condition."}
+    ],
+    "correct": ["coverage-claim"],
+    "explanation": "A useful assumption states an observable condition and threshold, allowing the team to choose a test and decide what changes if the evidence rejects it.",
+    "relatedLesson": "ambiguity-to-learning-plan",
+    "principle": "Convert vague uncertainty into a falsifiable statement tied to a decision."
+  },
+  {
+    "id": "delivery-007",
+    "type": "multiple_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Software Engineering"],
+    "scenario": "Before building a benefits assistant, the team must test identity propagation and answer usefulness.",
+    "prompt": "Which two properties belong in each learning-plan experiment?",
+    "choices": [
+      {"id": "evidence-threshold", "text": "A pre-agreed evidence threshold", "rationale": "A threshold prevents the team from interpreting any result as success."},
+      {"id": "decision-consequence", "text": "The decision that changes if the assumption fails", "rationale": "Learning has value when it changes scope, design, or sequence."},
+      {"id": "polished-ui", "text": "A production-quality visual design", "rationale": "Polish is unnecessary unless visual usability is the uncertainty under test."},
+      {"id": "preferred-result", "text": "A presentation that shows only the preferred result", "rationale": "Suppressing negative evidence defeats the purpose of risk reduction."}
+    ],
+    "correct": ["evidence-threshold", "decision-consequence"],
+    "explanation": "A credible experiment states how much evidence is enough and what the team will do when the evidence supports or rejects the assumption.",
+    "relatedLesson": "ambiguity-to-learning-plan",
+    "principle": "Design experiments to resolve decisions, not merely to demonstrate progress."
+  },
+  {
+    "id": "delivery-008",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Customer Delivery"],
+    "scenario": "A two-hour access review could invalidate the proposed data path, while a two-week prototype could demonstrate the happy path.",
+    "prompt": "What should the team do first?",
+    "choices": [
+      {"id": "prototype-first", "text": "Build the prototype because it is more visible", "rationale": "Visibility does not compensate for leaving a release-blocking assumption untested."},
+      {"id": "access-review", "text": "Run the access review because it has higher decision value", "rationale": "A cheap test can prevent two weeks of work on an infeasible path."},
+      {"id": "parallel-polish", "text": "Polish presentation slides while both questions remain open", "rationale": "Presentation effort does not reduce either material uncertainty."}
+    ],
+    "correct": ["access-review"],
+    "explanation": "High-impact, high-uncertainty assumptions with inexpensive tests should be resolved early, especially when they can invalidate the planned architecture.",
+    "relatedLesson": "ambiguity-to-learning-plan",
+    "principle": "Sequence work by information value and the cost of being wrong."
+  },
+  {
+    "id": "delivery-009",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Customer Delivery", "Security"],
+    "scenario": "A permission test succeeds with an administrator account, and the team wants to mark access control validated.",
+    "prompt": "What is missing from the evidence?",
+    "choices": [
+      {"id": "negative-cases", "text": "Representative users and negative access cases", "rationale": "Authorization evidence must show that disallowed content stays inaccessible across real roles."},
+      {"id": "larger-model", "text": "A comparison with a larger language model", "rationale": "Model capacity is unrelated to permission enforcement."},
+      {"id": "faster-demo", "text": "A lower-latency scripted demonstration", "rationale": "Speed does not establish correct authorization behavior."}
+    ],
+    "correct": ["negative-cases"],
+    "explanation": "A test designed only to succeed cannot validate a trust boundary. The evidence must include allowed and denied requests for representative identities.",
+    "relatedLesson": "ambiguity-to-learning-plan",
+    "principle": "Use tests that can falsify the preferred design under realistic constraints."
+  },
+  {
+    "id": "delivery-010",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "beginner",
+    "skills": ["Customer Delivery"],
+    "scenario": "The weekly project update lists 27 completed tickets but omits two customer decisions blocking production access.",
+    "prompt": "What should replace the ticket-heavy status?",
+    "choices": [
+      {"id": "decision-update", "text": "Outcome movement, learned evidence, decisions, risks, and next test", "rationale": "These elements help customer owners act on delivery reality."},
+      {"id": "longer-backlog", "text": "A longer export of the engineering backlog", "rationale": "More implementation detail still hides the decisions controlling progress."},
+      {"id": "green-summary", "text": "A one-word green status to maintain confidence", "rationale": "Confidence built by hiding material blockers is fragile and misleading."}
+    ],
+    "correct": ["decision-update"],
+    "explanation": "Field communication should orient stakeholders around outcomes, evidence, required decisions, owned risks, and the next customer-visible learning event.",
+    "relatedLesson": "field-communication-rhythm",
+    "principle": "Report at the level where customer stakeholders can make timely decisions."
+  },
+  {
+    "id": "delivery-011",
+    "type": "multiple_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "A CRM sandbox delay may prevent validation before an agreed release gate.",
+    "prompt": "Which two details make the risk actionable?",
+    "choices": [
+      {"id": "consequence-date", "text": "The affected decision and latest useful date", "rationale": "Stakeholders need to know what becomes impossible and when."},
+      {"id": "owner-recovery", "text": "A named owner and recovery or scope option", "rationale": "Ownership and an option turn awareness into action."},
+      {"id": "risk-color", "text": "A red icon without supporting context", "rationale": "A color conveys urgency but not consequence or response."},
+      {"id": "blame-history", "text": "A detailed account of which team caused the delay", "rationale": "Blame does not establish the next decision or recovery action."}
+    ],
+    "correct": ["consequence-date", "owner-recovery"],
+    "explanation": "An actionable risk connects a specific dependency to customer impact, timing, accountable ownership, and a proposed mitigation or tradeoff.",
+    "relatedLesson": "field-communication-rhythm",
+    "principle": "Communicate risk as a decision with consequence, timing, ownership, and options."
+  },
+  {
+    "id": "delivery-012",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Customer Delivery", "Software Engineering"],
+    "scenario": "A demo uses mocked policy access and only hand-picked successful questions, but executives believe they are seeing production readiness.",
+    "prompt": "What should the FDE change?",
+    "choices": [
+      {"id": "label-and-fail", "text": "Label mocked boundaries and include a representative known failure", "rationale": "This makes the evidence and remaining risk legible to decision makers."},
+      {"id": "hide-mocks", "text": "Hide the mocks so stakeholders focus on the vision", "rationale": "Concealed boundaries invite decisions based on false evidence."},
+      {"id": "add-animation", "text": "Add more animation to make the demo persuasive", "rationale": "Presentation polish does not improve the validity of the demonstration."}
+    ],
+    "correct": ["label-and-fail"],
+    "explanation": "A credible field demo distinguishes validated behavior from simulation and shows how the current system behaves on a meaningful difficult case.",
+    "relatedLesson": "field-communication-rhythm",
+    "principle": "Demonstrations should expose boundaries and support decisions, not manufacture certainty."
+  },
+  {
+    "id": "delivery-013",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "advanced",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "Security and operations reopen the same autonomy debate at every weekly meeting despite no new evidence.",
+    "prompt": "What is the best intervention?",
+    "choices": [
+      {"id": "decision-record", "text": "Create a decision record with owner, evidence, consequences, and review trigger", "rationale": "A durable record preserves the resolved tradeoff and defines when reopening is justified."},
+      {"id": "skip-parties", "text": "Stop inviting the disagreeing stakeholders", "rationale": "Exclusion hides rather than resolves an authority and risk conflict."},
+      {"id": "repeat-debate", "text": "Allow the full debate to repeat until everyone is tired", "rationale": "Repetition consumes delivery time without adding decision evidence."}
+    ],
+    "correct": ["decision-record"],
+    "explanation": "The team should document the accountable decision, supporting evidence, accepted consequences, and the new evidence that would justify revisiting it.",
+    "relatedLesson": "field-communication-rhythm",
+    "principle": "Preserve decisions so communication advances the work instead of replaying it."
+  },
+  {
+    "id": "delivery-014",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "beginner",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "A support assistant has low repeat use, and specialists say citations are hard to inspect and failures have no reporting path.",
+    "prompt": "What should the team do first?",
+    "choices": [
+      {"id": "workflow-friction", "text": "Observe real cases and address trust and recovery friction", "rationale": "The reported barriers are properties of workflow fit and safe use."},
+      {"id": "mandatory-use", "text": "Make assistant use mandatory immediately", "rationale": "Mandating a weak workflow can hide friction while increasing operational risk."},
+      {"id": "generic-training", "text": "Send another generic training video", "rationale": "Training cannot fix missing inspection and recovery capabilities."}
+    ],
+    "correct": ["workflow-friction"],
+    "explanation": "The team should diagnose the adoption funnel in actual work, improve evidence inspection and recovery, then measure whether appropriate repeat use and task outcomes improve.",
+    "relatedLesson": "adoption-is-engineering",
+    "principle": "Treat adoption barriers as system and workflow defects that can be observed and engineered."
+  },
+  {
+    "id": "delivery-015",
+    "type": "multiple_choice",
+    "category": "delivery",
+    "difficulty": "intermediate",
+    "skills": ["Customer Delivery", "Production"],
+    "scenario": "A bank plans a pilot of AI-generated policy guidance with one support team.",
+    "prompt": "Which two elements create a safe learning rollout?",
+    "choices": [
+      {"id": "cohort-baseline", "text": "A bounded cohort with a comparison baseline", "rationale": "A defined population makes outcome and variation interpretable."},
+      {"id": "rollback-owner", "text": "Rollback triggers, feedback path, and operating owner", "rationale": "These controls make failure visible and recoverable during learning."},
+      {"id": "all-users", "text": "Immediate release to every user and workflow", "rationale": "Broad exposure increases risk before the system has field evidence."},
+      {"id": "usage-goal", "text": "A goal to maximize clicks regardless of task outcome", "rationale": "Usage without appropriate value or safety is a misleading objective."}
+    ],
+    "correct": ["cohort-baseline", "rollback-owner"],
+    "explanation": "A useful pilot has a deliberate cohort and baseline plus explicit support, feedback, expansion, and rollback conditions owned by named people.",
+    "relatedLesson": "adoption-is-engineering",
+    "principle": "Roll out in bounded cohorts that produce evidence while containing operational risk."
+  },
+  {
+    "id": "delivery-016",
+    "type": "single_choice",
+    "category": "delivery",
+    "difficulty": "advanced",
+    "skills": ["Customer Delivery", "Production", "Business Thinking"],
+    "scenario": "At handoff, the customer can run the application, but nobody owns policy freshness, quality review, or incident response.",
+    "prompt": "Is the engagement operationally complete?",
+    "choices": [
+      {"id": "complete-code", "text": "Yes, because the code and deployment instructions exist", "rationale": "Runnable software without owners for quality and incidents cannot sustain its intended outcome."},
+      {"id": "define-owners", "text": "No, define owners, signals, playbooks, and review cadence", "rationale": "Sustainable adoption requires an operating model for content, quality, support, and change."},
+      {"id": "fde-forever", "text": "Yes, if the FDE silently operates every process forever", "rationale": "Permanent hidden dependency prevents customer ownership and does not scale."}
+    ],
+    "correct": ["define-owners"],
+    "explanation": "The system needs named customer owners with observable signals and rehearsed response paths for content, quality, access, incidents, and improvement decisions.",
+    "relatedLesson": "adoption-is-engineering",
+    "principle": "Operational ownership is a deliverable required for sustained customer value."
+  }
+]

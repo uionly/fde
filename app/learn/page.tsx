@@ -18,14 +18,24 @@ export default function LearnPage() {
       </div>
 
       <div className="mt-12 grid gap-5 md:grid-cols-2">
-        {tracks.map((track, index) => (
-          <TrackCard index={index} key={track.id} lessonCount={lessons.filter((lesson) => lesson.frontmatter.track === track.id).length} track={track} />
-        ))}
+        {tracks.map((track, index) => {
+          const trackLessons = lessons.filter((lesson) => lesson.frontmatter.track === track.id);
+
+          return (
+            <TrackCard
+              estimatedMinutes={trackLessons.reduce((total, lesson) => total + lesson.frontmatter.durationMinutes, 0)}
+              index={index}
+              key={track.id}
+              lessonCount={trackLessons.length}
+              track={track}
+            />
+          );
+        })}
       </div>
 
       <div className="mt-10 rounded-xl border border-dashed p-6 text-center">
-        <p className="text-sm font-medium">More field tracks are being prepared.</p>
-        <p className="mt-1 text-sm text-muted-foreground">Discovery, Architecture, Evaluations, RAG, Agents, and Security are the initial MVP curriculum.</p>
+        <p className="text-sm font-medium">A complete field curriculum, connected by one customer story.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Work from FDE foundations through discovery, architecture, LLM systems, evaluations, RAG, agents, security, and production outcomes.</p>
       </div>
     </div>
   );

@@ -3,25 +3,25 @@
     "id": "discovery-002", "type": "single_choice", "category": "discovery", "difficulty": "beginner", "skills": ["Discovery"],
     "scenario": "Support leaders say ticket resolution is slow, but each team describes a different workflow.", "prompt": "What artifact should you create first?",
     "choices": [{"id":"workflow-map","text":"A current-state workflow map","rationale":"It exposes handoffs, queues, tools, and variation before solution design."},{"id":"model-scorecard","text":"A model scorecard","rationale":"No AI task has been defined yet."},{"id":"target-architecture","text":"A target architecture","rationale":"Designing before understanding the current flow compounds assumptions."}],
-    "correct": ["workflow-map"], "explanation": "A current-state workflow makes the actual delay and process variation visible.", "principle": "Understand the workflow before redesigning it."
+    "correct": ["workflow-map"], "explanation": "A current-state workflow makes the actual delay and process variation visible.", "relatedLesson": "customer-request-to-problem", "principle": "Understand the workflow before redesigning it."
   },
   {
     "id": "discovery-003", "type": "multiple_choice", "category": "discovery", "difficulty": "intermediate", "skills": ["Discovery", "Business Thinking"],
     "scenario": "A claims team wants AI to reduce processing time but has no agreed success definition.", "prompt": "Which two facts create the strongest baseline?",
     "choices": [{"id":"cycle-time","text":"Median claim cycle time","rationale":"This directly measures the stated workflow problem."},{"id":"exception-rate","text":"Human exception rate","rationale":"This reveals how much work cannot follow the happy path."},{"id":"model-brand","text":"Preferred model vendor","rationale":"Vendor preference does not establish current performance."},{"id":"ui-color","text":"Current portal color palette","rationale":"Visual styling is unrelated to the stated outcome."}],
-    "correct": ["cycle-time", "exception-rate"], "explanation": "Cycle time and exception rate establish the current business and operational performance.", "principle": "Define the baseline before promising improvement."
+    "correct": ["cycle-time", "exception-rate"], "explanation": "Cycle time and exception rate establish the current business and operational performance.", "relatedLesson": "customer-request-to-problem", "principle": "Define the baseline before promising improvement."
   },
   {
     "id": "discovery-004", "type": "single_choice", "category": "discovery", "difficulty": "advanced", "skills": ["Discovery", "Customer Delivery"],
     "scenario": "The executive sponsor wants full automation while operations managers fear loss of control.", "prompt": "What should the FDE do next?",
     "choices": [{"id":"stakeholder-map","text":"Map decision makers, users, blockers, and incentives","rationale":"The conflict is organizational and must be made explicit."},{"id":"ignore-ops","text":"Follow only the executive request","rationale":"This risks adoption failure and hidden constraints."},{"id":"prototype-fast","text":"Build a fully autonomous prototype","rationale":"A prototype will not resolve misaligned risk tolerance."}],
-    "correct": ["stakeholder-map"], "explanation": "Stakeholder mapping exposes authority, incentives, risk concerns, and required alignment.", "principle": "Organizational constraints are system constraints."
+    "correct": ["stakeholder-map"], "explanation": "Stakeholder mapping exposes authority, incentives, risk concerns, and required alignment.", "relatedLesson": "stakeholders-and-incentives", "principle": "Organizational constraints are system constraints."
   },
   {
     "id": "architecture-001", "type": "single_choice", "category": "architecture", "difficulty": "intermediate", "skills": ["Architecture"],
     "scenario": "Northstar must integrate a new assistant with a rate-limited legacy CRM in eight weeks.", "prompt": "Which design best reduces delivery risk?",
     "choices": [{"id":"adapter-cache","text":"A bounded adapter with caching and backoff","rationale":"It isolates legacy behavior and handles rate limits without replacement."},{"id":"replace-crm","text":"Replace the CRM first","rationale":"This expands scope far beyond the deadline."},{"id":"direct-browser","text":"Call the CRM directly from the browser","rationale":"This exposes credentials and couples clients to a legacy system."}],
-    "correct": ["adapter-cache"], "explanation": "An adapter isolates the integration and adds the reliability behavior the existing system lacks.", "principle": "Integrate around constraints instead of replacing everything."
+    "correct": ["adapter-cache"], "explanation": "An adapter isolates the integration and adds the reliability behavior the existing system lacks.", "relatedLesson": "integration-and-data-contracts", "principle": "Integrate around constraints instead of replacing everything."
   },
   {
     "id": "architecture-002", "type": "multiple_choice", "category": "architecture", "difficulty": "advanced", "skills": ["Architecture", "Security"],
@@ -33,31 +33,31 @@
     "id": "architecture-003", "type": "single_choice", "category": "architecture", "difficulty": "beginner", "skills": ["Architecture"],
     "scenario": "A prototype must validate the full support workflow within five days.", "prompt": "Which implementation shape is best?",
     "choices": [{"id":"thin-slice","text":"A thin end-to-end vertical slice","rationale":"It tests the complete workflow with minimal depth."},{"id":"perfect-platform","text":"A reusable platform with every connector","rationale":"This delays the learning the prototype exists to create."},{"id":"ui-only","text":"A polished UI with mocked outcomes","rationale":"It does not validate integration or task completion."}],
-    "correct": ["thin-slice"], "explanation": "A thin vertical slice validates the riskiest end-to-end assumption quickly.", "principle": "Prototype for validated learning."
+    "correct": ["thin-slice"], "explanation": "A thin vertical slice validates the riskiest end-to-end assumption quickly.", "relatedLesson": "thin-slices-and-evolution", "principle": "Prototype for validated learning."
   },
   {
     "id": "architecture-004", "type": "single_choice", "category": "architecture", "difficulty": "intermediate", "skills": ["Architecture", "Production"],
     "scenario": "A downstream ticketing service frequently times out during peak hours.", "prompt": "Which boundary best protects the main workflow?",
     "choices": [{"id":"queue-fallback","text":"Queue writes with timeout and graceful fallback","rationale":"This isolates failure and preserves the user workflow."},{"id":"infinite-retry","text":"Retry indefinitely in the request","rationale":"This amplifies load and blocks the user."},{"id":"hide-errors","text":"Suppress all errors","rationale":"Hidden failures destroy observability and trust."}],
-    "correct": ["queue-fallback"], "explanation": "Bounded retries, queues, and explicit fallback isolate downstream failure.", "principle": "Design failure as part of the normal system path."
+    "correct": ["queue-fallback"], "explanation": "Bounded retries, queues, and explicit fallback isolate downstream failure.", "relatedLesson": "reliability-and-failure-design", "principle": "Design failure as part of the normal system path."
   },
   {
     "id": "llm-001", "type": "single_choice", "category": "llm", "difficulty": "beginner", "skills": ["AI Engineering"],
     "scenario": "A document classifier must always return category, confidence, and rationale for an API consumer.", "prompt": "Which technique is most important?",
     "choices": [{"id":"structured-output","text":"Schema-constrained structured output","rationale":"It creates a predictable contract for the consumer."},{"id":"temperature-high","text":"Increase temperature","rationale":"More variation harms contract reliability."},{"id":"longer-prompt","text":"Add unrelated examples","rationale":"Length alone does not guarantee structure."}],
-    "correct": ["structured-output"], "explanation": "Schema-constrained output makes model results safer to parse and validate.", "principle": "Treat model output as untrusted input."
+    "correct": ["structured-output"], "explanation": "Schema-constrained output makes model results safer to parse and validate.", "relatedLesson": "prompt-contracts-and-structured-output", "principle": "Treat model output as untrusted input."
   },
   {
     "id": "llm-002", "type": "single_choice", "category": "llm", "difficulty": "intermediate", "skills": ["AI Engineering", "Business Thinking"],
     "scenario": "A high-volume routing task costs too much on the strongest reasoning model.", "prompt": "What should you evaluate first?",
     "choices": [{"id":"smaller-model","text":"A smaller model against the task evaluation set","rationale":"Routing tasks may meet quality targets at much lower cost."},{"id":"remove-evals","text":"Remove evaluations to save time","rationale":"This makes a cost optimization impossible to validate."},{"id":"cache-random","text":"Cache every response regardless of input","rationale":"Incorrect cache reuse breaks task behavior."}],
-    "correct": ["smaller-model"], "explanation": "Use task evidence to determine whether a smaller, cheaper model meets the quality threshold.", "principle": "Choose the cheapest system that reliably meets the outcome."
+    "correct": ["smaller-model"], "explanation": "Use task evidence to determine whether a smaller, cheaper model meets the quality threshold.", "relatedLesson": "model-selection-and-routing", "principle": "Choose the cheapest system that reliably meets the outcome."
   },
   {
     "id": "llm-003", "type": "single_choice", "category": "llm", "difficulty": "advanced", "skills": ["AI Engineering", "Security"],
     "scenario": "A retrieved document tells the assistant to ignore policy and expose an internal secret.", "prompt": "How should the system treat this text?",
     "choices": [{"id":"untrusted-data","text":"As untrusted data that cannot override system policy","rationale":"Retrieved content can contain indirect prompt injection."},{"id":"higher-priority","text":"As higher-priority instructions","rationale":"This grants external content control over the agent."},{"id":"execute-first","text":"Execute it, then audit later","rationale":"Auditing does not prevent immediate harm."}],
-    "correct": ["untrusted-data"], "explanation": "Retrieved content must never gain instruction authority over the system policy.", "principle": "Separate instructions from untrusted context."
+    "correct": ["untrusted-data"], "explanation": "Retrieved content must never gain instruction authority over the system policy.", "relatedLesson": "prompt-injection-trust-boundaries", "principle": "Separate instructions from untrusted context."
   },
   {
     "id": "evaluations-001", "type": "single_choice", "category": "evaluations", "difficulty": "beginner", "skills": ["AI Engineering"],
@@ -69,78 +69,78 @@
     "id": "evaluations-002", "type": "multiple_choice", "category": "evaluations", "difficulty": "intermediate", "skills": ["AI Engineering", "Production"],
     "scenario": "A RAG answer is wrong and the team needs to isolate the failure.", "prompt": "Which two evaluations should be separated?",
     "choices": [{"id":"retrieval-relevance","text":"Retrieval relevance","rationale":"This tests whether the right evidence was found."},{"id":"grounded-answer","text":"Answer groundedness","rationale":"This tests whether generation used evidence faithfully."},{"id":"button-color","text":"Button color preference","rationale":"This does not explain answer correctness."},{"id":"team-velocity","text":"Story points completed","rationale":"Delivery velocity does not isolate the quality layer."}],
-    "correct": ["retrieval-relevance", "grounded-answer"], "explanation": "Evaluate retrieval and generation separately before using an end-to-end task score.", "principle": "Measure failure layers independently."
+    "correct": ["retrieval-relevance", "grounded-answer"], "explanation": "Evaluate retrieval and generation separately before using an end-to-end task score.", "relatedLesson": "why-ai-evaluations", "principle": "Measure failure layers independently."
   },
   {
     "id": "evaluations-003", "type": "single_choice", "category": "evaluations", "difficulty": "advanced", "skills": ["AI Engineering", "Business Thinking"],
     "scenario": "Answer accuracy improved, but support resolution time did not change.", "prompt": "What does this indicate?",
     "choices": [{"id":"workflow-gap","text":"The technical metric is disconnected from workflow outcome","rationale":"Quality gains may not remove the actual bottleneck."},{"id":"more-accuracy","text":"Only more accuracy is needed","rationale":"The unchanged outcome suggests another constraint."},{"id":"stop-measuring","text":"Business measurement should stop","rationale":"The result makes business measurement more important."}],
-    "correct": ["workflow-gap"], "explanation": "Technical quality is necessary only insofar as it improves the customer's task and workflow.", "principle": "Connect evaluation metrics to business outcomes."
+    "correct": ["workflow-gap"], "explanation": "Technical quality is necessary only insofar as it improves the customer's task and workflow.", "relatedLesson": "evaluation-strategy", "principle": "Connect evaluation metrics to business outcomes."
   },
   {
     "id": "rag-001", "type": "single_choice", "category": "rag", "difficulty": "beginner", "skills": ["AI Engineering", "Data"],
     "scenario": "Support staff use abbreviations that never appear in formal policy documents.", "prompt": "Which retrieval approach is the best starting experiment?",
     "choices": [{"id":"hybrid","text":"Hybrid keyword and semantic retrieval","rationale":"It combines exact terminology with semantic similarity."},{"id":"keyword-only","text":"Keyword-only retrieval","rationale":"Abbreviation mismatch will often miss the formal terms."},{"id":"no-retrieval","text":"Put no documents in context","rationale":"The assistant loses its grounding source."}],
-    "correct": ["hybrid"], "explanation": "Hybrid retrieval is a strong candidate when user vocabulary and source vocabulary differ.", "principle": "Choose retrieval based on corpus and query behavior."
+    "correct": ["hybrid"], "explanation": "Hybrid retrieval is a strong candidate when user vocabulary and source vocabulary differ.", "relatedLesson": "retrieval-quality-and-hybrid-search", "principle": "Choose retrieval based on corpus and query behavior."
   },
   {
     "id": "rag-002", "type": "single_choice", "category": "rag", "difficulty": "intermediate", "skills": ["Data", "AI Engineering"],
     "scenario": "Retrieved policy answers are correct for yesterday but wrong today.", "prompt": "What should you inspect first?",
     "choices": [{"id":"freshness","text":"Ingestion freshness and source synchronization","rationale":"The time-dependent symptom strongly suggests stale source data."},{"id":"top-k","text":"Increase top-k","rationale":"More stale results do not become current."},{"id":"temperature","text":"Lower model temperature","rationale":"Sampling settings cannot refresh source data."}],
-    "correct": ["freshness"], "explanation": "Trace the data path and verify ingestion freshness before changing the model.", "principle": "Debug the full system, not only the model."
+    "correct": ["freshness"], "explanation": "Trace the data path and verify ingestion freshness before changing the model.", "relatedLesson": "ingestion-and-document-lifecycle", "principle": "Debug the full system, not only the model."
   },
   {
     "id": "rag-003", "type": "multiple_choice", "category": "rag", "difficulty": "advanced", "skills": ["AI Engineering", "Data"],
     "scenario": "A retrieval evaluation shows relevant chunks at ranks 8–12 while the generator receives only five.", "prompt": "Which two changes should be tested?",
     "choices": [{"id":"reranking","text":"Add a reranking stage","rationale":"Reranking can promote semantically relevant candidates."},{"id":"query-rewrite","text":"Rewrite ambiguous queries","rationale":"Better query expression can improve candidate retrieval."},{"id":"remove-citations","text":"Remove citations","rationale":"Citations do not cause the ranking failure."},{"id":"larger-output","text":"Increase output tokens","rationale":"Generation length cannot move retrieval ranks."}],
-    "correct": ["reranking", "query-rewrite"], "explanation": "Query rewriting and reranking directly address candidate quality and final rank.", "principle": "Fix the failing retrieval stage with evidence."
+    "correct": ["reranking", "query-rewrite"], "explanation": "Query rewriting and reranking directly address candidate quality and final rank.", "relatedLesson": "retrieval-quality-and-hybrid-search", "principle": "Fix the failing retrieval stage with evidence."
   },
   {
     "id": "agents-001", "type": "single_choice", "category": "agents", "difficulty": "beginner", "skills": ["AI Engineering"],
     "scenario": "A three-step refund process always follows the same deterministic business rules.", "prompt": "Should this be an autonomous agent?",
     "choices": [{"id":"workflow","text":"No—use a deterministic workflow","rationale":"Predictable rules do not need open-ended planning."},{"id":"agent","text":"Yes—give a model full autonomy","rationale":"This adds variability and risk without clear benefit."},{"id":"multi-agent","text":"Use multiple debating agents","rationale":"This is even more complexity for a deterministic task."}],
-    "correct": ["workflow"], "explanation": "Use agents for tasks that genuinely require dynamic decisions; deterministic workflows are easier to verify.", "principle": "Use the least autonomous system that solves the problem."
+    "correct": ["workflow"], "explanation": "Use agents for tasks that genuinely require dynamic decisions; deterministic workflows are easier to verify.", "relatedLesson": "workflow-or-agent", "principle": "Use the least autonomous system that solves the problem."
   },
   {
     "id": "agents-002", "type": "multiple_choice", "category": "agents", "difficulty": "intermediate", "skills": ["AI Engineering", "Security"],
     "scenario": "An operations agent may search incidents and propose remediation, but restarts can cause outages.", "prompt": "Which two boundaries should be added?",
     "choices": [{"id":"approval","text":"Human approval before restart","rationale":"The high-impact action needs explicit review."},{"id":"audit","text":"Auditable tool-call records","rationale":"Actions and decisions must be attributable."},{"id":"admin-all","text":"Permanent admin permissions","rationale":"This violates least privilege."},{"id":"silent","text":"Hide tool errors from operators","rationale":"Operators need visibility and recovery context."}],
-    "correct": ["approval", "audit"], "explanation": "Approval and auditability create a safe boundary around a consequential action.", "principle": "Match autonomy to action risk."
+    "correct": ["approval", "audit"], "explanation": "Approval and auditability create a safe boundary around a consequential action.", "relatedLesson": "agent-approval-and-recovery", "principle": "Match autonomy to action risk."
   },
   {
     "id": "agents-003", "type": "single_choice", "category": "agents", "difficulty": "advanced", "skills": ["AI Engineering", "Production"],
     "scenario": "An agent repeatedly calls the same failing customer lookup tool until it hits a cost limit.", "prompt": "Which control is missing?",
     "choices": [{"id":"termination","text":"Bounded retries and a termination/recovery policy","rationale":"The loop needs an explicit stop and fallback condition."},{"id":"more-tools","text":"Give the agent more unrelated tools","rationale":"More capabilities do not correct the retry loop."},{"id":"longer-memory","text":"Increase memory indefinitely","rationale":"This adds cost without defining recovery."}],
-    "correct": ["termination"], "explanation": "Agent loops need bounded retries, failure classification, and a clear escalation or termination path.", "principle": "Every agent needs a safe way to stop."
+    "correct": ["termination"], "explanation": "Agent loops need bounded retries, failure classification, and a clear escalation or termination path.", "relatedLesson": "agent-approval-and-recovery", "principle": "Every agent needs a safe way to stop."
   },
   {
     "id": "security-001", "type": "single_choice", "category": "security", "difficulty": "beginner", "skills": ["Security"],
     "scenario": "A support agent can issue refunds of any amount with a shared service account.", "prompt": "What is the primary design flaw?",
     "choices": [{"id":"excessive-permission","text":"Excessive, unattributed permissions","rationale":"The agent lacks least privilege and accountable identity."},{"id":"model-size","text":"The model is too small","rationale":"Model capacity does not constrain authorization."},{"id":"slow-ui","text":"The interface is too slow","rationale":"Latency is unrelated to unsafe authority."}],
-    "correct": ["excessive-permission"], "explanation": "Use a unique identity, least-privilege scope, thresholds, and human approval for high-value refunds.", "principle": "Treat agents as governed identities."
+    "correct": ["excessive-permission"], "explanation": "Use a unique identity, least-privilege scope, thresholds, and human approval for high-value refunds.", "relatedLesson": "identity-and-least-privilege", "principle": "Treat agents as governed identities."
   },
   {
     "id": "security-002", "type": "single_choice", "category": "security", "difficulty": "intermediate", "skills": ["Security", "Architecture"],
     "scenario": "The browser bundle contains an API key used to call an enterprise CRM.", "prompt": "What is the correct remediation?",
     "choices": [{"id":"server-boundary","text":"Move the integration behind an authenticated server boundary","rationale":"Secrets and authorization checks belong server-side."},{"id":"obfuscate","text":"Obfuscate the key in JavaScript","rationale":"Client-side secrets remain recoverable."},{"id":"rename","text":"Rename the environment variable","rationale":"A different name does not change exposure."}],
-    "correct": ["server-boundary"], "explanation": "Keep credentials server-side and authorize every operation at the trust boundary.", "principle": "No secrets in client code."
+    "correct": ["server-boundary"], "explanation": "Keep credentials server-side and authorize every operation at the trust boundary.", "relatedLesson": "permission-aware-retrieval", "principle": "No secrets in client code."
   },
   {
     "id": "security-003", "type": "multiple_choice", "category": "security", "difficulty": "advanced", "skills": ["Security", "AI Engineering"],
     "scenario": "An agent reads external documents and can send email through a tool.", "prompt": "Which two controls reduce exfiltration risk most directly?",
     "choices": [{"id":"content-isolation","text":"Treat document text as untrusted context","rationale":"This blocks external content from gaining instruction authority."},{"id":"send-approval","text":"Require approval for outbound messages","rationale":"A human checks the final transmission boundary."},{"id":"hidden-prompt","text":"Rely on a hidden prompt alone","rationale":"Prompt secrecy is not a security boundary."},{"id":"more-memory","text":"Retain all documents in memory","rationale":"This expands the sensitive context at risk."}],
-    "correct": ["content-isolation", "send-approval"], "explanation": "Instruction/data separation and approval at the outbound boundary address both trigger and consequence.", "principle": "Control untrusted inputs and consequential outputs."
+    "correct": ["content-isolation", "send-approval"], "explanation": "Instruction/data separation and approval at the outbound boundary address both trigger and consequence.", "relatedLesson": "data-exfiltration-controls", "principle": "Control untrusted inputs and consequential outputs."
   },
   {
     "id": "security-004", "type": "single_choice", "category": "security", "difficulty": "intermediate", "skills": ["Security", "Customer Delivery"],
     "scenario": "A regulated customer asks whether every agent action can be attributed to an owner and user request.", "prompt": "Which capability answers this requirement?",
     "choices": [{"id":"audit-trail","text":"An immutable audit trail with agent and user identity","rationale":"It makes decisions and actions attributable."},{"id":"chat-history","text":"A user-visible chat transcript only","rationale":"It may omit internal tool calls and authorization decisions."},{"id":"model-card","text":"A generic model card","rationale":"It documents a model, not a specific action."}],
-    "correct": ["audit-trail"], "explanation": "Audit records should connect user intent, agent identity, policy decision, tool arguments, and result.", "principle": "Sensitive automation must be attributable."
+    "correct": ["audit-trail"], "explanation": "Audit records should connect user intent, agent identity, policy decision, tool arguments, and result.", "relatedLesson": "auditability-and-ai-incident-response", "principle": "Sensitive automation must be attributable."
   },
   {
     "id": "delivery-001", "type": "single_choice", "category": "delivery", "difficulty": "intermediate", "skills": ["Customer Delivery", "Business Thinking"],
     "scenario": "A technically successful assistant has only ten percent weekly adoption among the target support team.", "prompt": "What should the FDE investigate first?",
     "choices": [{"id":"workflow-fit","text":"Where the assistant fits—or fails to fit—the daily workflow","rationale":"Low adoption often signals friction, trust, or missing workflow value."},{"id":"larger-model","text":"Upgrade to a larger model immediately","rationale":"Model capacity is not yet shown to be the adoption blocker."},{"id":"declare-success","text":"Declare success based on technical accuracy","rationale":"Unused software has not delivered the customer outcome."}],
-    "correct": ["workflow-fit"], "explanation": "Interview users and inspect the workflow to find friction, trust gaps, and missing value before changing technology.", "principle": "Shipping software is not the finish line; adoption is."
+    "correct": ["workflow-fit"], "explanation": "Interview users and inspect the workflow to find friction, trust gaps, and missing value before changing technology.", "relatedLesson": "what-is-fde", "principle": "Shipping software is not the finish line; adoption is."
   }
 ]

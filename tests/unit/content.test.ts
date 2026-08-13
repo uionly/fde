@@ -14,19 +14,55 @@ import {
   validateGameNextActionReferences,
   validateContent,
 } from "@/lib/content/loaders";
-import { lessonFrontmatterSchema, slugSchema } from "@/lib/content/schemas";
+import { lessonFrontmatterSchema, questionSchema, slugSchema } from "@/lib/content/schemas";
 
 describe("content validation", () => {
   it("validates the complete repository content graph", () => {
     const content = validateContent();
 
-    expect(content.tracks).toHaveLength(2);
-    expect(content.lessons).toHaveLength(4);
+    expect(content.tracks).toHaveLength(9);
+    expect(content.lessons).toHaveLength(48);
+    expect(content.questions).toHaveLength(150);
     expect(content.lessons.every((lesson) => lesson.content.length > 0)).toBe(true);
+    expect(content.lessons.every((lesson) => lesson.content.includes("<CustomerScenario") && lesson.content.includes("<FDEPrinciple"))).toBe(true);
+    expect(content.lessons.every((lesson) => lesson.content.split(/\s+/).length >= 250)).toBe(true);
+    expect(content.lessons.every((lesson) => lesson.frontmatter.objectives.length >= 2 && lesson.frontmatter.practice.length >= 2)).toBe(true);
+    expect(content.questions.every((question) => Boolean(question.relatedLesson))).toBe(true);
+    expect(
+      Object.fromEntries(
+        [...new Set(content.questions.map((question) => question.category))]
+          .sort()
+          .map((category) => [category, content.questions.filter((question) => question.category === category).length]),
+      ),
+    ).toEqual({ agents: 18, architecture: 20, delivery: 16, discovery: 20, evaluations: 18, llm: 18, rag: 20, security: 20 });
   });
 
   it("rejects malformed slugs", () => {
     expect(() => slugSchema.parse("Not A Slug")).toThrow(/kebab-case/);
+  });
+
+  it("rejects invalid answer references and choice cardinality", () => {
+    const question = {
+      id: "schema-check",
+      type: "single_choice" as const,
+      category: "architecture",
+      difficulty: "beginner" as const,
+      skills: ["Architecture" as const],
+      scenario: "A customer needs a bounded architecture decision.",
+      prompt: "Which option is valid?",
+      choices: [
+        { id: "bounded", text: "Use a bounded adapter", rationale: "It isolates the dependency." },
+        { id: "coupled", text: "Couple the client directly", rationale: "It leaks the dependency." },
+      ],
+      correct: ["bounded"],
+      explanation: "A bounded adapter contains integration risk.",
+      relatedLesson: "integration-and-data-contracts",
+      principle: "Make boundaries explicit.",
+    };
+
+    expect(() => questionSchema.parse({ ...question, correct: ["missing"] })).toThrow(/must reference a choice/);
+    expect(() => questionSchema.parse({ ...question, correct: ["bounded", "coupled"] })).toThrow(/exactly one correct answer/);
+    expect(() => questionSchema.parse({ ...question, choices: [question.choices[0], question.choices[0]] })).toThrow(/choice ids must be unique/);
   });
 
   it("resolves the curated AI Labs showcase without duplicating the complete catalogs", () => {
@@ -132,8 +168,16 @@ describe("content validation", () => {
     const lessons = getLessonsForTrack("fde-foundations");
     const navigation = getLessonNavigation("fde-foundations", "what-is-fde");
 
-    expect(lessons.map((lesson) => lesson.frontmatter.slug)).toEqual(["what-is-fde", "customer-request-to-problem"]);
+    expect(lessons.map((lesson) => lesson.frontmatter.slug)).toEqual([
+      "what-is-fde",
+      "customer-request-to-problem",
+      "outcome-ownership",
+      "ambiguity-to-learning-plan",
+      "field-communication-rhythm",
+      "adoption-is-engineering",
+    ]);
     expect(navigation.previous).toBeUndefined();
     expect(navigation.next?.frontmatter.slug).toBe("customer-request-to-problem");
+    expect(getLessonsForTrack("llm-engineering").reduce((total, lesson) => total + lesson.frontmatter.durationMinutes, 0)).toBe(126);
   });
 });

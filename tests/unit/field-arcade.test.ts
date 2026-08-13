@@ -26,7 +26,7 @@ describe("Field Arcade platform", () => {
   });
 
   it("resolves stable scenarios and choice order without mutating content", () => {
-    const game = games[0];
+    const game = games.find((candidate) => candidate.type === "quick-decision")!;
     const originalChoiceOrder = game.scenarios[0].choices.map((choice) => choice.id);
     const first = resolveQuickDecision(game, 0);
     const repeated = resolveQuickDecision(game, 0);
@@ -40,11 +40,12 @@ describe("Field Arcade platform", () => {
   });
 
   it("scores the four system dimensions and rejects unknown choices", () => {
-    const run = resolveQuickDecision(games[0], 0);
+    const game = games.find((candidate) => candidate.type === "quick-decision")!;
+    const run = resolveQuickDecision(game, 0);
     const recommended = run.choices.find((choice) => choice.recommended)!;
     const evaluation = evaluateQuickDecision(run, recommended.id);
 
-    expect(evaluation).toMatchObject({ recommended: true, outcome: "production-ready", gameId: games[0].id });
+    expect(evaluation).toMatchObject({ recommended: true, outcome: "production-ready", gameId: game.id });
     expect(evaluation.overall).toBeGreaterThanOrEqual(85);
     expect(Object.values(evaluation.metrics).every((score) => score >= 0 && score <= 100)).toBe(true);
     expect(() => evaluateQuickDecision(run, "missing-choice")).toThrow(/Unknown choice/);
@@ -73,7 +74,7 @@ describe("Field Arcade platform", () => {
   });
 
   it("awards XP once per scenario, preserves personal bests, and advances streaks", () => {
-    const game = games[0];
+    const game = games.find((candidate) => candidate.type === "quick-decision")!;
     const firstRun = resolveQuickDecision(game, 0);
     const recommended = firstRun.choices.find((choice) => choice.recommended)!;
     const weakChoice = firstRun.choices.find((choice) => !choice.recommended)!;

@@ -1,0 +1,54 @@
+---
+id: ambiguity-to-learning-plan
+slug: ambiguity-to-learning-plan
+title: Turn Ambiguity into a Learning Plan
+track: fde-foundations
+module: operating-model
+order: 4
+difficulty: intermediate
+durationMinutes: 16
+status: published
+prerequisites:
+  - outcome-ownership
+skills:
+  - Discovery
+  - Customer Delivery
+  - Software Engineering
+objectives:
+  - Convert assumptions into testable learning questions
+  - Sequence experiments by risk and decision value
+experiments: []
+practice:
+  - delivery-006
+  - delivery-007
+  - delivery-008
+  - delivery-009
+---
+
+## Ambiguity is a queue of unanswered decisions
+
+Early customer engagements contain unknowns about users, data, integration, policy, quality, and adoption. Writing all of them as requirements creates false certainty. A learning plan instead names the decisions the team must make, the assumptions behind each decision, and the cheapest evidence that can reduce uncertainty.
+
+<CustomerScenario title="Eight weeks, five unknowns">
+  Northstar wants an assistant before seasonal ticket volume peaks. The team does not know whether policy documents are current, whether identity can reach the search layer, which ticket types dominate handling time, or what answer quality specialists will accept.
+</CustomerScenario>
+
+Turn each unknown into a falsifiable statement. “The data may be messy” is vague. “At least 95% of active refund policies have an owner and revision date” can be checked. Pair the statement with a decision: if coverage is lower, the first release excludes refund guidance and creates a content-remediation track.
+
+## Sequence for information value
+
+Test assumptions that combine high impact, high uncertainty, and long lead time. A one-day access review may reveal that a proposed architecture is impossible under current controls. That learning is more valuable than polishing a prototype whose data path cannot be approved.
+
+<MermaidDiagram chart={`flowchart LR
+  A[Assumption] --> E[Smallest credible test]
+  E --> V{Evidence}
+  V -->|Supported| D[Proceed with boundary]
+  V -->|Rejected| R[Revise decision]`} />
+
+Every experiment needs an owner, deadline, evidence threshold, and consequence. Avoid demonstrations that can only succeed: representative samples, negative cases, and operational constraints belong in the test. Record what was learned, including evidence that contradicts the preferred design.
+
+<FDEPrinciple variant="insight">
+  Plan customer delivery as a sequence of risk-reducing decisions, not a sequence of increasingly polished guesses.
+</FDEPrinciple>
+
+A learning plan keeps speed honest. It lets the team move quickly because the next build answers a specific question. It also gives stakeholders a better status language: not “the prototype is 70% complete,” but “identity propagation is validated; policy freshness remains the release-blocking uncertainty.”

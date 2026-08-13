@@ -1,0 +1,46 @@
+---
+id: evaluation-strategy
+slug: evaluation-strategy
+title: Turn Customer Outcomes into an Evaluation Strategy
+track: ai-evaluations
+module: foundations
+order: 1
+difficulty: intermediate
+durationMinutes: 20
+status: published
+prerequisites:
+  - why-ai-evaluations
+skills:
+  - AI Engineering
+  - Business Thinking
+  - Customer Delivery
+objectives:
+  - Translate customer outcomes and risks into measurable evaluation criteria
+  - Define release thresholds before comparing AI system variants
+experiments: []
+practice:
+  - evaluations-003
+  - evaluations-004
+  - evaluations-005
+  - evaluations-006
+---
+
+## Begin with a decision
+
+An evaluation is useful when it changes a product decision: ship, hold, route differently, or investigate. Start with the customer workflow and define success at three levels. Business outcomes describe value, such as reduced resolution time. Task measures describe whether the system completed the work correctly. Component measures isolate why it succeeded or failed. A model benchmark may inform the design, but it cannot replace these customer-specific layers.
+
+<CustomerScenario title="Accuracy without resolution">
+  Northstar asks for a “90% accurate” support assistant. The team measures whether generated text resembles a reference answer, but agents still reopen tickets because the response sometimes cites an obsolete policy and never creates the required CRM follow-up.
+</CustomerScenario>
+
+Map the workflow with support leaders. The task rubric should cover correct policy selection, grounded explanation, required action, safe escalation, and the absence of unauthorized disclosure. Connect those checks to resolution time, rework, and escalation rate. Weight or gate high-consequence failures instead of allowing many easy successes to average them away.
+
+Define acceptance criteria before running candidates. For example: no critical permission failures in the security suite; at least 92% correct routing for supported ticket types; p95 latency below the interaction budget; and cost below the approved amount per resolved case. Record the baseline from the current process so “better” has a concrete reference.
+
+Also state what is out of scope. If phase one drafts answers but does not issue refunds, do not report refund completion as an AI success. This keeps the evaluation aligned with the actual deployment boundary.
+
+<FDEPrinciple>
+  Write the evaluation as a customer decision contract: outcome, task, risk, threshold, and owner must all be explicit.
+</FDEPrinciple>
+
+Once the contract is agreed, model and prompt comparisons become engineering experiments rather than demonstrations judged by enthusiasm.

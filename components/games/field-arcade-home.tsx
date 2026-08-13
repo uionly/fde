@@ -12,6 +12,7 @@ import { localDateKey, selectDailyGame } from "@/lib/games/runtime";
 import { cn } from "@/lib/utils";
 
 const difficultyLabels: Record<FieldGame["difficulty"], string> = { beginner: "Warm-up", intermediate: "Field test", advanced: "Expert" };
+const modeLabels: Record<FieldGame["type"], string> = { "quick-decision": "Quick mission", "model-router": "Routing simulation", "retrieval-rank": "Ranking simulation" };
 
 export function FieldArcadeHome({ games }: { games: FieldGame[] }) {
   const { profile } = useGameProfile();
@@ -53,7 +54,7 @@ export function FieldArcadeHome({ games }: { games: FieldGame[] }) {
 
         <section className="pt-16">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div><p className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-primary">Quick missions</p><h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em]">Choose a customer situation.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">Each run rotates through authored variants. Strong decisions unlock XP; every result explains the system consequence.</p></div>
+            <div><p className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-primary">Field simulations</p><h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em]">Choose a customer situation.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">Route workloads, rank evidence, or make a focused deployment call. Each result exposes the production consequence.</p></div>
             <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{profile.completedScenarioKeys.length} scenarios cleared</p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -63,7 +64,7 @@ export function FieldArcadeHome({ games }: { games: FieldGame[] }) {
               return (
                 <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg" href={`/games/${game.slug}`} key={game.id}>
                   <div className="flex items-center justify-between"><span className={cn("grid size-10 place-items-center rounded-lg border", completed ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-600" : "bg-primary/8 text-primary")}>{completed ? <Check aria-hidden="true" className="size-4" /> : <GameIcon category={game.category} className="size-4" />}</span><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{difficultyLabels[game.difficulty]}</span></div>
-                  <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-primary">{game.category} / Quick mission</p>
+                  <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-primary">{game.category} / {modeLabels[game.type]}</p>
                   <h3 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary">{game.customerHeadline}</h3>
                   <p className="mt-2 text-xs font-semibold text-foreground/75">{game.title}</p>
                   <p className="mt-3 text-sm leading-6 text-muted-foreground">{game.mechanic}</p>

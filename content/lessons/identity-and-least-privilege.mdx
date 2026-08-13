@@ -1,0 +1,55 @@
+---
+id: identity-and-least-privilege
+slug: identity-and-least-privilege
+title: Identity and Least Privilege for AI Systems
+track: enterprise-ai-security
+module: identity
+order: 1
+difficulty: beginner
+durationMinutes: 15
+status: published
+prerequisites: []
+skills:
+  - Security
+  - Architecture
+objectives:
+  - Distinguish user, workload, and agent identities
+  - Scope authorization to the action, resource, and customer context
+experiments: []
+practice:
+  - security-001
+  - security-005
+  - security-006
+  - security-007
+---
+
+## Authentication is only the first question
+
+Knowing who signed in does not determine what an AI workflow may retrieve or change. Enterprise systems often involve a user identity, an application workload identity, and an agent acting on delegated authority. Preserve those identities rather than collapsing everything into one shared service account.
+
+<CustomerScenario title="Every action looks like the integration user">
+  Northstar's support agent calls CRM and payments APIs through one administrator credential. Auditors cannot identify which specialist requested a lookup, and a compromised workflow can access every customer record.
+</CustomerScenario>
+
+Use short-lived workload credentials and propagate user, tenant, role, purpose, and resource context to policy enforcement. The server—not the model—decides whether the requested action is allowed.
+
+## Scope capability narrowly
+
+Least privilege applies across several dimensions:
+
+- **Action:** read status is different from issue refund.
+- **Resource:** one case is different from the full customer database.
+- **Tenant:** access never crosses organizational boundaries.
+- **Time:** elevation expires after the approved task.
+- **Value:** transaction limits trigger stronger controls.
+- **Purpose:** data retrieved for support is not reusable for unrelated analysis.
+
+<FDEPrinciple variant="warning">
+  Treat an AI agent as a governed workload identity, never as an excuse to bypass existing authorization.
+</FDEPrinciple>
+
+## Make denial a supported outcome
+
+Tools should return a structured authorization failure without exposing sensitive resource details. The agent must not retry with broader credentials or ask the user to paste restricted content. Route legitimate exceptions into a documented approval flow.
+
+During discovery, ask the customer to show the real identity path: SSO claims, service principals, role mappings, approval systems, and audit owners. Security architecture becomes concrete when every action can answer: who requested it, under which delegated authority, against which resource, and why it was allowed.

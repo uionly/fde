@@ -1,0 +1,54 @@
+---
+id: integration-and-data-contracts
+slug: integration-and-data-contracts
+title: Build Explicit Integration and Data Contracts
+track: solution-architecture
+module: boundaries
+order: 3
+difficulty: intermediate
+durationMinutes: 18
+status: published
+prerequisites:
+  - trust-boundaries-and-identity
+skills:
+  - Architecture
+  - Software Engineering
+  - Data
+objectives:
+  - Define contracts that isolate enterprise-system variability
+  - Design freshness, idempotency, and schema evolution into integrations
+experiments: []
+practice:
+  - architecture-001
+  - architecture-011
+  - architecture-012
+  - architecture-013
+---
+
+## Integrations fail at assumptions between teams
+
+Calling an API is easy compared with agreeing what its data means, how current it is, who owns it, and what happens when either side changes. An explicit contract turns those assumptions into testable behavior and gives the FDE a stable boundary around a customer system that may be slow or inconsistent.
+
+<CustomerScenario title="The status that means three things">
+  Northstar's CRM returns `closed` for resolved tickets, merged duplicates, and cases transferred to fraud. A prototype treats every closed ticket as successfully resolved. During peak hours, write requests also time out even when the CRM applied them.
+</CustomerScenario>
+
+Define the contract around customer semantics, not just fields. Specify identifiers, required values, units, enum meanings, null behavior, ownership, classification, freshness expectations, ordering, pagination, rate limits, error classes, and compatibility rules. Include representative and adversarial examples.
+
+Place an adapter at volatile or legacy boundaries. It can translate source-specific concepts into a small domain model, centralize authentication, enforce timeouts, handle quotas, and expose observable errors. Avoid leaking a legacy API shape throughout the application; that multiplies future change.
+
+For writes, design idempotency. A client retry after a timeout must not create two refunds or duplicate ticket notes. Use an operation key, make the outcome queryable, and distinguish definitely failed, definitely succeeded, and unknown states. Never blindly retry a non-idempotent operation.
+
+## Make time part of the data
+
+Record source revision, effective date, ingestion time, and expiry where freshness affects decisions. Establish reconciliation for missed events and backfills. A healthy pipeline can still serve obsolete policy if no freshness objective exists.
+
+<Callout title="Consumer-driven check">
+  Test the small set of provider behaviors your workflow relies on, including rate limits, missing fields, duplicate events, and version changes.
+</Callout>
+
+<FDEPrinciple>
+  Treat every enterprise integration as a versioned operational contract with explicit semantics, failure behavior, and ownership.
+</FDEPrinciple>
+
+Contracts reduce coordination cost because errors become classifiable. They also protect the customer workflow: when an upstream system changes, the adapter can fail visibly or degrade deliberately instead of corrupting decisions silently.

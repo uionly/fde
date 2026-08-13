@@ -6,21 +6,25 @@ import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import type { Question } from "@/lib/content/schemas";
-import { filterQuestions, scoreQuestion } from "@/lib/practice/scoring";
+import { filterQuestions, orderedQuestionChoices, scoreQuestion } from "@/lib/practice/scoring";
 import { cn } from "@/lib/utils";
 import { writeVisitorPracticeAttempt } from "@/lib/visitor/progress";
 
 type Result = { correct: boolean; score: number; persisted: boolean };
 
-export function PracticeEngine({ questions, relatedLessons }: { questions: Question[]; relatedLessons: Record<string, string> }) {
+export function PracticeEngine({ initialLessonId = "", questions, relatedLessons }: { initialLessonId?: string; questions: Question[]; relatedLessons: Record<string, string> }) {
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string[]>([]);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
-  const filtered = useMemo(() => filterQuestions(questions, { category, difficulty }), [questions, category, difficulty]);
+  const filtered = useMemo(() => {
+    const lessonQuestions = initialLessonId ? questions.filter((item) => item.relatedLesson === initialLessonId) : questions;
+    return filterQuestions(lessonQuestions, { category, difficulty });
+  }, [questions, category, difficulty, initialLessonId]);
   const question = filtered[index] ?? filtered[0];
+  const displayedChoices = useMemo(() => question ? orderedQuestionChoices(question) : [], [question]);
   const categories = [...new Set(questions.map((item) => item.category))].sort();
 
   function changeFilters(nextCategory: string, nextDifficulty: string) {
@@ -57,6 +61,8 @@ export function PracticeEngine({ questions, relatedLessons }: { questions: Quest
         <label className="text-xs font-semibold text-muted-foreground">Difficulty<select aria-label="Filter by difficulty" className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm text-foreground" onChange={(event) => changeFilters(category, event.target.value)} value={difficulty}><option value="">All levels</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></label>
       </div>
 
+      {initialLessonId ? <p className="mt-3 text-xs text-muted-foreground">Practicing scenarios connected to this lesson. <Link className="font-semibold text-primary" href="/practice">Browse the full question bank →</Link></p> : null}
+
       {!question ? <div className="mt-6 rounded-xl border border-dashed p-10 text-center"><p className="font-semibold">No scenarios match these filters.</p><Button className="mt-4" onClick={() => changeFilters("", "")} variant="outline"><RotateCcw aria-hidden="true" className="size-4" />Reset filters</Button></div> : (
         <article className="mt-6 overflow-hidden rounded-xl border bg-card">
           <header className="border-b bg-muted/30 p-5 sm:p-7">
@@ -69,7 +75,7 @@ export function PracticeEngine({ questions, relatedLessons }: { questions: Quest
           <div className="p-5 sm:p-7">
             <fieldset className="space-y-3">
               <legend className="sr-only">Answer choices</legend>
-              {question.choices?.map((choice) => {
+              {displayedChoices.map((choice) => {
                 const checked = selected.includes(choice.id);
                 const isCorrect = question.correct.includes(choice.id);
                 return <label className={cn("flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors", !result && "hover:border-primary/35 hover:bg-muted/25", checked && !result && "border-primary bg-accent/40", result && isCorrect && "border-emerald-500/35 bg-emerald-500/8", result && checked && !isCorrect && "border-rose-500/35 bg-rose-500/8")} key={choice.id}><input checked={checked} className="mt-0.5 size-4 accent-[var(--primary)]" disabled={Boolean(result)} name={question.id} onChange={() => choose(choice.id)} type={question.type === "multiple_choice" ? "checkbox" : "radio"} /><span className="text-sm leading-6"><span className="font-medium text-foreground">{choice.text}</span>{result ? <span className="mt-1 block text-xs text-muted-foreground">{choice.rationale}</span> : null}</span></label>;

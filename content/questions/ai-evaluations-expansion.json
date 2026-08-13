@@ -1,0 +1,278 @@
+[
+  {
+    "id": "evaluations-004",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "scenario": "Northstar asks the FDE to prove that a support assistant is 90% accurate, but nobody has defined what the assistant must accomplish in the ticket workflow.",
+    "prompt": "What should be defined first?",
+    "choices": [
+      {"id": "decision-contract", "text": "The customer outcome, task rubric, risks, thresholds, and release decision", "rationale": "These elements turn an ambiguous percentage into evidence that can govern a product decision."},
+      {"id": "model-benchmark", "text": "The model's highest public benchmark score", "rationale": "A generic benchmark does not define Northstar's workflow or failure consequences."},
+      {"id": "sample-size", "text": "A sample size before choosing any success criteria", "rationale": "Volume cannot rescue an evaluation whose claim and labels are undefined."}
+    ],
+    "correct": ["decision-contract"],
+    "explanation": "An evaluation strategy starts with the workflow outcome, observable task criteria, risks, thresholds, and the decision those results will control.",
+    "relatedLesson": "evaluation-strategy",
+    "principle": "Define the customer decision before collecting scores."
+  },
+  {
+    "id": "evaluations-005",
+    "type": "multiple_choice",
+    "category": "evaluations",
+    "difficulty": "intermediate",
+    "skills": ["Business Thinking", "Customer Delivery"],
+    "scenario": "An answer-quality metric improves, but ticket resolution time and reopen rate remain unchanged after a pilot.",
+    "prompt": "Which two evaluation layers should the team connect?",
+    "choices": [
+      {"id": "task-rubric", "text": "A rubric for correct policy, required action, and safe escalation", "rationale": "It measures whether the assistant completed the actual support task rather than produced pleasant prose."},
+      {"id": "business-outcome", "text": "Resolution time, rework, and reopen outcomes", "rationale": "These reveal whether task improvements create customer value in the workflow."},
+      {"id": "font-score", "text": "Reviewer preference for the interface font", "rationale": "Visual preference cannot explain whether the support task is being completed."},
+      {"id": "provider-rank", "text": "The provider's position on an unrelated benchmark", "rationale": "External ranking is disconnected from the deployed workflow and outcome."}
+    ],
+    "correct": ["task-rubric", "business-outcome"],
+    "explanation": "Task criteria must measure the operational work and connect to business outcomes such as rework and resolution, not stop at surface answer quality.",
+    "relatedLesson": "evaluation-strategy",
+    "principle": "Technical quality matters when it changes the customer's workflow outcome."
+  },
+  {
+    "id": "evaluations-006",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Security"],
+    "scenario": "A candidate improves average response helpfulness substantially but exposes one manager-only policy in a security test.",
+    "prompt": "How should the release decision treat the result?",
+    "choices": [
+      {"id": "block-critical", "text": "Block release because the critical authorization gate failed", "rationale": "High-consequence security failures should not be averaged away by many helpful responses."},
+      {"id": "average-pass", "text": "Ship because the weighted average still improved", "rationale": "An aggregate score can hide an unacceptable data-access failure."},
+      {"id": "remove-security", "text": "Remove the security example as an outlier", "rationale": "Rare, consequential failures are precisely what a risk-aware suite must preserve."}
+    ],
+    "correct": ["block-critical"],
+    "explanation": "Critical authorization and safety criteria belong to hard gates; strong performance elsewhere cannot compensate for prohibited behavior.",
+    "relatedLesson": "evaluation-strategy",
+    "principle": "Gate severe risks instead of averaging them away."
+  },
+  {
+    "id": "evaluations-007",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Data"],
+    "scenario": "A launch set contains twenty polished English questions written by the implementation team, while production includes abbreviations, forwarded threads, and multilingual tickets.",
+    "prompt": "What is the main dataset flaw?",
+    "choices": [
+      {"id": "coverage-gap", "text": "It does not represent production tasks, segments, and failure modes", "rationale": "Passing developer-authored happy paths cannot support a claim about varied production traffic."},
+      {"id": "too-few-models", "text": "It compares too few model providers", "rationale": "More candidates do not repair unrepresentative evaluation data."},
+      {"id": "manual-labels", "text": "Humans created the expected outcomes", "rationale": "Expert labels are often necessary; the issue is coverage and provenance, not human involvement itself."}
+    ],
+    "correct": ["coverage-gap"],
+    "explanation": "The set should cover common traffic, meaningful segments, known failures, and rare consequential cases using governed production-shaped examples.",
+    "relatedLesson": "representative-evaluation-sets",
+    "principle": "Evaluate against the work users actually do."
+  },
+  {
+    "id": "evaluations-008",
+    "type": "multiple_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["Data", "Security"],
+    "scenario": "Northstar wants to turn regulated production tickets into an evaluation set shared with the engineering team.",
+    "prompt": "Which two controls are essential before using the data?",
+    "choices": [
+      {"id": "governed-provenance", "text": "Record provenance, purpose, access, and consent or legal basis", "rationale": "Evaluation use needs a defensible data-governance boundary and traceable source."},
+      {"id": "deidentify-control", "text": "De-identify where possible and restrict access and retention", "rationale": "Minimization and least privilege reduce the exposure created by a durable evaluation corpus."},
+      {"id": "copy-raw", "text": "Copy every raw ticket into the repository for convenience", "rationale": "An unrestricted duplicate corpus violates data minimization and expands access risk."},
+      {"id": "hide-source", "text": "Remove provenance so reviewers cannot be biased", "rationale": "Lost provenance makes freshness, policy, and legitimate-use questions impossible to audit."}
+    ],
+    "correct": ["governed-provenance", "deidentify-control"],
+    "explanation": "Production-shaped evaluation data remains customer data and requires provenance, legitimate use, minimization, access controls, and retention.",
+    "relatedLesson": "representative-evaluation-sets",
+    "principle": "Evaluation data is a governed product asset."
+  },
+  {
+    "id": "evaluations-009",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Software Engineering"],
+    "scenario": "Developers inspect every release-test example and repeatedly tune the prompt until all of them pass.",
+    "prompt": "What should the team do to restore a credible release decision?",
+    "choices": [
+      {"id": "held-out-set", "text": "Separate an iteration set from a controlled held-out release set", "rationale": "A protected holdout estimates generalization after development examples have influenced the system."},
+      {"id": "repeat-more", "text": "Run the same exposed examples more times", "rationale": "Repeated exposure increases tuning leakage and does not create independent evidence."},
+      {"id": "hide-results", "text": "Stop recording evaluation results", "rationale": "Less traceability does not address overfitting to the release cases."}
+    ],
+    "correct": ["held-out-set"],
+    "explanation": "Development examples support iteration, while a controlled holdout protects the final comparison from test leakage and manual overfitting.",
+    "relatedLesson": "representative-evaluation-sets",
+    "principle": "A test set loses decision value when it becomes training feedback."
+  },
+  {
+    "id": "evaluations-010",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Architecture"],
+    "scenario": "The assistant cites an obsolete refund limit. The generated answer accurately reflects the only policy chunk present in its context.",
+    "prompt": "Which layer should the team investigate first?",
+    "choices": [
+      {"id": "ingestion-retrieval", "text": "Source freshness, ingestion, and retrieval authority", "rationale": "Generation used the supplied evidence faithfully; the wrong or stale source entered earlier in the path."},
+      {"id": "tone-prompt", "text": "The response tone instruction", "rationale": "Tone cannot update the underlying evidence or make an obsolete source authoritative."},
+      {"id": "output-length", "text": "The maximum answer-token setting", "rationale": "Generation length does not explain why only stale evidence was available."}
+    ],
+    "correct": ["ingestion-retrieval"],
+    "explanation": "Layered evaluation localizes the failure to source freshness or retrieval rather than treating every wrong answer as a generation defect.",
+    "relatedLesson": "layered-ai-evaluation",
+    "principle": "Fix the system stage that actually failed."
+  },
+  {
+    "id": "evaluations-011",
+    "type": "multiple_choice",
+    "category": "evaluations",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Data"],
+    "scenario": "A RAG experiment retrieves the governing policy among twenty candidates but omits it from the five chunks sent to generation.",
+    "prompt": "Which two measures best isolate this failure?",
+    "choices": [
+      {"id": "candidate-recall", "text": "Recall at the initial candidate stage", "rationale": "It establishes whether retrieval found the source at all."},
+      {"id": "cutoff-ranking", "text": "Rank or inclusion of the source at the context cutoff", "rationale": "It shows whether ranking and context assembly promoted the evidence into the generator budget."},
+      {"id": "answer-tone", "text": "Friendliness of the final answer", "rationale": "Tone cannot diagnose a source that never entered context."},
+      {"id": "page-latency", "text": "Landing-page render latency", "rationale": "An unrelated interface measure does not localize retrieval ranking."}
+    ],
+    "correct": ["candidate-recall", "cutoff-ranking"],
+    "explanation": "Candidate recall and rank at the context boundary distinguish finding evidence from placing it where generation can use it.",
+    "relatedLesson": "layered-ai-evaluation",
+    "principle": "Measure the whole task for accountability and each layer for diagnosis."
+  },
+  {
+    "id": "evaluations-012",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "Increasing retrieval top-k improves recall, but irrelevant context rises and grounded answer quality falls.",
+    "prompt": "How should the result be interpreted?",
+    "choices": [
+      {"id": "metric-tradeoff", "text": "The component metric improved while the downstream task regressed", "rationale": "Recall has meaning only alongside precision, context assembly, and end-to-end grounded quality."},
+      {"id": "retrieval-win", "text": "The new configuration is better because recall is higher", "rationale": "A single component improvement cannot justify a release that worsens the customer's answer."},
+      {"id": "ignore-generation", "text": "Generation quality should be removed from the evaluation", "rationale": "The end-to-end system depends on how retrieved evidence affects generation."}
+    ],
+    "correct": ["metric-tradeoff"],
+    "explanation": "Layer metrics are diagnostic, not independent goals; the release decision must preserve sufficient evidence and end-to-end task quality.",
+    "relatedLesson": "layered-ai-evaluation",
+    "principle": "Do not optimize a component metric outside its system effect."
+  },
+  {
+    "id": "evaluations-013",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Software Engineering"],
+    "scenario": "A support response must use an allowed category, cite an existing source ID, stay below the latency budget, and sound empathetic.",
+    "prompt": "Which criterion is the best candidate for human or calibrated model judgment?",
+    "choices": [
+      {"id": "empathy", "text": "Whether the response is appropriately empathetic in context", "rationale": "Contextual tone requires a defined subjective rubric and judgment."},
+      {"id": "allowed-category", "text": "Whether the category belongs to a fixed enum", "rationale": "A deterministic assertion checks enum membership more reliably and cheaply."},
+      {"id": "source-exists", "text": "Whether the cited source ID exists", "rationale": "This is a direct deterministic lookup rather than a judgment task."},
+      {"id": "latency", "text": "Whether elapsed time is below a numeric threshold", "rationale": "Measured duration should be evaluated deterministically."}
+    ],
+    "correct": ["empathy"],
+    "explanation": "Use deterministic checks for exact facts and constraints, reserving calibrated judgment for contextual criteria such as tone and usefulness.",
+    "relatedLesson": "evaluators-and-judgment",
+    "principle": "Use the simplest credible evaluator for each claim."
+  },
+  {
+    "id": "evaluations-014",
+    "type": "multiple_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Data"],
+    "scenario": "An LLM judge gives high groundedness scores to fluent answers that contain subtle unsupported refund claims.",
+    "prompt": "Which two steps most directly establish whether the judge is usable?",
+    "choices": [
+      {"id": "observable-rubric", "text": "Define observable claim-level criteria with difficult positive and negative examples", "rationale": "A concrete rubric prevents fluency from substituting for evidentiary support."},
+      {"id": "expert-calibration", "text": "Compare judge agreement and critical false passes against expert-reviewed labels", "rationale": "Calibration reveals whether the automated score is credible at important boundaries."},
+      {"id": "trust-precision", "text": "Trust the judge because it returns scores with two decimals", "rationale": "Numeric precision does not demonstrate validity or agreement with the intended rubric."},
+      {"id": "same-model", "text": "Use the generator as the sole judge without independent checks", "rationale": "Shared blind spots can make high-stakes errors look consistently acceptable."}
+    ],
+    "correct": ["observable-rubric", "expert-calibration"],
+    "explanation": "A model judge needs a precise rubric and measured behavior against trusted expert labels, especially its false passes on critical failures.",
+    "relatedLesson": "evaluators-and-judgment",
+    "principle": "Evaluator trust comes from calibration and known failure boundaries."
+  },
+  {
+    "id": "evaluations-015",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "scenario": "Two expert reviewers disagree about whether a cautious but incomplete policy answer is acceptable, and the rubric says only 'answer quality.'",
+    "prompt": "What should happen before scaling automated grading?",
+    "choices": [
+      {"id": "refine-adjudicate", "text": "Refine observable criteria, adjudicate examples, and measure reviewer agreement", "rationale": "The team must establish what the label means before asking automation to reproduce it."},
+      {"id": "average-label", "text": "Average the two opinions into a score without discussion", "rationale": "A numerical average hides the unresolved definition and cannot guide consistent future labels."},
+      {"id": "model-decides", "text": "Let an uncalibrated model judge define the correct interpretation", "rationale": "Automation cannot repair a customer criterion that subject-matter owners have not agreed on."}
+    ],
+    "correct": ["refine-adjudicate"],
+    "explanation": "Subjective evaluation requires observable criteria, representative counterexamples, adjudication, and measured expert agreement before automation.",
+    "relatedLesson": "evaluators-and-judgment",
+    "principle": "Calibrate human judgment before calibrating a machine judge."
+  },
+  {
+    "id": "evaluations-016",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "A provider model alias changes behavior. Aggregate answer quality stays flat, but false approvals on ambiguous refund requests double.",
+    "prompt": "Which release control should catch this change?",
+    "choices": [
+      {"id": "slice-gate", "text": "A versioned release gate for high-risk slices and critical failure rates", "rationale": "Risk-specific thresholds reveal regressions that a stable aggregate can hide."},
+      {"id": "uptime-only", "text": "An API uptime check", "rationale": "Availability does not evaluate the changed decision behavior."},
+      {"id": "monthly-demo", "text": "A monthly informal demo using one refund request", "rationale": "A small, non-versioned demonstration is neither representative nor a dependable release gate."}
+    ],
+    "correct": ["slice-gate"],
+    "explanation": "Continuous evaluation should bind exact system versions to thresholds for consequential slices, not rely on aggregate quality or health checks.",
+    "relatedLesson": "continuous-evaluation-gates",
+    "principle": "Release gates must reflect consequence by important slice."
+  },
+  {
+    "id": "evaluations-017",
+    "type": "multiple_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["Production", "Software Engineering"],
+    "scenario": "Northstar plans a major reranker change for its support assistant after the offline suite passes.",
+    "prompt": "Which two rollout practices add the strongest production protection?",
+    "choices": [
+      {"id": "canary-compare", "text": "Canary or shadow traffic with comparison to the current system", "rationale": "Controlled exposure reveals production distribution effects before full rollout."},
+      {"id": "fast-rollback", "text": "A tested rollback path tied to live quality and operational signals", "rationale": "The team can limit impact when production evidence breaches the agreed guardrail."},
+      {"id": "instant-full", "text": "Immediate rollout to all tenants after the offline pass", "rationale": "Offline evidence cannot cover every production interaction or operational failure."},
+      {"id": "no-version", "text": "Reuse the old version label to simplify dashboards", "rationale": "Without exact version identity, comparisons and rollback evidence become ambiguous."}
+    ],
+    "correct": ["canary-compare", "fast-rollback"],
+    "explanation": "A controlled canary and a tested rollback path complement offline gates with bounded, actionable production evidence.",
+    "relatedLesson": "continuous-evaluation-gates",
+    "principle": "Guard changes before, during, and after exposure."
+  },
+  {
+    "id": "evaluations-018",
+    "type": "single_choice",
+    "category": "evaluations",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "A reviewed production incident shows the assistant fails when a current policy and an archived attachment share the same title.",
+    "prompt": "What is the best way to close the evaluation loop?",
+    "choices": [
+      {"id": "durable-regression", "text": "Add a minimal governed case to the failure taxonomy and the relevant layered regression suite", "rationale": "The confirmed failure becomes reproducible evidence against future ingestion, ranking, and generation changes."},
+      {"id": "incident-only", "text": "Fix the single record and keep the case out of tests", "rationale": "The immediate symptom may disappear while the same failure pattern returns in another document."},
+      {"id": "replace-benchmark", "text": "Replace the entire historical benchmark with this one incident", "rationale": "A new case should expand targeted coverage without destroying trend continuity and representative balance."}
+    ],
+    "correct": ["durable-regression"],
+    "explanation": "Reviewed production failures should enter the taxonomy and correct component and end-to-end suites while benchmark snapshots preserve historical comparison.",
+    "relatedLesson": "continuous-evaluation-gates",
+    "principle": "Turn production learning into durable regression coverage."
+  }
+]

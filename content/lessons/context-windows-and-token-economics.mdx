@@ -1,0 +1,47 @@
+---
+id: context-windows-and-token-economics
+slug: context-windows-and-token-economics
+title: Context Windows and Token Economics
+track: llm-engineering
+module: model-strategy
+order: 4
+difficulty: intermediate
+durationMinutes: 20
+status: published
+prerequisites:
+  - model-selection-and-routing
+skills:
+  - AI Engineering
+  - Architecture
+  - Business Thinking
+objectives:
+  - Budget context according to relevance and customer value
+  - Estimate token-driven cost and latency before production rollout
+experiments:
+  - ai-cost-calculator
+practice:
+  - llm-012
+  - llm-013
+---
+
+## More context is not automatically better
+
+A context window is a bounded attention and cost budget. System instructions, conversation history, retrieved evidence, tool results, and the requested answer all compete for it. Sending every available token can dilute important evidence, increase latency, expose unnecessary data, and make unit economics fail. The engineering task is to assemble the smallest sufficient context for the customer's decision.
+
+<CustomerScenario title="The expanding account brief">
+  Northstar's account assistant sends an entire year of CRM notes on every turn. A common status question now consumes tens of thousands of tokens, occasionally truncates the newest note, and takes longer than opening the CRM directly.
+</CustomerScenario>
+
+Create a context budget by section. Reserve space for stable instructions and the answer. Select recent or task-relevant history rather than replaying the whole conversation. Retrieve evidence with metadata filters and ranking, remove duplicate passages, and preserve source identifiers for citations. Summaries can compress older state, but material facts should remain traceable to an authoritative source.
+
+Estimate monthly input and output tokens across realistic traffic, including retries, tool loops, and long-tail requests. Measure p95 latency rather than extrapolating only from the median. Caching stable prompt prefixes or reusable retrieval results can help, but cache keys must include every value that affects authorization and truth. A cross-user cache without an identity boundary can become a data leak.
+
+<Experiment id="ai-cost-calculator" />
+
+Run sensitivity analysis: traffic growth, longer documents, a second model call, or a price change. Tie the result to cost per resolved ticket or another business unit so stakeholders can compare it with the value delivered.
+
+<FDEPrinciple>
+  Context is a product budget, not free storage. Spend tokens on evidence that changes the quality of the customer outcome.
+</FDEPrinciple>
+
+When quality drops, inspect what entered and what was displaced before assuming the model needs a larger window.

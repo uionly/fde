@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-import type { FieldGame, QuickDecisionScenario } from "@/lib/content/schemas";
-import type { GameEvaluation } from "@/lib/games/runtime";
+import type { FieldGame } from "@/lib/content/schemas";
 
 export const gameProfileSchema = z
   .object({
@@ -73,8 +72,8 @@ function calculateStreak(profile: GameProfile, dateKey: string) {
 export function recordGameEvaluation(
   profile: GameProfile,
   game: FieldGame,
-  scenario: QuickDecisionScenario,
-  evaluation: GameEvaluation,
+  scenario: { id: string },
+  evaluation: { recommended: boolean; overall: number },
   dateKey: string,
 ): GameProfile {
   const key = scenarioProgressKey(game.id, scenario.id);
@@ -85,7 +84,7 @@ export function recordGameEvaluation(
   if (!evaluation.recommended) return { ...profile, bestScores, attemptCounts, lastScenarioIds: { ...profile.lastScenarioIds, [game.id]: scenario.id } };
 
   const alreadyCompleted = profile.completedScenarioKeys.includes(key);
-  const legacyCompletion = profile.completedGameIds.includes(game.id) && !profile.completedScenarioKeys.some((completed) => completed.startsWith(`${game.id}:`));
+  const legacyCompletion = game.type === "quick-decision" && profile.completedGameIds.includes(game.id) && !profile.completedScenarioKeys.some((completed) => completed.startsWith(`${game.id}:`));
   const completedScenarioKeys = alreadyCompleted ? profile.completedScenarioKeys : [...profile.completedScenarioKeys, key];
   const completedGameIds = profile.completedGameIds.includes(game.id) ? profile.completedGameIds : [...profile.completedGameIds, game.id];
   const mastery = { ...profile.mastery };

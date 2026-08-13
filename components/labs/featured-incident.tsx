@@ -7,12 +7,12 @@ import { useMemo } from "react";
 import { useGameProfile } from "@/components/games/use-game-profile";
 import { Button } from "@/components/ui/button";
 import type { FieldGame } from "@/lib/content/schemas";
-import { resolveQuickDecision } from "@/lib/games/runtime";
+import { resolveGameScenario } from "@/lib/games/runtime";
 
 export function FeaturedIncident({ game, customerName = game.scenarios[0].customer }: { game: FieldGame; customerName?: string }) {
   const { profile, hydrated } = useGameProfile();
   const runIndex = hydrated ? profile.playCounts[game.id] ?? 0 : 0;
-  const run = useMemo(() => resolveQuickDecision(game, runIndex), [game, runIndex]);
+  const run = useMemo(() => resolveGameScenario(game, runIndex), [game, runIndex]);
   const attempted = hydrated && (profile.attemptCounts[game.id] ?? 0) > 0;
 
   return (

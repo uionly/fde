@@ -1,0 +1,45 @@
+---
+id: llm-production-observability
+slug: llm-production-observability
+title: LLM Production Observability
+track: llm-engineering
+module: production
+order: 6
+difficulty: advanced
+durationMinutes: 24
+status: published
+prerequisites:
+  - resilient-llm-integration
+skills:
+  - Production
+  - AI Engineering
+  - Security
+objectives:
+  - Trace model behavior across prompts, retrieval, tools, and outcomes
+  - Monitor quality safely without exposing customer data
+experiments: []
+practice:
+  - llm-016
+  - llm-017
+  - llm-018
+---
+
+## Observe the task, not only the API call
+
+HTTP success does not mean the customer succeeded. An LLM trace should connect the request to the workflow outcome while preserving privacy: task and tenant identifiers, model and prompt versions, token usage, latency by stage, retrieval and tool decisions, validation results, fallback path, and user-visible disposition. Structured events make failures comparable without requiring every operator to read raw conversations.
+
+<CustomerScenario title="A green dashboard, a broken queue">
+  Northstar's model endpoint reports 99.9% availability, yet agents complain that billing tickets are increasingly misrouted. The provider calls succeed; a prompt update changed how product codes are interpreted, and no business-quality signal is segmented by category.
+</CustomerScenario>
+
+Instrument the full path. Track schema-valid output, abstention, override, escalation, and completed-task rates. Break results down by meaningful workflow segments such as language, request type, or document source. Protect small groups from accidental identification and check that segmentation is legitimate. Pair online operational signals with sampled or delayed quality evaluation, because ground truth may arrive only after an agent resolves the ticket.
+
+Logs can themselves become a security incident. Minimize stored content, redact known sensitive fields before export, control access, set retention, and use references to protected source data when raw text is unnecessary. Do not place prompts, tokens, or retrieved documents into generic analytics by default.
+
+Alerts should map to action: a latency budget breach, a jump in invalid output, a quality regression after a version change, or unexpected spend per completed task. Keep runbooks that identify the current owner, rollback mechanism, safe mode, and evidence needed to close the incident.
+
+<FDEPrinciple>
+  A model call is observable only when you can explain which system version handled it, what path it took, and whether the customer's task succeeded.
+</FDEPrinciple>
+
+Close the loop by promoting real, reviewed failures into the offline evaluation set. Observability finds change; evaluation determines whether the next change is safe.

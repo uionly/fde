@@ -1,0 +1,296 @@
+[
+  {
+    "id": "discovery-005",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "beginner",
+    "skills": ["Discovery"],
+    "scenario": "Leaders say refund questions are slow, but the official procedure contains only three broad steps.",
+    "prompt": "What is the best next discovery action?",
+    "choices": [
+      {"id": "observe-cases", "text": "Observe representative refund cases from arrival to resolution", "rationale": "Following real work reveals hidden systems, waits, rework, and exceptions."},
+      {"id": "accept-procedure", "text": "Treat the official procedure as the complete workflow", "rationale": "Formal procedures often omit workarounds and actual handoffs."},
+      {"id": "select-chatbot", "text": "Select a chatbot before inspecting the workflow", "rationale": "Technology selection is premature when the source of delay is unknown."}
+    ],
+    "correct": ["observe-cases"],
+    "explanation": "The FDE should observe a bounded unit of real work and capture actors, systems, decisions, queues, rework, and exception paths before proposing change.",
+    "relatedLesson": "map-current-workflow",
+    "principle": "Map actual work rather than assuming the documented process describes reality."
+  },
+  {
+    "id": "discovery-006",
+    "type": "multiple_choice",
+    "category": "discovery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Business Thinking"],
+    "scenario": "A specialist spends two minutes reviewing policy, then waits two days for manager approval.",
+    "prompt": "Which two facts should the workflow map distinguish?",
+    "choices": [
+      {"id": "touch-time", "text": "Active touch time", "rationale": "It measures the labor consumed while the case is being worked."},
+      {"id": "queue-time", "text": "Queue or waiting time", "rationale": "It reveals a delay that may dominate end-to-end cycle time."},
+      {"id": "model-vendor", "text": "The team's preferred model vendor", "rationale": "Vendor preference does not explain the current workflow delay."},
+      {"id": "office-layout", "text": "The color of the manager's office", "rationale": "This has no bearing on workflow performance or constraints."}
+    ],
+    "correct": ["touch-time", "queue-time"],
+    "explanation": "Separating active work from waiting prevents the team from optimizing a small task while leaving the dominant queue untouched.",
+    "relatedLesson": "map-current-workflow",
+    "principle": "Measure end-to-end flow and distinguish effort from delay."
+  },
+  {
+    "id": "discovery-007",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Customer Delivery"],
+    "scenario": "Interviewees describe a simple happy path, but production metrics show a high reopen rate.",
+    "prompt": "Which prompt is most likely to reveal the missing workflow?",
+    "choices": [
+      {"id": "last-exception", "text": "Show me the last real case that did not follow the happy path", "rationale": "A concrete exception exposes decisions and recovery work that generic descriptions omit."},
+      {"id": "future-ai", "text": "Which AI model would you like us to use?", "rationale": "A solution preference does not explain the reopen behavior."},
+      {"id": "confirm-simple", "text": "Can you confirm the workflow is always simple?", "rationale": "A leading confirmation question suppresses contradictory evidence."}
+    ],
+    "correct": ["last-exception"],
+    "explanation": "Concrete recent exceptions surface hidden variation, workarounds, and failure recovery, allowing the workflow map to explain the observed reopen rate.",
+    "relatedLesson": "map-current-workflow",
+    "principle": "Investigate exceptions because they reveal the constraints hidden by the happy path."
+  },
+  {
+    "id": "discovery-008",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "beginner",
+    "skills": ["Discovery", "Customer Delivery"],
+    "scenario": "An executive funds an assistant, but a separate data owner controls access to the source documents.",
+    "prompt": "Whose commitment is required for the data-access decision?",
+    "choices": [
+      {"id": "data-owner", "text": "The data owner with authority over access", "rationale": "Funding authority does not automatically include authorization over another team's data."},
+      {"id": "executive-only", "text": "Only the executive sponsor", "rationale": "The sponsor cannot substitute for the owner of the controlled resource."},
+      {"id": "model-provider", "text": "The language-model provider", "rationale": "The provider does not own the customer's source-system permissions."}
+    ],
+    "correct": ["data-owner"],
+    "explanation": "The stakeholder map should identify the actual decision right for each dependency; executive sponsorship cannot replace resource-specific authority.",
+    "relatedLesson": "stakeholders-and-incentives",
+    "principle": "Map decision rights explicitly instead of inferring them from seniority."
+  },
+  {
+    "id": "discovery-009",
+    "type": "multiple_choice",
+    "category": "discovery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Business Thinking"],
+    "scenario": "Supervisors say they support a new workflow, while their bonuses reward the number of cases processed through the old one.",
+    "prompt": "Which two questions best test the adoption risk?",
+    "choices": [
+      {"id": "evaluation", "text": "How are supervisors and specialists evaluated?", "rationale": "Performance measures reveal incentives that shape behavior."},
+      {"id": "error-cost", "text": "Who bears the consequence when the new workflow is wrong?", "rationale": "Risk distribution predicts resistance and required safeguards."},
+      {"id": "enthusiasm", "text": "Do you think innovation is exciting?", "rationale": "General enthusiasm is weak evidence of behavior in the target workflow."},
+      {"id": "logo", "text": "Which product logo do you prefer?", "rationale": "Brand preference does not expose operational incentives."}
+    ],
+    "correct": ["evaluation", "error-cost"],
+    "explanation": "Formal measures and the distribution of error consequences reveal whether the organization rewards or punishes the behavior required for adoption.",
+    "relatedLesson": "stakeholders-and-incentives",
+    "principle": "Use incentive and accountability evidence to predict organizational behavior."
+  },
+  {
+    "id": "discovery-010",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Customer Delivery", "Security"],
+    "scenario": "A sponsor wants full automation, compliance wants human review, and frontline users fear being blamed for generated decisions.",
+    "prompt": "What should the FDE do next?",
+    "choices": [
+      {"id": "tradeoff-decision", "text": "Frame bounded autonomy options with risk, evidence, and a decision owner", "rationale": "An explicit tradeoff lets the accountable stakeholder choose a safe learning boundary."},
+      {"id": "follow-sponsor", "text": "Implement full automation because the sponsor is most senior", "rationale": "This ignores control authority and downstream accountability."},
+      {"id": "avoid-conflict", "text": "Proceed without documenting the disagreement", "rationale": "Hidden misalignment will reappear as adoption or launch failure."}
+    ],
+    "correct": ["tradeoff-decision"],
+    "explanation": "The FDE should make goals, authority, and consequences visible, then propose a bounded option such as recommendations with approval and an evidence gate for later autonomy.",
+    "relatedLesson": "stakeholders-and-incentives",
+    "principle": "Resolve organizational conflict as an explicit system tradeoff with accountable authority."
+  },
+  {
+    "id": "discovery-011",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "beginner",
+    "skills": ["Discovery", "Business Thinking"],
+    "scenario": "Two dashboards report different support resolution times because one stops at first response and one stops at confirmed resolution.",
+    "prompt": "What must the team agree first?",
+    "choices": [
+      {"id": "operational-definition", "text": "An operational definition with start, end, population, and source", "rationale": "The measure cannot be compared until its events and population mean the same thing."},
+      {"id": "average-values", "text": "Average the two dashboard values", "rationale": "Combining incompatible definitions produces a meaningless number."},
+      {"id": "choose-lower", "text": "Use the lower value because it looks better", "rationale": "Selecting a favorable number destroys the baseline's decision value."}
+    ],
+    "correct": ["operational-definition"],
+    "explanation": "A measurable baseline requires an explicit definition of events, population, exclusions, aggregation, source, and observation window.",
+    "relatedLesson": "baselines-and-success-metrics",
+    "principle": "Define measures operationally before using them to claim improvement."
+  },
+  {
+    "id": "discovery-012",
+    "type": "multiple_choice",
+    "category": "discovery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Data", "Business Thinking"],
+    "scenario": "A policy assistant is expected to lower median handling time without increasing harmful guidance.",
+    "prompt": "Which two measures form the strongest outcome-and-guardrail pair?",
+    "choices": [
+      {"id": "handling-time", "text": "Median end-to-end handling time", "rationale": "This measures the intended workflow outcome."},
+      {"id": "policy-error", "text": "Rate of material policy errors or access violations", "rationale": "This protects against gaining speed by increasing harm."},
+      {"id": "tokens", "text": "Total tokens generated regardless of task", "rationale": "Token volume does not establish workflow success or safety."},
+      {"id": "button-clicks", "text": "Number of times the assistant button is clicked", "rationale": "Activity can increase while task performance worsens."}
+    ],
+    "correct": ["handling-time", "policy-error"],
+    "explanation": "The workflow outcome should be paired with a guardrail that detects unacceptable quality or access behavior rather than optimizing speed in isolation.",
+    "relatedLesson": "baselines-and-success-metrics",
+    "principle": "Protect outcome improvements with quality and safety guardrails."
+  },
+  {
+    "id": "discovery-013",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Data"],
+    "scenario": "An overall average suggests claims are processed in six hours, but international exception cases regularly take four days.",
+    "prompt": "How should the baseline be improved?",
+    "choices": [
+      {"id": "segment-distribution", "text": "Segment by case type and inspect the cycle-time distribution", "rationale": "Segmentation and tail behavior reveal variation hidden by the overall mean."},
+      {"id": "retain-average", "text": "Keep only the overall average for simplicity", "rationale": "Simplicity that hides the target population can drive the wrong intervention."},
+      {"id": "exclude-exceptions", "text": "Delete all exception cases from the baseline", "rationale": "Excluding meaningful difficult work removes the evidence discovery must explain."}
+    ],
+    "correct": ["segment-distribution"],
+    "explanation": "Representative segmentation and distribution measures show where delays occur and prevent a solution for the majority path from being presented as universal improvement.",
+    "relatedLesson": "baselines-and-success-metrics",
+    "principle": "Segment baselines where workflow difficulty and risk materially differ."
+  },
+  {
+    "id": "discovery-014",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "beginner",
+    "skills": ["Discovery", "Security"],
+    "scenario": "A stakeholder says customer data must stay in-region and also says the team prefers a particular model vendor.",
+    "prompt": "How should these statements be classified?",
+    "choices": [
+      {"id": "constraint-preference", "text": "Residency is a constraint to verify; vendor choice may be a preference", "rationale": "The two statements have different authority and negotiability."},
+      {"id": "both-hard", "text": "Treat both as immutable legal requirements", "rationale": "A preference should not silently restrict the feasible solution space."},
+      {"id": "both-ignore", "text": "Ignore both until production review", "rationale": "Residency can invalidate the design and must be discovered early."}
+    ],
+    "correct": ["constraint-preference"],
+    "explanation": "The FDE should verify the source and authority of residency rules while recording vendor preference separately and exploring its negotiability.",
+    "relatedLesson": "discover-constraints-and-risks",
+    "principle": "Distinguish hard constraints, preferences, and assumptions before narrowing the design."
+  },
+  {
+    "id": "discovery-015",
+    "type": "multiple_choice",
+    "category": "discovery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Architecture", "Production"],
+    "scenario": "A legacy CRM is required for launch, but its peak capacity and timeout behavior are unknown.",
+    "prompt": "Which two actions convert this uncertainty into a managed risk?",
+    "choices": [
+      {"id": "load-test", "text": "Run a representative bounded load and failure test", "rationale": "The test produces evidence about capacity and degraded behavior."},
+      {"id": "owner-fallback", "text": "Name an owner, due date, and fallback release boundary", "rationale": "Ownership and a consequence keep the risk from remaining a passive note."},
+      {"id": "assume-scale", "text": "Assume an enterprise CRM will scale automatically", "rationale": "Product category is not evidence of this customer's configured capacity."},
+      {"id": "hide-risk", "text": "Omit the dependency from the readout", "rationale": "Hidden release risk removes the customer's chance to choose a mitigation."}
+    ],
+    "correct": ["load-test", "owner-fallback"],
+    "explanation": "The team should test the material assumption and establish accountable timing and a narrower safe option if evidence does not support the planned path.",
+    "relatedLesson": "discover-constraints-and-risks",
+    "principle": "Material uncertainty becomes manageable when paired with evidence, ownership, timing, and response."
+  },
+  {
+    "id": "discovery-016",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Security", "Architecture"],
+    "scenario": "The team asks security to approve an AI assistant without showing the user, data, action, or system path.",
+    "prompt": "How should the request be reframed?",
+    "choices": [
+      {"id": "concrete-flow", "text": "Review a concrete identity, data-flow, action, and failure scenario", "rationale": "A bounded workflow lets security evaluate enforceable controls and residual risk."},
+      {"id": "approve-ai", "text": "Request a universal approval for all future AI uses", "rationale": "Unbounded technology approval cannot account for varying data and action risk."},
+      {"id": "skip-security", "text": "Delay security involvement until the launch date", "rationale": "Late review converts discoverable constraints into schedule emergencies."}
+    ],
+    "correct": ["concrete-flow"],
+    "explanation": "Control functions can give actionable feedback when they see which principal accesses which data through which boundary and what the system may do when something fails.",
+    "relatedLesson": "discover-constraints-and-risks",
+    "principle": "Elicit governance constraints against a specific workflow and data path."
+  },
+  {
+    "id": "discovery-017",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Business Thinking"],
+    "scenario": "Refund automation has high theoretical value but unclear authority; public-policy search affects most tickets and has evaluable historical data.",
+    "prompt": "Which should be the first release candidate?",
+    "choices": [
+      {"id": "policy-search", "text": "Bounded public-policy search with citations", "rationale": "It combines real workflow value, feasible evidence, lower risk, and learning for later cases."},
+      {"id": "refund-automation", "text": "Full refund automation immediately", "rationale": "Unclear authority makes this high-consequence use case infeasible as a first slice."},
+      {"id": "all-use-cases", "text": "Deliver every listed use case together", "rationale": "Broad scope prevents focused evidence and compounds integration and governance risk."}
+    ],
+    "correct": ["policy-search"],
+    "explanation": "The first use case should balance workflow value, feasibility, risk, and learning rather than maximizing headline value alone.",
+    "relatedLesson": "prioritize-customer-use-cases",
+    "principle": "Prioritize a valuable, operable slice that resolves important uncertainty."
+  },
+  {
+    "id": "discovery-018",
+    "type": "multiple_choice",
+    "category": "discovery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Customer Delivery", "Business Thinking"],
+    "scenario": "A prioritization workshop assigns scores to ten use cases based only on participant intuition.",
+    "prompt": "Which two changes make the ranking more defensible?",
+    "choices": [
+      {"id": "source-confidence", "text": "Attach an evidence source and confidence to each score", "rationale": "This distinguishes observed facts from weak assumptions."},
+      {"id": "release-boundary", "text": "Describe each candidate as a bounded user workflow", "rationale": "A coherent job is easier to compare and validate than a technology label."},
+      {"id": "decimal-precision", "text": "Add three decimal places to every intuitive score", "rationale": "Numerical precision does not create evidence."},
+      {"id": "sponsor-weight", "text": "Automatically rank the sponsor's idea first", "rationale": "Authority matters for decisions but does not replace value, feasibility, and risk evidence."}
+    ],
+    "correct": ["source-confidence", "release-boundary"],
+    "explanation": "Evidence and confidence make scores discussable, while bounded workflow definitions ensure the group is comparing coherent opportunities rather than vague capabilities.",
+    "relatedLesson": "prioritize-customer-use-cases",
+    "principle": "Use scoring to organize evidence and tradeoffs, not to disguise opinion as mathematics."
+  },
+  {
+    "id": "discovery-019",
+    "type": "single_choice",
+    "category": "discovery",
+    "difficulty": "intermediate",
+    "skills": ["Discovery", "Customer Delivery"],
+    "scenario": "A discovery readout contains interview chronology and prototype screenshots but no decision request or release boundary.",
+    "prompt": "What is the most important correction?",
+    "choices": [
+      {"id": "evidence-chain", "text": "Connect workflow evidence to outcome, bounded scope, risks, and a decision", "rationale": "This synthesis lets accountable stakeholders commit, revise, or stop."},
+      {"id": "more-slides", "text": "Add every interview transcript as new slides", "rationale": "More raw material increases volume without creating a decision argument."},
+      {"id": "hide-unknowns", "text": "Remove unresolved assumptions to make the plan look certain", "rationale": "Hidden uncertainty produces an unsafe commitment and later surprises."}
+    ],
+    "correct": ["evidence-chain"],
+    "explanation": "A decision-ready readout synthesizes the current problem, baseline, outcome, proposed boundary, constraints, risks, validation plan, owners, and explicit ask.",
+    "relatedLesson": "discovery-readout-and-commitment",
+    "principle": "Discovery concludes when evidence supports a clear customer decision."
+  },
+  {
+    "id": "discovery-020",
+    "type": "multiple_choice",
+    "category": "discovery",
+    "difficulty": "advanced",
+    "skills": ["Discovery", "Customer Delivery", "Business Thinking"],
+    "scenario": "Both teams agree to a policy-assistant pilot, but source access and permission-aware retrieval remain uncertain.",
+    "prompt": "Which two commitments make the agreement credible?",
+    "choices": [
+      {"id": "customer-dependencies", "text": "Named customer owners and dates for access and review", "rationale": "The delivery schedule depends on customer-side contributions with real authority."},
+      {"id": "exit-gate", "text": "A stop or redesign gate if permission enforcement fails", "rationale": "A pre-agreed exit prevents unsafe escalation of commitment."},
+      {"id": "unbounded-scope", "text": "A promise to support every policy and user immediately", "rationale": "Unbounded scope ignores the unresolved trust boundary."},
+      {"id": "success-only", "text": "An agreement to publish only positive pilot findings", "rationale": "Suppressing contrary evidence destroys the pilot's decision value."}
+    ],
+    "correct": ["customer-dependencies", "exit-gate"],
+    "explanation": "A two-sided commitment names customer dependencies and delivery responsibilities while defining an evidence gate that can safely stop or redirect the approach.",
+    "relatedLesson": "discovery-readout-and-commitment",
+    "principle": "Make delivery commitments reciprocal, bounded, and reversible by evidence."
+  }
+]

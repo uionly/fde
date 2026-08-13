@@ -1,0 +1,54 @@
+---
+id: stakeholders-and-incentives
+slug: stakeholders-and-incentives
+title: Map Stakeholders, Authority, and Incentives
+track: discovery-problem-framing
+module: current-state
+order: 2
+difficulty: beginner
+durationMinutes: 15
+status: published
+prerequisites:
+  - map-current-workflow
+skills:
+  - Discovery
+  - Customer Delivery
+  - Business Thinking
+objectives:
+  - Distinguish sponsors, decision owners, users, and control functions
+  - Surface incentive conflicts that can block adoption or delivery
+experiments: []
+practice:
+  - discovery-004
+  - discovery-008
+  - discovery-009
+  - discovery-010
+---
+
+## The organization is part of the system
+
+A solution crosses people with different goals and authority. The executive sponsor may fund speed, operations may own service levels, security may control data access, and frontline users may absorb every failure. Treating them as one “customer” hides the decisions required for delivery.
+
+<CustomerScenario title="Agreement that disappears in the field">
+  Northstar's sponsor wants automatic refund recommendations. Compliance worries about inconsistent policy interpretation, supervisors are measured on queue throughput, and specialists are penalized for overturned decisions. Everyone supports “faster service,” but their acceptable paths differ.
+</CustomerScenario>
+
+Build a stakeholder map around the target workflow. Identify the economic buyer, outcome owner, process owner, daily users, data and system owners, security or legal reviewers, operational support, and people affected downstream. For each, record goals, concerns, decision rights, evidence they trust, and the cost of change.
+
+Do not confuse seniority with decision ownership. Ask who can approve data access, change the operating procedure, accept residual risk, allocate user time, and decide whether the outcome was achieved. A named sponsor cannot substitute for those authorities.
+
+## Investigate incentives through behavior
+
+Formal statements often say “quality first,” while performance measures reward speed. Ask how individuals are evaluated, what happens after an error, and which team pays for ongoing operation. These answers predict adoption more reliably than expressions of enthusiasm.
+
+When interests conflict, frame an explicit tradeoff. Northstar might begin with cited recommendations and manager approval, measure override patterns, then consider bounded automation for low-risk cases. The point is not to make everyone equally happy; it is to create a decision the accountable owner can make with visible consequences.
+
+<Callout title="Useful stakeholder evidence">
+  Capture a quote, observed behavior, current metric, and decision right. Labels such as “supportive” or “resistant” are interpretations, not sufficient evidence.
+</Callout>
+
+<FDEPrinciple variant="insight">
+  Authority, incentives, and operating ownership are architectural constraints; discover them before committing to a design.
+</FDEPrinciple>
+
+Revisit the map when scope changes. New data, automation, or regions introduce new affected parties and approval paths. Keeping the map current prevents hidden organizational dependencies from becoming late technical emergencies.

@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **V1 complete — fake authentication removed; visitor-only device progress shipped**
+Current milestone: **C1 complete — MVP curriculum expanded to 48 lessons and 150 questions**
 
 ## Milestones
 
@@ -18,6 +18,8 @@ Current milestone: **V1 complete — fake authentication removed; visitor-only d
 - [x] M12 — Search, Resources, Polish & MVP Release
 - [x] D1 — Documentation Hygiene & Safe Local Onboarding
 - [x] V1 — Visitor-only Showcase & Device Progress
+- [x] G2 — Routing & Retrieval Simulations
+- [x] C1 — Complete MVP Content Expansion
 
 ## M1 implementation summary
 
@@ -41,23 +43,23 @@ Current milestone: **V1 complete — fake authentication removed; visitor-only d
 
 - `npm run lint` — passed
 - `npm run typecheck` — passed
-- `npm run test` — passed (60 unit tests across 18 files)
-- `npm run build` — passed; 51 static, generated, and dynamic route outputs
-- `npm run test:e2e` — passed (21 serial Chromium journeys, including no-sign-in regression coverage, browser-local lesson/practice/lab persistence, AI Labs hierarchy, accessible full visitor reset, mobile coverage, legacy redirects, and one integrated visitor path)
+- `npm run test` — passed (76 unit tests across 21 files)
+- `npm run build` — passed; 102 pages generated across static, generated, and dynamic routes
+- `npm run test:e2e` — passed (25 serial Chromium journeys, including authored curriculum durations, lesson-to-topic practice, no-sign-in regression coverage, browser-local lesson/practice/lab persistence, both G2 mechanics, real touch input, AI Labs hierarchy, accessible full visitor reset, mobile coverage, legacy redirects, and one integrated visitor path)
 
 ## Known limitations
 
-- Seed curriculum intentionally contains four representative lessons; the content engine supports adding 40+ without route changes.
+- The MVP curriculum target is complete at 48 published lessons and 150 scenario-heavy questions across nine tracks and eight practice categories.
 - Visitor evidence is intentionally local to one browser and does not synchronize across devices.
 - The capstone route communicates the 12-phase engagement but full phase-level editing/persistence remains a post-MVP extension.
-- Current Field Arcade quick missions share the decision-card renderer; the distinct routing, retrieval, security, and agent mechanics remain G2/G3 work.
+- Model routing and retrieval now have dedicated mechanics. The other four Field Arcade missions retain the decision-card renderer until G3 and later expansion.
 - Field Arcade evidence remains separate from practice/Field Mission skill scoring until G4; Start fresh clears both app-owned visitor records while preserving theme and unrelated browser storage.
 - Analytics hooks remain provider-neutral browser events until a collection adapter is configured.
 - The in-app visual inspection connection was unavailable in this environment; local Chromium rendering and comprehensive automated interaction coverage passed.
 
 ## Next milestone
 
-All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-MVP game milestone is G2 in `docs/GAME_IMPLEMENTATION_PLAN.md`: Model Router Rush and Retrieval Rank Race.
+All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-MVP game milestone is G3 in `docs/GAME_IMPLEMENTATION_PLAN.md`: Prompt Injection Detective and Agent Access Lockdown.
 
 ## M2 validation record
 
@@ -188,3 +190,22 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Expanded **Start fresh** to clear exactly the visitor-progress and Field Arcade keys while preserving theme and unrelated local storage; updated confirmation, success, focus, failure, and mobile behavior.
 - Reconciled the README, environment example, deployment guide, product specification, acceptance criteria, implementation plan, and architecture around visitor-only showcase mode.
 - Passed repository content validation, ESLint, strict TypeScript, 60 unit tests across 18 files, the 51-output production build, and all 21 serial Chromium journeys.
+
+## G2 Routing and Retrieval validation record
+
+- Replaced the original Model Router and Retrieval quick missions with dedicated, no-typing production simulations while preserving their canonical routes.
+- Added Zod-discriminated `model-router` and `retrieval-rank` content variants, exhaustive renderer registration, two authored scenarios per game, strict reference checks, and new progress keys that do not collide with G1 completions.
+- Added Model Router Rush request-to-lane assignment with traffic-volume-weighted quality, safety, cost, and latency consequences plus per-route debriefs.
+- Added Retrieval Rank Race evidence inclusion/removal, explicit move-up/move-down controls, a hard context budget, rank-sensitive quality scoring, and independent quality, safety, cost, and latency launch gates.
+- Preserved named pointer, touch, and keyboard controls; phase focus; concise announcements; mobile layouts; reduced-motion behavior; one-time scenario XP; personal bests; and deterministic scenario rotation.
+- Passed repository content validation, full ESLint, strict TypeScript, all 74 unit tests across 21 files, the 51-output production build, direct desktop and Pixel 5 Chromium inspection, and all 24 serial Chromium journeys.
+
+## C1 Complete MVP Content Expansion validation record
+
+- Expanded the repository-authored curriculum from two tracks and four representative lessons to nine published tracks and 48 lessons while preserving every existing lesson route.
+- Covered FDE Foundations, Discovery & Problem Framing, Solution Architecture, LLM Engineering, AI Evaluations, Enterprise RAG, Agents & Tools, Enterprise AI Security, and cross-cutting production/outcome operation.
+- Expanded practice from 25 to 150 scenario-heavy single- and multiple-choice questions across eight categories, each with answer rationales, an explanation, an FDE principle, and a related lesson.
+- Connected every question to exactly one matching lesson practice set, added lesson-specific practice links, applied deterministic choice presentation to eliminate answer-position bias, and strengthened Zod/content-graph checks for choice references, question cardinality, ordered prerequisites, related lessons, ownership, and unique track/lesson ordering.
+- Preserved Northstar/customer framing across every new lesson with Customer Scenario and FDE Principle blocks, coherent prerequisites, and 250–360 words of substantive content.
+- Replaced fixed lesson-time estimates with authored duration totals on the curriculum index and documented the retained Enterprise AI Systems bridge track in the nine-track information architecture.
+- Passed repository content validation, full ESLint, strict TypeScript, all 76 unit tests across 21 files, the 102-page production build, and all 25 serial Chromium journeys.

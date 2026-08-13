@@ -1,0 +1,55 @@
+---
+id: baselines-and-success-metrics
+slug: baselines-and-success-metrics
+title: Establish Baselines and Success Metrics
+track: discovery-problem-framing
+module: measurable-outcomes
+order: 3
+difficulty: intermediate
+durationMinutes: 18
+status: published
+prerequisites:
+  - stakeholders-and-incentives
+skills:
+  - Discovery
+  - Business Thinking
+  - Data
+objectives:
+  - Define a measurable workflow baseline with appropriate segments
+  - Pair outcome metrics with quality and safety guardrails
+experiments: []
+practice:
+  - discovery-011
+  - discovery-012
+  - discovery-013
+---
+
+## A target without a baseline is a slogan
+
+Success metrics turn a broad ambition into a testable engagement. They also expose whether the customer can currently observe the workflow well enough to prove improvement. If the baseline is missing, measuring it is discovery work—not an inconvenience to postpone until launch.
+
+<CustomerScenario title="Faster according to whom?">
+  Northstar wants to reduce support resolution time by 30%. One dashboard measures time until the first agent response; another measures time until the customer confirms resolution. Priority tickets, transfers, and reopened tickets are aggregated, hiding very different behavior.
+</CustomerScenario>
+
+Write an operational definition for every measure: start event, end event, unit, source, population, exclusions, aggregation, and observation window. Segment the baseline by cases that change task difficulty, such as ticket type, region, channel, or exception status. Prefer medians and distributions when averages hide long tails.
+
+Build a metric tree. The top is the customer or business outcome. Driver metrics explain the workflow change expected to produce it. Quality, safety, and operational guardrails prevent a local improvement from creating harm elsewhere.
+
+<MermaidDiagram chart={`flowchart TD
+  O[Resolution outcome] --> D1[Search time]
+  O --> D2[First-contact resolution]
+  O --> D3[Reopen rate]
+  D1 --> G[Permission violations = 0]`} />
+
+For Northstar, median handling time may be the outcome. Search time and first-contact resolution are drivers. Policy-error rate, access violations, customer escalation, and cost per resolved ticket are guardrails. A system that is faster because it gives unsafe answers has failed.
+
+## Set thresholds before seeing results
+
+Agree on the target, minimum acceptable quality, measurement window, and decision rule before the pilot. Otherwise teams move the goalposts around a favored result. Record data limitations and confidence; small samples should guide learning, not support false precision.
+
+<FDEPrinciple>
+  Measure the customer workflow with explicit definitions, and protect the outcome with quality and safety guardrails.
+</FDEPrinciple>
+
+Good metrics narrow debate. They tell engineers which tradeoffs matter, help users understand the purpose of the change, and give leaders evidence for expand, revise, or stop decisions.

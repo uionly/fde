@@ -23,7 +23,7 @@ export function FieldProfileSummary({ gameCount }: { gameCount: number }) {
         </div>
         <h2 className="mt-3 text-2xl font-semibold tracking-[-0.025em]">Your decisions become evidence.</h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-          Complete quick missions to build a device-level record of the customer decisions you have practiced. Strong replays can improve a personal best without duplicating rewards.
+          Complete simulations and quick missions to build a device-level record of the customer decisions you have practiced. Strong replays can improve a personal best without duplicating rewards.
         </p>
         <Link className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary" href="/games">
           Open your Field Arcade

@@ -1,0 +1,51 @@
+---
+id: outcome-ownership
+slug: outcome-ownership
+title: Own the Outcome, Not the Handoff
+track: fde-foundations
+module: operating-model
+order: 3
+difficulty: beginner
+durationMinutes: 14
+status: published
+prerequisites:
+  - customer-request-to-problem
+skills:
+  - Customer Delivery
+  - Business Thinking
+objectives:
+  - Define an outcome boundary for an FDE engagement
+  - Separate shipped output from realized customer value
+experiments: []
+practice:
+  - delivery-002
+  - delivery-003
+  - delivery-004
+  - delivery-005
+---
+
+## Shipping is evidence, not the finish line
+
+An FDE cannot treat deployment as a clean handoff. A technically correct feature can sit unused, add a new queue, or optimize a step that was never the real constraint. Outcome ownership means staying responsible until the changed system improves a customer measure and can be operated by the people who inherit it.
+
+<CustomerScenario title="A successful launch with no result">
+  Northstar releases policy search to 180 support specialists. Availability is high and answers look credible, yet median ticket time remains unchanged. Interviews reveal that specialists still copy answers into a second approval system, where requests wait for hours.
+</CustomerScenario>
+
+Start by defining the **outcome boundary**: the users, workflow segment, baseline measure, target, constraints, and observation period the engagement owns. For Northstar, “launch policy search” is an output. “Reduce median handling time from 18 to 12 minutes without increasing policy exceptions over six weeks” is an outcome.
+
+## Work backward from proof
+
+Ask what evidence would convince an operations leader that the change worked. Product telemetry may show use, but business evidence must show task completion, cycle time, error rate, or capacity. Qualitative evidence also matters: users must understand when to trust the system and what to do when it fails.
+
+Outcome ownership does not mean promising results outside your control. Record dependencies such as staffing, policy approval, and source-data access. Give each dependency an owner and a decision date. Escalate when it threatens the result rather than quietly narrowing the definition of success.
+
+<Callout title="A useful weekly question">
+  What changed for the user or the business this week, and what evidence supports that claim?
+</Callout>
+
+<FDEPrinciple>
+  A deliverable is complete when the customer can realize and sustain its intended outcome, not merely when code reaches production.
+</FDEPrinciple>
+
+This mindset changes engineering choices. You instrument the workflow early, invite operators into reviews, and reserve time for adoption and remediation. The result is not endless scope; it is a clearly bounded commitment with credible evidence.

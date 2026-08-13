@@ -1,0 +1,60 @@
+---
+id: threat-modeling-ai-workflows
+slug: threat-modeling-ai-workflows
+title: Threat Model the Complete AI Workflow
+track: enterprise-ai-security
+module: threat-modeling
+order: 4
+difficulty: advanced
+durationMinutes: 19
+status: published
+prerequisites:
+  - data-exfiltration-controls
+skills:
+  - Security
+  - Architecture
+  - Customer Delivery
+objectives:
+  - Identify assets, actors, trust boundaries, and abuse cases
+  - Translate threats into testable architecture controls
+experiments:
+  - prompt-injection-simulator
+practice:
+  - security-014
+  - security-015
+  - security-016
+---
+
+## Threat modeling starts with the customer workflow
+
+A list of model risks is not a threat model. Begin with the assets the customer cares about, the actors who interact with them, and the consequences of misuse. Then trace how data and authority cross system boundaries.
+
+<CustomerScenario title="The support assistant has three kinds of power">
+  Northstar's assistant reads private policies, searches customer accounts, and drafts refund actions. Employees, customers, source documents, third-party connectors, and administrators can all influence its behavior.
+</CustomerScenario>
+
+Map entry points, identities, data stores, model calls, retrieval indexes, tools, outbound destinations, and human gates. Label which inputs are attacker controlled and which actions are reversible.
+
+## Write abuse cases as scenarios
+
+Useful cases are concrete:
+
+- A customer ticket attempts to change tool policy.
+- A compromised connector returns fabricated authorization data.
+- An employee searches another region's restricted cases.
+- A stale approval is replayed with different arguments.
+- A tracing system records full account numbers.
+
+For each case, name preventive, detective, and recovery controls. Assign an owner and an observable signal. “The model should refuse” is rarely sufficient on its own.
+
+<FDEPrinciple variant="warning">
+  Threat model the data, identities, tools, and business impact around the model—not the model in isolation.
+</FDEPrinciple>
+
+## Turn threats into release evidence
+
+Connect each important abuse case to a deterministic test or evaluation fixture. Verify tenant isolation at retrieval, authorization at tool execution, approval binding, egress filtering, rate limits, and incident alerts. Re-run these tests when prompts, models, connectors, or permissions change.
+
+<Experiment id="prompt-injection-simulator" />
+
+Review the model with customer security and operations teams. They know which records, actions, and outages matter most. The deliverable is a shared control plan—not a diagram that only the AI team understands.

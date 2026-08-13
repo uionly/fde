@@ -1,0 +1,53 @@
+---
+id: llm-system-boundaries
+slug: llm-system-boundaries
+title: Design the LLM System Boundary
+track: llm-engineering
+module: system-design
+order: 1
+difficulty: intermediate
+durationMinutes: 18
+status: published
+prerequisites: []
+skills:
+  - AI Engineering
+  - Software Engineering
+  - Architecture
+objectives:
+  - Separate deterministic application responsibilities from model judgment
+  - Define trust boundaries around model inputs and outputs
+experiments: []
+practice:
+  - llm-004
+  - llm-005
+  - llm-006
+---
+
+## Start with the customer workflow
+
+An LLM is one component inside a product, not the product itself. Begin by mapping the workflow: what arrives, which facts are authoritative, where judgment is useful, and which actions have consequences. Keep identity, authorization, calculations, validation, and state changes in deterministic code. Give the model bounded work such as classifying intent, extracting fields, drafting language, or choosing among explicitly allowed actions.
+
+<CustomerScenario title="Northstar's refund assistant">
+  Northstar wants an assistant that reads a ticket, checks policy, and prepares a refund. The demo lets the model infer the customer balance, decide eligibility, and call the payment API directly. One plausible but wrong amount could create a financial incident.
+</CustomerScenario>
+
+The safer boundary treats the ticket and retrieved policy as untrusted inputs. Server code fetches the balance from the system of record, applies hard refund limits, and validates a typed proposal. A human approves exceptional refunds before a server-side tool executes them. The model contributes flexible interpretation without becoming the authority for money or access.
+
+## Define contracts on both sides
+
+Document the model boundary like any external dependency:
+
+- accepted inputs and their provenance;
+- instruction hierarchy and untrusted context;
+- output schema and validation rules;
+- timeouts, retry limits, and fallback behavior;
+- actions the model may propose versus execute;
+- telemetry that connects a response to prompt, model, data, and policy versions.
+
+This decomposition also makes evaluation practical. You can test extraction independently from policy enforcement, then test the whole workflow. When an answer fails, the team knows whether to inspect data, instructions, model behavior, or deterministic business logic.
+
+<FDEPrinciple>
+  Put probabilistic judgment inside a deterministic envelope. The customer should never depend on the model to enforce a rule that code can guarantee.
+</FDEPrinciple>
+
+Before choosing a model, draw the boundary and name the owner of every decision. That diagram usually removes more risk than another round of prompt tuning.

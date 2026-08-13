@@ -1,0 +1,48 @@
+---
+id: layered-ai-evaluation
+slug: layered-ai-evaluation
+title: Diagnose with Layered AI Evaluation
+track: ai-evaluations
+module: measurement
+order: 3
+difficulty: intermediate
+durationMinutes: 22
+status: published
+prerequisites:
+  - representative-evaluation-sets
+skills:
+  - AI Engineering
+  - Architecture
+  - Production
+objectives:
+  - Separate component metrics from end-to-end task success
+  - Use layered evidence to localize AI system regressions
+experiments:
+  - retrieval-playground
+practice:
+  - evaluations-010
+  - evaluations-011
+  - evaluations-012
+---
+
+## Find the failing layer
+
+End-to-end task success tells you whether the customer received value, but it often cannot explain a regression. Component evaluations provide diagnostic power. For a retrieval assistant, separately measure ingestion coverage, retrieval relevance, ranking, context assembly, grounded generation, citations, policy enforcement, latency, and the final workflow action. Keep the end-to-end measure as the release truth while using component results to decide where to work.
+
+<CustomerScenario title="A wrong answer with three suspects">
+  Northstar's assistant gives the obsolete refund threshold. The team immediately rewrites the prompt. A trace later shows that search retrieved only the archived policy, while the generator accurately summarized the evidence it received.
+</CustomerScenario>
+
+Create stage-level assertions using the same scenario identifiers. Did the correct source enter the index? Was it present in the candidate set? Did reranking place it inside the context budget? Did the answer make only supported claims? Did server policy permit the proposed action? This chain prevents a model change from masking a data defect.
+
+<Experiment id="retrieval-playground" />
+
+Metrics must preserve their meaning. Retrieval recall can improve while precision collapses and irrelevant context harms generation. A grounded answer can still be operationally wrong if it follows an outdated but retrieved source. Track freshness and authority alongside semantic relevance. For tools, distinguish correct tool selection, valid arguments, execution success, and customer outcome.
+
+Use a failure taxonomy and tag reviewed examples consistently. Compare slice results and confidence intervals, not only a single average. When two candidate systems trade failures between layers, apply the thresholds and risk priorities defined in the evaluation strategy.
+
+<FDEPrinciple>
+  Measure the whole task for accountability and each system layer for diagnosis. Neither view is sufficient alone.
+</FDEPrinciple>
+
+Layered evaluation shortens incident response and makes ownership clearer: data teams can fix ingestion, retrieval teams can fix ranking, and application teams can fix policy boundaries with shared evidence.

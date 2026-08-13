@@ -1,0 +1,238 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "model-router-arena",
+    "slug": "model-router-arena",
+    "type": "model-router",
+    "mode": "route-workload",
+    "title": "Model Router Rush",
+    "shortTitle": "Route the production queue",
+    "description": "Assign real customer workloads to fast, reasoning, and human-review lanes, then inspect the production trade-offs.",
+    "customerHeadline": "Route 100,000 support requests",
+    "mechanic": "Assign each request card to a capability lane; dominant traffic classes shape cost and latency while risk shapes safety.",
+    "category": "models",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 5,
+    "xp": 60,
+    "order": 1,
+    "status": "published",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "learningObjectives": [
+      "Match task complexity and customer impact to explicit model and human escalation lanes."
+    ],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Tab to each workload card, then use its named lane buttons to assign it. Every pointer and touch action has the same keyboard control.",
+    "principle": "Route by task difficulty and impact, then validate the lane policy against representative traffic and explicit escalation thresholds.",
+    "nextActions": [
+      {
+        "kind": "experiment",
+        "label": "Test the unit economics",
+        "description": "Change request volume, caching, retries, and model prices in the AI Cost Calculator.",
+        "href": "/experiments/ai-cost-calculator"
+      },
+      {
+        "kind": "lesson",
+        "label": "Build an evaluation gate",
+        "description": "Learn why routing policies need representative task-level evidence before launch.",
+        "href": "/learn/enterprise-ai-systems/why-ai-evaluations"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "support-queue-routing",
+        "title": "Support queue launch",
+        "customer": "Northstar Financial",
+        "briefing": "Northstar receives 100,000 support messages each month. Routine intent and status questions dominate traffic, but policy disputes and suspected fraud require stronger reasoning or human judgment.",
+        "objective": "Route every workload to the lowest-cost lane that still protects quality and customer safety.",
+        "prompt": "Assign the four workload classes to production lanes.",
+        "metricWeights": { "quality": 0.3, "safety": 0.25, "cost": 0.25, "latency": 0.2 },
+        "lanes": [
+          { "id": "fast", "label": "Fast model", "description": "Low-cost classification and direct factual lookup." },
+          { "id": "reasoning", "label": "Reasoning model", "description": "Multi-step policy interpretation with higher latency and cost." },
+          { "id": "review", "label": "Human review", "description": "Specialist approval for high-impact ambiguity and fraud." }
+        ],
+        "requests": [
+          {
+            "id": "intent",
+            "title": "Intent classification",
+            "description": "Identify billing, card, transfer, or account-support intent from a short message.",
+            "volume": 58,
+            "routes": [
+              { "laneId": "fast", "recommended": true, "rationale": "A calibrated classifier handles this frequent, low-complexity task quickly and cheaply.", "metrics": { "quality": 91, "safety": 88, "cost": 98, "latency": 98 } },
+              { "laneId": "reasoning", "recommended": false, "rationale": "Reasoning capacity adds little accuracy but multiplies cost and response time on the dominant traffic class.", "metrics": { "quality": 95, "safety": 91, "cost": 34, "latency": 38 } },
+              { "laneId": "review", "recommended": false, "rationale": "Manual classification cannot meet the queue volume or response-time objective.", "metrics": { "quality": 98, "safety": 96, "cost": 5, "latency": 4 } }
+            ]
+          },
+          {
+            "id": "status",
+            "title": "Payment status lookup",
+            "description": "Return a verified status from a structured payment record without interpreting policy.",
+            "volume": 27,
+            "routes": [
+              { "laneId": "fast", "recommended": true, "rationale": "A bounded lookup path gives fast, reliable answers without premium reasoning.", "metrics": { "quality": 94, "safety": 92, "cost": 96, "latency": 97 } },
+              { "laneId": "reasoning", "recommended": false, "rationale": "A reasoning model is unnecessary for a deterministic tool result and expands cost and failure surface.", "metrics": { "quality": 93, "safety": 84, "cost": 39, "latency": 42 } },
+              { "laneId": "review", "recommended": false, "rationale": "A human queue turns a deterministic lookup into an avoidable service delay.", "metrics": { "quality": 98, "safety": 97, "cost": 8, "latency": 5 } }
+            ]
+          },
+          {
+            "id": "policy",
+            "title": "Policy exception dispute",
+            "description": "Interpret several policy clauses and account facts for a non-standard refund request.",
+            "volume": 11,
+            "routes": [
+              { "laneId": "fast", "recommended": false, "rationale": "A fast classifier lacks the capability for multi-clause reasoning and exception handling.", "metrics": { "quality": 42, "safety": 38, "cost": 97, "latency": 96 } },
+              { "laneId": "reasoning", "recommended": true, "rationale": "The reasoning lane can synthesize policy evidence while retaining an uncertainty escalation threshold.", "metrics": { "quality": 93, "safety": 89, "cost": 78, "latency": 76 } },
+              { "laneId": "review", "recommended": false, "rationale": "Human review is safe but should be reserved for ambiguous or high-impact exceptions rather than every dispute.", "metrics": { "quality": 97, "safety": 98, "cost": 20, "latency": 18 } }
+            ]
+          },
+          {
+            "id": "fraud",
+            "title": "Suspected fraud escalation",
+            "description": "A high-value transfer carries conflicting identity and device-risk signals.",
+            "volume": 4,
+            "routes": [
+              { "laneId": "fast", "recommended": false, "rationale": "Automating a high-impact ambiguous fraud decision creates unacceptable customer and regulatory risk.", "metrics": { "quality": 25, "safety": 8, "cost": 96, "latency": 96 } },
+              { "laneId": "reasoning", "recommended": false, "rationale": "Reasoning can summarize evidence, but it cannot own the final high-impact approval boundary.", "metrics": { "quality": 78, "safety": 48, "cost": 73, "latency": 70 } },
+              { "laneId": "review", "recommended": true, "rationale": "Specialist review preserves the decision boundary for rare, high-impact ambiguity.", "metrics": { "quality": 96, "safety": 99, "cost": 64, "latency": 58 } }
+            ]
+          }
+        ],
+        "debrief": "A router is a production control plane, not a model shortcut. Calibrate it with traffic distribution, uncertainty, and impact; monitor lane mix and retain explicit human authority for rare high-risk work."
+      },
+      {
+        "id": "claims-intake-routing",
+        "title": "Claims document intake",
+        "customer": "Northstar Financial",
+        "briefing": "Most claim pages are standard typed forms. Handwritten exceptions need stronger extraction, while suspected fraud and high-value contradictions require specialist approval.",
+        "objective": "Keep routine extraction fast without allowing uncertain documents to become automated decisions.",
+        "prompt": "Assign each document workload to its production lane.",
+        "metricWeights": { "quality": 0.3, "safety": 0.3, "cost": 0.2, "latency": 0.2 },
+        "lanes": [
+          { "id": "fast", "label": "Fast extraction", "description": "Standard OCR and schema extraction with confidence checks." },
+          { "id": "reasoning", "label": "Reasoning extraction", "description": "Complex document interpretation and cross-field validation." },
+          { "id": "review", "label": "Specialist review", "description": "Human approval for fraud, contradictions, and high-impact exceptions." }
+        ],
+        "requests": [
+          {
+            "id": "standard", "title": "Standard typed form", "description": "A complete typed form matches the current approved schema.", "volume": 67,
+            "routes": [
+              { "laneId": "fast", "recommended": true, "rationale": "Schema extraction with confidence checks is reliable for the dominant standard workload.", "metrics": { "quality": 93, "safety": 91, "cost": 98, "latency": 98 } },
+              { "laneId": "reasoning", "recommended": false, "rationale": "Premium reasoning spends more without meaningful improvement on standard pages.", "metrics": { "quality": 96, "safety": 92, "cost": 31, "latency": 36 } },
+              { "laneId": "review", "recommended": false, "rationale": "Manual review cannot support the standard-form volume or service target.", "metrics": { "quality": 99, "safety": 98, "cost": 5, "latency": 4 } }
+            ]
+          },
+          {
+            "id": "handwritten", "title": "Handwritten exception", "description": "An adjuster added free-form notes that alter two requested fields.", "volume": 18,
+            "routes": [
+              { "laneId": "fast", "recommended": false, "rationale": "Routine OCR loses exception semantics and creates silent field errors.", "metrics": { "quality": 45, "safety": 51, "cost": 96, "latency": 95 } },
+              { "laneId": "reasoning", "recommended": true, "rationale": "Reasoning extraction can connect the note to affected fields and expose uncertainty for escalation.", "metrics": { "quality": 92, "safety": 90, "cost": 79, "latency": 75 } },
+              { "laneId": "review", "recommended": false, "rationale": "Human review is safe but unnecessary when reasoning confidence and validation are strong.", "metrics": { "quality": 97, "safety": 98, "cost": 22, "latency": 20 } }
+            ]
+          },
+          {
+            "id": "missing-field", "title": "Missing routine field", "description": "A required address field is blank but no financial or fraud signal is present.", "volume": 11,
+            "routes": [
+              { "laneId": "fast", "recommended": true, "rationale": "A deterministic completeness check can request the missing field without expensive interpretation.", "metrics": { "quality": 92, "safety": 94, "cost": 98, "latency": 98 } },
+              { "laneId": "reasoning", "recommended": false, "rationale": "A model should not infer a missing customer fact, and reasoning adds no value to the completeness check.", "metrics": { "quality": 72, "safety": 62, "cost": 42, "latency": 44 } },
+              { "laneId": "review", "recommended": false, "rationale": "Specialist time is unnecessary for a simple request-for-information workflow.", "metrics": { "quality": 98, "safety": 98, "cost": 10, "latency": 8 } }
+            ]
+          },
+          {
+            "id": "fraud-claim", "title": "High-value contradiction", "description": "A high-value claim conflicts with identity history and includes a fraud signal.", "volume": 4,
+            "routes": [
+              { "laneId": "fast", "recommended": false, "rationale": "Fast extraction cannot resolve the contradiction or own the high-impact fraud decision.", "metrics": { "quality": 22, "safety": 6, "cost": 96, "latency": 96 } },
+              { "laneId": "reasoning", "recommended": false, "rationale": "Reasoning can assemble evidence but final approval remains a human authority boundary.", "metrics": { "quality": 80, "safety": 45, "cost": 73, "latency": 69 } },
+              { "laneId": "review", "recommended": true, "rationale": "Specialist review is proportionate for a rare, high-value contradiction with fraud risk.", "metrics": { "quality": 97, "safety": 99, "cost": 65, "latency": 56 } }
+            ]
+          }
+        ],
+        "debrief": "Confidence alone is not the routing policy. Combine uncertainty with field impact, claim value, and fraud signals so common pages stay fast while consequential ambiguity crosses a human boundary."
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "retrieval-rank-rush",
+    "slug": "retrieval-rank-rush",
+    "type": "retrieval-rank",
+    "mode": "rank-and-pack",
+    "title": "Retrieval Rank Race",
+    "shortTitle": "Pack the evidence window",
+    "description": "Rank authoritative evidence and pack a bounded context window before stale or irrelevant documents consume the budget.",
+    "customerHeadline": "Recover the missing policy evidence",
+    "mechanic": "Include, remove, and reorder evidence under a hard token budget; authority, relevance, risk, and latency all affect the result.",
+    "category": "retrieval",
+    "difficulty": "intermediate",
+    "estimatedMinutes": 6,
+    "xp": 70,
+    "order": 3,
+    "status": "published",
+    "skills": ["AI Engineering", "Data"],
+    "learningObjectives": [
+      "Rank authoritative, relevant evidence inside a bounded context budget while excluding stale or unsafe candidates."
+    ],
+    "scoringDimensions": ["quality", "safety", "cost", "latency"],
+    "keyboardInstructions": "Tab to candidate controls. Use Include or Remove, then the named Move up and Move down buttons to set evidence priority without dragging.",
+    "principle": "Retrieval quality depends on which evidence enters the window, in what order, and under which authority and safety constraints.",
+    "nextActions": [
+      {
+        "kind": "experiment",
+        "label": "Test the retrieval variable",
+        "description": "Compare retrieval strategies, top-k, and permission filters over Northstar's enterprise corpus.",
+        "href": "/experiments/retrieval-playground"
+      },
+      {
+        "kind": "lab",
+        "label": "Build the RAG architecture",
+        "description": "Turn the ranking diagnosis into a permission-aware customer architecture and evaluation flow.",
+        "href": "/labs/enterprise-rag-architecture"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "abbreviation-window",
+        "title": "Policy vocabulary mismatch",
+        "customer": "Northstar Financial",
+        "briefing": "A hybrid search recovered the right refund evidence, but only three compact candidates fit the answer budget. Rank the authoritative evidence before similar but obsolete or anecdotal text.",
+        "objective": "Pack the strongest evidence into 420 tokens and preserve authority, relevance, and response time.",
+        "prompt": "Which evidence should enter the context window, and in what order?",
+        "query": "Can a P2P transfer be reversed after the recipient accepted it?",
+        "contextBudget": 420,
+        "targetContextTokens": 360,
+        "latency": { "baseMs": 110, "perTokenMs": 0.55, "targetMs": 310, "maxMs": 430 },
+        "metricWeights": { "quality": 0.4, "safety": 0.25, "cost": 0.15, "latency": 0.2 },
+        "candidates": [
+          { "id": "current-policy", "title": "Current transfer reversal policy", "source": "Policy registry", "excerpt": "Accepted P2P transfers are final except for verified account takeover or processing error; those cases require specialist review.", "tokens": 150, "relevance": 4, "safetyRisk": 0, "signals": ["authoritative", "effective 2026"] },
+          { "id": "fraud-procedure", "title": "Account takeover procedure", "source": "Fraud operations", "excerpt": "When takeover is suspected, freeze outbound movement, preserve evidence, and route the transfer to the fraud-review queue.", "tokens": 125, "relevance": 3, "safetyRisk": 0, "signals": ["controlled", "exception path"] },
+          { "id": "product-definition", "title": "P2P transfer definitions", "source": "Product handbook", "excerpt": "Defines accepted, pending, failed, and reversed states used by customer support and payment operations.", "tokens": 105, "relevance": 2, "safetyRisk": 0, "signals": ["current", "terminology"] },
+          { "id": "old-policy", "title": "2019 reversal playbook", "source": "Legacy wiki", "excerpt": "Agents may reverse accepted transfers within twenty-four hours after manager approval.", "tokens": 145, "relevance": 4, "safetyRisk": 85, "signals": ["superseded", "obsolete"] },
+          { "id": "support-comment", "title": "Support ticket comment", "source": "Ticket archive", "excerpt": "One agent remembers reversing a transfer for a long-term customer last quarter.", "tokens": 90, "relevance": 1, "safetyRisk": 55, "signals": ["anecdotal", "unverified"] }
+        ],
+        "idealOrder": ["current-policy", "fraud-procedure", "product-definition"],
+        "debrief": "Retrieval ranking is an authority decision as much as a similarity decision. Current policy belongs first, controlled exception evidence next, and stale anecdotes outside the model context."
+      },
+      {
+        "id": "freshness-window",
+        "title": "Stale policy dominance",
+        "customer": "Northstar Financial",
+        "briefing": "The candidate set contains a current fee policy, its superseded predecessor, a product glossary, and several noisy support artifacts. Only a bounded evidence set can reach generation.",
+        "objective": "Prioritize current authority while keeping the evidence window compact enough for the service target.",
+        "prompt": "Pack and rank the evidence for the fee-waiver answer.",
+        "query": "When can support waive an international transfer fee?",
+        "contextBudget": 460,
+        "targetContextTokens": 360,
+        "latency": { "baseMs": 120, "perTokenMs": 0.52, "targetMs": 320, "maxMs": 450 },
+        "metricWeights": { "quality": 0.35, "safety": 0.35, "cost": 0.1, "latency": 0.2 },
+        "candidates": [
+          { "id": "fee-policy", "title": "Current fee-waiver policy", "source": "Policy registry", "excerpt": "Support may waive the fee only for confirmed bank error or an approved service-recovery case within the documented limit.", "tokens": 155, "relevance": 4, "safetyRisk": 0, "signals": ["authoritative", "effective 2026"] },
+          { "id": "approval-matrix", "title": "Service-recovery approval matrix", "source": "Operations controls", "excerpt": "Lists monetary thresholds and the manager approval required before an agent applies a service-recovery waiver.", "tokens": 130, "relevance": 3, "safetyRisk": 0, "signals": ["controlled", "approval scope"] },
+          { "id": "fee-glossary", "title": "International fee glossary", "source": "Product handbook", "excerpt": "Explains transfer fee components, settlement currencies, and how customer receipts label each charge.", "tokens": 95, "relevance": 2, "safetyRisk": 0, "signals": ["current", "terminology"] },
+          { "id": "legacy-waiver", "title": "Legacy discretionary waiver", "source": "Archived operations wiki", "excerpt": "Agents may waive any transfer fee for customers with more than five years of tenure.", "tokens": 150, "relevance": 4, "safetyRisk": 90, "signals": ["superseded", "obsolete"] },
+          { "id": "chat-snippet", "title": "Team chat excerpt", "source": "Support chat", "excerpt": "A teammate suggests waiving small fees whenever a customer threatens to close the account.", "tokens": 85, "relevance": 1, "safetyRisk": 65, "signals": ["unapproved", "anecdotal"] }
+        ],
+        "idealOrder": ["fee-policy", "approval-matrix", "fee-glossary"],
+        "debrief": "Freshness and authority must be encoded in retrieval data and tested as ranking behavior. A longer prompt cannot repair a context window dominated by obsolete policy."
+      }
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+id: solution-architecture
+slug: solution-architecture
+title: Solution Architecture
+description: Design trustworthy, evolvable customer systems around real workflows, integrations, risks, and delivery constraints.
+order: 4
+status: published
+skills:
+  - Architecture
+  - Software Engineering
+  - Security
+  - Production

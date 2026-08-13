@@ -1,0 +1,52 @@
+---
+id: data-exfiltration-controls
+slug: data-exfiltration-controls
+title: Control Data Exfiltration Paths
+track: enterprise-ai-security
+module: data-protection
+order: 3
+difficulty: intermediate
+durationMinutes: 17
+status: published
+prerequisites:
+  - prompt-injection-trust-boundaries
+skills:
+  - Security
+  - Data
+  - Architecture
+objectives:
+  - Trace sensitive data from source through model and tool boundaries
+  - Apply minimization and egress controls at each destination
+experiments: []
+practice:
+  - security-003
+  - security-011
+  - security-012
+  - security-013
+---
+
+## Exfiltration needs both data and a path out
+
+Protecting secrets in prompts is not enough. Sensitive information can move through retrieved chunks, tool responses, logs, traces, analytics, model-provider requests, generated files, email tools, or copied chat output. Threat modeling must follow the full data flow.
+
+<CustomerScenario title="A harmless summary with the wrong recipient">
+  Northstar's assistant retrieves a manager-only fraud note while handling a customer ticket. A later email tool sends a polished case summary to the customer, including the restricted note.
+</CustomerScenario>
+
+The failure combines over-broad retrieval, excessive context retention, and an unreviewed outbound destination. Fixing only the final prompt leaves the other paths open.
+
+## Minimize at every boundary
+
+For each data element, ask whether the current task needs it, whether the actor may access it, how long it must remain, and where it may be sent. Prefer references and scoped fields over complete records. Redact before model context when possible rather than asking the model not to repeat a secret it has already seen.
+
+Control egress with destination allowlists, content classification, data-loss rules, human approval, and server-side enforcement. Logs should capture enough for diagnosis without becoming a second sensitive database.
+
+<FDEPrinciple>
+  Reduce what the model can see and independently constrain where any result can go.
+</FDEPrinciple>
+
+## Verify provider and operational boundaries
+
+Document model-provider retention, regional processing, encryption, and training-use settings. Apply equivalent review to tracing, support tooling, and evaluation datasets. Synthetic examples are safer for routine testing; production excerpts need explicit handling rules.
+
+An FDE should produce a data-flow diagram that names sources, transformations, stores, model calls, tools, destinations, and owners. Security reviewers can then challenge concrete flows rather than generic assurances about “enterprise-grade AI.”

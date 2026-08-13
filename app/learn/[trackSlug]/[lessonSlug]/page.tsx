@@ -61,8 +61,11 @@ export default async function LessonPage({ params }: PageProps) {
           <div className="mt-8"><LessonBody source={lesson.content} /></div>
 
           <div className="mt-14 rounded-xl border bg-card p-5 sm:flex sm:items-center sm:justify-between">
-            <div><p className="font-semibold">Ready to keep moving?</p><p className="mt-1 text-sm text-muted-foreground">Complete the lesson to update your track progress.</p></div>
-            <div className="mt-4 sm:mt-0"><LessonProgressButton lessonId={frontmatter.id} lessonSlug={frontmatter.slug} trackSlug={frontmatter.track} /></div>
+            <div><p className="font-semibold">Ready to apply the lesson?</p><p className="mt-1 text-sm text-muted-foreground">Practice the topic, then complete it to update your track progress.</p></div>
+            <div className="mt-4 flex flex-wrap gap-2 sm:mt-0">
+              {frontmatter.practice.length > 0 ? <Link className="inline-flex h-9 items-center justify-center rounded-md border bg-background px-4 text-sm font-medium shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground" href={`/practice?lesson=${frontmatter.id}`}>Practice this topic</Link> : null}
+              <LessonProgressButton lessonId={frontmatter.id} lessonSlug={frontmatter.slug} trackSlug={frontmatter.track} />
+            </div>
           </div>
 
           <nav aria-label="Lesson navigation" className="mt-8 grid gap-3 sm:grid-cols-2">

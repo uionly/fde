@@ -83,7 +83,7 @@ export function VisitorProgressDashboard({
           <h2 className="text-xl font-semibold">No progress yet</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-muted-foreground">Complete a lesson, scenario, Field Mission, or Arcade mission to build your field profile on this device.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Button asChild><Link href="/games/model-router-arena">Start a 3-minute mission <ArrowRight aria-hidden="true" className="size-4" /></Link></Button>
+            <Button asChild><Link href="/games/model-router-arena">Start the routing simulation <ArrowRight aria-hidden="true" className="size-4" /></Link></Button>
             <Button asChild variant="outline"><Link href="/learn">Browse lessons</Link></Button>
           </div>
         </section>

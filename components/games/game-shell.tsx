@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { GameIcon } from "@/components/games/game-icon";
-import type { FieldGame, QuickDecisionScenario } from "@/lib/content/schemas";
+import type { FieldGame, GameScenario } from "@/lib/content/schemas";
 
 const difficultyLabels: Record<FieldGame["difficulty"], string> = {
   beginner: "Warm-up",
@@ -11,7 +11,13 @@ const difficultyLabels: Record<FieldGame["difficulty"], string> = {
   advanced: "Expert",
 };
 
-export function GameShell({ game, scenario, children }: { game: FieldGame; scenario: QuickDecisionScenario; children: ReactNode }) {
+const modeLabels: Record<FieldGame["type"], string> = {
+  "quick-decision": "Quick mission",
+  "model-router": "Routing simulation",
+  "retrieval-rank": "Ranking simulation",
+};
+
+export function GameShell({ game, scenario, children }: { game: FieldGame; scenario: GameScenario; children: ReactNode }) {
   return (
     <div className="pb-20">
       <section className="border-b bg-foreground text-background">
@@ -22,7 +28,7 @@ export function GameShell({ game, scenario, children }: { game: FieldGame; scena
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
-                <GameIcon category={game.category} className="size-4" /> Quick mission / {difficultyLabels[game.difficulty]}
+                <GameIcon category={game.category} className="size-4" /> {modeLabels[game.type]} / {difficultyLabels[game.difficulty]}
               </div>
               <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">{game.title}</h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-background/65">{game.description}</p>

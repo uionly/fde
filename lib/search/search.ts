@@ -12,7 +12,7 @@ export function buildSearchIndex(): SearchItem[] {
     title: game.title,
     description: game.customerHeadline,
     href: `/games/${game.slug}`,
-    searchText: `${game.title} ${game.shortTitle} ${game.customerHeadline} ${game.description} ${game.mechanic} ${game.category} ${game.skills.join(" ")} ${game.learningObjectives.join(" ")} ${game.principle} ${game.scenarios.map((scenario) => `${scenario.customer} ${scenario.title} ${scenario.briefing} ${scenario.objective} ${scenario.prompt} ${scenario.debrief} ${scenario.choices.map((choice) => `${choice.text} ${choice.rationale}`).join(" ")}`).join(" ")}`,
+    searchText: `${game.title} ${game.shortTitle} ${game.customerHeadline} ${game.description} ${game.mechanic} ${game.category} ${game.skills.join(" ")} ${game.learningObjectives.join(" ")} ${game.principle} ${game.scenarios.map((scenario) => JSON.stringify(scenario)).join(" ")}`,
   }));
   const glossary: SearchItem[] = getAllGlossaryEntries().map((entry) => ({ id: entry.slug, type: "glossary", title: entry.term, description: entry.shortDefinition, href: `/resources/glossary/${entry.slug}`, searchText: `${entry.term} ${entry.shortDefinition}` }));
   const practice: SearchItem[] = getAllQuestions().map((question) => ({ id: question.id, type: "practice", title: question.prompt, description: question.scenario, href: `/practice?category=${question.category}`, searchText: `${question.prompt} ${question.scenario} ${question.category} ${question.skills.join(" ")}` }));

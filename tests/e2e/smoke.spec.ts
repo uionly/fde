@@ -1,12 +1,14 @@
 import { expect, test } from "@playwright/test";
 
+import { routeSupportQueue } from "./game-helpers";
+
 test("landing page, navigation, and theme work", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1, name: /Can you ship AI that survives the enterprise/i })).toBeVisible();
   await expect(page.getByText("Northstar Financial", { exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Run a 3-minute AI mission/ })).toHaveAttribute("href", "/games/model-router-arena");
+  await expect(page.getByRole("link", { name: /Run a 5-minute AI mission/ })).toHaveAttribute("href", "/games/model-router-arena");
   await expect(page.getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
   await expect(page.getByRole("link", { name: /Change the variables/ })).toHaveAttribute("href", "/experiments");
   await expect(page.getByRole("link", { name: /Deliver the outcome/ })).toHaveAttribute("href", "/labs#field-missions");
@@ -51,6 +53,7 @@ test("AI Labs owns its arcade, playground, and field-mission routes", async ({ p
 
 test("learner can navigate track to lesson to next lesson", async ({ page }) => {
   await page.goto("/learn");
+  await expect(page.getByRole("link", { name: /LLM Engineering/ }).getByText("126 min", { exact: true })).toBeVisible();
   await page.getByRole("link", { name: /FDE Foundations/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "FDE Foundations" })).toBeVisible();
 
@@ -60,6 +63,18 @@ test("learner can navigate track to lesson to next lesson", async ({ page }) => 
 
   await page.getByRole("link", { name: /Next.*From Customer Request to Problem Statement/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "From Customer Request to Problem Statement" })).toBeVisible();
+});
+
+test("lesson practice action opens only its connected scenarios", async ({ page }) => {
+  await page.goto("/learn/fde-foundations/what-is-fde");
+  const practiceLink = page.getByRole("link", { name: "Practice this topic" });
+  await expect(practiceLink).toHaveAttribute("href", "/practice?lesson=what-is-fde");
+  await practiceLink.click();
+
+  await expect(page).toHaveURL(/\/practice\?lesson=what-is-fde$/);
+  await expect(page.getByText("Practicing scenarios connected to this lesson.")).toBeVisible();
+  await expect(page.getByText("1 / 2", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Browse the full question bank/ })).toHaveAttribute("href", "/practice");
 });
 
 test("the showcase has no sign-in surface and legacy account routes redirect", async ({ page }) => {
@@ -89,8 +104,8 @@ test("visitor completes and resumes a lesson on this device", async ({ page }) =
   await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();
   await page.goto("/progress");
   await expect(page.getByText(/Saved only in this browser/i)).toBeVisible();
-  await expect(page.getByText("1 of 4 lessons", { exact: true })).toBeVisible();
-  await expect(page.locator("#main-content").getByText("25%", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 of 48 lessons", { exact: true })).toBeVisible();
+  await expect(page.locator("#main-content").getByText("2%", { exact: true })).toBeVisible();
 });
 
 test("practice filters, multiple-choice feedback, and persistence work", async ({ page }) => {
@@ -139,7 +154,7 @@ test("all five deterministic experiments run and reset", async ({ page }) => {
   await expect(page.getByText("Model cost")).toBeVisible();
 });
 
-test("AI Labs home rewards a correct game decision and persists XP", async ({ page }) => {
+test("AI Labs home rewards a correct routing simulation and persists XP", async ({ page }) => {
   await page.goto("/labs");
   await expect(page.getByRole("heading", { level: 1, name: /Make the architecture call.*See the production consequence/ })).toBeVisible();
   const labModes = page.getByLabel("Choose an AI Lab mode");
@@ -148,14 +163,14 @@ test("AI Labs home rewards a correct game decision and persists XP", async ({ pa
   await expect(labModes.getByRole("link", { name: /Deliver/ })).toBeVisible();
   await expect(page.getByText("The demo does not generalize", { exact: true })).toBeVisible();
   await page.getByRole("link", { name: /Run today's incident/ }).click();
-  await expect(page.getByRole("heading", { name: "Model Router Arena" })).toBeVisible();
-  await page.getByRole("button", { name: "Begin mission" }).click();
-  await page.getByText("Use a small model for classification and escalate uncertain or complex cases", { exact: true }).click();
-  await page.getByRole("button", { name: "Run simulation" }).click();
-  await expect(page.getByText("Mission cleared · +40 XP")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Model Router Rush" })).toBeVisible();
+  await page.getByRole("button", { name: "Open routing board" }).click();
+  await routeSupportQueue(page);
+  await page.getByRole("button", { name: "Run traffic" }).click();
+  await expect(page.getByText("Mission cleared · +60 XP")).toBeVisible();
   await page.goto("/labs");
   const fieldProfile = page.getByLabel("AI Labs field profile");
-  await expect(fieldProfile.getByText("40", { exact: true })).toBeVisible();
+  await expect(fieldProfile.getByText("60", { exact: true })).toBeVisible();
 });
 
 test("guided lab saves and resumes the current step", async ({ page }) => {
@@ -208,7 +223,7 @@ test("search finds content and field resources are downloadable", async ({ page 
   await expect(page.getByRole("link", { name: /Permission-Aware Enterprise Retrieval/ })).toBeVisible();
   await page.getByRole("searchbox").fill("model router");
   await page.getByRole("button", { name: "Search" }).click();
-  await expect(page.getByRole("link", { name: /Model Router Arena/ })).toHaveAttribute("href", "/games/model-router-arena");
+  await expect(page.getByRole("link", { name: /Model Router Rush/ })).toHaveAttribute("href", "/games/model-router-arena");
   await page.getByRole("searchbox").fill("prompt injection simulator");
   await page.getByRole("button", { name: "Search" }).click();
   await expect(page.getByRole("link", { name: /Prompt Injection Simulator/ })).toHaveAttribute("href", "/experiments/prompt-injection-simulator");
@@ -266,6 +281,6 @@ test("integrated visitor learning journey", async ({ page }) => {
   await page.goto("/case-studies/northstar");
   await expect(page.getByRole("heading", { name: "Northstar Financial" })).toBeVisible();
   await page.goto("/progress");
-  await expect(page.locator("#main-content").getByText("25%", { exact: true })).toBeVisible();
+  await expect(page.locator("#main-content").getByText("2%", { exact: true })).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Security skill score: 100%" })).toBeVisible();
 });

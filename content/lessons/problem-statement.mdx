@@ -17,7 +17,9 @@ objectives:
   - Separate symptoms from root problems
   - Write a measurable problem statement
 experiments: []
-practice: []
+practice:
+  - discovery-002
+  - discovery-003
 ---
 
 ## Requests are evidence, not specifications
@@ -35,3 +37,21 @@ A strong statement names **who** experiences **what problem**, in **which workfl
 <CustomerScenario>
   Northstar support specialists spend 31% of handling time searching across three policy repositories. The target is to reduce median resolution time without exposing manager-only procedures.
 </CustomerScenario>
+
+That statement is useful because it creates questions the team can answer. Which specialist groups experience the delay? How was the 31% measured? Which repositories and access rules are involved? What resolution-time improvement matters enough to change the workflow?
+
+## Separate observation, cause, and hypothesis
+
+Do not embed an untested diagnosis inside the problem. “Agents are slow because our model is too small” mixes a symptom with a proposed cause. Record the observable workflow problem first, then list competing explanations: retrieval vocabulary mismatch, stale content, permission filters, integration latency, or adoption friction.
+
+A solution hypothesis should be falsifiable: “Permission-aware hybrid retrieval will reduce policy-search time for support specialists while maintaining zero unauthorized document exposure.” It remains a hypothesis until representative evidence supports it.
+
+## Bound the first outcome
+
+Name a baseline, target, observation window, and owner. Include non-negotiable constraints such as tenant isolation, response-time limits, and human approval. Avoid broad promises like “improve productivity” that cannot guide a release decision.
+
+<Callout title="Problem-statement test">
+  A team should be able to evaluate several solution shapes against the same problem statement. If the statement already dictates “build an agent,” it is still a request, not a problem definition.
+</Callout>
+
+Return the statement to users, operators, and the sponsor. Their disagreement is valuable evidence: it exposes workflow variation and conflicting success definitions before they become expensive architecture changes.

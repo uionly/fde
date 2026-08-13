@@ -1,0 +1,55 @@
+---
+id: reliability-and-failure-design
+slug: reliability-and-failure-design
+title: Design Failure as a Normal System Path
+track: solution-architecture
+module: boundaries
+order: 4
+difficulty: advanced
+durationMinutes: 20
+status: published
+prerequisites:
+  - integration-and-data-contracts
+skills:
+  - Architecture
+  - Production
+  - Software Engineering
+objectives:
+  - Select bounded reliability patterns from workflow impact
+  - Define degraded behavior, observability, and recovery ownership
+experiments: []
+practice:
+  - architecture-004
+  - architecture-014
+  - architecture-015
+  - architecture-016
+---
+
+## Reliable systems fail deliberately
+
+Dependencies time out, data arrives late, models return invalid output, and operators make mistakes. Reliability is not the absence of those events. It is the system's ability to contain them, preserve important invariants, and guide users and operators toward recovery.
+
+<CustomerScenario title="Retries turn slowness into an outage">
+  Northstar's ticketing API slows during a volume spike. Every assistant request retries five times without backoff, exhausting connection pools. Specialists see a spinner, cannot tell whether notes were saved, and submit duplicate updates.
+</CustomerScenario>
+
+Start with failure impact in the workflow. Classify operations by criticality, latency sensitivity, reversibility, and consistency requirement. Policy search might degrade to a clearly labeled source link. A refund write might stop and require reconciliation because an uncertain duplicate is unacceptable.
+
+Use timeouts shorter than the user's total latency budget. Retry only transient failures, with exponential backoff, jitter, and a bounded attempt count. Apply circuit breaking when repeated calls would amplify a dependency outage. Use queues when work can complete asynchronously, and apply backpressure rather than accepting unlimited demand.
+
+<MermaidDiagram chart={`flowchart LR
+  R[Request] --> T{Within timeout?}
+  T -->|Yes| S[Success]
+  T -->|No| C{Safe to retry?}
+  C -->|Bounded| B[Backoff]
+  C -->|No| F[Fallback or reconcile]`} />
+
+Define degraded behavior with the customer. Never present stale or partial results as normal. Show what is unavailable, preserve completed work, and provide a safe next step. Establish recovery-point and recovery-time expectations for stateful components.
+
+Observability should follow the customer transaction across boundaries. Capture latency, error class, retry count, queue depth, model contract failures, fallback use, and final task outcome with correlated traces. Alerts require an owner and a response playbook.
+
+<FDEPrinciple variant="warning">
+  Bound failure in time, scope, and consequence, then make recovery visible to users and operators.
+</FDEPrinciple>
+
+Test the unhappy path before launch. Inject timeouts, malformed responses, stale data, and partial writes in a safe environment. A rehearsed fallback is an architectural capability; an undocumented hope is not.

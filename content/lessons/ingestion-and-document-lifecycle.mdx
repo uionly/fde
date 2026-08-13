@@ -1,0 +1,49 @@
+---
+id: ingestion-and-document-lifecycle
+slug: ingestion-and-document-lifecycle
+title: Ingestion and the Document Lifecycle
+track: enterprise-rag
+module: data-pipeline
+order: 2
+difficulty: intermediate
+durationMinutes: 22
+status: published
+prerequisites:
+  - enterprise-rag-systems
+skills:
+  - Data
+  - AI Engineering
+  - Production
+objectives:
+  - Preserve document identity, authority, permissions, and version state during ingestion
+  - Choose chunking boundaries using the customer's retrieval task
+experiments:
+  - chunking-playground
+practice:
+  - rag-002
+  - rag-008
+  - rag-009
+  - rag-010
+---
+
+## The index is a derived system
+
+An enterprise index must reflect the source of truth without pretending to replace it. Assign stable document identities, record connector and source location, capture version and effective dates, preserve ownership and access metadata, and make deletion propagate. Parsing should retain useful structure such as headings, tables, page numbers, and relationships between a policy and its appendix.
+
+<CustomerScenario title="The policy that would not disappear">
+  Northstar replaces a refund policy in SharePoint. The ingestion job adds the new file but never removes chunks from the old version. Search retrieves both, and the assistant sometimes cites the obsolete limit with equal confidence.
+</CustomerScenario>
+
+Model the full lifecycle: initial backfill, incremental updates, rename, permission change, supersession, deletion, connector failure, and replay. Use idempotent ingestion so a retried event cannot create duplicates. Store checksums and source versions, and expose lag and failure queues. When a document becomes inaccessible, remove or quarantine its searchable representations within the customer's required window.
+
+Chunking is a retrieval hypothesis. Fixed-size chunks are simple, but they can detach exceptions from the rule they qualify. Structure-aware chunks preserve sections; overlap may keep necessary context but adds duplicates and cost. Attach titles, headings, effective dates, source authority, and access labels as metadata rather than forcing the model to infer them from text.
+
+<Experiment id="chunking-playground" />
+
+Test chunk choices with real queries. Measure whether the smallest evidence unit contains enough information to answer and cite correctly. Inspect tables, scanned PDFs, repeated navigation, and documents whose meaning spans sections. No single chunk size is optimal for every corpus.
+
+<FDEPrinciple>
+  Treat ingestion as a governed synchronization pipeline. Freshness, deletion, provenance, and permissions are correctness requirements.
+</FDEPrinciple>
+
+If the team cannot explain which source version produced a chunk, it cannot confidently defend the answer built from it.

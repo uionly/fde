@@ -1,0 +1,45 @@
+---
+id: continuous-evaluation-gates
+slug: continuous-evaluation-gates
+title: Continuous Evaluation and Release Gates
+track: ai-evaluations
+module: operations
+order: 5
+difficulty: advanced
+durationMinutes: 24
+status: published
+prerequisites:
+  - evaluators-and-judgment
+skills:
+  - AI Engineering
+  - Production
+  - Software Engineering
+objectives:
+  - Integrate evaluation thresholds into AI system delivery
+  - Detect production drift and promote failures into regression coverage
+experiments: []
+practice:
+  - evaluations-016
+  - evaluations-017
+  - evaluations-018
+---
+
+## Make quality part of delivery
+
+An evaluation notebook run before launch is not a quality system. Put fast deterministic checks and a stable regression subset into continuous integration. Run the broader, slower suite before releases or scheduled changes. Store candidate results with model, prompt, retrieval, tool, policy, and dataset versions so the team can reproduce the decision.
+
+<CustomerScenario title="A silent provider migration">
+  Northstar's provider retires a model alias. The replacement passes API health checks but abstains less often on ambiguous refund requests. Average answer quality looks unchanged, while risky false approvals double.
+</CustomerScenario>
+
+Release gates should reflect consequence. Block any critical security or authorization regression. Require task-quality and operational thresholds by important slice, not only in aggregate. Use a documented exception path with owner, evidence, expiry, and mitigation when a legitimate business reason requires shipping below a noncritical threshold.
+
+Offline tests cannot capture every production shift. Monitor input distribution, retrieval freshness, validation failures, overrides, escalations, latency, cost, and delayed task outcomes. Compare canary traffic with the current system and keep a fast rollback path. Do not treat unreviewed user feedback as ground truth; route representative incidents through privacy review and expert labeling.
+
+Create a closed loop. A confirmed production failure enters the taxonomy, receives a minimal reproducible case, and becomes regression coverage in the correct layer. Freeze periodic benchmark snapshots so the growing set does not erase historical comparability. Retire cases only with a recorded reason, such as a changed customer policy.
+
+<FDEPrinciple>
+  Every AI change needs evidence before exposure, guardrails during rollout, and a path for production failures to become durable tests.
+</FDEPrinciple>
+
+The goal is not to prevent change. It is to make change legible: what improved, what regressed, who accepted the tradeoff, and what signal will trigger rollback.

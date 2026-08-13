@@ -1,0 +1,10 @@
+id: llm-engineering
+slug: llm-engineering
+title: LLM Engineering
+description: Build reliable model-powered features around explicit contracts, measured tradeoffs, and production constraints.
+order: 5
+status: published
+skills:
+  - AI Engineering
+  - Software Engineering
+  - Production

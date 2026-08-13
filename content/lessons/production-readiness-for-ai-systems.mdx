@@ -1,0 +1,51 @@
+---
+id: production-readiness-for-ai-systems
+slug: production-readiness-for-ai-systems
+title: Production Readiness for Enterprise AI
+track: enterprise-ai-systems
+module: production
+order: 3
+difficulty: advanced
+durationMinutes: 18
+status: published
+prerequisites:
+  - why-ai-evaluations
+skills:
+  - Production
+  - Architecture
+  - AI Engineering
+objectives:
+  - Define launch gates across quality, safety, cost, and reliability
+  - Design degraded modes and rollback for AI dependencies
+experiments:
+  - ai-cost-calculator
+practice:
+  - agents-015
+  - agents-016
+---
+
+## A successful demo is not a launch gate
+
+Production readiness connects representative evidence to an operating plan. The system needs measurable quality and safety thresholds, capacity and cost limits, dependency behavior, observability, ownership, and a way to reduce harm when conditions change.
+
+<CustomerScenario title="Northstar's Monday traffic spike">
+  The assistant passes a curated evaluation on Friday. On Monday, traffic triples, the retrieval service slows, and the model provider rate-limits requests. Support specialists receive partial answers without knowing the evidence is stale.
+</CustomerScenario>
+
+## Define independent gates
+
+Do not let a high average score conceal a critical failure. Set separate release thresholds for task quality, access control, harmful behavior, latency, cost per task, and recovery. Evaluate important user roles and workflow categories rather than only aggregate traffic.
+
+The runbook should name service objectives, dashboards, alert thresholds, on-call owners, dependency limits, and rollback triggers. Version prompts, models, indexes, tool contracts, and policies so an incident can be reproduced.
+
+<FDEPrinciple variant="warning">
+  Launch when the system has evidence, limits, owners, and a safe degraded path—not when the demo feels convincing.
+</FDEPrinciple>
+
+## Design degradation intentionally
+
+When retrieval is unavailable, the product might switch to source-linked search rather than generate ungrounded answers. When a write tool fails, preserve the proposed action for human completion. When cost or rate limits are reached, route lower-risk work to a smaller model and escalate consequential cases.
+
+<Experiment id="ai-cost-calculator" />
+
+Test these states before launch. A graceful fallback must be visible to the user and observable to operators. The strongest readiness review ends with concrete go/no-go evidence and explicit residual risks accepted by the customer owner.

@@ -18,7 +18,9 @@ objectives:
   - Identify unsafe document access paths
 experiments:
   - retrieval-playground
-practice: []
+practice:
+  - architecture-002
+  - security-002
 ---
 
 ## Retrieval is an authorization boundary
@@ -40,5 +42,21 @@ An answer is not safe merely because the user is authenticated. The retrieval la
 </FDEPrinciple>
 
 <Experiment id="retrieval-playground" />
+
+## Carry permissions through the lifecycle
+
+Access metadata must be captured during ingestion, updated when source permissions change, and enforced when candidates are generated. Filtering after generation is too late: the model has already received restricted content. Preserve source identifiers and policy versions so an answer can be audited and invalidated when access changes.
+
+Decide how document-level and section-level permissions combine, how groups and regional boundaries are resolved, and what happens when authorization data is unavailable. The safe degraded behavior is usually to return less evidence or route to an approved source—not to search without filters.
+
+## Verify isolation with adversarial cases
+
+Build tests for users with overlapping roles, recently revoked access, cross-tenant vocabulary, manager-only exceptions, and documents whose permissions changed after indexing. Measure both useful retrieval for allowed content and zero exposure for denied content. A high relevance score cannot compensate for one unauthorized candidate.
+
+<Callout title="Architecture review question">
+  At each hop, can the team show which identity, resource policy, and tenant boundary produced the authorization decision?
+</Callout>
+
+Treat citations as a transparency feature, not a security control. A citation can reveal that leakage occurred; it cannot prevent the restricted chunk from reaching the model. Enforcement belongs in the retrieval and tool control planes.
 
 See how this failure appears in the [Northstar permission reveal](/case-studies/northstar#permission-sensitive).

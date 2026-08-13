@@ -50,7 +50,7 @@ type AILabsHomeProps = {
 export function AILabsHome({ freshSessionStarted = false, showcase, totals }: AILabsHomeProps) {
   const { content, featuredGame, supportingGames, featuredExperiments, featuredLabs, northstarThread } = showcase;
   const modeStats = {
-    simulate: `${totals.games} quick missions`,
+    simulate: `${totals.games} field simulations`,
     experiment: `${totals.experiments} system playgrounds`,
     deliver: `${totals.labs} guided missions`,
   };

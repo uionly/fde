@@ -1,0 +1,51 @@
+---
+id: thin-slices-and-evolution
+slug: thin-slices-and-evolution
+title: Deliver Thin Slices That Can Evolve
+track: solution-architecture
+module: evolution
+order: 5
+difficulty: intermediate
+durationMinutes: 17
+status: published
+prerequisites:
+  - reliability-and-failure-design
+skills:
+  - Architecture
+  - Software Engineering
+  - Customer Delivery
+objectives:
+  - Define a thin end-to-end slice around a customer learning goal
+  - Preserve evolution paths without building speculative platforms
+experiments: []
+practice:
+  - architecture-003
+  - architecture-017
+  - architecture-018
+---
+
+## Thin means narrow in scope, not incomplete in responsibility
+
+A vertical slice serves a bounded user and workflow from interface through integrations, controls, observability, and outcome measurement. It is intentionally shallow in breadth, but credible enough to generate production-relevant evidence. A UI mock or isolated model demo is not an end-to-end slice.
+
+<CustomerScenario title="Platform first, learning later">
+  Northstar has eight weeks to test policy assistance. The team proposes a universal connector framework, multi-region event platform, and generalized agent runtime before any specialist uses cited guidance. Most design decisions depend on usage patterns the team has not observed.
+</CustomerScenario>
+
+Choose the first slice by outcome and uncertainty. A useful boundary might serve Tier 1 domestic refund questions from public policy, read only, with citations and feedback. It includes identity, source ingestion, retrieval, response validation, telemetry, and an operator path. It excludes manager-only exceptions and write actions explicitly.
+
+Preserve evolution through clear seams. Use a domain contract around policy retrieval, keep provider-specific code behind adapters, and separate evaluation data from runtime logic. These boundaries make change cheaper without predicting every future connector or deployment topology.
+
+Avoid abstractions supported by only one example. Duplicate a small amount of code until stable variation appears; premature generalization freezes assumptions. Conversely, do not create irreversible coupling at known trust or ownership boundaries merely to move faster.
+
+<Callout title="Evolution checkpoint">
+  Before expanding, review which assumptions the slice confirmed, which failed, and which new variation justifies an abstraction or boundary change.
+</Callout>
+
+Use feature flags, compatibility tests, migration paths, and observable rollout cohorts so the system can change safely. Architectural fitness measures—latency, access-control tests, contract validity, cost per task—help preserve important properties as capability grows.
+
+<FDEPrinciple variant="insight">
+  Build the smallest operable path that tests the customer outcome, with seams informed by real boundaries rather than imagined scale.
+</FDEPrinciple>
+
+Evolutionary architecture is disciplined option preservation. The team delays expensive commitments until evidence improves the decision while still delivering a complete, trustworthy slice of value now.

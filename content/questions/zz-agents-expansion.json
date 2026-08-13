@@ -1,0 +1,279 @@
+[
+  {
+    "id": "agents-004",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "beginner",
+    "skills": ["AI Engineering", "Architecture"],
+    "scenario": "Northstar's refund flow always verifies identity, looks up one transaction, checks a fixed limit, and creates a request for approval.",
+    "prompt": "Which implementation is the safest starting point?",
+    "choices": [
+      { "id": "deterministic-flow", "text": "A deterministic workflow with a model only for evidence summarization", "rationale": "Stable rules stay testable while the model handles the narrow judgment-heavy step." },
+      { "id": "autonomous-planner", "text": "An autonomous planner with unrestricted access to every refund tool", "rationale": "Open-ended planning adds risk without solving variability in this fixed process." },
+      { "id": "multi-agent-panel", "text": "Three agents that debate every refund", "rationale": "More agents add latency and complexity but do not improve the deterministic control path." }
+    ],
+    "correct": ["deterministic-flow"],
+    "explanation": "Keep stable identity, policy, and state transitions deterministic; use model judgment only where it creates measurable value.",
+    "relatedLesson": "workflow-or-agent",
+    "principle": "Use the least autonomous system that reliably solves the customer problem."
+  },
+  {
+    "id": "agents-005",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Business Thinking"],
+    "scenario": "A team proposes an agent for triaging novel operations incidents that vary in evidence, affected service, and available remediation.",
+    "prompt": "Which two facts most strongly support using bounded agent planning?",
+    "choices": [
+      { "id": "variable-path", "text": "The appropriate investigation path changes with observed evidence", "rationale": "Dynamic path selection is a genuine reason to use planning." },
+      { "id": "bounded-tools", "text": "Available diagnostic tools are narrow, read-only, and observable", "rationale": "Bounded capabilities make adaptive planning safer to evaluate." },
+      { "id": "executive-label", "text": "An executive asked that the product be called an agent", "rationale": "A label is not evidence that autonomy improves the workflow." },
+      { "id": "fixed-sequence", "text": "Every incident follows the same documented three steps", "rationale": "A fixed sequence argues for deterministic orchestration instead." }
+    ],
+    "correct": ["variable-path", "bounded-tools"],
+    "explanation": "Agent planning is justified by meaningful path variability when actions can still be constrained and observed.",
+    "relatedLesson": "workflow-or-agent",
+    "principle": "Autonomy must earn its operational complexity."
+  },
+  {
+    "id": "agents-006",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["Software Engineering", "Security"],
+    "scenario": "A CRM tool accepts an arbitrary JSON object and can update contact details, risk flags, credit limits, and account status.",
+    "prompt": "What is the best contract redesign?",
+    "choices": [
+      { "id": "narrow-tools", "text": "Expose purpose-specific tools with allowlisted fields and server-side validation", "rationale": "Narrow contracts reduce accidental authority and make each action testable." },
+      { "id": "better-description", "text": "Keep the broad tool but write a longer model-facing description", "rationale": "A description cannot prevent unauthorized fields from reaching execution." },
+      { "id": "admin-payload", "text": "Add an isAdmin argument for the model to set", "rationale": "The model must not decide its own authorization context." }
+    ],
+    "correct": ["narrow-tools"],
+    "explanation": "Split broad mutation into bounded capabilities and enforce field, identity, and policy checks outside model context.",
+    "relatedLesson": "agent-tool-contracts",
+    "principle": "Tool contracts should expose only the capability required for the task."
+  },
+  {
+    "id": "agents-007",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["Software Engineering", "Production"],
+    "scenario": "A payment tool sometimes times out after the provider has accepted a refund, so the agent cannot tell whether retrying will duplicate it.",
+    "prompt": "Which two contract features most directly make retry safe?",
+    "choices": [
+      { "id": "idempotency-key", "text": "A stable idempotency key for the business operation", "rationale": "The provider can recognize the same requested transaction across retries." },
+      { "id": "status-lookup", "text": "A structured operation-status lookup", "rationale": "The workflow can reconcile an ambiguous timeout before acting again." },
+      { "id": "infinite-retry", "text": "Automatic retry until a success message appears", "rationale": "Unbounded retries can duplicate work and amplify an outage." },
+      { "id": "free-text-error", "text": "A different prose error message on every failure", "rationale": "Unstructured variation makes reliable recovery harder." }
+    ],
+    "correct": ["idempotency-key", "status-lookup"],
+    "explanation": "Idempotency plus reconciliation lets the system recover from ambiguous network outcomes without repeating the business action.",
+    "relatedLesson": "agent-tool-contracts",
+    "principle": "Design tool contracts for partial failure, not only the happy path."
+  },
+  {
+    "id": "agents-008",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["Data", "AI Engineering"],
+    "scenario": "An assistant's conversation summary says a claim is approved, but the claims system changed the status to rejected after supervisor review.",
+    "prompt": "What should supply the status shown to the user?",
+    "choices": [
+      { "id": "authoritative-read", "text": "A fresh read from the claims system using the stored claim reference", "rationale": "Authoritative state must override a replaceable conversation summary." },
+      { "id": "old-summary", "text": "The earlier model summary because it is already in context", "rationale": "Context can be stale and is not the system of record." },
+      { "id": "model-guess", "text": "A new model guess based on the conversation tone", "rationale": "Probabilistic inference cannot establish transaction state." }
+    ],
+    "correct": ["authoritative-read"],
+    "explanation": "Persist references and typed workflow state, then refresh consequential facts from the authoritative system.",
+    "relatedLesson": "agent-state-and-memory",
+    "principle": "Model context is working memory, not authoritative business state."
+  },
+  {
+    "id": "agents-009",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["Data", "Security"],
+    "scenario": "Northstar wants the assistant to remember customer preferences across support conversations without retaining unnecessary sensitive data.",
+    "prompt": "Which two design choices best support that goal?",
+    "choices": [
+      { "id": "explicit-fields", "text": "Store explicit, user-reviewable preference fields with provenance", "rationale": "Typed preferences can be corrected and tied to their source." },
+      { "id": "retention-policy", "text": "Define purpose, access, expiry, and deletion for each memory category", "rationale": "Retention should follow a concrete business need and risk boundary." },
+      { "id": "all-history", "text": "Keep every raw conversation forever", "rationale": "Unbounded history expands privacy and access risk without proving value." },
+      { "id": "cross-customer", "text": "Reuse semantically similar memories across customers", "rationale": "Similarity must never override tenant and customer boundaries." }
+    ],
+    "correct": ["explicit-fields", "retention-policy"],
+    "explanation": "Useful memory is scoped, typed, attributable, correctable, and retained only for a defined purpose.",
+    "relatedLesson": "agent-state-and-memory",
+    "principle": "Persist the minimum trustworthy memory the workflow needs."
+  },
+  {
+    "id": "agents-010",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["Security", "AI Engineering"],
+    "scenario": "A supervisor approves a $500 refund, but the agent changes the amount to $5,000 before calling the payment tool.",
+    "prompt": "Which control should block execution?",
+    "choices": [
+      { "id": "bound-approval", "text": "Verify that approval is bound to the exact arguments and invalidate it on change", "rationale": "Approval must cover the specific consequential action being executed." },
+      { "id": "approval-text", "text": "Search the chat transcript for the word approved", "rationale": "Free-form text does not bind authorization to an amount or operation." },
+      { "id": "model-review", "text": "Ask the same model whether the change seems reasonable", "rationale": "The model cannot authorize its own modified action." }
+    ],
+    "correct": ["bound-approval"],
+    "explanation": "Execution must validate a durable approval tied to actor, action, arguments, and expiry.",
+    "relatedLesson": "agent-approval-and-recovery",
+    "principle": "Approval is a control-plane decision, not conversational content."
+  },
+  {
+    "id": "agents-011",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["Production", "AI Engineering"],
+    "scenario": "An incident agent repeatedly receives a 403 from one diagnostic tool and keeps replanning into the same call.",
+    "prompt": "Which two controls create a safe recovery path?",
+    "choices": [
+      { "id": "repeat-detection", "text": "Detect repeated state and stop after a bounded retry budget", "rationale": "The loop needs an enforceable termination condition." },
+      { "id": "structured-escalation", "text": "Persist the evidence and escalate with the failed permission context", "rationale": "A human can continue without losing diagnostic state." },
+      { "id": "more-tokens", "text": "Increase the context window after every retry", "rationale": "More context does not repair missing authorization." },
+      { "id": "broader-credential", "text": "Silently switch to an administrator credential", "rationale": "Escalating privilege bypasses the failed security boundary." }
+    ],
+    "correct": ["repeat-detection", "structured-escalation"],
+    "explanation": "Bound the loop, classify non-retryable failures, and hand off preserved evidence through an explicit escalation path.",
+    "relatedLesson": "agent-approval-and-recovery",
+    "principle": "Every autonomous loop needs a safe, observable way to stop."
+  },
+  {
+    "id": "agents-012",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "An agent resolves a case correctly but calls six unrelated tools and exposes private fields in an intermediate trace.",
+    "prompt": "Why is final-answer accuracy insufficient?",
+    "choices": [
+      { "id": "path-risk", "text": "The trajectory and control compliance failed despite the correct outcome", "rationale": "Agent quality includes how the result was reached and which boundaries were crossed." },
+      { "id": "answer-only", "text": "It is sufficient because the customer saw the right answer", "rationale": "Hidden unsafe actions still create security and operational harm." },
+      { "id": "speed-only", "text": "Only response latency should be added", "rationale": "Latency cannot detect unnecessary tools or exposed data." }
+    ],
+    "correct": ["path-risk"],
+    "explanation": "Evaluate task outcome, tool trajectory, boundary compliance, and operational behavior separately.",
+    "relatedLesson": "evaluating-agent-systems",
+    "principle": "For agents, the path is part of the product behavior."
+  },
+  {
+    "id": "agents-013",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Security"],
+    "scenario": "A release changes the planner prompt for Northstar's operations agent.",
+    "prompt": "Which two regression suites are both required before rollout?",
+    "choices": [
+      { "id": "representative-traces", "text": "Representative task traces including tool failure and ambiguity", "rationale": "These reveal whether planning and recovery still work across real cases." },
+      { "id": "hard-boundaries", "text": "Deterministic tests for permissions, approvals, and transaction limits", "rationale": "Critical controls need pass/fail evidence independent of aggregate quality." },
+      { "id": "demo-only", "text": "One curated happy-path demo", "rationale": "A curated path does not cover failure tails or boundary behavior." },
+      { "id": "style-votes", "text": "A vote on whether the responses sound more polished", "rationale": "Style preference does not establish safe task performance." }
+    ],
+    "correct": ["representative-traces", "hard-boundaries"],
+    "explanation": "Agent changes require representative trajectory evaluation and deterministic verification of non-negotiable controls.",
+    "relatedLesson": "evaluating-agent-systems",
+    "principle": "Probabilistic behavior still depends on deterministic safety gates."
+  },
+  {
+    "id": "agents-014",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["Business Thinking", "AI Engineering"],
+    "scenario": "Agent task completion rises from 78% to 90%, but human rework and average handling time remain unchanged.",
+    "prompt": "What is the best next investigation?",
+    "choices": [
+      { "id": "workflow-segment", "text": "Segment traces by case type and inspect where humans still redo the work", "rationale": "The technical gain may not remove the actual workflow bottleneck." },
+      { "id": "declare-win", "text": "Declare success using completion rate alone", "rationale": "The customer outcome has not improved." },
+      { "id": "more-autonomy", "text": "Remove every approval gate", "rationale": "More authority does not explain unchanged rework and may add risk." }
+    ],
+    "correct": ["workflow-segment"],
+    "explanation": "Connect trajectory metrics to rework, time, and workflow segments to find the remaining customer constraint.",
+    "relatedLesson": "evaluating-agent-systems",
+    "principle": "Agent evaluation should predict customer workflow improvement."
+  },
+  {
+    "id": "agents-015",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["Production", "Architecture"],
+    "scenario": "Northstar's assistant depends on retrieval, a model provider, and a ticketing API. The launch review currently contains only answer-accuracy results.",
+    "prompt": "Which two additions are most important for production readiness?",
+    "choices": [
+      { "id": "independent-gates", "text": "Independent safety, latency, cost, and reliability thresholds", "rationale": "A quality average must not mask a critical launch failure." },
+      { "id": "degraded-modes", "text": "Tested degraded paths with owners and rollback triggers", "rationale": "Dependency failure needs an intentional, observable response." },
+      { "id": "hero-demo", "text": "A more polished executive demo", "rationale": "Presentation does not establish service behavior under failure." },
+      { "id": "unbounded-retry", "text": "Unlimited retries for every dependency", "rationale": "This can amplify outages, cost, and latency." }
+    ],
+    "correct": ["independent-gates", "degraded-modes"],
+    "explanation": "Launch evidence must cover independent system dimensions and prove safe operation when dependencies degrade.",
+    "relatedLesson": "production-readiness-for-ai-systems",
+    "principle": "Production readiness combines evidence, limits, ownership, and recovery."
+  },
+  {
+    "id": "agents-016",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["Production", "AI Engineering"],
+    "scenario": "Retrieval is unavailable, but the assistant continues producing uncited policy answers from model memory.",
+    "prompt": "What is the strongest degraded behavior?",
+    "choices": [
+      { "id": "safe-search", "text": "Disable generated policy answers and offer source-linked search or human routing", "rationale": "The fallback preserves useful work without pretending ungrounded output is authoritative." },
+      { "id": "silent-generation", "text": "Keep generating and hide the retrieval outage", "rationale": "Users cannot calibrate trust and may act on stale or invented policy." },
+      { "id": "random-cache", "text": "Return any previously cached answer", "rationale": "Unscoped cache reuse can provide the wrong policy or customer context." }
+    ],
+    "correct": ["safe-search"],
+    "explanation": "A degraded mode should visibly reduce capability while preserving a safe path to the customer's task.",
+    "relatedLesson": "production-readiness-for-ai-systems",
+    "principle": "Fail visibly and safely when a grounding dependency is unavailable."
+  },
+  {
+    "id": "agents-017",
+    "type": "single_choice",
+    "category": "agents",
+    "difficulty": "intermediate",
+    "skills": ["Customer Delivery", "Business Thinking"],
+    "scenario": "A grounded support assistant reaches 92% offline quality, but only 18% of specialists use it each week.",
+    "prompt": "What should the FDE do next?",
+    "choices": [
+      { "id": "observe-workflow", "text": "Observe target users and segment adoption to locate workflow friction", "rationale": "Low use may come from placement, trust, scope, or training rather than model quality." },
+      { "id": "larger-model", "text": "Upgrade the model before talking to users", "rationale": "There is no evidence model capability is the adoption constraint." },
+      { "id": "accuracy-success", "text": "Close the project because offline accuracy passed", "rationale": "Unused software has not produced the intended customer outcome." }
+    ],
+    "correct": ["observe-workflow"],
+    "explanation": "Combine adoption data with workflow observation to identify the remaining barrier to customer value.",
+    "relatedLesson": "customer-outcome-operating-loop",
+    "principle": "Deployment creates an opportunity for impact; adoption demonstrates it."
+  },
+  {
+    "id": "agents-018",
+    "type": "multiple_choice",
+    "category": "agents",
+    "difficulty": "advanced",
+    "skills": ["Business Thinking", "Production"],
+    "scenario": "Northstar wants a monthly operating review for its AI support workflow.",
+    "prompt": "Which two measures best connect system behavior to customer impact?",
+    "choices": [
+      { "id": "task-cost", "text": "Cost and latency per successfully completed support task", "rationale": "This relates system economics to useful workflow output." },
+      { "id": "resolution-rework", "text": "Resolution time and human rework by case category", "rationale": "These show whether the workflow actually improves for different work types." },
+      { "id": "token-total", "text": "Total tokens generated without task segmentation", "rationale": "Volume alone does not indicate value or efficiency." },
+      { "id": "demo-rating", "text": "Executive opinion of the latest demo", "rationale": "A presentation rating is not ongoing production evidence." }
+    ],
+    "correct": ["task-cost", "resolution-rework"],
+    "explanation": "Measure technical performance and economics at the completed-task level, then connect them to workflow outcomes and segments.",
+    "relatedLesson": "customer-outcome-operating-loop",
+    "principle": "Operate against the baseline and the customer outcome, not vanity metrics."
+  }
+]

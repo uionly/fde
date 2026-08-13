@@ -1,0 +1,296 @@
+[
+  {
+    "id": "architecture-005",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "beginner",
+    "skills": ["Architecture", "Business Thinking"],
+    "scenario": "A team proposes five services and an agent framework before defining how a support specialist completes the target task.",
+    "prompt": "What should the architect establish first?",
+    "choices": [
+      {"id": "drivers-context", "text": "Customer workflow, quality drivers, constraints, and system context", "rationale": "These facts determine which components and boundaries the solution actually needs."},
+      {"id": "service-count", "text": "The final number of microservices", "rationale": "A topology chosen without drivers is arbitrary complexity."},
+      {"id": "agent-brand", "text": "The preferred agent framework", "rationale": "A framework is an implementation option, not an architectural outcome."}
+    ],
+    "correct": ["drivers-context"],
+    "explanation": "Architecture should begin with a bounded workflow, measurable quality attributes, trust and integration constraints, and external system context before internal decomposition.",
+    "relatedLesson": "architecture-from-outcomes",
+    "principle": "Derive structure from customer outcomes and verified architectural drivers."
+  },
+  {
+    "id": "architecture-006",
+    "type": "multiple_choice",
+    "category": "architecture",
+    "difficulty": "intermediate",
+    "skills": ["Architecture", "Production"],
+    "scenario": "A policy assistant must serve specialists during peak hours and preserve source permissions.",
+    "prompt": "Which two statements are measurable architectural drivers?",
+    "choices": [
+      {"id": "latency-driver", "text": "95% of cited answers return within three seconds at peak load", "rationale": "This defines a testable performance response in a named environment."},
+      {"id": "permission-driver", "text": "Unauthorized policy content never reaches model context", "rationale": "This defines a verifiable trust-boundary property."},
+      {"id": "modern-driver", "text": "The architecture should feel modern", "rationale": "Aesthetic modernity has no testable customer response."},
+      {"id": "many-components", "text": "The design must contain at least eight components", "rationale": "Component count is not a customer quality attribute."}
+    ],
+    "correct": ["latency-driver", "permission-driver"],
+    "explanation": "Quality-attribute scenarios state a stimulus, environment, response, and measure, creating evidence that can guide and test design choices.",
+    "relatedLesson": "architecture-from-outcomes",
+    "principle": "Express important architecture qualities as measurable workflow scenarios."
+  },
+  {
+    "id": "architecture-007",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Software Engineering"],
+    "scenario": "Removing an event bus from the first release changes no outcome, constraint, quality target, or validation test.",
+    "prompt": "What is the strongest architectural conclusion?",
+    "choices": [
+      {"id": "remove-until-needed", "text": "Remove it unless a concrete driver justifies it", "rationale": "Components should earn their operational and cognitive cost through a traceable need."},
+      {"id": "keep-future", "text": "Keep it because every future system may need events", "rationale": "Speculative flexibility imposes present complexity without evidence."},
+      {"id": "add-second-bus", "text": "Add another event technology for optionality", "rationale": "More alternatives increase cost while still lacking a driver."}
+    ],
+    "correct": ["remove-until-needed"],
+    "explanation": "A first-release component should satisfy an architectural driver or materially reduce known delivery risk; otherwise it is speculative complexity.",
+    "relatedLesson": "architecture-from-outcomes",
+    "principle": "Require traceability from every material component to a real driver."
+  },
+  {
+    "id": "architecture-008",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "intermediate",
+    "skills": ["Architecture", "Security"],
+    "scenario": "All users authenticate to an assistant, but its shared service account can retrieve manager-only policy for any request.",
+    "prompt": "What boundary is missing?",
+    "choices": [
+      {"id": "resource-authz", "text": "User-aware authorization at the retrieval resource boundary", "rationale": "The content source must enforce the requesting principal's permitted scope before model access."},
+      {"id": "login-page", "text": "A more elaborate login page", "rationale": "Authentication presentation does not constrain downstream resource access."},
+      {"id": "prompt-warning", "text": "A prompt telling the model not to reveal restricted content", "rationale": "Prompt behavior is not an enforceable authorization control."}
+    ],
+    "correct": ["resource-authz"],
+    "explanation": "Authentication must be followed by authorization at each protected resource, with identity or enforceable attributes propagated to retrieval.",
+    "relatedLesson": "trust-boundaries-and-identity",
+    "principle": "Enforce authorization before sensitive data crosses into model context."
+  },
+  {
+    "id": "architecture-009",
+    "type": "multiple_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Security"],
+    "scenario": "An agent may propose and execute refunds, including high-value transactions.",
+    "prompt": "Which two controls most directly preserve accountable authority?",
+    "choices": [
+      {"id": "scoped-capabilities", "text": "Separate scoped propose and execute capabilities", "rationale": "Capability separation applies least privilege to distinct levels of consequence."},
+      {"id": "transaction-approval", "text": "Require approval bound to the exact high-value transaction", "rationale": "Specific approval prevents a broad session consent from authorizing later actions."},
+      {"id": "shared-admin", "text": "Use one permanent administrator credential", "rationale": "A shared broad identity removes attribution and least privilege."},
+      {"id": "model-discretion", "text": "Let the model decide when approval is unnecessary", "rationale": "The component proposing an action cannot be the sole enforcement boundary."}
+    ],
+    "correct": ["scoped-capabilities", "transaction-approval"],
+    "explanation": "Distinct capabilities and transaction-bound approval ensure that consequential execution requires explicit, attributable authority beyond model output.",
+    "relatedLesson": "trust-boundaries-and-identity",
+    "principle": "Match authority to action scope and consequence with enforceable approval."
+  },
+  {
+    "id": "architecture-010",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Security", "Production"],
+    "scenario": "An audit shows a service account changed a ticket, but cannot identify the initiating user, evidence, or approval.",
+    "prompt": "What should the action record contain?",
+    "choices": [
+      {"id": "attributed-chain", "text": "Initiator, evidence, proposal, control decision, approval, and result", "rationale": "This chain makes authority and system behavior reconstructable."},
+      {"id": "service-only", "text": "Only the shared service-account identifier", "rationale": "A workload identity alone cannot attribute the human request or decision."},
+      {"id": "raw-prompt-only", "text": "Only the raw model prompt", "rationale": "A prompt does not show authorization, approval, tool outcome, or responsible principal."}
+    ],
+    "correct": ["attributed-chain"],
+    "explanation": "Audit evidence should connect the human principal through data and policy context to the authorized action and final enterprise-system result.",
+    "relatedLesson": "trust-boundaries-and-identity",
+    "principle": "Preserve accountable identity and decision context across every action boundary."
+  },
+  {
+    "id": "architecture-011",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "beginner",
+    "skills": ["Architecture", "Data"],
+    "scenario": "A CRM status value of closed can mean resolved, merged, or transferred to fraud.",
+    "prompt": "What should the integration contract add?",
+    "choices": [
+      {"id": "domain-semantics", "text": "Explicit domain semantics and translation for each status", "rationale": "The consumer needs meanings that support the workflow decision, not an ambiguous source label."},
+      {"id": "copy-value", "text": "Copy closed directly and let each UI interpret it", "rationale": "Distributed interpretation creates inconsistent behavior and repeats source ambiguity."},
+      {"id": "rename-field", "text": "Rename the field without changing its meaning", "rationale": "A new label does not resolve semantic ambiguity."}
+    ],
+    "correct": ["domain-semantics"],
+    "explanation": "The adapter and contract should translate source-specific values into explicit customer-domain states with ownership and representative examples.",
+    "relatedLesson": "integration-and-data-contracts",
+    "principle": "Contract on business meaning, not merely transport shape."
+  },
+  {
+    "id": "architecture-012",
+    "type": "multiple_choice",
+    "category": "architecture",
+    "difficulty": "intermediate",
+    "skills": ["Architecture", "Software Engineering"],
+    "scenario": "A ticket-note write times out, and the client cannot tell whether the CRM applied it.",
+    "prompt": "Which two contract features make a retry safe?",
+    "choices": [
+      {"id": "idempotency-key", "text": "A stable idempotency key for the operation", "rationale": "The provider can recognize duplicate attempts as the same intended write."},
+      {"id": "query-outcome", "text": "A way to query the operation's recorded outcome", "rationale": "Reconciliation resolves an unknown result without blindly duplicating the write."},
+      {"id": "infinite-retry", "text": "Unlimited immediate retries", "rationale": "Unbounded retries amplify load and may duplicate a non-idempotent action."},
+      {"id": "hide-timeout", "text": "Suppress the timeout from telemetry", "rationale": "Hidden uncertainty prevents recovery and operational diagnosis."}
+    ],
+    "correct": ["idempotency-key", "query-outcome"],
+    "explanation": "A stable operation identity plus queryable outcome lets the system distinguish retry from duplication and reconcile an unknown write state.",
+    "relatedLesson": "integration-and-data-contracts",
+    "principle": "Design enterprise writes so retries preserve exactly one intended effect."
+  },
+  {
+    "id": "architecture-013",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Data", "Production"],
+    "scenario": "A healthy ingestion job serves a policy that was superseded yesterday, causing a wrong eligibility decision.",
+    "prompt": "Which contract gap is most important?",
+    "choices": [
+      {"id": "freshness-contract", "text": "Source revision, effective time, expiry, and freshness objective", "rationale": "Pipeline health alone cannot prove that decision data is current."},
+      {"id": "more-throughput", "text": "Higher ingestion throughput without revision tracking", "rationale": "Faster processing can still reproduce stale source state."},
+      {"id": "larger-context", "text": "A larger model context window", "rationale": "More stale content does not establish which policy is effective."}
+    ],
+    "correct": ["freshness-contract"],
+    "explanation": "Time-sensitive data contracts must expose source revision and effective timing, define acceptable staleness, and support reconciliation when updates are missed.",
+    "relatedLesson": "integration-and-data-contracts",
+    "principle": "Make freshness and source version explicit parts of decision data."
+  },
+  {
+    "id": "architecture-014",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "intermediate",
+    "skills": ["Architecture", "Production"],
+    "scenario": "A downstream service slows, and every request retries five times immediately until the application exhausts its connections.",
+    "prompt": "Which change best contains the failure?",
+    "choices": [
+      {"id": "bounded-backoff", "text": "Short timeouts, classified bounded retries, backoff, and circuit breaking", "rationale": "These controls limit time and load while giving transient failures a controlled recovery chance."},
+      {"id": "more-retries", "text": "Increase retries to twenty without delay", "rationale": "This amplifies dependency pressure and extends user uncertainty."},
+      {"id": "no-timeout", "text": "Remove the timeout and wait indefinitely", "rationale": "Unbounded waiting consumes resources and violates the workflow latency budget."}
+    ],
+    "correct": ["bounded-backoff"],
+    "explanation": "Reliability controls should bound dependency calls within the customer transaction budget and prevent repeated failures from cascading through the system.",
+    "relatedLesson": "reliability-and-failure-design",
+    "principle": "Contain dependency failure in time and load with bounded, evidence-based recovery."
+  },
+  {
+    "id": "architecture-015",
+    "type": "multiple_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Production", "Customer Delivery"],
+    "scenario": "Policy search is unavailable, but specialists can continue safely by opening an approved source portal.",
+    "prompt": "Which two behaviors define a trustworthy degraded mode?",
+    "choices": [
+      {"id": "label-unavailable", "text": "Clearly state that generated guidance is unavailable", "rationale": "Users must not mistake stale, partial, or fabricated output for normal service."},
+      {"id": "safe-link", "text": "Preserve work and provide the approved source-portal path", "rationale": "A safe next action allows the customer workflow to continue deliberately."},
+      {"id": "invent-answer", "text": "Generate an uncited answer so the interface stays full", "rationale": "Hiding the outage creates quality and trust risk."},
+      {"id": "silent-spinner", "text": "Show an indefinite spinner with no recovery guidance", "rationale": "The user cannot judge system state or choose a safe fallback."}
+    ],
+    "correct": ["label-unavailable", "safe-link"],
+    "explanation": "A degraded mode communicates the limitation, avoids presenting unsafe substitutes as normal, preserves state, and offers a customer-approved recovery path.",
+    "relatedLesson": "reliability-and-failure-design",
+    "principle": "Degrade explicitly and guide users toward a safe continuation path."
+  },
+  {
+    "id": "architecture-016",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Production", "Software Engineering"],
+    "scenario": "Service metrics show elevated errors, but operators cannot connect them to individual customer tasks across retrieval and CRM writes.",
+    "prompt": "What observability improvement has the highest value?",
+    "choices": [
+      {"id": "transaction-trace", "text": "Correlated traces from user task through dependencies and final outcome", "rationale": "End-to-end correlation reveals which failure layer affected customer work."},
+      {"id": "more-host-metrics", "text": "Additional CPU charts without transaction context", "rationale": "Infrastructure signals alone do not show whether or where the task failed."},
+      {"id": "remove-errors", "text": "Suppress error details to simplify dashboards", "rationale": "Removing classification weakens diagnosis and recovery."}
+    ],
+    "correct": ["transaction-trace"],
+    "explanation": "Observability should follow a customer transaction across boundaries and capture latency, error class, retries, fallback, and task result with shared correlation.",
+    "relatedLesson": "reliability-and-failure-design",
+    "principle": "Observe reliability from the customer transaction, not only from isolated components."
+  },
+  {
+    "id": "architecture-017",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "intermediate",
+    "skills": ["Architecture", "Customer Delivery"],
+    "scenario": "A team has six weeks to validate policy assistance and proposes building a universal connector platform first.",
+    "prompt": "Which first slice creates stronger evidence?",
+    "choices": [
+      {"id": "vertical-slice", "text": "One user cohort, one policy scope, citations, controls, telemetry, and fallback", "rationale": "This is a complete narrow workflow capable of producing field evidence."},
+      {"id": "connector-platform", "text": "A generic connector platform with no user workflow", "rationale": "Infrastructure alone cannot validate task value, trust, or adoption."},
+      {"id": "ui-mock", "text": "A polished interface with all integrations mocked", "rationale": "A UI-only path does not test the risky data and control boundaries."}
+    ],
+    "correct": ["vertical-slice"],
+    "explanation": "A thin vertical slice is narrow in breadth but includes the real path required to test outcome, quality, integration, operation, and recovery.",
+    "relatedLesson": "thin-slices-and-evolution",
+    "principle": "Validate a complete bounded workflow before investing in generalized infrastructure."
+  },
+  {
+    "id": "architecture-018",
+    "type": "multiple_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Software Engineering"],
+    "scenario": "A first release uses one policy provider, but the customer may add others after the pilot.",
+    "prompt": "Which two choices preserve evolution without speculative platform work?",
+    "choices": [
+      {"id": "domain-adapter", "text": "Put provider behavior behind a small policy-domain adapter", "rationale": "The seam isolates a known ownership and volatility boundary."},
+      {"id": "wait-variation", "text": "Generalize only after real provider variation is observed", "rationale": "Evidence prevents the abstraction from encoding imagined requirements."},
+      {"id": "universal-framework", "text": "Build a universal connector language before the pilot", "rationale": "The design would commit to variation the team has not yet seen."},
+      {"id": "spread-provider", "text": "Call provider-specific APIs throughout every component", "rationale": "Distributed coupling makes later change unnecessarily expensive."}
+    ],
+    "correct": ["domain-adapter", "wait-variation"],
+    "explanation": "A boundary at a known provider seam preserves replacement options, while delaying generalized behavior until evidence reveals stable variation.",
+    "relatedLesson": "thin-slices-and-evolution",
+    "principle": "Preserve options at real boundaries and earn abstractions through observed variation."
+  },
+  {
+    "id": "architecture-019",
+    "type": "single_choice",
+    "category": "architecture",
+    "difficulty": "intermediate",
+    "skills": ["Architecture", "Customer Delivery"],
+    "scenario": "A new team wants to remove a server adapter because no document explains the residency, secret-management, and rate-limit evidence behind it.",
+    "prompt": "What artifact should have preserved this context?",
+    "choices": [
+      {"id": "decision-record", "text": "An architecture decision record with options and consequences", "rationale": "The record connects the boundary to evidence, tradeoffs, ownership, and review conditions."},
+      {"id": "diagram-only", "text": "A diagram showing only that the adapter exists", "rationale": "Structure alone does not explain why the choice was made or when it can change."},
+      {"id": "chat-memory", "text": "An engineer's memory of an old chat conversation", "rationale": "Informal individual memory is fragile and inaccessible to future operators."}
+    ],
+    "correct": ["decision-record"],
+    "explanation": "A concise decision record preserves the drivers, alternatives, evidence, accepted consequences, owner, and trigger for reconsidering a consequential choice.",
+    "relatedLesson": "architecture-decisions-and-tradeoffs",
+    "principle": "Record why consequential architecture exists so future teams can change it intentionally."
+  },
+  {
+    "id": "architecture-020",
+    "type": "multiple_choice",
+    "category": "architecture",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Business Thinking"],
+    "scenario": "A regional managed search service meets residency and schedule constraints but increases vendor coupling.",
+    "prompt": "Which two details make the decision record honest and actionable?",
+    "choices": [
+      {"id": "negative-consequence", "text": "State the coupling and migration consequence", "rationale": "A decision record must expose costs, not advocate as if the choice has none."},
+      {"id": "review-trigger", "text": "Define the volume, policy, or vendor-change trigger for review", "rationale": "A trigger tells future teams when the original evidence may no longer apply."},
+      {"id": "erase-alternatives", "text": "Remove rejected alternatives from the record", "rationale": "Without alternatives, future readers cannot understand the tradeoff considered."},
+      {"id": "claim-perfect", "text": "Describe the chosen option as having no downside", "rationale": "Every material architecture choice has consequences that operators need to know."}
+    ],
+    "correct": ["negative-consequence", "review-trigger"],
+    "explanation": "The record should make the selected option's downside explicit and identify evidence changes that justify reassessment rather than presenting a permanent universal answer.",
+    "relatedLesson": "architecture-decisions-and-tradeoffs",
+    "principle": "Document tradeoffs and review triggers so decisions remain evidence-bound and revisable."
+  }
+]

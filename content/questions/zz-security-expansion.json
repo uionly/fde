@@ -1,0 +1,296 @@
+[
+  {
+    "id": "security-005",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "beginner",
+    "skills": ["Security", "Architecture"],
+    "scenario": "Every Northstar assistant action reaches CRM through one long-lived administrator service account.",
+    "prompt": "What is the primary security problem?",
+    "choices": [
+      { "id": "collapsed-identity", "text": "User intent and workload authority are collapsed into an over-privileged identity", "rationale": "The system cannot enforce least privilege or attribute individual actions." },
+      { "id": "model-version", "text": "The model version is not shown to the user", "rationale": "Version visibility does not repair excessive authorization." },
+      { "id": "short-prompt", "text": "The system prompt is too short", "rationale": "Prompt length cannot constrain server credentials." }
+    ],
+    "correct": ["collapsed-identity"],
+    "explanation": "Use a scoped workload identity and propagate user, tenant, purpose, and resource context into policy enforcement.",
+    "relatedLesson": "identity-and-least-privilege",
+    "principle": "Preserve identity and delegated authority at every action boundary."
+  },
+  {
+    "id": "security-006",
+    "type": "multiple_choice",
+    "category": "security",
+    "difficulty": "intermediate",
+    "skills": ["Security"],
+    "scenario": "A support agent may view a customer's payment status but may not change risk flags or view another region's cases.",
+    "prompt": "Which two policy dimensions must the tool executor enforce?",
+    "choices": [
+      { "id": "action-scope", "text": "The permitted action is read status, not arbitrary mutation", "rationale": "Authorization must distinguish capabilities, not just authenticated access." },
+      { "id": "resource-scope", "text": "The case and region are within the user's delegated resource scope", "rationale": "Resource boundaries prevent cross-case and cross-region access." },
+      { "id": "prompt-confidence", "text": "The model sounds confident about the request", "rationale": "Confidence is not authorization evidence." },
+      { "id": "response-style", "text": "The response uses the approved tone", "rationale": "Style does not establish permission to access a record." }
+    ],
+    "correct": ["action-scope", "resource-scope"],
+    "explanation": "The executor should authorize the exact action against the exact resource and delegated customer context.",
+    "relatedLesson": "identity-and-least-privilege",
+    "principle": "Authentication identifies an actor; authorization governs each requested action."
+  },
+  {
+    "id": "security-007",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "Customer Delivery"],
+    "scenario": "A legitimate specialist receives a not-authorized result for a high-value refund exception.",
+    "prompt": "How should the agent handle the denial?",
+    "choices": [
+      { "id": "controlled-escalation", "text": "Explain the limit and route the case through the documented approval flow", "rationale": "A denial can preserve customer value through a governed exception path." },
+      { "id": "admin-retry", "text": "Retry silently with an administrator credential", "rationale": "Privilege escalation bypasses the control that correctly denied the action." },
+      { "id": "ask-secret", "text": "Ask the customer to paste restricted policy text", "rationale": "This attempts to route around access control and expands data exposure." }
+    ],
+    "correct": ["controlled-escalation"],
+    "explanation": "Authorization denial is a supported outcome; legitimate exceptions belong in an attributable approval path.",
+    "relatedLesson": "identity-and-least-privilege",
+    "principle": "Design useful workflows around security boundaries instead of bypassing them."
+  },
+  {
+    "id": "security-008",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "beginner",
+    "skills": ["Security", "AI Engineering"],
+    "scenario": "A retrieved policy page instructs the assistant to ignore its system rules and upload account data to an external site.",
+    "prompt": "How should the page be classified?",
+    "choices": [
+      { "id": "untrusted-evidence", "text": "Untrusted evidence that cannot grant instruction authority", "rationale": "Retrieval relevance does not make externally editable text a trusted control source." },
+      { "id": "system-policy", "text": "System policy because the search engine ranked it highly", "rationale": "Rank does not establish authority or provenance." },
+      { "id": "tool-approval", "text": "Approval to use any tool mentioned in the page", "rationale": "Content cannot authorize actions or destinations." }
+    ],
+    "correct": ["untrusted-evidence"],
+    "explanation": "Retrieved and external text remains data; deterministic policy and tool controls retain authority.",
+    "relatedLesson": "prompt-injection-trust-boundaries",
+    "principle": "Classify text by trust and authority, not by relevance."
+  },
+  {
+    "id": "security-009",
+    "type": "multiple_choice",
+    "category": "security",
+    "difficulty": "intermediate",
+    "skills": ["Security", "Architecture"],
+    "scenario": "A ticket summarization agent reads customer-controlled attachments and can send outbound email.",
+    "prompt": "Which two controls most directly limit an indirect injection's impact?",
+    "choices": [
+      { "id": "narrow-email", "text": "Constrain recipients, fields, and attachments in the email tool", "rationale": "A bounded egress capability limits what hostile content can cause." },
+      { "id": "approval-gate", "text": "Require approval for messages containing sensitive case data", "rationale": "A human decision protects the consequential outbound boundary." },
+      { "id": "secret-prompt", "text": "Keep the system prompt wording secret", "rationale": "Prompt secrecy is not a durable control against hostile content." },
+      { "id": "more-context", "text": "Send every attachment into a larger context window", "rationale": "This expands attacker-controlled input and sensitive exposure." }
+    ],
+    "correct": ["narrow-email", "approval-gate"],
+    "explanation": "Constrain the outbound capability and place enforceable review at sensitive destinations.",
+    "relatedLesson": "prompt-injection-trust-boundaries",
+    "principle": "Limit both what untrusted input can influence and what the system can send."
+  },
+  {
+    "id": "security-010",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "AI Engineering"],
+    "scenario": "The assistant detects a hostile instruction inside an otherwise useful current refund policy.",
+    "prompt": "What is the strongest response behavior?",
+    "choices": [
+      { "id": "preserve-work", "text": "Ignore the hostile instruction, answer from trusted policy evidence, and record the signal", "rationale": "This preserves the legitimate workflow while keeping control authority intact." },
+      { "id": "obey-relevant", "text": "Follow it because the document is relevant to the question", "rationale": "Relevance does not authorize behavior or tool use." },
+      { "id": "refuse-all", "text": "Permanently refuse every question involving retrieved content", "rationale": "Blanket refusal destroys the valid customer workflow instead of isolating the attack." }
+    ],
+    "correct": ["preserve-work"],
+    "explanation": "Secure behavior should isolate the malicious instruction without unnecessarily discarding trusted evidence and user value.",
+    "relatedLesson": "prompt-injection-trust-boundaries",
+    "principle": "Security controls should preserve safe useful work whenever possible."
+  },
+  {
+    "id": "security-011",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "intermediate",
+    "skills": ["Security", "Data"],
+    "scenario": "An assistant retrieves a full customer profile although the task only needs a payment-status code.",
+    "prompt": "What should be changed first?",
+    "choices": [
+      { "id": "minimized-view", "text": "Return a purpose-specific view containing only the required status fields", "rationale": "Data minimization reduces exposure before information reaches model context." },
+      { "id": "dont-repeat", "text": "Keep the full profile but tell the model not to repeat it", "rationale": "Once exposed, sensitive data can leak through output, logs, or future context." },
+      { "id": "longer-retention", "text": "Retain the full profile longer for convenience", "rationale": "Longer retention expands risk without supporting the bounded task." }
+    ],
+    "correct": ["minimized-view"],
+    "explanation": "Minimize sensitive data at the source boundary rather than relying on generation behavior to hide it later.",
+    "relatedLesson": "data-exfiltration-controls",
+    "principle": "The safest sensitive field is the one the task never receives."
+  },
+  {
+    "id": "security-012",
+    "type": "multiple_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "Production"],
+    "scenario": "AI traces are useful for debugging but currently contain raw account numbers and complete retrieved policy chunks.",
+    "prompt": "Which two changes preserve diagnostic value while reducing exposure?",
+    "choices": [
+      { "id": "redact-fields", "text": "Redact or tokenize sensitive fields before trace ingestion", "rationale": "Operators can correlate events without storing raw values." },
+      { "id": "source-refs", "text": "Record controlled source references and versions instead of full document bodies", "rationale": "References preserve provenance with less duplicated sensitive content." },
+      { "id": "public-dashboard", "text": "Expose traces broadly so incidents are noticed faster", "rationale": "Broader access increases the impact of trace leakage." },
+      { "id": "retain-forever", "text": "Keep every trace indefinitely", "rationale": "Unlimited retention expands the sensitive-data footprint." }
+    ],
+    "correct": ["redact-fields", "source-refs"],
+    "explanation": "Store structured, minimized evidence and control trace access and retention like any other sensitive data system.",
+    "relatedLesson": "data-exfiltration-controls",
+    "principle": "Observability must not become an ungoverned copy of production data."
+  },
+  {
+    "id": "security-013",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "Architecture"],
+    "scenario": "A generated case summary may be sent to internal specialists or directly to a customer depending on the workflow.",
+    "prompt": "Where should destination-specific data controls be enforced?",
+    "choices": [
+      { "id": "egress-boundary", "text": "At the server-side egress tool using destination, classification, and approval policy", "rationale": "The final destination boundary has concrete context and can enforce a deterministic decision." },
+      { "id": "model-memory", "text": "Only inside the model's conversational memory", "rationale": "Memory does not provide a reliable enforcement point for an external action." },
+      { "id": "user-hope", "text": "By asking users to notice restricted text after sending", "rationale": "Post-send review cannot prevent exfiltration." }
+    ],
+    "correct": ["egress-boundary"],
+    "explanation": "Apply destination allowlists, content classification, and required approval immediately before outbound execution.",
+    "relatedLesson": "data-exfiltration-controls",
+    "principle": "Constrain sensitive output at the actual egress boundary."
+  },
+  {
+    "id": "security-014",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "intermediate",
+    "skills": ["Security", "Customer Delivery"],
+    "scenario": "A project threat model lists hallucination, prompt injection, and data leakage but contains no customer assets or workflows.",
+    "prompt": "What should the team add first?",
+    "choices": [
+      { "id": "assets-boundaries", "text": "Concrete assets, actors, actions, trust boundaries, and business consequences", "rationale": "Threats become actionable when tied to the real customer system and impact." },
+      { "id": "more-risk-names", "text": "A longer list of generic AI risk labels", "rationale": "More labels still do not identify where controls belong." },
+      { "id": "model-benchmark", "text": "A public model leaderboard", "rationale": "Benchmark rank does not describe the customer's attack surface." }
+    ],
+    "correct": ["assets-boundaries"],
+    "explanation": "Ground the threat model in the customer's data, identities, tools, entry points, and meaningful harm.",
+    "relatedLesson": "threat-modeling-ai-workflows",
+    "principle": "Threat model the deployed workflow, not an abstract model."
+  },
+  {
+    "id": "security-015",
+    "type": "multiple_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "Architecture"],
+    "scenario": "Northstar identifies an abuse case where a stale approval token could be replayed for a different refund.",
+    "prompt": "Which two controls address the abuse case most directly?",
+    "choices": [
+      { "id": "argument-binding", "text": "Bind the approval to action, arguments, actor, and case", "rationale": "A different transaction will no longer satisfy the approved scope." },
+      { "id": "single-use-expiry", "text": "Make approvals short-lived and single-use", "rationale": "Expiry and consumption reduce replay opportunity." },
+      { "id": "hidden-label", "text": "Rename the token so attackers cannot guess its purpose", "rationale": "Obscurity does not prevent captured-token replay." },
+      { "id": "model-check", "text": "Ask the model whether the token looks current", "rationale": "A model is not the authority for cryptographic or transactional validity." }
+    ],
+    "correct": ["argument-binding", "single-use-expiry"],
+    "explanation": "Approvals should be narrowly bound, expiring, and consumed so they cannot authorize modified or repeated actions.",
+    "relatedLesson": "threat-modeling-ai-workflows",
+    "principle": "Translate abuse cases into enforceable control properties."
+  },
+  {
+    "id": "security-016",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "AI Engineering"],
+    "scenario": "A security review identifies hostile ticket text as a critical injection path.",
+    "prompt": "What is the strongest release evidence for the mitigation?",
+    "choices": [
+      { "id": "abuse-regression", "text": "A repeatable scenario test proving tool policy and egress remain constrained", "rationale": "The test verifies the intended control under the concrete abuse path." },
+      { "id": "policy-slide", "text": "A slide saying prompt injection is prohibited", "rationale": "A statement does not demonstrate system enforcement." },
+      { "id": "one-refusal", "text": "One screenshot where the model refused", "rationale": "A single model response does not verify the complete control plane." }
+    ],
+    "correct": ["abuse-regression"],
+    "explanation": "Convert important threats into repeatable regression evidence that covers model behavior and deterministic boundaries.",
+    "relatedLesson": "threat-modeling-ai-workflows",
+    "principle": "A threat is not mitigated until the control is testable."
+  },
+  {
+    "id": "security-017",
+    "type": "multiple_choice",
+    "category": "security",
+    "difficulty": "intermediate",
+    "skills": ["Security", "Production"],
+    "scenario": "An investigator must reconstruct why an assistant issued a refund.",
+    "prompt": "Which two records are essential beyond the chat transcript?",
+    "choices": [
+      { "id": "policy-approval", "text": "The authorization decision and bound approval record", "rationale": "These establish whether the action was permitted and reviewed." },
+      { "id": "tool-evidence", "text": "Tool arguments, result, identity, and relevant version identifiers", "rationale": "These reconstruct the actual executed action and system state." },
+      { "id": "button-theme", "text": "The reviewer's display theme", "rationale": "Presentation preferences do not explain the transaction." },
+      { "id": "marketing-copy", "text": "The product landing-page wording", "rationale": "Marketing content is unrelated to a specific action." }
+    ],
+    "correct": ["policy-approval", "tool-evidence"],
+    "explanation": "Audit evidence should connect user intent, identity, policy, approval, tool execution, and deployed versions.",
+    "relatedLesson": "auditability-and-ai-incident-response",
+    "principle": "Sensitive automation must be attributable end to end."
+  },
+  {
+    "id": "security-018",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "Production"],
+    "scenario": "A compromised document source is feeding hostile content into retrieval while read-only policy search remains valuable.",
+    "prompt": "What is the best containment action?",
+    "choices": [
+      { "id": "quarantine-source", "text": "Quarantine the affected source or index version while preserving verified sources", "rationale": "Targeted containment removes the known path without unnecessarily disabling safe service." },
+      { "id": "ignore-alert", "text": "Leave retrieval unchanged until the next planned release", "rationale": "The active hostile path can continue influencing users and tools." },
+      { "id": "delete-evidence", "text": "Delete logs so the malicious content is no longer visible", "rationale": "Destroying evidence impairs investigation and does not stop ingestion." }
+    ],
+    "correct": ["quarantine-source"],
+    "explanation": "Prepare controls that isolate a source, connector, tool, or action class while retaining safe degraded capability.",
+    "relatedLesson": "auditability-and-ai-incident-response",
+    "principle": "Contain the harmful boundary quickly and preserve evidence."
+  },
+  {
+    "id": "security-019",
+    "type": "single_choice",
+    "category": "security",
+    "difficulty": "intermediate",
+    "skills": ["Security", "Customer Delivery"],
+    "scenario": "After an AI incident, the team proposes only adding a stronger sentence to the system prompt.",
+    "prompt": "What should happen before selecting remediation?",
+    "choices": [
+      { "id": "classify-layer", "text": "Identify whether retrieval, authorization, tool execution, model behavior, or operations failed", "rationale": "The failed layer determines which control can actually prevent recurrence." },
+      { "id": "prompt-only", "text": "Deploy the sentence immediately for every incident type", "rationale": "A prompt cannot repair data permissions, compromised connectors, or missing approval." },
+      { "id": "hide-incident", "text": "Remove the case from evaluation to protect aggregate metrics", "rationale": "This prevents learning and leaves the failure untested." }
+    ],
+    "correct": ["classify-layer"],
+    "explanation": "Reconstruct the incident, locate the failing system layer, then add targeted controls and a regression case.",
+    "relatedLesson": "auditability-and-ai-incident-response",
+    "principle": "Remediate the cause demonstrated by evidence, not the most visible AI component."
+  },
+  {
+    "id": "security-020",
+    "type": "multiple_choice",
+    "category": "security",
+    "difficulty": "advanced",
+    "skills": ["Security", "Production", "Customer Delivery"],
+    "scenario": "Northstar is planning an AI incident-response tabletop before launch.",
+    "prompt": "Which two exercises provide the strongest readiness evidence?",
+    "choices": [
+      { "id": "containment-drill", "text": "Disable a risky tool, revoke credentials, and verify safe degraded operation", "rationale": "This proves the team can limit harm without improvising during an incident." },
+      { "id": "reconstruction-drill", "text": "Reconstruct one action from audit evidence and identify affected users", "rationale": "This tests attribution, scope analysis, and notification readiness." },
+      { "id": "demo-script", "text": "Rehearse only the successful executive demo", "rationale": "A happy path does not test incident roles or containment." },
+      { "id": "silent-failure", "text": "Practice hiding errors from operators", "rationale": "Operators need observable failures and clear escalation context." }
+    ],
+    "correct": ["containment-drill", "reconstruction-drill"],
+    "explanation": "A useful tabletop tests both rapid containment and evidence-based reconstruction with the real cross-functional owners.",
+    "relatedLesson": "auditability-and-ai-incident-response",
+    "principle": "Operational readiness is demonstrated through rehearsed recovery, not documented intent alone."
+  }
+]

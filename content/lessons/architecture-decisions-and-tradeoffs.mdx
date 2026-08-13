@@ -1,0 +1,52 @@
+---
+id: architecture-decisions-and-tradeoffs
+slug: architecture-decisions-and-tradeoffs
+title: Record Architecture Decisions and Tradeoffs
+track: solution-architecture
+module: evolution
+order: 6
+difficulty: intermediate
+durationMinutes: 16
+status: published
+prerequisites:
+  - thin-slices-and-evolution
+skills:
+  - Architecture
+  - Customer Delivery
+  - Business Thinking
+objectives:
+  - Write concise evidence-based architecture decision records
+  - Revisit decisions when assumptions or customer constraints change
+experiments: []
+practice:
+  - architecture-019
+  - architecture-020
+---
+
+## Architecture is the history of consequential choices
+
+Customer teams need to understand why a design exists, especially after the FDE engagement ends. Diagrams show structure but rarely preserve the context, alternatives, and consequences behind it. A short architecture decision record makes those choices reviewable and reversible.
+
+<CustomerScenario title="A debate with no memory">
+  Northstar engineers repeatedly ask why policy retrieval runs behind a server adapter instead of directly from the browser. The original security constraint and rate-limit evidence live in old meeting notes. A new team begins removing the boundary as “unnecessary complexity.”
+</CustomerScenario>
+
+Record decisions that are costly to reverse, cross ownership or trust boundaries, constrain important quality attributes, or settle recurring disagreement. Include the decision title and status, context, architectural drivers, considered options, evidence, chosen option, positive and negative consequences, owner, date, and review trigger.
+
+The record should expose tradeoffs rather than sell the preferred design. For example, a managed regional search service may accelerate delivery and meet residency needs, while increasing vendor coupling and requiring an export plan. A self-managed option may offer control but exceed the customer's operational capacity. Both consequences matter.
+
+## Keep decisions connected to evidence
+
+Link quality-attribute tests, cost estimates, threat analysis, experiment results, and customer constraints. Mark assumptions and confidence. Set a review trigger such as volume exceeding a threshold, a vendor feature becoming available, or a policy changing. Do not reopen a decision merely because a new participant prefers another technology.
+
+<Callout title="Decision hygiene">
+  Supersede old records; do not rewrite history. The sequence explains how evidence and constraints changed over time.
+</Callout>
+
+Use decision records in customer reviews. They create a shared vocabulary for tradeoffs and make explicit who accepts residual risk. Keep them close to the system, easy to search, and concise enough that engineers will maintain them.
+
+<FDEPrinciple>
+  Preserve the context and consequences of consequential choices so the customer can operate and evolve the system with intent.
+</FDEPrinciple>
+
+A healthy decision log is not bureaucracy. It is operational memory: a compact map from customer needs and constraints to the architecture that serves them.

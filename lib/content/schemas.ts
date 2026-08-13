@@ -75,6 +75,26 @@ export const questionSchema = z
     if (["single_choice", "multiple_choice"].includes(question.type) && !question.choices) {
       context.addIssue({ code: "custom", message: "choice questions require choices", path: ["choices"] });
     }
+    if (!question.choices) return;
+
+    const choiceIds = question.choices.map((choice) => choice.id);
+    if (new Set(choiceIds).size !== choiceIds.length) {
+      context.addIssue({ code: "custom", message: "choice ids must be unique", path: ["choices"] });
+    }
+    for (const [index, correctId] of question.correct.entries()) {
+      if (!choiceIds.includes(correctId)) {
+        context.addIssue({ code: "custom", message: `correct answer ${correctId} must reference a choice`, path: ["correct", index] });
+      }
+    }
+    if (new Set(question.correct).size !== question.correct.length) {
+      context.addIssue({ code: "custom", message: "correct answer ids must be unique", path: ["correct"] });
+    }
+    if (question.type === "single_choice" && question.correct.length !== 1) {
+      context.addIssue({ code: "custom", message: "single-choice questions require exactly one correct answer", path: ["correct"] });
+    }
+    if (question.type === "multiple_choice" && question.correct.length < 2) {
+      context.addIssue({ code: "custom", message: "multiple-choice questions require at least two correct answers", path: ["correct"] });
+    }
   });
 
 export const labStepSchema = z.object({
@@ -119,7 +139,7 @@ export const gameMetricScoresSchema = z
   })
   .strict();
 
-const gameMetricWeightsSchema = z
+export const gameMetricWeightsSchema = z
   .object({
     quality: z.number().min(0).max(1),
     safety: z.number().min(0).max(1),
@@ -158,6 +178,115 @@ export const quickDecisionScenarioSchema = z
     if (scenario.choices.filter((choice) => choice.recommended).length !== 1) context.addIssue({ code: "custom", message: "exactly one choice must be recommended", path: ["choices"] });
   });
 
+const gameScenarioBase = {
+  id: slugSchema,
+  title: z.string().min(3),
+  customer: z.string().min(3),
+  briefing: z.string().min(20),
+  objective: z.string().min(10),
+  prompt: z.string().min(5),
+  metricWeights: gameMetricWeightsSchema,
+  debrief: z.string().min(20),
+};
+
+const modelRouterRouteSchema = z
+  .object({
+    laneId: slugSchema,
+    recommended: z.boolean(),
+    rationale: z.string().min(10),
+    metrics: gameMetricScoresSchema,
+  })
+  .strict();
+
+export const modelRouterScenarioSchema = z
+  .object({
+    ...gameScenarioBase,
+    lanes: z
+      .array(z.object({ id: slugSchema, label: z.string().min(2), description: z.string().min(8) }).strict())
+      .min(2)
+      .max(4),
+    requests: z
+      .array(
+        z
+          .object({
+            id: slugSchema,
+            title: z.string().min(3),
+            description: z.string().min(10),
+            volume: z.number().int().positive().max(1_000_000),
+            routes: z.array(modelRouterRouteSchema).min(2).max(4),
+          })
+          .strict(),
+      )
+      .min(3)
+      .max(6),
+  })
+  .strict()
+  .superRefine((scenario, context) => {
+    const laneIds = scenario.lanes.map((lane) => lane.id);
+    const requestIds = scenario.requests.map((request) => request.id);
+    if (new Set(laneIds).size !== laneIds.length) context.addIssue({ code: "custom", message: "lane ids must be unique", path: ["lanes"] });
+    if (new Set(requestIds).size !== requestIds.length) context.addIssue({ code: "custom", message: "request ids must be unique", path: ["requests"] });
+    if (scenario.requests.reduce((total, request) => total + request.volume, 0) !== 100) {
+      context.addIssue({ code: "custom", message: "request volumes must total 100 percent", path: ["requests"] });
+    }
+
+    scenario.requests.forEach((request, requestIndex) => {
+      const routeLaneIds = request.routes.map((route) => route.laneId);
+      if (new Set(routeLaneIds).size !== routeLaneIds.length || routeLaneIds.length !== laneIds.length || laneIds.some((laneId) => !routeLaneIds.includes(laneId))) {
+        context.addIssue({ code: "custom", message: "routes must cover every lane exactly once", path: ["requests", requestIndex, "routes"] });
+      }
+      if (request.routes.filter((route) => route.recommended).length !== 1) {
+        context.addIssue({ code: "custom", message: "each request requires exactly one recommended route", path: ["requests", requestIndex, "routes"] });
+      }
+    });
+  });
+
+const retrievalCandidateSchema = z
+  .object({
+    id: slugSchema,
+    title: z.string().min(3),
+    source: z.string().min(3),
+    excerpt: z.string().min(10),
+    tokens: z.number().int().positive().max(10_000),
+    relevance: z.number().int().min(0).max(4),
+    safetyRisk: z.number().min(0).max(100),
+    signals: z.array(z.string().min(2)).min(1).max(5),
+  })
+  .strict();
+
+export const retrievalRankScenarioSchema = z
+  .object({
+    ...gameScenarioBase,
+    query: z.string().min(5),
+    contextBudget: z.number().int().positive().max(20_000),
+    targetContextTokens: z.number().int().positive().max(20_000),
+    latency: z
+      .object({
+        baseMs: z.number().nonnegative(),
+        perTokenMs: z.number().positive(),
+        targetMs: z.number().positive(),
+        maxMs: z.number().positive(),
+      })
+      .strict(),
+    candidates: z.array(retrievalCandidateSchema).min(4).max(8),
+    idealOrder: z.array(slugSchema).min(1),
+  })
+  .strict()
+  .superRefine((scenario, context) => {
+    const candidateIds = scenario.candidates.map((candidate) => candidate.id);
+    if (new Set(candidateIds).size !== candidateIds.length) context.addIssue({ code: "custom", message: "candidate ids must be unique", path: ["candidates"] });
+    if (new Set(scenario.idealOrder).size !== scenario.idealOrder.length || scenario.idealOrder.some((id) => !candidateIds.includes(id))) {
+      context.addIssue({ code: "custom", message: "ideal order must contain unique existing candidate ids", path: ["idealOrder"] });
+    }
+    const idealTokens = scenario.idealOrder.reduce(
+      (total, id) => total + (scenario.candidates.find((candidate) => candidate.id === id)?.tokens ?? 0),
+      0,
+    );
+    if (idealTokens > scenario.contextBudget) context.addIssue({ code: "custom", message: "ideal order must fit within the context budget", path: ["idealOrder"] });
+    if (scenario.targetContextTokens > scenario.contextBudget) context.addIssue({ code: "custom", message: "target context tokens cannot exceed the context budget", path: ["targetContextTokens"] });
+    if (scenario.latency.targetMs >= scenario.latency.maxMs) context.addIssue({ code: "custom", message: "target latency must be below maximum latency", path: ["latency", "targetMs"] });
+  });
+
 export const gameNextActionSchema = z
   .object({
     kind: z.enum(["lesson", "experiment", "lab", "case-study", "resource", "game"]),
@@ -180,39 +309,74 @@ export const gameNextActionSchema = z
     }
   });
 
-export const fieldGameSchema = z
+const gameBase = {
+  schemaVersion: z.literal(1),
+  id: slugSchema,
+  slug: slugSchema,
+  title: z.string().min(3),
+  shortTitle: z.string().min(3),
+  description: z.string().min(10),
+  customerHeadline: z.string().min(10),
+  mechanic: z.string().min(10),
+  category: z.enum(["models", "security", "retrieval", "agents", "data", "evaluations"]),
+  difficulty: difficultySchema,
+  estimatedMinutes: z.number().int().positive().max(30),
+  xp: z.number().int().positive().max(500),
+  order: z.number().int().positive(),
+  status: statusSchema,
+  skills: z.array(skillSchema).min(1),
+  learningObjectives: z.array(z.string().min(10)).min(1),
+  scoringDimensions: z.array(gameMetricSchema).min(1),
+  keyboardInstructions: z.string().min(10),
+  principle: z.string().min(10),
+  nextActions: z.array(gameNextActionSchema).min(1).max(3),
+};
+
+function validateGameCollection(
+  game: { status: z.infer<typeof statusSchema>; scenarios: Array<{ id: string }>; scoringDimensions: Array<z.infer<typeof gameMetricSchema>> },
+  context: z.RefinementCtx,
+) {
+  const scenarioIds = game.scenarios.map((scenario) => scenario.id);
+  const requiredDimensions: Array<z.infer<typeof gameMetricSchema>> = ["quality", "safety", "cost", "latency"];
+  if (new Set(scenarioIds).size !== scenarioIds.length) context.addIssue({ code: "custom", message: "scenario ids must be unique", path: ["scenarios"] });
+  if (new Set(game.scoringDimensions).size !== game.scoringDimensions.length) context.addIssue({ code: "custom", message: "scoring dimensions must be unique", path: ["scoringDimensions"] });
+  if (game.scoringDimensions.length !== requiredDimensions.length || requiredDimensions.some((dimension) => !game.scoringDimensions.includes(dimension))) {
+    context.addIssue({ code: "custom", message: "games must score quality, safety, cost, and latency", path: ["scoringDimensions"] });
+  }
+  if (game.status === "published" && game.scenarios.length < 2) context.addIssue({ code: "custom", message: "published games require at least two scenario variants", path: ["scenarios"] });
+}
+
+export const quickDecisionGameSchema = z
   .object({
-    schemaVersion: z.literal(1),
-    id: slugSchema,
-    slug: slugSchema,
+    ...gameBase,
     type: z.literal("quick-decision"),
     mode: z.literal("quick-mission"),
-    title: z.string().min(3),
-    shortTitle: z.string().min(3),
-    description: z.string().min(10),
-    customerHeadline: z.string().min(10),
-    mechanic: z.string().min(10),
-    category: z.enum(["models", "security", "retrieval", "agents", "data", "evaluations"]),
-    difficulty: difficultySchema,
-    estimatedMinutes: z.number().int().positive().max(30),
-    xp: z.number().int().positive().max(500),
-    order: z.number().int().positive(),
-    status: statusSchema,
-    skills: z.array(skillSchema).min(1),
-    learningObjectives: z.array(z.string().min(10)).min(1),
-    scoringDimensions: z.array(gameMetricSchema).min(1),
-    keyboardInstructions: z.string().min(10),
-    principle: z.string().min(10),
-    nextActions: z.array(gameNextActionSchema).min(1).max(3),
     scenarios: z.array(quickDecisionScenarioSchema).min(1),
   })
   .strict()
-  .superRefine((game, context) => {
-    const scenarioIds = game.scenarios.map((scenario) => scenario.id);
-    if (new Set(scenarioIds).size !== scenarioIds.length) context.addIssue({ code: "custom", message: "scenario ids must be unique", path: ["scenarios"] });
-    if (new Set(game.scoringDimensions).size !== game.scoringDimensions.length) context.addIssue({ code: "custom", message: "scoring dimensions must be unique", path: ["scoringDimensions"] });
-    if (game.status === "published" && game.scenarios.length < 2) context.addIssue({ code: "custom", message: "published games require at least two scenario variants", path: ["scenarios"] });
-  });
+  .superRefine(validateGameCollection);
+
+export const modelRouterGameSchema = z
+  .object({
+    ...gameBase,
+    type: z.literal("model-router"),
+    mode: z.literal("route-workload"),
+    scenarios: z.array(modelRouterScenarioSchema).min(1),
+  })
+  .strict()
+  .superRefine(validateGameCollection);
+
+export const retrievalRankGameSchema = z
+  .object({
+    ...gameBase,
+    type: z.literal("retrieval-rank"),
+    mode: z.literal("rank-and-pack"),
+    scenarios: z.array(retrievalRankScenarioSchema).min(1),
+  })
+  .strict()
+  .superRefine(validateGameCollection);
+
+export const fieldGameSchema = z.discriminatedUnion("type", [quickDecisionGameSchema, modelRouterGameSchema, retrievalRankGameSchema]);
 
 export const glossaryEntrySchema = z.object({
   term: z.string().min(2),
@@ -316,7 +480,13 @@ export type Question = z.infer<typeof questionSchema>;
 export type Lab = z.infer<typeof labSchema>;
 export type Experiment = z.infer<typeof experimentSchema>;
 export type FieldGame = z.infer<typeof fieldGameSchema>;
+export type QuickDecisionGame = z.infer<typeof quickDecisionGameSchema>;
 export type QuickDecisionScenario = z.infer<typeof quickDecisionScenarioSchema>;
+export type ModelRouterGame = z.infer<typeof modelRouterGameSchema>;
+export type ModelRouterScenario = z.infer<typeof modelRouterScenarioSchema>;
+export type RetrievalRankGame = z.infer<typeof retrievalRankGameSchema>;
+export type RetrievalRankScenario = z.infer<typeof retrievalRankScenarioSchema>;
+export type GameScenario = FieldGame["scenarios"][number];
 export type GameMetric = z.infer<typeof gameMetricSchema>;
 export type GameMetricScores = z.infer<typeof gameMetricScoresSchema>;
 export type GameNextAction = z.infer<typeof gameNextActionSchema>;

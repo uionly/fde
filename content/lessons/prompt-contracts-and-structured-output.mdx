@@ -1,0 +1,53 @@
+---
+id: prompt-contracts-and-structured-output
+slug: prompt-contracts-and-structured-output
+title: Prompt Contracts and Structured Output
+track: llm-engineering
+module: system-design
+order: 2
+difficulty: intermediate
+durationMinutes: 20
+status: published
+prerequisites:
+  - llm-system-boundaries
+skills:
+  - AI Engineering
+  - Software Engineering
+objectives:
+  - Write prompts as versioned behavioral contracts
+  - Validate structured model output before application use
+experiments: []
+practice:
+  - llm-001
+  - llm-007
+  - llm-008
+---
+
+## A prompt is an interface
+
+Production prompts should make the task, evidence, constraints, and output contract explicit. A useful structure separates stable system policy from customer data and the immediate user request. State what the model must do when evidence is missing instead of encouraging a confident guess. Few-shot examples should represent difficult boundaries, not merely duplicate the happy path.
+
+<CustomerScenario title="A brittle ticket classifier">
+  Northstar routes tickets using a model response such as “This looks like billing.” Small wording changes produce prose, Markdown, or a category that does not exist. The queue service parses the text with regular expressions and silently sends some customers to the wrong team.
+</CustomerScenario>
+
+Replace the prose convention with a schema: category from an allowed enum, calibrated confidence, evidence spans, and an optional abstention reason. Ask the provider for schema-constrained output when available, but still parse and validate on the server. Reject unknown fields, verify cited spans exist in the input, and route invalid or low-confidence results to a safe fallback.
+
+The application contract might require:
+
+```text
+category: one of billing | access | product | other
+confidence: number from 0 to 1
+evidence: exact spans from the ticket
+needs_review: boolean
+```
+
+The schema improves syntax, not truth. A perfectly formed object can contain the wrong category or invented evidence. Evaluation must therefore cover semantic correctness and business routing, while ordinary tests cover parsing and invariants.
+
+Version the complete prompt package: system instructions, template, examples, schema, and parsing behavior. Record that version with every production trace. When a team changes an example or field definition, run the evaluation set before rollout and compare failures rather than judging a few outputs by eye.
+
+<FDEPrinciple>
+  Treat every model response as untrusted input, even when the provider promises structured output. Constrain, validate, observe, and fail safely.
+</FDEPrinciple>
+
+This discipline turns prompt work from invisible copy editing into reviewable software delivery.

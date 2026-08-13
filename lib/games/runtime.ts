@@ -1,9 +1,9 @@
-import type { FieldGame, GameMetric, GameMetricScores, QuickDecisionScenario } from "@/lib/content/schemas";
+import type { FieldGame, GameMetric, GameMetricScores, GameScenario, QuickDecisionGame, QuickDecisionScenario } from "@/lib/content/schemas";
 
 export type GameOutcome = "needs-review" | "viable" | "production-ready";
 
 export type ResolvedQuickDecision = {
-  game: FieldGame;
+  game: QuickDecisionGame;
   scenario: QuickDecisionScenario;
   choices: QuickDecisionScenario["choices"];
   runIndex: number;
@@ -61,7 +61,14 @@ export function seededShuffle<T>(items: readonly T[], seed: number): T[] {
   return shuffled;
 }
 
-export function resolveQuickDecision(game: FieldGame, runIndex: number): ResolvedQuickDecision {
+export function resolveGameScenario(game: FieldGame, runIndex: number): { scenario: GameScenario; runIndex: number; seed: number } {
+  const normalizedRun = Math.max(0, Math.trunc(runIndex));
+  const scenario = game.scenarios[normalizedRun % game.scenarios.length] as GameScenario;
+  const seed = stableHash(`${game.id}:${scenario.id}:${normalizedRun}`);
+  return { scenario, runIndex: normalizedRun, seed };
+}
+
+export function resolveQuickDecision(game: QuickDecisionGame, runIndex: number): ResolvedQuickDecision {
   const normalizedRun = Math.max(0, Math.trunc(runIndex));
   const scenario = game.scenarios[normalizedRun % game.scenarios.length];
   const seed = stableHash(`${game.id}:${scenario.id}:${normalizedRun}`);

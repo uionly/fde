@@ -1,0 +1,57 @@
+---
+id: workflow-or-agent
+slug: workflow-or-agent
+title: Workflow or Agent?
+track: agents-tools
+module: agent-foundations
+order: 1
+difficulty: beginner
+durationMinutes: 14
+status: published
+prerequisites: []
+skills:
+  - AI Engineering
+  - Architecture
+objectives:
+  - Decide when dynamic planning creates customer value
+  - Choose the least autonomous design that satisfies the workflow
+experiments:
+  - agent-tool-selection
+practice:
+  - agents-001
+  - agents-004
+  - agents-005
+---
+
+## Start with workflow variability
+
+An agent is useful when the system must choose among actions using context that cannot be reduced to stable rules. It is not a synonym for “an application that calls a model.” A fixed sequence of validated steps is usually cheaper to test, easier to observe, and safer to operate as a deterministic workflow.
+
+<CustomerScenario title="Northstar's refund request">
+  Northstar asks for an “autonomous refund agent.” Identity verification, transaction lookup, eligibility checks, and refund limits are already documented as deterministic rules. Only the explanation of unusual evidence requires judgment.
+</CustomerScenario>
+
+The strongest design separates the stable control path from the uncertain reasoning task. Code owns identity, limits, authorization, and state transitions. A model may summarize evidence or recommend an exception, but it does not need authority over the complete process.
+
+## Use an autonomy test
+
+Before proposing an agent, ask four questions:
+
+- Does the task require choosing a path that cannot be enumerated reliably?
+- Is the benefit of flexibility worth additional evaluation and operational cost?
+- Can every available action be bounded, observed, and reversed?
+- What happens when the system is uncertain or its tools fail?
+
+If the first answer is no, use a workflow. If the remaining answers are weak, reduce autonomy until the controls are credible. A hybrid is often best: deterministic orchestration around narrow model decisions.
+
+<FDEPrinciple>
+  Use the least autonomous system that reliably produces the customer outcome.
+</FDEPrinciple>
+
+## Make the architecture legible
+
+Name the parts explicitly in the design: planner, policy checks, tools, state store, termination rules, and human escalation. This lets customer security, operations, and product teams evaluate the real system rather than a vague “agent” label.
+
+<Experiment id="agent-tool-selection" />
+
+The goal is not maximum autonomy. It is the right amount of adaptive behavior inside a system the customer can trust.

@@ -8,7 +8,7 @@ describe("quick decision game accessibility", () => {
   beforeEach(() => window.localStorage.clear());
 
   it("moves focus between phase headings and announces only a concise result", async () => {
-    const game = getAllGames()[0];
+    const game = getAllGames().find((candidate) => candidate.type === "quick-decision")!;
     const scenario = game.scenarios[0];
     const recommended = scenario.choices.find((choice) => choice.recommended)!;
     render(<QuickDecisionGame game={game} />);

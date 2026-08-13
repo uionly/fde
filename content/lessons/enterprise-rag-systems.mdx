@@ -1,0 +1,48 @@
+---
+id: enterprise-rag-systems
+slug: enterprise-rag-systems
+title: Frame the Enterprise RAG System
+track: enterprise-rag
+module: foundations
+order: 1
+difficulty: intermediate
+durationMinutes: 20
+status: published
+prerequisites: []
+skills:
+  - AI Engineering
+  - Architecture
+  - Business Thinking
+objectives:
+  - Decide when retrieval-augmented generation fits a customer workflow
+  - Define source authority, answer scope, and success criteria before implementation
+experiments:
+  - retrieval-playground
+practice:
+  - rag-004
+  - rag-005
+  - rag-006
+  - rag-007
+---
+
+## Retrieval is not the customer outcome
+
+Enterprise RAG connects a user question to governed source evidence and a useful response. Start by defining the customer decision: who asks, which sources are authoritative, how current the answer must be, what action follows, and what should happen when evidence is missing or conflicting. RAG is a fit when answers depend on changing private knowledge. It is not a substitute for a deterministic database query, transaction API, or clearly encoded business rule.
+
+<CustomerScenario title="Search everything">
+  Northstar asks for a chatbot over SharePoint, CRM notes, product manuals, and resolved tickets. Nobody can name which source wins when policies conflict, who may see account notes, or whether the goal is discovery, explanation, or a binding refund decision.
+</CustomerScenario>
+
+Bound the first use case. For example, help support specialists find and explain the current refund policy while preserving source permissions and linking every material claim to evidence. The payment decision remains in policy code. Define supported users, content collections, latency needs, expected query volume, languages, and the escalation path for incomplete evidence.
+
+Sketch the system stages: connectors and ingestion, parsing and chunking, metadata and access controls, indexes, query understanding, candidate retrieval, reranking, context assembly, grounded generation, citations, and workflow delivery. Each stage needs an owner and an observable contract. A weak source cannot become authoritative merely because semantic search ranks it highly.
+
+<Experiment id="retrieval-playground" />
+
+Establish baseline measures before model selection: retrieval recall for approved sources, citation and groundedness quality, permission failures, freshness, task completion, latency, and cost. Include abstention as correct behavior when no governing evidence exists.
+
+<FDEPrinciple>
+  Design RAG around an authoritative customer decision, not around the existence of a vector database.
+</FDEPrinciple>
+
+This framing prevents a broad knowledge demo from quietly becoming an unsafe operational system.

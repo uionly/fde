@@ -17,7 +17,9 @@ objectives:
   - Define task-level AI quality
   - Separate retrieval and generation evaluation
 experiments: []
-practice: []
+practice:
+  - evaluations-001
+  - evaluations-002
 ---
 
 ## Quality is a system property
@@ -32,8 +34,26 @@ Traditional assertions are still necessary, but they cannot describe whether a p
 
 Measure retrieval relevance, grounded answer quality, tool selection, safety behavior, latency, and cost separately. Then add end-to-end task-success measures.
 
+Start by defining the task and the decision the evaluation will support. A launch gate, model-routing policy, retrieval change, and incident regression suite need different evidence. “The output looks good” is not a reproducible criterion.
+
+## Build evidence from real work
+
+Sample representative production categories rather than only memorable examples. Include common requests, high-impact edge cases, ambiguous language, permission boundaries, stale sources, tool failures, and adversarial content. Preserve important incidents as regression cases.
+
+Separate deterministic assertions from judgment. Schema validity, citation presence, authorization, transaction limits, and latency budgets can often be checked exactly. Correctness, usefulness, and tone may need a clear rubric and calibrated human or model judges. Record evaluator disagreement instead of hiding it inside one score.
+
+<Callout title="Evaluation contract">
+  Name the dataset version, metric definitions, thresholds, segment breakdowns, and owner who decides whether a change may ship.
+</Callout>
+
+An aggregate pass rate can conceal a critical failure. Review results by role, task category, risk level, and customer workflow. Keep retrieval recall separate from answer groundedness so the team fixes the layer that actually failed.
+
 <FDEPrinciple>
   Build the evaluation before arguing about which model is best.
 </FDEPrinciple>
+
+## Connect quality to the outcome
+
+Offline evidence should predict something the customer values: fewer escalations, shorter resolution time, less rework, or safer automation. After deployment, compare those outcomes with the baseline and feed new failures back into the evaluation set.
 
 Apply the lesson to [Northstar's retrieval failure](/case-studies/northstar#retrieval-failure).

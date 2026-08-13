@@ -1,0 +1,48 @@
+---
+id: production-rag-observability
+slug: production-rag-observability
+title: Production RAG Observability and Operations
+track: enterprise-rag
+module: operations
+order: 5
+difficulty: advanced
+durationMinutes: 24
+status: published
+prerequisites:
+  - permission-aware-rag
+skills:
+  - Production
+  - AI Engineering
+  - Data
+objectives:
+  - Monitor freshness, retrieval, generation, authorization, latency, and cost as separate signals
+  - Operate RAG changes with canaries, rollback, and incident evidence
+experiments:
+  - retrieval-playground
+practice:
+  - rag-018
+  - rag-019
+  - rag-020
+---
+
+## Operate the evidence supply chain
+
+RAG can fail while every service returns HTTP 200. A connector may lag, parsing may drop tables, access metadata may be stale, relevant evidence may fall below the context cutoff, or generation may ignore a correct passage. Observability must follow a request across these stages without turning logs into an uncontrolled copy of private documents.
+
+<CustomerScenario title="Fresh answers until Monday">
+  Northstar publishes a policy update Friday evening. The connector's cursor becomes stuck, but its process remains healthy. On Monday the assistant confidently cites the old rule. API uptime is green, and nobody monitors source-to-index freshness.
+</CustomerScenario>
+
+Measure ingestion lag and coverage by source, failed and quarantined documents, version and deletion propagation, and access-control synchronization. For queries, record privacy-safe identifiers for applied filters, retrieved candidates, ranks, context inclusion, citations, latency, token use, and outcome. Monitor empty retrieval, low evidence scores, abstention, user correction, escalation, and delayed task success by important slice.
+
+Alert on actionable thresholds: freshness beyond the customer commitment, unexpected access denials or cross-boundary test failures, a drop in recall on a canary suite, rising unsupported claims, or cost per completed task. Link alerts to runbooks that name the owner, source of truth, safe mode, and rollback procedure.
+
+Changes to connectors, parsers, chunking, embeddings, indexes, ranking, prompts, or models can all shift quality. Version them independently. Backtest on a representative set, shadow or canary the new path, compare stage-level and end-to-end metrics, and retain the old index until rollback is safe. Reindexing is a migration, not routine background work.
+
+<Experiment id="retrieval-playground" />
+
+<FDEPrinciple>
+  Production RAG is an evidence supply chain. Observe the age, authority, access decision, rank, and use of evidence for every customer outcome.
+</FDEPrinciple>
+
+Review confirmed incidents into regression cases so operational learning becomes durable system quality.

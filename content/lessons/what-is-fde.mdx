@@ -18,6 +18,7 @@ objectives:
 experiments: []
 practice:
   - fde-foundation-001
+  - delivery-001
 ---
 
 ## The work starts before the specification
@@ -36,8 +37,18 @@ A Software Engineer is often given a bounded requirement. A Forward Deployed Eng
 
 The FDE stays accountable across discovery, architecture, implementation, evaluation, deployment, adoption, and measurable impact. Shipping is an important milestone; customer value is the finish line.
 
+That ownership does not mean doing every job alone. It means keeping the customer problem coherent while partnering with product, security, data, operations, and subject-matter experts. When an assumption fails, the FDE finds the affected layer and updates the plan instead of handing the ambiguity back to the customer.
+
+## How the role changes engineering decisions
+
+A traditional requirement such as “add semantic search” can be implemented correctly while leaving the support workflow unchanged. An FDE asks which users are searching, what evidence they fail to find, what permissions apply, how the answer enters the workflow, and which baseline should move. Those questions shape the architecture and the delivery plan.
+
+Use the 10D loop as a practical operating rhythm: discover the workflow, define the problem, de-risk assumptions, design the system, demonstrate the riskiest slice, develop it, evaluate behavior, deploy safely, drive adoption, and distill reusable learning. The phases overlap, but none can be replaced by a polished demo.
+
 <Callout title="Your first move">
   Map the current support workflow and establish a baseline before selecting a model or agent architecture.
 </Callout>
+
+The role is successful when the customer can point to a changed outcome and the deployed system can be operated safely—not merely when the code has shipped.
 
 Continue the customer story in the [Northstar field file](/case-studies/northstar#vague-request).

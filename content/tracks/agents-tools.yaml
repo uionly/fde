@@ -1,0 +1,11 @@
+id: agents-tools
+slug: agents-tools
+title: Agents & Tools
+description: Design bounded AI agents that use enterprise tools safely, recover from failure, and keep consequential decisions accountable.
+order: 8
+status: published
+skills:
+  - AI Engineering
+  - Architecture
+  - Security
+  - Production

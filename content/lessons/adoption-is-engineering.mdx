@@ -1,0 +1,55 @@
+---
+id: adoption-is-engineering
+slug: adoption-is-engineering
+title: Treat Adoption as an Engineering Problem
+track: fde-foundations
+module: customer-delivery
+order: 6
+difficulty: intermediate
+durationMinutes: 17
+status: published
+prerequisites:
+  - field-communication-rhythm
+skills:
+  - Customer Delivery
+  - Business Thinking
+  - Production
+objectives:
+  - Diagnose adoption barriers across workflow, trust, and operations
+  - Design rollout evidence and ownership into a solution
+experiments: []
+practice:
+  - delivery-014
+  - delivery-015
+  - delivery-016
+---
+
+## Usage does not happen after engineering
+
+Adoption depends on whether a solution fits real work, earns calibrated trust, and has an operating owner. Training delivered after launch cannot compensate for an extra approval queue, unclear failure recovery, or incentives that reward the old process. FDEs design these conditions alongside the software.
+
+<CustomerScenario title="The assistant nobody trusts">
+  Northstar's assistant meets its offline answer-quality target, but only 14% of specialists use it twice in a week. Experienced agents say citations are hard to inspect, supervisors still grade the old workflow, and nobody knows how to report a questionable answer.
+</CustomerScenario>
+
+Diagnose the adoption funnel. First, can the intended users access the capability in the moment of need? Second, does it reduce work rather than move it elsewhere? Third, can users judge when to trust it? Fourth, is there a safe recovery path? Finally, do team measures and manager behavior reinforce the change?
+
+Instrument meaningful events rather than vanity traffic. Activation might mean completing a real ticket with cited guidance. Retention might mean repeated use across representative cases. Pair telemetry with short observation sessions: a drop-off can reveal friction, but watching the workflow explains why.
+
+## Roll out to learn safely
+
+Start with a cohort whose workflow and risk boundary are explicit. Define entry criteria, a comparison baseline, feedback channels, support ownership, and rollback triggers. Expand only when evidence supports the next risk level. Champions help interpret local practice, but they should not become permanent manual infrastructure.
+
+<MermaidDiagram chart={`flowchart LR
+  A[Access] --> F[Workflow fit]
+  F --> T[Calibrated trust]
+  T --> R[Recovery]
+  R --> O[Operational ownership]`} />
+
+Before handoff, name who owns content freshness, quality review, incidents, permissions, user support, and improvement decisions. Give those owners observable signals and a rehearsed response path.
+
+<FDEPrinciple variant="insight">
+  Adoption is a property of the complete sociotechnical system, so design and measure it from the first field test.
+</FDEPrinciple>
+
+The goal is not maximum use. It is appropriate, sustained use that improves the promised outcome without hiding new risk.

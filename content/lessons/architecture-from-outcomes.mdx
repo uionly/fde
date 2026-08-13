@@ -1,0 +1,56 @@
+---
+id: architecture-from-outcomes
+slug: architecture-from-outcomes
+title: Derive Architecture from Customer Outcomes
+track: solution-architecture
+module: framing
+order: 1
+difficulty: intermediate
+durationMinutes: 17
+status: published
+prerequisites:
+  - discovery-readout-and-commitment
+skills:
+  - Architecture
+  - Business Thinking
+  - Software Engineering
+objectives:
+  - Translate outcome and constraint evidence into architectural drivers
+  - Define a bounded system context before selecting components
+experiments: []
+practice:
+  - architecture-005
+  - architecture-006
+  - architecture-007
+---
+
+## Architecture begins with decisions the customer cares about
+
+A component diagram is not a solution until it explains how the system enables a workflow under real constraints. Start from architectural drivers: the outcome, critical quality attributes, trust boundaries, integration realities, delivery horizon, and evidence required for release.
+
+<CustomerScenario title="The reference architecture trap">
+  Northstar asks for policy assistance within eight weeks. A team proposes a generic multi-agent platform with a vector database, event bus, and five services. It does not explain how specialists authenticate, how policy permissions are enforced, or how the pilot will prove reduced handling time.
+</CustomerScenario>
+
+Write a small set of quality-attribute scenarios. Name the source, stimulus, environment, affected component, expected response, and measure. For example: during peak support hours, an authenticated specialist requests policy guidance; the system returns cited, permission-allowed evidence within three seconds for 95% of requests and records the source revision.
+
+Map the system context before decomposing internals. Identify users, external systems, data owners, control functions, and operational teams. Mark where identity, sensitive data, decisions, and failures cross ownership boundaries.
+
+<MermaidDiagram chart={`flowchart LR
+  U[Support specialist] --> A[Guidance application]
+  A --> I[Identity provider]
+  A --> P[Policy sources]
+  A --> T[Ticketing system]
+  A --> O[Operations and audit]`} />
+
+Now compare candidate designs against the drivers. A simpler retrieval-and-citation service may validate the first outcome. Agent orchestration may be justified later if the workflow requires dynamic multi-step action. Components earn their place by satisfying a driver or reducing a known delivery risk.
+
+<Callout title="Driver test">
+  If removing a component does not weaken an outcome, quality attribute, constraint, or validation plan, ask why it exists in the first release.
+</Callout>
+
+<FDEPrinciple>
+  Every architectural choice should trace to a customer workflow, measurable quality attribute, or verified constraint.
+</FDEPrinciple>
+
+This traceability makes tradeoffs discussable. When a deadline tightens, the team can narrow the workflow boundary instead of silently weakening security or reliability. It also keeps architecture evolvable because future complexity is added in response to evidence, not anticipation alone.

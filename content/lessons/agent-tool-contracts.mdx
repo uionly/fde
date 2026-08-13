@@ -1,0 +1,60 @@
+---
+id: agent-tool-contracts
+slug: agent-tool-contracts
+title: Design Reliable Agent Tool Contracts
+track: agents-tools
+module: tools
+order: 2
+difficulty: intermediate
+durationMinutes: 16
+status: published
+prerequisites:
+  - workflow-or-agent
+skills:
+  - AI Engineering
+  - Software Engineering
+  - Security
+objectives:
+  - Define narrow tool contracts with validated inputs and outputs
+  - Separate tool capability from authorization policy
+experiments:
+  - agent-tool-selection
+practice:
+  - agents-006
+  - agents-007
+---
+
+## A tool is a production boundary
+
+Tool descriptions help a model choose an action, but they do not make that action safe. A production tool needs a narrow contract, server-side validation, explicit authorization, idempotency behavior, meaningful errors, and observability.
+
+<CustomerScenario title="One convenient tool, too much authority">
+  Northstar exposes `update_customer_record(payload)` to its support assistant. The payload accepts arbitrary fields, including risk status and refund eligibility. The model can now change controls that should belong to fraud operations.
+</CustomerScenario>
+
+Replace broad mutation surfaces with purpose-specific capabilities such as `update_contact_preference`, `create_refund_request`, and `add_case_note`. Each should accept only necessary fields and execute under the requesting user's identity and policy context.
+
+## Design the contract for failure
+
+A useful tool definition answers:
+
+- Which actor and customer record is in scope?
+- Which arguments are required, bounded, and validated?
+- Is the operation read-only, reversible, or consequential?
+- How are duplicate calls detected?
+- Which errors can be retried, and which require escalation?
+- What evidence is recorded for later review?
+
+Return structured outcomes rather than prose. Distinguish `not_found`, `not_authorized`, `validation_failed`, `rate_limited`, and `completed`. An agent that cannot classify failure will improvise recovery and often repeat the wrong call.
+
+<FDEPrinciple variant="warning">
+  A tool schema describes capability; deterministic policy decides whether this actor may use it now.
+</FDEPrinciple>
+
+## Keep the model out of the trust decision
+
+Do not pass an `is_admin` argument that the model can choose. Resolve identity and permissions outside model context. Apply amount limits, tenant boundaries, and approval requirements at execution time even if the prompt already mentions them.
+
+<Experiment id="agent-tool-selection" />
+
+Narrow tools may look less impressive in a demo, but they make the deployed system testable, attributable, and resilient to prompt mistakes.

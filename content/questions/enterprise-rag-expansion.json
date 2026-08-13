@@ -1,0 +1,552 @@
+[
+  {
+    "id": "rag-004",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "beginner",
+    "skills": ["AI Engineering", "Architecture"],
+    "scenario": "A manufacturer wants employees to ask questions across 500,000 private manuals, but the proposed design sends every document directly to the language model for each request.",
+    "prompt": "Which system design is the best first correction?",
+    "choices": [
+      {
+        "id": "retrieve-bounded-evidence",
+        "text": "Retrieve a small, relevant evidence set before generation",
+        "rationale": "A retrieval layer narrows the corpus to evidence that fits the request, permissions, latency target, and context budget."
+      },
+      {
+        "id": "increase-context-window",
+        "text": "Choose the model with the largest context window",
+        "rationale": "A larger window does not make repeatedly sending the whole corpus secure, current, relevant, or economical."
+      },
+      {
+        "id": "summarize-corpus-once",
+        "text": "Replace the manuals with one permanent summary",
+        "rationale": "A static summary loses detail, provenance, permission boundaries, and updates from source documents."
+      }
+    ],
+    "correct": ["retrieve-bounded-evidence"],
+    "explanation": "An enterprise RAG system retrieves a bounded set of authorized, relevant evidence and then asks the model to answer from that evidence.",
+    "relatedLesson": "enterprise-rag-systems",
+    "principle": "Retrieval is a governed system boundary, not merely a way to fit more text."
+  },
+  {
+    "id": "rag-005",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Architecture", "Customer Delivery"],
+    "scenario": "A legal knowledge assistant produces fluent answers, but reviewers cannot tell whether claims came from approved policies or from the model's prior knowledge.",
+    "prompt": "Which two product behaviors most directly make the answers reviewable?",
+    "choices": [
+      {
+        "id": "claim-citations",
+        "text": "Attach source citations to material claims",
+        "rationale": "Claim-level provenance lets reviewers inspect the exact approved evidence behind an answer."
+      },
+      {
+        "id": "insufficient-evidence-response",
+        "text": "Abstain when the retrieved evidence is insufficient",
+        "rationale": "An explicit no-answer path prevents confident completion when the system lacks support."
+      },
+      {
+        "id": "hide-retrieval-details",
+        "text": "Hide document names to keep the interface simple",
+        "rationale": "Removing provenance makes review harder and does not improve factual grounding."
+      },
+      {
+        "id": "creative-system-prompt",
+        "text": "Ask the model to make the answer more persuasive",
+        "rationale": "Persuasive language cannot establish that a claim is supported by approved evidence."
+      }
+    ],
+    "correct": ["claim-citations", "insufficient-evidence-response"],
+    "explanation": "Citations make evidence inspectable, while abstention gives the system a safe response when retrieval cannot support an answer.",
+    "relatedLesson": "enterprise-rag-systems",
+    "principle": "Trustworthy RAG exposes provenance and admits when evidence is inadequate."
+  },
+  {
+    "id": "rag-006",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "After a model upgrade, a benefits assistant gives a wrong eligibility answer. Logs show that the correct policy paragraph was never included in the retrieved context.",
+    "prompt": "Where should the team investigate first?",
+    "choices": [
+      {
+        "id": "retrieval-stage",
+        "text": "The retrieval stage and its inputs",
+        "rationale": "The generator could not use the correct policy because the relevant evidence never reached it."
+      },
+      {
+        "id": "model-temperature",
+        "text": "The generation temperature",
+        "rationale": "Sampling changes cannot recover evidence that was absent from the model context."
+      },
+      {
+        "id": "response-styling",
+        "text": "The answer formatting template",
+        "rationale": "Presentation does not explain why the required policy paragraph was not retrieved."
+      }
+    ],
+    "correct": ["retrieval-stage"],
+    "explanation": "The observed failure is upstream of generation, so the team should trace query construction, filtering, candidate retrieval, and ranking before tuning the model.",
+    "relatedLesson": "enterprise-rag-systems",
+    "principle": "Debug RAG as a pipeline and start at the first failed stage."
+  },
+  {
+    "id": "rag-007",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["Architecture", "Data", "Production"],
+    "scenario": "A global support organization is designing one knowledge assistant for product manuals, live incident records, and customer-specific runbooks. Each source has different ownership and freshness guarantees.",
+    "prompt": "Which two architecture decisions best preserve those source-specific constraints?",
+    "choices": [
+      {
+        "id": "source-contracts",
+        "text": "Define an ingestion and freshness contract per source",
+        "rationale": "Per-source contracts make ownership, update cadence, deletion behavior, and failure handling explicit."
+      },
+      {
+        "id": "provenance-metadata",
+        "text": "Carry source and version provenance into every indexed chunk",
+        "rationale": "Persistent provenance supports citations, audits, deletion, freshness checks, and source-aware ranking."
+      },
+      {
+        "id": "single-refresh-schedule",
+        "text": "Refresh every source on the same nightly schedule",
+        "rationale": "A uniform schedule ignores the live incident system's stronger freshness requirement."
+      },
+      {
+        "id": "discard-source-identity",
+        "text": "Normalize all content and discard its source identity",
+        "rationale": "Losing identity prevents source-specific governance, diagnostics, and trust signals."
+      }
+    ],
+    "correct": ["source-contracts", "provenance-metadata"],
+    "explanation": "Source-specific contracts preserve operational requirements, and chunk-level provenance keeps those requirements enforceable throughout retrieval and answer review.",
+    "relatedLesson": "enterprise-rag-systems",
+    "principle": "Enterprise knowledge remains governed by its source even after indexing."
+  },
+  {
+    "id": "rag-008",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["Data", "Security", "Production"],
+    "scenario": "A terminated vendor's confidential playbook was deleted from SharePoint yesterday, but the assistant can still retrieve chunks that came from it.",
+    "prompt": "Which ingestion capability is missing?",
+    "choices": [
+      {
+        "id": "deletion-propagation",
+        "text": "Reliable deletion propagation with source identifiers",
+        "rationale": "Stable source identity and deletion events let the index remove every derived chunk when its source is deleted."
+      },
+      {
+        "id": "larger-embeddings",
+        "text": "A higher-dimensional embedding model",
+        "rationale": "Embedding dimensions do not remove content whose source is no longer authorized."
+      },
+      {
+        "id": "lower-top-k",
+        "text": "A lower retrieval top-k",
+        "rationale": "Reducing result count may hide stale chunks sometimes but does not delete them or eliminate exposure."
+      }
+    ],
+    "correct": ["deletion-propagation"],
+    "explanation": "Ingestion must handle the full document lifecycle, including deterministic removal of all chunks derived from a deleted or revoked source.",
+    "relatedLesson": "ingestion-and-document-lifecycle",
+    "principle": "A production index must honor source deletion as rigorously as source creation."
+  },
+  {
+    "id": "rag-009",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["Data", "AI Engineering"],
+    "scenario": "An insurer indexes procedure PDFs by extracting plain text. Answers about coverage limits are wrong because table rows become detached from their column headings and footnotes.",
+    "prompt": "Which two ingestion changes should the team test first?",
+    "choices": [
+      {
+        "id": "structure-aware-parser",
+        "text": "Use structure-aware parsing for tables and sections",
+        "rationale": "Preserving table and document structure keeps values connected to headings, rows, and notes."
+      },
+      {
+        "id": "semantic-chunk-boundaries",
+        "text": "Chunk along semantic boundaries with necessary heading context",
+        "rationale": "Section-aware chunks can retain the context required to interpret extracted values."
+      },
+      {
+        "id": "random-overlap",
+        "text": "Add very large overlap to every fixed-size chunk",
+        "rationale": "Blind overlap increases duplicate tokens and does not reliably reconstruct table relationships."
+      },
+      {
+        "id": "remove-footnotes",
+        "text": "Drop footnotes during extraction",
+        "rationale": "Footnotes may contain qualifications that are essential to a correct coverage answer."
+      }
+    ],
+    "correct": ["structure-aware-parser", "semantic-chunk-boundaries"],
+    "explanation": "The ingestion path should preserve meaningful layout and create chunks that retain the headings and qualifications needed to interpret the content.",
+    "relatedLesson": "ingestion-and-document-lifecycle",
+    "principle": "Chunking quality cannot recover structure that parsing already destroyed."
+  },
+  {
+    "id": "rag-010",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["Data", "Production", "Architecture"],
+    "scenario": "A weekly re-index changes every chunk identifier, causing duplicate vectors, broken citations, and an inability to determine which policy version produced an answer.",
+    "prompt": "What identifier strategy best supports a reliable document lifecycle?",
+    "choices": [
+      {
+        "id": "stable-derived-identifiers",
+        "text": "Derive stable chunk IDs from source identity, version, and chunk position",
+        "rationale": "Deterministic identifiers make updates idempotent and preserve lineage from a chunk to its source version."
+      },
+      {
+        "id": "new-random-identifiers",
+        "text": "Generate new random IDs on every ingestion run",
+        "rationale": "Changing identity on every run creates duplicates and destroys reliable update and deletion behavior."
+      },
+      {
+        "id": "title-only-identifiers",
+        "text": "Use the document title as every chunk ID",
+        "rationale": "Titles can collide and cannot distinguish versions or multiple chunks within one document."
+      }
+    ],
+    "correct": ["stable-derived-identifiers"],
+    "explanation": "Stable, version-aware identifiers make ingestion idempotent and keep citations, updates, deletions, and audits tied to the correct source artifact.",
+    "relatedLesson": "ingestion-and-document-lifecycle",
+    "principle": "Preserve lineage with deterministic identity at every ingestion stage."
+  },
+  {
+    "id": "rag-011",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Data"],
+    "scenario": "Field technicians search for exact error code ZX-4107, while other questions describe symptoms such as intermittent compressor lockout without using manual terminology.",
+    "prompt": "Which candidate-retrieval strategy best covers both query patterns?",
+    "choices": [
+      {
+        "id": "hybrid-retrieval",
+        "text": "Combine lexical and semantic retrieval",
+        "rationale": "Lexical search preserves exact code matching while semantic search captures symptom descriptions and paraphrases."
+      },
+      {
+        "id": "semantic-only",
+        "text": "Use semantic retrieval only",
+        "rationale": "Semantic similarity can miss or blur rare identifiers that require exact matching."
+      },
+      {
+        "id": "lexical-only",
+        "text": "Use lexical retrieval only",
+        "rationale": "Exact terms work for codes but cannot reliably bridge technicians' symptom language to manual terminology."
+      }
+    ],
+    "correct": ["hybrid-retrieval"],
+    "explanation": "Hybrid retrieval combines exact-token precision for error codes with semantic recall for natural-language descriptions of the same problem.",
+    "relatedLesson": "retrieval-quality-and-hybrid-search",
+    "principle": "Match retrieval signals to the real distribution of enterprise queries."
+  },
+  {
+    "id": "rag-012",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Production"],
+    "scenario": "A hybrid search reliably places the correct troubleshooting passage somewhere in its top 40 candidates, but it rarely appears in the five chunks sent to the model.",
+    "prompt": "Which change most directly addresses the observed failure?",
+    "choices": [
+      {
+        "id": "rerank-candidates",
+        "text": "Rerank the candidate set with a relevance model",
+        "rationale": "A reranker can apply stronger query-document scoring before the final context is selected."
+      },
+      {
+        "id": "increase-generation-temperature",
+        "text": "Increase generation temperature",
+        "rationale": "Generation randomness cannot promote evidence that was excluded from the final context."
+      },
+      {
+        "id": "shorten-answer",
+        "text": "Reduce the maximum answer length",
+        "rationale": "Output length does not correct the candidate-to-context ranking failure."
+      }
+    ],
+    "correct": ["rerank-candidates"],
+    "explanation": "Candidate recall is already strong; reranking targets the failing stage by improving which candidates receive the limited context slots.",
+    "relatedLesson": "retrieval-quality-and-hybrid-search",
+    "principle": "Use stage-level evidence to choose the smallest relevant retrieval change."
+  },
+  {
+    "id": "rag-013",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["AI Engineering", "Data", "Business Thinking"],
+    "scenario": "A team reports 92% retrieval success from 50 questions written by the developers, but customer escalations are concentrated in acronyms, multilingual queries, and recently updated policies.",
+    "prompt": "Which two evaluation changes produce a more decision-worthy retrieval measure?",
+    "choices": [
+      {
+        "id": "production-query-slices",
+        "text": "Build representative slices from production query patterns",
+        "rationale": "Real distribution slices reveal performance for the vocabulary and tasks customers actually use."
+      },
+      {
+        "id": "report-slice-metrics",
+        "text": "Report retrieval metrics separately for acronyms, languages, and fresh content",
+        "rationale": "Slice-level results prevent a strong aggregate score from hiding high-impact failure modes."
+      },
+      {
+        "id": "remove-hard-cases",
+        "text": "Remove escalation queries as outliers",
+        "rationale": "Those cases represent known customer harm and belong in the evaluation rather than outside it."
+      },
+      {
+        "id": "score-answer-style",
+        "text": "Replace retrieval metrics with an answer-tone rating",
+        "rationale": "Tone cannot establish whether the system found the evidence needed for a correct answer."
+      }
+    ],
+    "correct": ["production-query-slices", "report-slice-metrics"],
+    "explanation": "A representative evaluation set and explicit failure slices show whether retrieval succeeds for real customer traffic and known high-risk cases.",
+    "relatedLesson": "retrieval-quality-and-hybrid-search",
+    "principle": "Aggregate retrieval quality is useful only when critical query segments remain visible."
+  },
+  {
+    "id": "rag-014",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["AI Engineering", "Data", "Production"],
+    "scenario": "A service assistant retrieves ten near-duplicate passages from one outdated handbook, exhausting its context budget before it can include the current product bulletin.",
+    "prompt": "Which two context-selection controls should the team add?",
+    "choices": [
+      {
+        "id": "deduplicate-passages",
+        "text": "Deduplicate substantially overlapping passages",
+        "rationale": "Deduplication preserves scarce context space without sacrificing distinct evidence."
+      },
+      {
+        "id": "diversity-freshness-ranking",
+        "text": "Balance relevance with source diversity and freshness",
+        "rationale": "These signals can prevent one stale document from crowding out current, complementary evidence."
+      },
+      {
+        "id": "send-all-candidates",
+        "text": "Send every retrieved candidate to the model",
+        "rationale": "Unbounded context increases latency and cost while retaining the duplicate-evidence problem."
+      },
+      {
+        "id": "randomize-selection",
+        "text": "Randomly select passages when the budget is full",
+        "rationale": "Random selection discards evidence-based relevance and does not reliably improve freshness or diversity."
+      }
+    ],
+    "correct": ["deduplicate-passages", "diversity-freshness-ranking"],
+    "explanation": "Context packing should remove redundant evidence and deliberately balance relevance with signals such as freshness and source diversity under a fixed budget.",
+    "relatedLesson": "retrieval-quality-and-hybrid-search",
+    "principle": "Optimize the evidence set, not merely the number of retrieved chunks."
+  },
+  {
+    "id": "rag-015",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["Security", "Architecture", "AI Engineering"],
+    "scenario": "An HR assistant serves managers and individual employees from the same vector index. The current design retrieves globally, then asks the model to omit documents the requester should not see.",
+    "prompt": "What is the required authorization boundary?",
+    "choices": [
+      {
+        "id": "filter-before-context",
+        "text": "Enforce the requester's access during retrieval before context assembly",
+        "rationale": "Unauthorized content must be excluded before it can reach the model or appear in logs and citations."
+      },
+      {
+        "id": "prompt-based-redaction",
+        "text": "Strengthen the instruction telling the model to redact secrets",
+        "rationale": "A model instruction is not a reliable authorization control once restricted content is in context."
+      },
+      {
+        "id": "client-side-hiding",
+        "text": "Hide restricted citations in the browser",
+        "rationale": "Client-side display logic acts after the server and model have already processed unauthorized evidence."
+      }
+    ],
+    "correct": ["filter-before-context"],
+    "explanation": "The authenticated user identity and indexed access metadata must constrain retrieval so unauthorized evidence never enters model context.",
+    "relatedLesson": "permission-aware-rag",
+    "principle": "Authorization belongs before retrieval results cross the model boundary."
+  },
+  {
+    "id": "rag-016",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["Security", "Data", "Production"],
+    "scenario": "An employee loses access to an acquisition folder at noon, but the RAG index refreshes ACL metadata only once each night. The assistant can continue answering from that folder for hours.",
+    "prompt": "Which design best closes this revocation gap?",
+    "choices": [
+      {
+        "id": "revocation-aware-authorization",
+        "text": "Propagate ACL changes promptly and revalidate authorization at query time",
+        "rationale": "Event-driven updates plus query-time authorization reduce exposure when cached index metadata lags."
+      },
+      {
+        "id": "nightly-warning",
+        "text": "Display a warning that permissions may be one day old",
+        "rationale": "A warning acknowledges the exposure but does not prevent unauthorized retrieval."
+      },
+      {
+        "id": "lower-similarity-threshold",
+        "text": "Lower the vector similarity threshold",
+        "rationale": "Relevance thresholds do not enforce access revocation and may expose even more documents."
+      }
+    ],
+    "correct": ["revocation-aware-authorization"],
+    "explanation": "Permission-aware RAG needs a defined revocation SLA, prompt ACL propagation, and an authoritative check where stale metadata could otherwise grant access.",
+    "relatedLesson": "permission-aware-rag",
+    "principle": "Permission freshness is a security requirement, not just an ingestion metric."
+  },
+  {
+    "id": "rag-017",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["Security", "Architecture", "Production"],
+    "scenario": "A multi-tenant case-management assistant accidentally returns one customer's case title in another customer's search results, even though the answer body is later blocked by an application check.",
+    "prompt": "Which two controls most directly prevent this cross-tenant leak?",
+    "choices": [
+      {
+        "id": "tenant-scoped-retrieval",
+        "text": "Apply an authenticated tenant filter inside every retrieval query",
+        "rationale": "Tenant scoping prevents another customer's candidates from entering the result set."
+      },
+      {
+        "id": "isolation-tests",
+        "text": "Continuously test cross-tenant isolation with adversarial queries",
+        "rationale": "Negative isolation tests detect regressions across search, caches, citations, logs, and answer assembly."
+      },
+      {
+        "id": "answer-body-check",
+        "text": "Keep only the existing check on the final answer body",
+        "rationale": "A late check cannot protect titles, snippets, caches, traces, or other earlier retrieval artifacts."
+      },
+      {
+        "id": "shared-cache-keys",
+        "text": "Cache answers by query text without tenant identity",
+        "rationale": "Shared cache keys create an additional route for cross-tenant data disclosure."
+      }
+    ],
+    "correct": ["tenant-scoped-retrieval", "isolation-tests"],
+    "explanation": "Tenant scope must be enforced at retrieval time and verified end to end, because leakage can occur in metadata and intermediate system layers before answer rendering.",
+    "relatedLesson": "permission-aware-rag",
+    "principle": "Treat tenant isolation as an invariant across the entire retrieval pipeline."
+  },
+  {
+    "id": "rag-018",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["Production", "AI Engineering"],
+    "scenario": "Customers report occasional unsupported answers, but production logs store only the final response text and total request latency.",
+    "prompt": "Which two additions are most important for diagnosing a single failed request?",
+    "choices": [
+      {
+        "id": "retrieval-trace",
+        "text": "Record query transformations, filters, candidate ranks, and selected context IDs",
+        "rationale": "Stage-level retrieval evidence shows what the system searched, found, filtered, and sent to generation."
+      },
+      {
+        "id": "versioned-config",
+        "text": "Record model, prompt, index, and reranker versions",
+        "rationale": "Version metadata makes a request reproducible and ties regressions to deployed changes."
+      },
+      {
+        "id": "store-passwords",
+        "text": "Log the user's credentials with the request",
+        "rationale": "Credentials are sensitive, unnecessary for diagnosis, and must never be added to telemetry."
+      },
+      {
+        "id": "aggregate-latency-only",
+        "text": "Keep only the aggregate daily latency metric",
+        "rationale": "An aggregate cannot reconstruct the retrieval and generation path of the failed request."
+      }
+    ],
+    "correct": ["retrieval-trace", "versioned-config"],
+    "explanation": "A safe request trace should expose each RAG stage and its deployed versions so the team can reproduce and localize failures without recording secrets.",
+    "relatedLesson": "production-rag-observability",
+    "principle": "Observable RAG preserves enough lineage to explain one answer end to end."
+  },
+  {
+    "id": "rag-019",
+    "type": "single_choice",
+    "category": "rag",
+    "difficulty": "intermediate",
+    "skills": ["Production", "Data", "Business Thinking"],
+    "scenario": "A pricing assistant has a four-hour freshness commitment. Its ingestion jobs report success, but a source connector silently stops discovering newly published price sheets.",
+    "prompt": "Which production signal would detect the customer-facing failure earliest?",
+    "choices": [
+      {
+        "id": "source-to-index-lag",
+        "text": "Age of the newest expected source content compared with the indexed version",
+        "rationale": "An end-to-end freshness lag measures whether current source knowledge is actually queryable, not merely whether a job ran."
+      },
+      {
+        "id": "job-exit-code",
+        "text": "The ingestion process exit code",
+        "rationale": "A successful process can still discover zero new documents and violate the freshness commitment."
+      },
+      {
+        "id": "answer-token-count",
+        "text": "Average answer token count",
+        "rationale": "Response length does not reveal whether newly published price sheets reached the index."
+      }
+    ],
+    "correct": ["source-to-index-lag"],
+    "explanation": "The service-level signal must measure end-to-end source-to-index freshness, because component success does not guarantee that current content is available to users.",
+    "relatedLesson": "production-rag-observability",
+    "principle": "Monitor the knowledge promise customers experience, not only background job health."
+  },
+  {
+    "id": "rag-020",
+    "type": "multiple_choice",
+    "category": "rag",
+    "difficulty": "advanced",
+    "skills": ["Production", "AI Engineering", "Customer Delivery"],
+    "scenario": "A new embedding model improves the offline average but sharply reduces recall for product codes after deployment. The team needs to restore service while preserving evidence for investigation.",
+    "prompt": "Which two release controls best support safe recovery?",
+    "choices": [
+      {
+        "id": "versioned-rollback",
+        "text": "Keep the previous index version available for a fast rollback",
+        "rationale": "A versioned index provides a controlled recovery path without rebuilding under incident pressure."
+      },
+      {
+        "id": "canary-slice-gates",
+        "text": "Canary the change with product-code quality gates",
+        "rationale": "A targeted canary detects the known high-risk slice before the new index reaches all traffic."
+      },
+      {
+        "id": "overwrite-index",
+        "text": "Overwrite the only production index in place",
+        "rationale": "Destructive replacement removes a quick rollback path and complicates comparison during diagnosis."
+      },
+      {
+        "id": "watch-average-only",
+        "text": "Promote changes whenever the aggregate average improves",
+        "rationale": "An aggregate can conceal severe regressions in critical query segments such as product codes."
+      }
+    ],
+    "correct": ["versioned-rollback", "canary-slice-gates"],
+    "explanation": "Versioned deployments make rollback immediate, and canary gates on critical query slices prevent a favorable aggregate from masking customer-impacting regressions.",
+    "relatedLesson": "production-rag-observability",
+    "principle": "Ship retrieval changes with reversible artifacts and slice-specific quality gates."
+  }
+]
