@@ -17,7 +17,7 @@ Create the application shell and developer experience.
 - Tailwind CSS
 - shadcn/ui setup
 - light/dark theme
-- orange accent tokens
+- TO THE NEW magenta primary, cyan accent, and Montserrat typography tokens
 - responsive global layout
 - primary navigation shell
 - placeholder routes:
@@ -294,7 +294,7 @@ Skills:
 Evidence:
 - practice
 - lab
-- capstone (later)
+- verified deterministic capstone phases
 
 Do not score lesson views.
 
@@ -330,3 +330,26 @@ Repeated learner evidence changes scores predictably and is unit-tested.
 ## MVP Exit Criteria
 
 All requirements in `MVP_ACCEPTANCE_CRITERIA.md` pass.
+
+---
+
+# Post-MVP Milestone C2 — Editable Capstone & Optional AI Coach
+
+## Goal
+
+Turn the Northstar preview into a complete, resumable field engagement without making a model the authority over learner progress.
+
+## Deliverables
+
+- 12 repository-authored and Zod-validated phases
+- structured decisions plus written reasoning
+- browser-local draft, active-phase, result, and review persistence
+- deterministic completion, sequential unlocks, four-dimension scores, report, and skill evidence
+- mock-by-default provider abstraction
+- optional server-only Anthropic structured coaching
+- bounded request/response validation, safe errors, rate limiting, and metadata-only live audit records
+- reset, accessibility, mobile, unit, API, and end-to-end coverage
+
+## Acceptance
+
+The learner can leave and resume the engagement on the same browser. Authored rules—not AI—control completion and evidence. The entire journey works with no credentials in `AI_MODE=mock`; live coaching activates only when server-side Anthropic configuration is present.

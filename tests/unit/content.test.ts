@@ -23,6 +23,7 @@ describe("content validation", () => {
     expect(content.tracks).toHaveLength(9);
     expect(content.lessons).toHaveLength(48);
     expect(content.questions).toHaveLength(150);
+    expect(content.capstone.phases).toHaveLength(12);
     expect(content.lessons.every((lesson) => lesson.content.length > 0)).toBe(true);
     expect(content.lessons.every((lesson) => lesson.content.includes("<CustomerScenario") && lesson.content.includes("<FDEPrinciple"))).toBe(true);
     expect(content.lessons.every((lesson) => lesson.content.split(/\s+/).length >= 250)).toBe(true);

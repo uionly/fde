@@ -108,6 +108,18 @@ steps:
 }
 ```
 
+## Capstone
+
+`content/capstone/northstar-ai-transformation.json` defines one ordered 12-phase engagement. Each phase contains:
+
+- customer context and a progressive reveal
+- one or more validated single/multiple decision controls
+- required but deterministically ungraded written reasoning
+- one authored consequence and four-dimension score for every option
+- transparent rubric, hint, expert example, skills, and related lessons
+
+The content schema enforces exact phase order, unique control/option IDs, complete consequence coverage, valid lesson references, and dimension weights totaling 1. Browser progress stores only IDs, notes, and review snapshots; current content is the authority used to re-evaluate completion and scores.
+
 ## Glossary
 
 ```yaml
@@ -126,3 +138,4 @@ relatedLessons:
 - missing practice references fail
 - invalid difficulty/type fail
 - unpublished content is excluded from public indexes
+- capstone phases appear in the required order and every decision option has exactly one authored consequence

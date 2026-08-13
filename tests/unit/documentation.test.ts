@@ -22,7 +22,11 @@ describe("project documentation", () => {
     expect(environmentExample).not.toMatch(/^ENABLE_DEV_AUTH=/m);
     expect(environmentExample).not.toMatch(/^AUTH_GOOGLE_/m);
     expect(environmentExample).toMatch(/^AI_MODE=mock$/m);
+    expect(environmentExample).not.toMatch(/^ANTHROPIC_API_KEY=/m);
+    expect(environmentExample).not.toMatch(/^NEXT_PUBLIC_ANTHROPIC/m);
     expect(readme).toContain("visitor-only showcase");
+    expect(readme).toContain("optional live capstone coaching");
+    expect(readme).toContain("coaching remains advisory");
     expect(readme).not.toContain("Continue as demo learner");
   });
 

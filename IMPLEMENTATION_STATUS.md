@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **C1 complete — MVP curriculum expanded to 48 lessons and 150 questions**
+Current milestone: **B1 complete — TO THE NEW brand token refresh**
 
 ## Milestones
 
@@ -20,12 +20,14 @@ Current milestone: **C1 complete — MVP curriculum expanded to 48 lessons and 1
 - [x] V1 — Visitor-only Showcase & Device Progress
 - [x] G2 — Routing & Retrieval Simulations
 - [x] C1 — Complete MVP Content Expansion
+- [x] C2 — Editable Capstone & Optional AI Coach
+- [x] B1 — TO THE NEW Brand Token Refresh
 
 ## M1 implementation summary
 
 - Bootstrapped Next.js App Router, React, strict TypeScript, and Tailwind CSS.
 - Added shadcn/ui configuration and a reusable, variant-driven Button primitive.
-- Established semantic light/dark design tokens with a restrained orange accent.
+- Established semantic light/dark design tokens, refreshed to the TO THE NEW brand system in B1.
 - Built a responsive application shell with desktop/mobile navigation, theme switching, and a footer.
 - Created a product-quality landing page around the Northstar Financial deployment, the four learning modes, the 10D FDE Framework, field skills, and the capstone.
 - Established every primary product route and the foundation extended by later milestones.
@@ -35,26 +37,30 @@ Current milestone: **C1 complete — MVP curriculum expanded to 48 lessons and 1
 
 - Server Components are the default; only navigation state and theme switching use Client Components.
 - Product visuals are code-native and typography-led to preserve the professional engineering-lab character.
+- Montserrat drives interface, heading, and prose hierarchy; Geist Mono remains reserved for code, logs, and evidence labels.
 - Repository data and domain services drive lessons, labs, practice, experiments, case studies, search, and resources; route components stay thin.
-- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, and Field Arcade state on this device.
+- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, Field Arcade, and capstone state on this device.
 - `AI_MODE=mock` is the credential-free default.
 
 ## Verification
 
+- `npm run validate:content` — passed (9 tracks, 48 lessons, 150 questions, 12 capstone phases, and all other repository content)
 - `npm run lint` — passed
 - `npm run typecheck` — passed
-- `npm run test` — passed (76 unit tests across 21 files)
-- `npm run build` — passed; 102 pages generated across static, generated, and dynamic routes
-- `npm run test:e2e` — passed (25 serial Chromium journeys, including authored curriculum durations, lesson-to-topic practice, no-sign-in regression coverage, browser-local lesson/practice/lab persistence, both G2 mechanics, real touch input, AI Labs hierarchy, accessible full visitor reset, mobile coverage, legacy redirects, and one integrated visitor path)
+- `npm run test` — passed (115 tests across 29 files)
+- `npm run build` — passed; 102 pages generated plus the dynamic capstone coaching endpoint
+- `npm run test:e2e` — passed (29 serial Chromium journeys, including light/dark brand rendering, offline font fallback, deterministic capstone completion, immediate navigation save, reload resume, mock coaching, verified skill evidence, 360px/reduced-motion coverage, full visitor reset, G2 mechanics, and the integrated visitor path)
 
 ## Known limitations
 
 - The MVP curriculum target is complete at 48 published lessons and 150 scenario-heavy questions across nine tracks and eight practice categories.
 - Visitor evidence is intentionally local to one browser and does not synchronize across devices.
-- The capstone route communicates the 12-phase engagement but full phase-level editing/persistence remains a post-MVP extension.
 - Model routing and retrieval now have dedicated mechanics. The other four Field Arcade missions retain the decision-card renderer until G3 and later expansion.
 - Field Arcade evidence remains separate from practice/Field Mission skill scoring until G4; Start fresh clears both app-owned visitor records while preserving theme and unrelated browser storage.
 - Analytics hooks remain provider-neutral browser events until a collection adapter is configured.
+- Optional Anthropic coaching is server-only and advisory. Multi-instance production still needs a shared rate limiter and provider cost/availability monitoring.
+- Capstone evidence is verified against authored rules but remains self-directed browser evidence, not tamper-proof certification or cross-device account history.
+- Montserrat uses the supplied Google Fonts stylesheet; the complete system-font fallback keeps the showcase usable when that request is unavailable.
 - The in-app visual inspection connection was unavailable in this environment; local Chromium rendering and comprehensive automated interaction coverage passed.
 
 ## Next milestone
@@ -209,3 +215,22 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Preserved Northstar/customer framing across every new lesson with Customer Scenario and FDE Principle blocks, coherent prerequisites, and 250–360 words of substantive content.
 - Replaced fixed lesson-time estimates with authored duration totals on the curriculum index and documented the retained Enterprise AI Systems bridge track in the nine-track information architecture.
 - Passed repository content validation, full ESLint, strict TypeScript, all 76 unit tests across 21 files, the 102-page production build, and all 25 serial Chromium journeys.
+
+## C2 Editable Capstone & Optional AI Coach validation record
+
+- Replaced the capstone preview with a data-driven 12-phase Northstar engagement covering Discovery through ROI, with two authored decision controls, required field reasoning, customer reveals, rubrics, consequences, hints, expert comparisons, related lessons, and four-dimension scoring in every phase.
+- Added sequential deterministic completion, synchronous/debounced draft persistence, active-phase resume, verified re-evaluation of browser inputs, a compiled engagement report, Capstone progress summaries, and weighted skill evidence. Persisted score snapshots and optional AI scores are never trusted as the completion authority.
+- Added a separate versioned capstone browser record with same-tab/cross-tab synchronization, malformed-state fallback, bounded fields, reset integration, and hydration-safe restoration. Start fresh clears Capstone work together with other app-owned learning records while preserving theme and unrelated storage.
+- Added a provider-neutral, server-only coaching boundary with deterministic mock mode by default and optional Anthropic structured-output reviews. The route resolves all customer/rubric context from authored content, validates bounded IDs and notes, supplies no tools, revalidates output, applies a 16 KB request limit and best-effort 10/minute limiter, returns typed safe failures, and emits metadata-only live audit records.
+- Kept the authority split explicit throughout the UI: authored rules control completion, unlocking, reports, and skill evidence; AI critiques the submitted reasoning and shows advisory scores only. Editing an answer clears stale reviews, and delayed responses cannot attach to a newer draft.
+- Added Capstone search discovery, deployment/secret guidance, responsive and accessible controls, focus/live-region behavior, long-text wrapping, and tests for deterministic gating, immediate navigation save, reload resume, mock coaching, stale-response cancellation, API error paths, Anthropic request structure, progress evidence, reset, and mobile overflow.
+- Final validation evidence is recorded in the top-level Verification section after the full C2 gate.
+
+## B1 TO THE NEW brand token validation record
+
+- Replaced the former orange identity with the supplied TO THE NEW palette while retaining the existing semantic Tailwind architecture: TTN magenta is primary, cyan is accent, ink/gray is neutral, and emerald/rose/amber cover status states.
+- Adopted Montserrat for both sans and serif utility families and removed the redundant Geist Sans load while retaining Geist Mono for technical content.
+- Mapped the supplied 8px/12px geometric radius scale and neutral small elevation across existing cards, dialogs, and hover states; removed stray violet, orange, sky, and neutral UI utilities in favor of branded palette tokens.
+- Added accessible theme-specific semantic tones rather than using magenta-500 for normal text, plus a dedicated inverse-surface accent and higher-contrast status treatments. Primary, cyan accent, inverse accent, muted text, and status text were contrast-audited in light and dark themes.
+- Preserved visible focus, dark mode, reduced-motion behavior, theme persistence, and responsive layouts. Rendered Chromium review covered the landing page, AI Labs at 390px, and capstone in dark mode; automated coverage also blocks Google Fonts to verify the fallback stack and 360px overflow behavior.
+- Passed repository content validation, full ESLint, strict TypeScript, all 115 unit tests across 29 files, the 102-page production build plus coaching endpoint, and all 29 serial Chromium journeys.

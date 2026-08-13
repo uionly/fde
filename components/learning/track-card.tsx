@@ -16,7 +16,7 @@ export function TrackCard({
   index: number;
 }) {
   return (
-    <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-6 transition-[border-color,transform,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg" href={`/learn/${track.slug}`}>
+    <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-6 transition-[border-color,transform,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm" href={`/learn/${track.slug}`}>
       <div className="flex items-center justify-between">
         <span className="font-mono text-xs text-muted-foreground">TRACK {String(index + 1).padStart(2, "0")}</span>
         <ArrowUpRight aria-hidden="true" className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />

@@ -53,7 +53,7 @@ test("Start fresh clears visitor and arcade progress while preserving display an
   await page.getByRole("button", { name: "Start fresh" }).click();
   const confirmation = page.getByRole("alertdialog", { name: /Clear this visitor(?:’|')s progress\?/ });
   await expect(confirmation).toBeVisible();
-  await expect(confirmation.getByText(/lesson, practice, Field Mission, and Field Arcade progress/i)).toBeVisible();
+  await expect(confirmation.getByText(/lesson, practice, Field Mission, Field Arcade, and Capstone progress/i)).toBeVisible();
   await confirmation.getByRole("button", { name: "Clear progress" }).click();
 
   await expect(page).toHaveURL(/\/labs$/);
@@ -64,6 +64,7 @@ test("Start fresh clears visitor and arcade progress while preserving display an
   await expect(freshProfile.getByText("0/6", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => window.localStorage.getItem("fde-ai-labs-profile-v1"))).toBeNull();
   expect(await page.evaluate(() => window.localStorage.getItem("fde-learning-lab-visitor-progress-v1"))).toBeNull();
+  expect(await page.evaluate(() => window.localStorage.getItem("fde-learning-lab-capstone-progress-v1"))).toBeNull();
   expect(await page.evaluate(() => window.localStorage.getItem("showcase-setting"))).toBe("preserve");
   await expect(page.locator("html")).toHaveClass(/dark/);
 

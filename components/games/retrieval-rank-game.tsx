@@ -197,7 +197,7 @@ export function RetrievalRankGame({ game }: { game: RetrievalRankGame }) {
                       </div>
                       <p className="mt-3 text-xs leading-5 text-muted-foreground">{candidate.excerpt}</p>
                       <div className="mt-3 flex flex-wrap gap-1.5">{candidate.signals.map((signal) => <span className="rounded-full bg-muted px-2 py-1 font-mono text-[9px] font-medium text-muted-foreground" key={signal}>{signal}</span>)}</div>
-                      {!fits ? <p className="mt-3 text-xs font-medium text-amber-700 dark:text-amber-400">Remove another item to make room.</p> : null}
+                      {!fits ? <p className="mt-3 text-xs font-medium text-amber-800 dark:text-amber-400">Remove another item to make room.</p> : null}
                     </li>
                   );
                 })}
@@ -236,7 +236,7 @@ export function RetrievalRankGame({ game }: { game: RetrievalRankGame }) {
           <section className={cn("rounded-xl border p-5 sm:p-7", evaluation.recommended ? "border-emerald-500/30 bg-emerald-500/5" : "border-amber-500/35 bg-amber-500/5")}>
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{evaluation.recommended ? <ShieldCheck aria-hidden="true" className="size-4 text-emerald-600" /> : <Gauge aria-hidden="true" className="size-4 text-amber-600" />}Retrieval result</div>
+                <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{evaluation.recommended ? <ShieldCheck aria-hidden="true" className="size-4 text-emerald-700 dark:text-emerald-400" /> : <Gauge aria-hidden="true" className="size-4 text-amber-700 dark:text-amber-400" />}Retrieval result</div>
                 <h2 className="mt-3 rounded-sm text-2xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4" ref={debriefHeadingRef} tabIndex={-1}>{outcomeLabels[evaluation.outcome]}</h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{evaluation.rationale}</p>
               </div>
@@ -250,7 +250,7 @@ export function RetrievalRankGame({ game }: { game: RetrievalRankGame }) {
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               {(Object.keys(evaluation.metrics) as GameMetric[]).map((metric) => (
                 <div className={cn("rounded-lg border p-4", evaluation.passed[metric] ? "border-emerald-500/25" : "border-amber-500/35")} key={metric}>
-                  <div className="flex items-center justify-between gap-3 text-xs"><span className="flex items-center gap-2 font-semibold">{evaluation.passed[metric] ? <CheckCircle2 aria-hidden="true" className="size-4 text-emerald-600" /> : <XCircle aria-hidden="true" className="size-4 text-amber-600" />}{gameMetricLabels[metric]}</span><span className="font-mono font-semibold">{evaluation.metrics[metric]} / {evaluation.thresholds[metric]}</span></div>
+                  <div className="flex items-center justify-between gap-3 text-xs"><span className="flex items-center gap-2 font-semibold">{evaluation.passed[metric] ? <CheckCircle2 aria-hidden="true" className="size-4 text-emerald-700 dark:text-emerald-400" /> : <XCircle aria-hidden="true" className="size-4 text-amber-700 dark:text-amber-400" />}{gameMetricLabels[metric]}</span><span className="font-mono font-semibold">{evaluation.metrics[metric]} / {evaluation.thresholds[metric]}</span></div>
                   <div aria-label={`${gameMetricLabels[metric]} score: ${evaluation.metrics[metric]}%; gate: ${evaluation.thresholds[metric]}%`} aria-valuemax={100} aria-valuemin={0} aria-valuenow={evaluation.metrics[metric]} className="mt-3 h-2 overflow-hidden rounded-full bg-muted" role="progressbar"><div className={cn("h-full rounded-full", evaluation.passed[metric] ? "bg-emerald-600" : "bg-amber-500")} style={{ width: `${evaluation.metrics[metric]}%` }} /></div>
                   <p className="mt-3 text-xs leading-5 text-muted-foreground">{evaluation.feedback[metric]}</p>
                 </div>

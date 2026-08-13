@@ -1,48 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap");
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * TO THE NEW design-system tokens, mapped onto the Tailwind palette this app
+ * already uses so existing utility classes inherit the brand without a
+ * component-by-component color rewrite.
+ */
+@theme {
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-stone-50: #f8f8fa;
+  --color-stone-100: #f2f2f5;
+  --color-stone-200: #e6e6ea;
+  --color-stone-300: #d0d0d7;
+  --color-stone-400: #a8a8b2;
+  --color-stone-500: #7c7c88;
+  --color-stone-600: #595964;
+  --color-stone-700: #404049;
+  --color-stone-800: #212127;
+  --color-stone-900: #1a1a1e;
+
+  --color-indigo-50: #fde5f1;
+  --color-indigo-100: #fbb9da;
+  --color-indigo-200: #f88ac0;
+  --color-indigo-300: #f45aa6;
+  --color-indigo-400: #f03391;
+  --color-indigo-500: #ec0b7c;
+  --color-indigo-600: #cc0a6b;
+  --color-indigo-700: #a30857;
+  --color-indigo-800: #6a0539;
+  --color-indigo-900: #490427;
+
+  --color-teal-50: #e2f7fd;
+  --color-teal-100: #b3ecfa;
+  --color-teal-200: #81dff5;
+  --color-teal-300: #4fd2f0;
+  --color-teal-400: #2ac8ec;
+  --color-teal-500: #05bee7;
+  --color-teal-600: #04a1c4;
+  --color-teal-700: #037e99;
+  --color-teal-800: #025263;
+  --color-teal-900: #013945;
+
+  --color-emerald-50: #eff8f4;
+  --color-emerald-100: #d9eee4;
+  --color-emerald-200: #aedcc7;
+  --color-emerald-300: #82c8a8;
+  --color-emerald-400: #4cb182;
+  --color-emerald-500: #1f9d63;
+  --color-emerald-600: #1b8a57;
+  --color-emerald-700: #167147;
+  --color-emerald-800: #125b39;
+  --color-emerald-900: #0e472d;
+
+  --color-rose-50: #feeff1;
+  --color-rose-100: #fcd9de;
+  --color-rose-200: #f8afba;
+  --color-rose-300: #f48293;
+  --color-rose-400: #ef4d65;
+  --color-rose-500: #eb203e;
+  --color-rose-600: #cf1c37;
+  --color-rose-700: #a9172d;
+  --color-rose-800: #881324;
+  --color-rose-900: #6a0e1c;
+
+  --color-amber-50: #fef9f0;
+  --color-amber-100: #fdf0da;
+  --color-amber-200: #fbdfb0;
+  --color-amber-300: #f9cd84;
+  --color-amber-400: #f7b84f;
+  --color-amber-500: #f5a623;
+  --color-amber-600: #d8921f;
+  --color-amber-700: #b07819;
+  --color-amber-800: #8e6014;
+  --color-amber-900: #6e4b10;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 12px;
+  --radius-2xl: 12px;
+  --radius-3xl: 12px;
+  --shadow-sm: 0 1px 3px rgba(26, 26, 30, 0.08), 0 1px 2px rgba(26, 26, 30, 0.06);
+}
+
 :root {
-  --background: oklch(0.985 0.003 75);
-  --foreground: oklch(0.18 0.012 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.012 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.012 65);
-  --primary: oklch(0.66 0.19 47);
-  --primary-foreground: oklch(0.99 0.01 60);
-  --secondary: oklch(0.955 0.008 70);
-  --secondary-foreground: oklch(0.25 0.014 65);
-  --muted: oklch(0.955 0.006 70);
-  --muted-foreground: oklch(0.49 0.015 65);
-  --accent: oklch(0.94 0.04 55);
-  --accent-foreground: oklch(0.38 0.1 42);
-  --destructive: oklch(0.58 0.22 27);
-  --border: oklch(0.9 0.008 70);
-  --input: oklch(0.9 0.008 70);
-  --ring: oklch(0.66 0.19 47);
-  --radius: 0.625rem;
+  --background: var(--color-stone-100);
+  --foreground: var(--color-stone-800);
+  --card: var(--color-stone-50);
+  --card-foreground: var(--color-stone-800);
+  --popover: var(--color-stone-50);
+  --popover-foreground: var(--color-stone-800);
+  --primary: var(--color-indigo-600);
+  --primary-foreground: var(--color-stone-50);
+  --secondary: var(--color-stone-200);
+  --secondary-foreground: var(--color-stone-800);
+  --muted: var(--color-stone-200);
+  --muted-foreground: var(--color-stone-600);
+  --accent: var(--color-teal-50);
+  --accent-foreground: var(--color-teal-800);
+  --inverse-primary: var(--color-indigo-300);
+  --destructive: var(--color-rose-600);
+  --border: var(--color-stone-300);
+  --input: var(--color-stone-300);
+  --ring: var(--color-indigo-600);
+  --radius: 12px;
 }
 
 .dark {
-  --background: oklch(0.145 0.009 65);
-  --foreground: oklch(0.95 0.006 70);
-  --card: oklch(0.185 0.01 65);
-  --card-foreground: oklch(0.95 0.006 70);
-  --popover: oklch(0.185 0.01 65);
-  --popover-foreground: oklch(0.95 0.006 70);
-  --primary: oklch(0.7 0.19 48);
-  --primary-foreground: oklch(0.15 0.03 45);
-  --secondary: oklch(0.225 0.012 65);
-  --secondary-foreground: oklch(0.93 0.006 70);
-  --muted: oklch(0.225 0.012 65);
-  --muted-foreground: oklch(0.66 0.012 70);
-  --accent: oklch(0.27 0.045 47);
-  --accent-foreground: oklch(0.88 0.08 55);
-  --destructive: oklch(0.64 0.21 25);
-  --border: oklch(1 0 0 / 11%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.7 0.19 48);
+  --background: var(--color-stone-900);
+  --foreground: var(--color-stone-100);
+  --card: var(--color-stone-800);
+  --card-foreground: var(--color-stone-100);
+  --popover: var(--color-stone-800);
+  --popover-foreground: var(--color-stone-100);
+  --primary: var(--color-indigo-300);
+  --primary-foreground: var(--color-stone-900);
+  --secondary: var(--color-stone-700);
+  --secondary-foreground: var(--color-stone-100);
+  --muted: var(--color-stone-700);
+  --muted-foreground: var(--color-stone-300);
+  --accent: var(--color-teal-900);
+  --accent-foreground: var(--color-teal-100);
+  --inverse-primary: var(--color-indigo-700);
+  --destructive: var(--color-rose-400);
+  --border: var(--color-stone-700);
+  --input: var(--color-stone-700);
+  --ring: var(--color-indigo-300);
 }
 
 @theme inline {
@@ -60,15 +147,11 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-inverse-primary: var(--inverse-primary);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -84,7 +167,8 @@ body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 

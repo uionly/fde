@@ -38,11 +38,11 @@ export default function CaseStudiesPage() {
             <BriefcaseBusiness aria-hidden="true" className="size-6 text-primary" />
             <span className="font-mono text-[10px] uppercase text-muted-foreground">12 phases</span>
           </div>
-          <p className="mt-10 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-primary">Capstone preview</p>
+          <p className="mt-10 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-primary">Resumable capstone</p>
           <h2 className="mt-2 text-2xl font-semibold group-hover:text-primary">Lead the full transformation.</h2>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">Carry Northstar from discovery and architecture through evaluation, rollout, adoption, and measurable ROI.</p>
           <span className="mt-auto inline-flex items-center gap-1.5 pt-7 text-sm font-semibold text-primary">
-            Preview the capstone <ArrowRight aria-hidden="true" className="size-4" />
+            Start the capstone <ArrowRight aria-hidden="true" className="size-4" />
           </span>
         </Link>
       </div>

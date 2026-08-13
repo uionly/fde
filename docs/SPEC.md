@@ -672,6 +672,12 @@ Phases:
 
 Persist answers and progress.
 
+Each phase is an editable field artifact with repository-authored structured decisions, required written reasoning, transparent four-dimension scoring, hints, consequences, and an expert comparison. Drafts, the active phase, deterministic results, and optional coach reviews resume on the current browser.
+
+Completion and sequential unlocking are deterministic. Required selection cardinality and reasoning presence control whether a learner may continue; authored consequences produce customer-alignment, architecture, safety, and delivery-readiness evidence. Re-evaluate saved inputs against current authored rules before using them for completion or skill evidence.
+
+Optional FDE Coach review may critique and score the written reasoning. It is advisory and must never complete a phase, block a learner, unlock later work, or contribute progress/skill evidence. The app remains fully usable in `AI_MODE=mock`.
+
 Future: export FDE Engagement Report PDF.
 
 ## 23. AI Tutor (Post-MVP / Optional)
@@ -728,8 +734,9 @@ The current showcase has no identity or account system. Persist on this browser:
 - practice attempts and scores
 - lab step progress and working notes
 - Field Arcade XP, completions, streaks, and personal bests
+- capstone decisions, reasoning, phase completion, and optional coach reviews
 
-Derive skill scores and recommendations from saved practice and completed-lab evidence. Cross-device sync, capstone persistence, time tracking, and account history are future capabilities.
+Derive skill scores and recommendations from saved practice, completed-lab evidence, and verified deterministic capstone results. Cross-device sync, time tracking, tamper-resistant certification, and account history are future capabilities.
 
 Lesson opening alone must not increase a skill score.
 
@@ -850,7 +857,7 @@ Testing:
 
 ## 33. AI Provider Abstraction
 
-Post-MVP/live experiments may use AI.
+Optional post-MVP experiences may use AI through a server-side provider boundary.
 
 Use interface such as:
 
@@ -861,14 +868,16 @@ export interface AIProvider {
 ```
 
 Implement:
-- MockAIProvider first
-- live providers later
+- `MockAIProvider` as the credential-free default
+- optional Anthropic structured coaching for the capstone
 
 Environment:
 - `AI_MODE=mock`
 - `AI_MODE=live`
 
 The app must remain usable without AI API credentials.
+
+Client requests may contain only bounded learner notes and authored IDs. Resolve customer context, labels, rubric, and deterministic score on the server. Validate structured model output before returning it. Live coaching must use no tools, keep secrets server-side, expose safe typed failures, apply rate limiting, and emit metadata-only request/success/failure audit records without learner text or network identifiers.
 
 ## 34. Data Model
 
@@ -954,7 +963,12 @@ Character:
 
 Color:
 - neutral light/dark foundation
-- orange primary accent
+- TO THE NEW magenta primary and cyan accent
+- branded emerald, rose, and amber status colors
+
+Typography:
+- Montserrat for interface, headings, and prose
+- monospace for code, logs, and evidence panels
 
 Avoid:
 - visual noise

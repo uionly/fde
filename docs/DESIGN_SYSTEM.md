@@ -14,20 +14,26 @@ Keywords:
 
 ## Color
 
-Use a neutral system with orange as the primary accent.
+Use the TO THE NEW brand system: an ink/gray neutral foundation, magenta primary, and cyan accent.
 
-Do not overuse orange backgrounds.
+Do not overuse saturated backgrounds.
 
-Use orange for:
+Use magenta for:
 - primary CTA
 - active navigation
 - progress accent
-- experiment highlights
 - selected states where accessible
+
+Use cyan for:
+- experiment and AI-coach highlights
+- supporting information
+- selected-state surfaces paired with accessible dark cyan text
+
+Status colors use the branded emerald (success), rose (error), and amber (warning) ramps.
 
 ## Typography
 
-Prefer a modern sans-serif for UI and readable prose.
+Use Montserrat for UI, headings, and readable prose. Hierarchy comes from weight, scale, and spacing rather than a serif/sans split.
 
 Monospace for:
 - code

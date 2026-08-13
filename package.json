@@ -17,6 +17,7 @@
     "validate:content": "tsx scripts/validate-content.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@radix-ui/react-slot": "^1.2.4",
@@ -29,6 +30,7 @@
     "next-themes": "^0.4.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.3.1",
     "yaml": "^2.9.0",
     "zod": "^4.4.3"

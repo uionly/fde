@@ -1,6 +1,6 @@
-import { getAllCaseStudies, getAllExperiments, getAllGames, getAllGlossaryEntries, getAllLabs, getAllLessons, getAllQuestions, getAllResources } from "@/lib/content";
+import { getAllCaseStudies, getAllExperiments, getAllGames, getAllGlossaryEntries, getAllLabs, getAllLessons, getAllQuestions, getAllResources, getCapstone } from "@/lib/content";
 
-export type SearchItem = { id: string; type: "lesson" | "lab" | "experiment" | "game" | "glossary" | "practice" | "resource" | "case-study"; title: string; description: string; href: string; searchText: string };
+export type SearchItem = { id: string; type: "lesson" | "lab" | "experiment" | "game" | "glossary" | "practice" | "resource" | "case-study" | "capstone"; title: string; description: string; href: string; searchText: string };
 
 export function buildSearchIndex(): SearchItem[] {
   const lessons: SearchItem[] = getAllLessons().map((lesson) => ({ id: lesson.frontmatter.id, type: "lesson", title: lesson.frontmatter.title, description: lesson.frontmatter.objectives.join(" · "), href: `/learn/${lesson.frontmatter.track}/${lesson.frontmatter.slug}`, searchText: `${lesson.frontmatter.title} ${lesson.frontmatter.objectives.join(" ")} ${lesson.content}` }));
@@ -18,7 +18,9 @@ export function buildSearchIndex(): SearchItem[] {
   const practice: SearchItem[] = getAllQuestions().map((question) => ({ id: question.id, type: "practice", title: question.prompt, description: question.scenario, href: `/practice?category=${question.category}`, searchText: `${question.prompt} ${question.scenario} ${question.category} ${question.skills.join(" ")}` }));
   const resources: SearchItem[] = getAllResources().map((resource) => ({ id: resource.id, type: "resource", title: resource.title, description: resource.description, href: `/resources/templates/${resource.slug}`, searchText: `${resource.title} ${resource.description} ${resource.category}` }));
   const cases: SearchItem[] = getAllCaseStudies().flatMap((study) => study.scenarios.map((scenario) => ({ id: `${study.id}-${scenario.id}`, type: "case-study" as const, title: `${study.company}: ${scenario.title}`, description: scenario.customerProblem, href: `/case-studies/${study.slug}#${scenario.id}`, searchText: `${study.company} ${scenario.title} ${scenario.signal} ${scenario.customerProblem} ${scenario.skills.join(" ")}` })));
-  return [...lessons, ...labs, ...experiments, ...games, ...glossary, ...practice, ...resources, ...cases];
+  const capstone = getCapstone();
+  const capstones: SearchItem[] = [{ id: capstone.id, type: "capstone", title: capstone.title, description: capstone.description, href: "/capstone", searchText: `${capstone.title} ${capstone.description} ${capstone.phases.map((phase) => `${phase.title} ${phase.context} ${phase.reveal} ${phase.prompt} ${phase.skills.join(" ")}`).join(" ")}` }];
+  return [...lessons, ...labs, ...experiments, ...games, ...glossary, ...practice, ...resources, ...cases, ...capstones];
 }
 
 export function searchContent(index: SearchItem[], query: string) {

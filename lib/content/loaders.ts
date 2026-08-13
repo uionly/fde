@@ -9,6 +9,9 @@ import { resolveAILabsShowcase } from "@/lib/ai-labs/showcase";
 import {
   aiLabsShowcaseSchema,
   type AILabsShowcase,
+  capstoneSchema,
+  type Capstone,
+  type CapstonePhase,
   experimentSchema,
   fieldGameSchema,
   glossaryEntrySchema,
@@ -128,6 +131,17 @@ export function getAllLabs(): Lab[] {
   return labs;
 }
 
+export function getCapstone(): Capstone {
+  return parseFile(
+    path.join(contentDirectory, "capstone", "northstar-ai-transformation.json"),
+    capstoneSchema,
+  );
+}
+
+export function getCapstonePhaseById(id: string): CapstonePhase | undefined {
+  return getCapstone().phases.find((phase) => phase.id === id);
+}
+
 export function getAllExperiments(): Experiment[] {
   const directory = path.join(contentDirectory, "experiments");
   const experiments = filesIn(directory, [".json", ".yaml", ".yml"]).map((file) => parseFile(path.join(directory, file), experimentSchema));
@@ -234,6 +248,7 @@ export function validateContent() {
   const glossary = getAllGlossaryEntries();
   const caseStudies = getAllCaseStudies();
   const resources = getAllResources();
+  const capstone = getCapstone();
   const aiLabsShowcase = getAILabsShowcase();
   const trackIds = new Set(tracks.map((track) => track.id));
   const trackById = new Map(tracks.map((track) => [track.id, track]));
@@ -241,6 +256,7 @@ export function validateContent() {
   const lessonById = new Map(lessons.map((lesson) => [lesson.frontmatter.id, lesson]));
   const questionIds = new Set(questions.map((question) => question.id));
   const experimentIds = new Set(experiments.map((experiment) => experiment.id));
+  const caseStudyIds = new Set(caseStudies.map((caseStudy) => caseStudy.id));
   const questionOwners = new Map<string, string[]>();
 
   assertUnique(tracks, (track) => String(track.order), "track order");
@@ -296,6 +312,19 @@ export function validateContent() {
     }
   }
 
+  if (!caseStudyIds.has(capstone.customerCaseStudyId)) {
+    throw new Error(
+      `Capstone ${capstone.id} references missing customer case study ${capstone.customerCaseStudyId}`,
+    );
+  }
+  for (const phase of capstone.phases) {
+    for (const lessonId of phase.relatedLessons) {
+      if (!lessonIds.has(lessonId)) {
+        throw new Error(`Capstone phase ${phase.id} references missing lesson ${lessonId}`);
+      }
+    }
+  }
+
   validateGameNextActionReferences(games, { lessons, experiments, labs, caseStudies, resources });
 
   resolveAILabsShowcase(aiLabsShowcase, {
@@ -305,5 +334,17 @@ export function validateContent() {
     caseStudies,
   });
 
-  return { tracks, lessons, questions, labs, experiments, games, glossary, caseStudies, resources, aiLabsShowcase };
+  return {
+    tracks,
+    lessons,
+    questions,
+    labs,
+    experiments,
+    games,
+    glossary,
+    caseStudies,
+    resources,
+    aiLabsShowcase,
+    capstone,
+  };
 }

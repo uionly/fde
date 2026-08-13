@@ -25,8 +25,8 @@ export function FieldArcadeHome({ games }: { games: FieldGame[] }) {
         <div className="mx-auto max-w-[1280px] px-4 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="grid gap-10 lg:grid-cols-[1fr_360px] lg:items-end">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-background/15 bg-background/5 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-background/65"><span className="size-1.5 rounded-full bg-primary" />Games / Field Arcade</div>
-              <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl">Make the call. <span className="text-primary">Watch the system react.</span></h1>
+              <div className="inline-flex items-center gap-2 rounded-full border border-background/15 bg-background/5 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-background/65"><span className="size-1.5 rounded-full bg-inverse-primary" />Games / Field Arcade</div>
+              <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl">Make the call. <span className="text-inverse-primary">Watch the system react.</span></h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-background/65">Fast customer decision missions with visible production trade-offs. No prompts to write, no setup, and no live AI credentials.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 {dailyGame ? <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90" size="lg"><Link href={`/games/${dailyGame.slug}`}>Play daily mission <ArrowRight aria-hidden="true" className="size-4" /></Link></Button> : null}
@@ -34,11 +34,11 @@ export function FieldArcadeHome({ games }: { games: FieldGame[] }) {
               </div>
             </div>
             <aside aria-label="Field Arcade profile" className="rounded-xl border border-background/15 bg-background/[0.06] p-5">
-              <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-sm font-semibold"><Target aria-hidden="true" className="size-4 text-primary" />Field profile</div><span className="rounded-full bg-primary/15 px-2.5 py-1 font-mono text-[10px] font-semibold text-primary">LEVEL {level}</span></div>
+              <div className="flex items-center justify-between"><div className="flex items-center gap-2 text-sm font-semibold"><Target aria-hidden="true" className="size-4 text-inverse-primary" />Field profile</div><span className="rounded-full bg-inverse-primary/15 px-2.5 py-1 font-mono text-[10px] font-semibold text-inverse-primary">LEVEL {level}</span></div>
               <div className="mt-6 grid grid-cols-3 divide-x divide-background/15">
-                <div className="pr-4"><Zap aria-hidden="true" className="size-4 text-primary" /><p className="mt-3 text-2xl font-semibold">{profile.xp}</p><p className="text-[9px] uppercase tracking-[0.1em] text-background/45">Field XP</p></div>
-                <div className="px-4"><Trophy aria-hidden="true" className="size-4 text-primary" /><p className="mt-3 text-2xl font-semibold">{profile.completedGameIds.length}/{games.length}</p><p className="text-[9px] uppercase tracking-[0.1em] text-background/45">Games</p></div>
-                <div className="pl-4"><Flame aria-hidden="true" className="size-4 text-primary" /><p className="mt-3 text-2xl font-semibold">{profile.streak}</p><p className="text-[9px] uppercase tracking-[0.1em] text-background/45">Streak</p></div>
+                <div className="pr-4"><Zap aria-hidden="true" className="size-4 text-inverse-primary" /><p className="mt-3 text-2xl font-semibold">{profile.xp}</p><p className="text-[9px] uppercase tracking-[0.1em] text-background/55">Field XP</p></div>
+                <div className="px-4"><Trophy aria-hidden="true" className="size-4 text-inverse-primary" /><p className="mt-3 text-2xl font-semibold">{profile.completedGameIds.length}/{games.length}</p><p className="text-[9px] uppercase tracking-[0.1em] text-background/55">Games</p></div>
+                <div className="pl-4"><Flame aria-hidden="true" className="size-4 text-inverse-primary" /><p className="mt-3 text-2xl font-semibold">{profile.streak}</p><p className="text-[9px] uppercase tracking-[0.1em] text-background/55">Streak</p></div>
               </div>
             </aside>
           </div>
@@ -62,8 +62,8 @@ export function FieldArcadeHome({ games }: { games: FieldGame[] }) {
               const completed = profile.completedGameIds.includes(game.id);
               const attempts = profile.attemptCounts[game.id] ?? 0;
               return (
-                <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg" href={`/games/${game.slug}`} key={game.id}>
-                  <div className="flex items-center justify-between"><span className={cn("grid size-10 place-items-center rounded-lg border", completed ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-600" : "bg-primary/8 text-primary")}>{completed ? <Check aria-hidden="true" className="size-4" /> : <GameIcon category={game.category} className="size-4" />}</span><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{difficultyLabels[game.difficulty]}</span></div>
+                <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm" href={`/games/${game.slug}`} key={game.id}>
+                  <div className="flex items-center justify-between"><span className={cn("grid size-10 place-items-center rounded-lg border", completed ? "border-emerald-500/30 bg-emerald-500/8 text-emerald-700 dark:text-emerald-400" : "bg-primary/8 text-primary")}>{completed ? <Check aria-hidden="true" className="size-4" /> : <GameIcon category={game.category} className="size-4" />}</span><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{difficultyLabels[game.difficulty]}</span></div>
                   <p className="mt-7 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-primary">{game.category} / {modeLabels[game.type]}</p>
                   <h3 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary">{game.customerHeadline}</h3>
                   <p className="mt-2 text-xs font-semibold text-foreground/75">{game.title}</p>

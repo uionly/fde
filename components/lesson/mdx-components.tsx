@@ -46,7 +46,7 @@ export const mdxComponents = {
   p: (props: ComponentPropsWithoutRef<"p">) => <p className="mt-4 leading-7 text-muted-foreground" {...props} />,
   ul: (props: ComponentPropsWithoutRef<"ul">) => <ul className="mt-4 list-disc space-y-2 pl-6 text-muted-foreground" {...props} />,
   ol: (props: ComponentPropsWithoutRef<"ol">) => <ol className="mt-4 list-decimal space-y-2 pl-6 text-muted-foreground" {...props} />,
-  pre: (props: ComponentPropsWithoutRef<"pre">) => <pre className="my-6 overflow-x-auto rounded-lg border bg-neutral-950 p-5 font-mono text-sm leading-6 text-neutral-100" {...props} />,
+  pre: (props: ComponentPropsWithoutRef<"pre">) => <pre className="my-6 overflow-x-auto rounded-lg border bg-stone-900 p-5 font-mono text-sm leading-6 text-stone-100" {...props} />,
   code: ({ className, ...props }: ComponentPropsWithoutRef<"code">) => <code className={cn("rounded bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground", className)} {...props} />,
   a: (props: ComponentPropsWithoutRef<"a">) => <a className="font-semibold text-primary underline-offset-4 hover:underline" {...props} />,
 };

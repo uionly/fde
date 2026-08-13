@@ -21,6 +21,66 @@ test("landing page, navigation, and theme work", async ({ page }) => {
   await expect(page.locator("html")).toHaveClass(/dark/);
 });
 
+test("TO THE NEW brand tokens render in light and dark themes", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+
+  const mission = page.getByRole("link", { name: /Run a 5-minute AI mission/ });
+  const light = await page.evaluate(() => {
+    const body = getComputedStyle(document.body);
+    return { background: body.backgroundColor, color: body.color, font: body.fontFamily };
+  });
+  const lightMission = await mission.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, color: style.color, radius: style.borderRadius };
+  });
+
+  expect(light).toEqual({
+    background: "rgb(242, 242, 245)",
+    color: "rgb(33, 33, 39)",
+    font: expect.stringContaining("Montserrat"),
+  });
+  expect(lightMission).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
+  await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(244, 90, 166)");
+
+  await page.evaluate(() => localStorage.setItem("theme", "dark"));
+  await page.reload();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+
+  const dark = await page.evaluate(() => {
+    const body = getComputedStyle(document.body);
+    return { background: body.backgroundColor, color: body.color };
+  });
+  const darkMission = await mission.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, color: style.color };
+  });
+
+  expect(dark).toEqual({ background: "rgb(26, 26, 30)", color: "rgb(242, 242, 245)" });
+  expect(darkMission).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
+  await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(163, 8, 87)");
+});
+
+test("brand typography falls back safely on mobile with reduced motion", async ({ page }) => {
+  await page.route(/fonts\.(?:googleapis|gstatic)\.com/, (route) => route.abort());
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const rendered = await page.evaluate(() => ({
+    font: getComputedStyle(document.body).fontFamily,
+    scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
+    viewportWidth: document.documentElement.clientWidth,
+    contentWidth: document.documentElement.scrollWidth,
+  }));
+
+  expect(rendered.font).toContain("Montserrat");
+  expect(rendered.font).toContain("system-ui");
+  expect(rendered.scrollBehavior).toBe("auto");
+  expect(rendered.contentWidth).toBeLessThanOrEqual(rendered.viewportWidth);
+});
+
 test("all milestone routes render", async ({ page }) => {
   const routes = ["/labs", "/games", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
 

@@ -84,7 +84,7 @@ export function PracticeEngine({ initialLessonId = "", questions, relatedLessons
             <p aria-live="polite" className="mt-3 min-h-5 text-sm text-rose-600 dark:text-rose-400">{error}</p>
 
             {result ? <div className={cn("mt-3 rounded-lg border p-5", result.correct ? "border-emerald-500/30 bg-emerald-500/8" : "border-amber-500/30 bg-amber-500/8")}>
-              <div className="flex items-center gap-2 font-semibold">{result.correct ? <CheckCircle2 aria-hidden="true" className="size-5 text-emerald-600" /> : <XCircle aria-hidden="true" className="size-5 text-amber-600" />}{result.correct ? "Strong call" : "Not quite"}</div>
+              <div className="flex items-center gap-2 font-semibold">{result.correct ? <CheckCircle2 aria-hidden="true" className="size-5 text-emerald-700 dark:text-emerald-400" /> : <XCircle aria-hidden="true" className="size-5 text-amber-700 dark:text-amber-400" />}{result.correct ? "Strong call" : "Not quite"}</div>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{question.explanation}</p>
               <p className="mt-3 border-l-2 border-primary pl-3 text-sm font-medium">{question.principle}</p>
               <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground"><span>{result.persisted ? "Attempt saved on this device" : "Attempt was not saved"}</span>{question.relatedLesson && relatedLessons[question.relatedLesson] ? <Link className="font-semibold text-primary" href={relatedLessons[question.relatedLesson]}>Review related lesson →</Link> : null}</div>

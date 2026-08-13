@@ -18,7 +18,8 @@ This is not a beginner programming course or a video LMS. Every concept starts w
 | Field Missions — `/labs#field-missions` | Complete longer customer deliverables with ordered steps, notes, hints, solutions, and resume support. | 3 guided missions |
 | Learn — `/learn` | Build FDE and enterprise-AI mental models through repository-authored, validated MDX lessons. | 9 tracks, 48 lessons |
 | Practice — `/practice` | Work through scenario-heavy single- and multiple-choice decisions with rationales. | 150 questions across 8 categories |
-| Customer Engagement — `/case-studies` | Follow Northstar across progressive enterprise incidents and preview the end-to-end capstone. | 10 incidents, 6 fictional systems |
+| Customer Engagement — `/case-studies` | Follow Northstar across progressive enterprise incidents. | 10 incidents, 6 fictional systems |
+| Transformation Capstone — `/capstone` | Lead an editable, resumable 12-phase engagement; make decisions, explain reasoning, inspect deterministic evidence, and optionally request AI coaching. | 12 authored phases |
 | Progress, search, and resources | Review browser-local learning evidence, find content, and download field templates. | 9 skills, 8 glossary entries, 6 templates |
 
 All Northstar people, systems, records, and policies are synthetic.
@@ -37,9 +38,18 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The app is a visitor-only showcase: there is no account or sign-in flow. Lesson completion, practice evidence, Field Mission state, and Field Arcade progress persist in versioned, validated browser storage on this device.
+Open [http://localhost:3000](http://localhost:3000). The app is a visitor-only showcase: there is no account or sign-in flow. Lesson completion, practice evidence, Field Mission state, Field Arcade progress, and capstone drafts persist in versioned, validated browser storage on this device.
 
-The current AI experiences are deterministic and credential-free. `AI_MODE=mock` is the supported product mode; a live provider adapter is not implemented yet.
+`AI_MODE=mock` is the credential-free default. It returns deterministic coaching and leaves every core experience usable without an API key. To enable optional live capstone coaching, create `.env.local` with server-only values, then restart the development server:
+
+```text
+AI_MODE=live
+AI_PROVIDER=anthropic
+ANTHROPIC_API_KEY=your-key
+ANTHROPIC_MODEL=claude-sonnet-4-6
+```
+
+Never prefix the key with `NEXT_PUBLIC_`, commit it, or paste it into learner input. Live reviews send only the selected fictional capstone phase, structured decisions, and the notes the visitor explicitly submits. Anthropic coaching remains advisory: authored deterministic rules alone control completion, unlocking, reports, and skill evidence. Provider usage can incur charges; set appropriate workspace spend limits.
 
 Experiments remain ephemeral and provide their own reset controls. There is no cross-device or account synchronization. See the [production deployment guide](docs/DEPLOYMENT.md) for release guidance.
 
@@ -49,6 +59,7 @@ Experiments remain ephemeral and provide their own reset controls. There is no c
 | --- | --- | --- |
 | Lesson completion, practice attempts/evidence, and Field Mission state | Versioned, Zod-validated local storage in this browser | Clears all visitor learning state |
 | Field Arcade XP, streak, completions, and personal bests | This browser's local storage | Clears the device profile |
+| Capstone decisions, reasoning, deterministic results, and optional coach reviews | Separate versioned, Zod-validated local storage | Clears the engagement draft |
 | Playground inputs and results | Ephemeral component state | Already reset within each playground |
 | Theme and unrelated browser settings | Browser storage | Preserves them |
 
@@ -85,6 +96,8 @@ app/                    Routes, server actions, APIs, and global states
 components/             Layout and interactive learning experiences
 content/                Version-controlled lessons, games, labs, and customer data
 lib/ai-labs/            Curated AI Labs showcase resolution
+lib/ai/                 Server-side mock/Anthropic provider boundary and review contracts
+lib/capstone/           Deterministic evaluation, persistence, verification, and evidence
 lib/content/            Zod schemas, loaders, indexing, and graph validation
 lib/games/              Deterministic game runtime and device profile
 lib/experiments/        Deterministic technical simulations
@@ -103,9 +116,9 @@ docs/                   Product source, architecture, plans, and deployment guid
 - The MVP curriculum target is complete at 48 lessons and 150 questions; deeper coverage for data engineering, production observability, MCP integrations, customer delivery, and business impact can be added as post-MVP tracks.
 - Model routing and retrieval now use distinct interactive mechanics. The remaining four Arcade missions use the decision-card renderer; dedicated security and agent mechanics are planned in G3.
 - All learner evidence is device-local and is not synchronized across browsers or devices.
-- The capstone describes the full engagement but is not yet an editable, resumable workspace.
 - Analytics are typed browser events without a configured collection adapter.
-- Live AI-provider execution is not implemented; all shipped simulations remain deterministic.
+- Live Anthropic coaching is optional and server-side. Its in-memory per-IP limiter is suitable for local or single-instance demos; multi-instance production needs a shared rate-limit store and provider budget monitoring.
+- Capstone evidence is self-directed browser evidence, not a tamper-proof certification. Saved answers are re-evaluated against authored rules before they affect progress; AI scores are always excluded.
 
 ## Documentation
 

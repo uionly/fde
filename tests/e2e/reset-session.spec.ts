@@ -21,6 +21,7 @@ test("Start fresh stays available across AI Labs routes and uses an accessible c
   await trigger.click();
   const confirmation = page.getByRole("alertdialog", { name: /Clear this visitor(?:’|')s progress\?/ });
   await expect(confirmation).toBeVisible();
+  await expect(confirmation.getByText(/Field Arcade, and Capstone progress/)).toBeVisible();
   await expect(confirmation.getByText(/Any unsaved work on the current screen will be lost/)).toBeVisible();
   await expect(confirmation.getByRole("button", { name: "Cancel" })).toBeFocused();
 
@@ -29,11 +30,12 @@ test("Start fresh stays available across AI Labs routes and uses an accessible c
   await expect(trigger).toBeFocused();
 });
 
-test("Start fresh clears both app-owned profiles and leaves a dismissible success confirmation", async ({ page }) => {
+test("Start fresh clears all app-owned profiles and leaves a dismissible success confirmation", async ({ page }) => {
   await page.goto("/games/model-router-arena");
   await page.evaluate(() => {
     window.localStorage.setItem("fde-ai-labs-profile-v1", JSON.stringify({ version: 2, xp: 80 }));
     window.localStorage.setItem("fde-learning-lab-visitor-progress-v1", JSON.stringify({ version: 1, lessons: {}, practiceAttempts: [], labs: {} }));
+    window.localStorage.setItem("fde-learning-lab-capstone-progress-v1", JSON.stringify({ version: 1, currentPhaseId: "discovery", phases: {}, updatedAt: "2026-08-13T06:00:00.000Z" }));
     window.localStorage.setItem("unrelated-showcase-setting", "keep-me");
   });
 
@@ -46,6 +48,7 @@ test("Start fresh clears both app-owned profiles and leaves a dismissible succes
   await expect(status.getByText(/Fresh session started/)).toBeVisible();
   expect(await page.evaluate(() => window.localStorage.getItem("fde-ai-labs-profile-v1"))).toBeNull();
   expect(await page.evaluate(() => window.localStorage.getItem("fde-learning-lab-visitor-progress-v1"))).toBeNull();
+  expect(await page.evaluate(() => window.localStorage.getItem("fde-learning-lab-capstone-progress-v1"))).toBeNull();
   expect(await page.evaluate(() => window.localStorage.getItem("unrelated-showcase-setting"))).toBe("keep-me");
 
   await status.getByRole("button", { name: "Dismiss fresh session confirmation" }).click();

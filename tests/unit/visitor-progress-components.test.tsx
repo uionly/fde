@@ -3,7 +3,9 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { PracticeEngine } from "@/components/practice/practice-engine";
 import { LessonProgressButton } from "@/components/progress/lesson-progress-button";
-import { getAllQuestions } from "@/lib/content/loaders";
+import { VisitorProgressDashboard } from "@/components/progress/visitor-progress-dashboard";
+import { writeCapstonePhaseProgress } from "@/lib/capstone/progress";
+import { getAllQuestions, getCapstone } from "@/lib/content/loaders";
 import { readVisitorPracticeAttempts } from "@/lib/visitor/progress";
 
 describe("device-local learning progress", () => {
@@ -39,5 +41,64 @@ describe("device-local learning progress", () => {
     expect(readVisitorPracticeAttempts()).toEqual([
       expect.objectContaining({ questionId: question.id, answer: [...question.correct].sort(), correct: true, score: 1 }),
     ]);
+  });
+
+  it("shows resumable capstone progress and uses only deterministic completion evidence for skills", () => {
+    const updatedAt = "2026-08-13T06:00:00.000Z";
+    const capstone = getCapstone();
+    const discovery = capstone.phases[0];
+    const architecture = capstone.phases[2];
+    writeCapstonePhaseProgress({
+      phaseId: "discovery",
+      selections: {
+        "first-move": ["observe-workflow"],
+        evidence: ["workflow-baseline", "stakeholder-map"],
+      },
+      reasoning: "I would observe the frontline workflow, baseline the work, map decision owners, and validate regulated exceptions before proposing a solution.",
+      completed: true,
+      deterministicEvaluation: {
+        overall: 80,
+        dimensions: { customerAlignment: 85, architecture: 70, safety: 65, deliveryReadiness: 90 },
+        strengths: ["Measurable workflow selected."],
+        gaps: ["Escalation owner missing."],
+        evaluatedAt: updatedAt,
+      },
+      aiReview: {
+        provider: "anthropic",
+        model: "claude-sonnet-test",
+        mode: "live",
+        summary: "Advisory review",
+        scores: { customerAlignment: 5, architecture: 5, safety: 5, deliveryReadiness: 5 },
+        strengths: ["Concrete choice."],
+        gaps: ["Add ownership."],
+        questions: ["Who owns escalation?"],
+        recommendedNextStep: "Name the owner.",
+        usage: { inputTokens: 100, outputTokens: 50 },
+        reviewedAt: updatedAt,
+      },
+      updatedAt,
+    });
+    writeCapstonePhaseProgress({ phaseId: "architecture", completed: false, updatedAt });
+
+    render(
+      <VisitorProgressDashboard
+        capstonePhases={[
+          discovery,
+          architecture,
+        ]}
+        gameCount={4}
+        labs={[]}
+        lessons={[]}
+        questions={[]}
+        tracks={[]}
+      />,
+    );
+
+    expect(screen.getByText("1/2", { selector: "p" })).toBeVisible();
+    expect(screen.getByRole("progressbar", { name: "Discovery skill score: 90%" })).toHaveAttribute("aria-valuenow", "90");
+    expect(screen.getByText("Resume the Northstar capstone")).toBeVisible();
+    expect(screen.getByText(/Continue Architecture/)).toBeVisible();
+    expect(screen.getByRole("link", { name: /Resume engagement/ })).toHaveAttribute("href", "/capstone");
+    expect(screen.getByText(/not lesson views or optional AI coaching/)).toBeVisible();
   });
 });

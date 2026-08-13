@@ -29,7 +29,7 @@ Next.js Application
   |
   +--> Mock AI Provider (default)
   |
-  +--> Live AI Provider (future/optional)
+  +--> Anthropic AI Provider (optional, server-only)
 ```
 
 ## Boundary Rules
@@ -106,36 +106,31 @@ Default:
 
 The core product must work entirely without live LLM access.
 
-Future provider interface:
+The capstone uses a provider-neutral structured-generation interface:
 
 ```ts
-type GenerateRequest = {
-  system?: string
-  prompt: string
-  maxTokens?: number
-  metadata?: Record<string, string>
-}
-
-type GenerateResponse = {
-  text: string
-  usage?: {
-    inputTokens?: number
-    outputTokens?: number
-  }
-}
-
 interface AIProvider {
-  generate(request: GenerateRequest): Promise<GenerateResponse>
+  readonly mode: "mock" | "live"
+  readonly name: "mock" | "anthropic"
+  generateStructured<T>(request: {
+    systemPrompt: string
+    userPrompt: string
+    outputSchema: ZodType<T>
+    mockOutput: T
+    maxTokens: number
+  }): Promise<{ output: T; model: string; usage: TokenUsage }>
 }
 ```
 
-No provider SDK should leak through lesson/experiment domain APIs.
+The route accepts only phase ID, option IDs, and bounded learner notes. It resolves customer context, labels, and rubrics from repository content on the server; validates request and response with Zod; supplies no tools; and returns safe typed failures. Provider SDK objects and secrets never cross into Client Components.
+
+Capstone completion is independent of AI. Authored cardinality and reasoning-presence rules produce the completion gate and deterministic four-dimension score. AI reviews can critique reasoning and show advisory scores, but cannot complete, block, unlock, or contribute skill evidence.
 
 ## Visitor State
 
 The showcase has no authentication provider or learner account. Public lessons, practice, experiments, games, labs, cases, and progress are immediately usable.
 
-Lesson completion, practice evidence, Field Mission state, and Field Arcade profiles use separate versioned browser-local records. Same-tab custom events and browser storage events keep client views synchronized. **Start fresh** removes only those app-owned records.
+Lesson completion/practice/Field Mission state, Field Arcade profiles, and capstone work use separate versioned browser-local records. Same-tab custom events and browser storage events keep client views synchronized. Capstone score snapshots are never trusted directly: current authored rules re-evaluate saved selections and reasoning before completion, unlocking, reporting, or skill evidence. **Start fresh** removes only those app-owned records.
 
 Keep course content in Git, not browser state.
 

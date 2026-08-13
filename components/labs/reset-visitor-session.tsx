@@ -5,9 +5,8 @@ import { useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { trackAnalytics } from "@/lib/analytics/events";
-import { clearStoredGameProfile, gameProfileStorageKey } from "@/lib/games/storage";
 import { cn } from "@/lib/utils";
-import { clearVisitorProgress, visitorProgressStorageKey } from "@/lib/visitor/progress";
+import { clearVisitorSessionData } from "@/lib/visitor/reset";
 
 export function ResetVisitorSession({ className, triggerClassName }: { className?: string; triggerClassName?: string }) {
   const [resetting, setResetting] = useState(false);
@@ -22,17 +21,7 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
     setResetting(true);
     setError("");
 
-    let progressVerified = false;
-    try {
-      const gameProfileCleared = clearStoredGameProfile();
-      const learningProgressCleared = clearVisitorProgress();
-      progressVerified = gameProfileCleared
-        && learningProgressCleared
-        && window.localStorage.getItem(gameProfileStorageKey) === null
-        && window.localStorage.getItem(visitorProgressStorageKey) === null;
-    } catch {
-      progressVerified = false;
-    }
+    const progressVerified = clearVisitorSessionData();
 
     if (!progressVerified) {
       setError("Could not clear all progress on this device. Check browser storage access and try again.");
@@ -40,7 +29,11 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
       return;
     }
 
-    trackAnalytics("visitor_session_reset", { clearedLearningProgress: true, clearedArcadeProfile: true });
+    trackAnalytics("visitor_session_reset", {
+      clearedLearningProgress: true,
+      clearedArcadeProfile: true,
+      clearedCapstoneProgress: true,
+    });
     window.location.assign(new URL("/labs?fresh=1", window.location.origin).toString());
   }
 
@@ -70,7 +63,7 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
         aria-busy={resetting}
         aria-describedby={descriptionId}
         aria-labelledby={titleId}
-        className="m-auto max-h-[calc(100dvh-2rem)] w-[min(calc(100%-2rem),30rem)] rounded-xl border bg-card p-0 text-left text-card-foreground shadow-2xl backdrop:bg-foreground/60 backdrop:backdrop-blur-sm"
+        className="m-auto max-h-[calc(100dvh-2rem)] w-[min(calc(100%-2rem),30rem)] rounded-xl border bg-card p-0 text-left text-card-foreground shadow-sm backdrop:bg-foreground/60 backdrop:backdrop-blur-sm"
         onCancel={(event) => {
           if (resetting) event.preventDefault();
         }}
@@ -85,7 +78,7 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
         <div className="p-5 sm:p-6">
           <p className="text-lg font-semibold" id={titleId}>Clear this visitor&apos;s progress?</p>
           <div className="mt-3 space-y-2 text-sm leading-6 text-muted-foreground" id={descriptionId}>
-            <p>This clears lesson, practice, Field Mission, and Field Arcade progress saved by this app on this device. Your display theme stays unchanged.</p>
+            <p>This clears lesson, practice, Field Mission, Field Arcade, and Capstone progress saved by this app on this device. Your display theme stays unchanged.</p>
             <p>Any unsaved work on the current screen will be lost.</p>
           </div>
           <p aria-live="assertive" className="mt-3 min-h-5 text-xs leading-5 text-rose-600 dark:text-rose-400">{error}</p>

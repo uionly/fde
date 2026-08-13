@@ -27,15 +27,15 @@ export function GameShell({ game, scenario, children }: { game: FieldGame; scena
           </Link>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+              <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-inverse-primary">
                 <GameIcon category={game.category} className="size-4" /> {modeLabels[game.type]} / {difficultyLabels[game.difficulty]}
               </div>
               <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">{game.title}</h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-background/65">{game.description}</p>
             </div>
             <div className="flex flex-wrap gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-background/55">
-              <span className="flex items-center gap-1.5 rounded-full border border-background/15 px-3 py-1.5"><Clock3 aria-hidden="true" className="size-3.5 text-primary" />{game.estimatedMinutes} min</span>
-              <span className="flex items-center gap-1.5 rounded-full border border-background/15 px-3 py-1.5"><Zap aria-hidden="true" className="size-3.5 text-primary" />+{game.xp} XP</span>
+              <span className="flex items-center gap-1.5 rounded-full border border-background/15 px-3 py-1.5"><Clock3 aria-hidden="true" className="size-3.5 text-inverse-primary" />{game.estimatedMinutes} min</span>
+              <span className="flex items-center gap-1.5 rounded-full border border-background/15 px-3 py-1.5"><Zap aria-hidden="true" className="size-3.5 text-inverse-primary" />+{game.xp} XP</span>
             </div>
           </div>
         </div>

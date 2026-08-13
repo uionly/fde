@@ -2,8 +2,10 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ResetVisitorSession } from "@/components/labs/reset-visitor-session";
+import { capstoneProgressStorageKey } from "@/lib/capstone/progress";
 import { gameProfileStorageKey } from "@/lib/games/storage";
 import { visitorProgressStorageKey } from "@/lib/visitor/progress";
+import { clearVisitorSessionData } from "@/lib/visitor/reset";
 
 describe("fresh visitor reset", () => {
   afterEach(() => {
@@ -27,7 +29,7 @@ describe("fresh visitor reset", () => {
     fireEvent.click(screen.getByRole("button", { name: "Start fresh" }));
 
     expect(screen.getByRole("alertdialog", { name: "Clear this visitor's progress?" })).toBeVisible();
-    expect(screen.getByText(/lesson, practice, Field Mission, and Field Arcade progress/)).toBeVisible();
+    expect(screen.getByText(/lesson, practice, Field Mission, Field Arcade, and Capstone progress/)).toBeVisible();
     expect(screen.getByText(/display theme stays unchanged/)).toBeVisible();
     expect(screen.getByText(/Any unsaved work/)).toBeVisible();
     expect(screen.getByRole("button", { name: "Cancel" })).toHaveFocus();
@@ -36,6 +38,7 @@ describe("fresh visitor reset", () => {
   it("reports a storage failure without claiming a fresh session", async () => {
     window.localStorage.setItem(gameProfileStorageKey, JSON.stringify({ version: 2, xp: 80 }));
     window.localStorage.setItem(visitorProgressStorageKey, JSON.stringify({ version: 1, lessons: {}, practiceAttempts: [], labs: {} }));
+    window.localStorage.setItem(capstoneProgressStorageKey, JSON.stringify({ version: 1, currentPhaseId: null, phases: {}, updatedAt: "2026-08-13T06:00:00.000Z" }));
     vi.spyOn(Storage.prototype, "removeItem").mockImplementation(() => {
       throw new Error("Storage blocked");
     });
@@ -47,5 +50,19 @@ describe("fresh visitor reset", () => {
     await waitFor(() => expect(screen.getByText(/Could not clear all progress/)).toBeVisible());
     expect(window.localStorage.getItem(gameProfileStorageKey)).not.toBeNull();
     expect(window.localStorage.getItem(visitorProgressStorageKey)).not.toBeNull();
+    expect(window.localStorage.getItem(capstoneProgressStorageKey)).not.toBeNull();
+  });
+
+  it("clears verified learning, arcade, and capstone state while preserving unrelated settings", () => {
+    window.localStorage.setItem(gameProfileStorageKey, JSON.stringify({ version: 2, xp: 80 }));
+    window.localStorage.setItem(visitorProgressStorageKey, JSON.stringify({ version: 1, lessons: {}, practiceAttempts: [], labs: {} }));
+    window.localStorage.setItem(capstoneProgressStorageKey, JSON.stringify({ version: 1, currentPhaseId: null, phases: {}, updatedAt: "2026-08-13T06:00:00.000Z" }));
+    window.localStorage.setItem("theme", "dark");
+
+    expect(clearVisitorSessionData()).toBe(true);
+    expect(window.localStorage.getItem(gameProfileStorageKey)).toBeNull();
+    expect(window.localStorage.getItem(visitorProgressStorageKey)).toBeNull();
+    expect(window.localStorage.getItem(capstoneProgressStorageKey)).toBeNull();
+    expect(window.localStorage.getItem("theme")).toBe("dark");
   });
 });

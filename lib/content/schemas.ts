@@ -119,6 +119,221 @@ export const labSchema = z.object({
   steps: z.array(labStepSchema).min(1),
 });
 
+export const capstonePhaseIds = [
+  "discovery",
+  "problem-definition",
+  "architecture",
+  "prototype",
+  "retrieval",
+  "tools",
+  "agent",
+  "security",
+  "evaluation",
+  "production",
+  "adoption",
+  "roi",
+] as const;
+
+export const capstonePhaseIdSchema = z.enum(capstonePhaseIds);
+export const capstoneStageSchema = z.enum([
+  "discover",
+  "define",
+  "de-risk",
+  "design",
+  "demonstrate",
+  "develop",
+  "evaluate",
+  "deploy",
+  "drive-adoption",
+  "distill",
+]);
+
+export const capstoneDimensions = [
+  "customerAlignment",
+  "architecture",
+  "safety",
+  "deliveryReadiness",
+] as const;
+
+export const capstoneDimensionSchema = z.enum(capstoneDimensions);
+
+const capstoneDimensionScoresSchema = z
+  .object({
+    customerAlignment: z.number().min(0).max(100),
+    architecture: z.number().min(0).max(100),
+    safety: z.number().min(0).max(100),
+    deliveryReadiness: z.number().min(0).max(100),
+  })
+  .strict();
+
+const capstoneDimensionWeightsSchema = z
+  .object({
+    customerAlignment: z.number().min(0).max(1),
+    architecture: z.number().min(0).max(1),
+    safety: z.number().min(0).max(1),
+    deliveryReadiness: z.number().min(0).max(1),
+  })
+  .strict()
+  .refine(
+    (weights) => Math.abs(Object.values(weights).reduce((total, weight) => total + weight, 0) - 1) < 0.000_001,
+    "dimension weights must total 1",
+  );
+
+const capstoneRubricSchema = z
+  .object({
+    customerAlignment: z.string().min(10),
+    architecture: z.string().min(10),
+    safety: z.string().min(10),
+    deliveryReadiness: z.string().min(10),
+  })
+  .strict();
+
+const capstoneControlSchema = z
+  .object({
+    id: slugSchema,
+    prompt: z.string().min(10),
+    type: z.enum(["single", "multiple"]),
+    options: z
+      .array(
+        z
+          .object({
+            id: slugSchema,
+            label: z.string().min(3),
+            description: z.string().min(10),
+          })
+          .strict(),
+      )
+      .min(3)
+      .max(6),
+    minSelections: z.number().int().positive(),
+    maxSelections: z.number().int().positive(),
+  })
+  .strict()
+  .superRefine((control, context) => {
+    const optionIds = control.options.map((option) => option.id);
+    if (new Set(optionIds).size !== optionIds.length) {
+      context.addIssue({ code: "custom", message: "option ids must be unique", path: ["options"] });
+    }
+    if (control.minSelections > control.maxSelections) {
+      context.addIssue({ code: "custom", message: "minimum selections cannot exceed maximum selections", path: ["minSelections"] });
+    }
+    if (control.maxSelections > control.options.length) {
+      context.addIssue({ code: "custom", message: "maximum selections cannot exceed option count", path: ["maxSelections"] });
+    }
+    if (control.type === "single" && (control.minSelections !== 1 || control.maxSelections !== 1)) {
+      context.addIssue({ code: "custom", message: "single controls require exactly one selection", path: ["type"] });
+    }
+  });
+
+const capstoneConsequenceSchema = z
+  .object({
+    controlId: slugSchema,
+    optionId: slugSchema,
+    kind: z.enum(["strength", "tradeoff", "risk"]),
+    message: z.string().min(15),
+    dimensions: capstoneDimensionScoresSchema,
+  })
+  .strict();
+
+export const capstonePhaseSchema = z
+  .object({
+    id: capstonePhaseIdSchema,
+    title: z.string().min(3),
+    stage: capstoneStageSchema,
+    order: z.number().int().positive().max(capstonePhaseIds.length),
+    skills: z.array(skillSchema).min(1),
+    context: z.string().min(30),
+    reveal: z.string().min(30),
+    prompt: z.string().min(10),
+    reasoningLabel: z.string().min(5),
+    reasoningPlaceholder: z.string().min(10),
+    minReasoningCharacters: z.number().int().min(20).max(1_000),
+    controls: z.array(capstoneControlSchema).min(1).max(4),
+    rubric: capstoneRubricSchema,
+    consequences: z.array(capstoneConsequenceSchema).min(3),
+    hint: z.string().min(20),
+    expertExample: z.string().min(40),
+    dimensionWeights: capstoneDimensionWeightsSchema,
+    relatedLessons: z.array(slugSchema).min(1).max(4),
+  })
+  .strict()
+  .superRefine((phase, context) => {
+    const controlIds = phase.controls.map((control) => control.id);
+    if (new Set(controlIds).size !== controlIds.length) {
+      context.addIssue({ code: "custom", message: "control ids must be unique", path: ["controls"] });
+    }
+
+    const expectedConsequenceKeys = phase.controls.flatMap((control) =>
+      control.options.map((option) => `${control.id}:${option.id}`),
+    );
+    const consequenceKeys = phase.consequences.map(
+      (consequence) => `${consequence.controlId}:${consequence.optionId}`,
+    );
+    if (new Set(consequenceKeys).size !== consequenceKeys.length) {
+      context.addIssue({ code: "custom", message: "consequences must be unique per control option", path: ["consequences"] });
+    }
+    const missing = expectedConsequenceKeys.filter((key) => !consequenceKeys.includes(key));
+    const unknown = consequenceKeys.filter((key) => !expectedConsequenceKeys.includes(key));
+    if (missing.length > 0 || unknown.length > 0) {
+      context.addIssue({
+        code: "custom",
+        message: "consequences must cover every control option exactly once",
+        path: ["consequences"],
+      });
+    }
+    if (new Set(phase.relatedLessons).size !== phase.relatedLessons.length) {
+      context.addIssue({ code: "custom", message: "related lessons must be unique", path: ["relatedLessons"] });
+    }
+  });
+
+export const capstoneSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    id: slugSchema,
+    slug: slugSchema,
+    title: z.string().min(3),
+    customerCaseStudyId: slugSchema,
+    description: z.string().min(30),
+    estimatedMinutes: z.number().int().positive().max(600),
+    phases: z.array(capstonePhaseSchema).length(capstonePhaseIds.length),
+  })
+  .strict()
+  .superRefine((capstone, context) => {
+    const phaseIds = capstone.phases.map((phase) => phase.id);
+    if (new Set(phaseIds).size !== phaseIds.length) {
+      context.addIssue({ code: "custom", message: "phase ids must be unique", path: ["phases"] });
+    }
+    capstonePhaseIds.forEach((phaseId, index) => {
+      const phase = capstone.phases[index];
+      if (phase?.id !== phaseId || phase.order !== index + 1) {
+        context.addIssue({
+          code: "custom",
+          message: `phase ${index + 1} must be ${phaseId} with matching order`,
+          path: ["phases", index],
+        });
+      }
+    });
+  });
+
+export const capstoneAnswerSchema = z
+  .object({
+    selections: z.record(slugSchema, z.array(slugSchema)),
+    reasoning: z.string(),
+  })
+  .strict();
+
+export const capstoneEvaluationSchema = z
+  .object({
+    complete: z.boolean(),
+    missing: z.array(z.string()),
+    score: z.number().int().min(0).max(100),
+    dimensions: capstoneDimensionScoresSchema,
+    feedback: z.array(z.string()),
+    strengths: z.array(z.string()),
+    gaps: z.array(z.string()),
+  })
+  .strict();
+
 export const experimentSchema = z.object({
   id: slugSchema,
   type: z.enum(["chunking", "retrieval", "tool-selection", "injection", "cost", "placeholder"]),
@@ -478,6 +693,12 @@ export type Track = z.infer<typeof trackSchema>;
 export type LessonFrontmatter = z.infer<typeof lessonFrontmatterSchema>;
 export type Question = z.infer<typeof questionSchema>;
 export type Lab = z.infer<typeof labSchema>;
+export type Capstone = z.infer<typeof capstoneSchema>;
+export type CapstonePhase = z.infer<typeof capstonePhaseSchema>;
+export type CapstonePhaseId = z.infer<typeof capstonePhaseIdSchema>;
+export type CapstoneDimension = z.infer<typeof capstoneDimensionSchema>;
+export type CapstoneAnswer = z.infer<typeof capstoneAnswerSchema>;
+export type CapstoneEvaluation = z.infer<typeof capstoneEvaluationSchema>;
 export type Experiment = z.infer<typeof experimentSchema>;
 export type FieldGame = z.infer<typeof fieldGameSchema>;
 export type QuickDecisionGame = z.infer<typeof quickDecisionGameSchema>;

@@ -116,7 +116,7 @@ export function QuickDecisionGame({ game }: { game: QuickDecisionGameContent }) 
           <section className={cn("rounded-xl border p-5 sm:p-7", evaluation.recommended ? "border-emerald-500/30 bg-emerald-500/5" : "border-amber-500/35 bg-amber-500/5")}>
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{evaluation.recommended ? <ShieldCheck aria-hidden="true" className="size-4 text-emerald-600" /> : <Gauge aria-hidden="true" className="size-4 text-amber-600" />}Simulation result</div>
+                <div className="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{evaluation.recommended ? <ShieldCheck aria-hidden="true" className="size-4 text-emerald-700 dark:text-emerald-400" /> : <Gauge aria-hidden="true" className="size-4 text-amber-700 dark:text-amber-400" />}Simulation result</div>
                 <h2 className="mt-3 rounded-sm text-2xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4" ref={debriefHeadingRef} tabIndex={-1}>{outcomeLabels[evaluation.outcome]}</h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{evaluation.rationale}</p>
               </div>

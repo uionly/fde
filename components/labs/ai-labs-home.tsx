@@ -92,11 +92,11 @@ export function AILabsHome({ freshSessionStarted = false, showcase, totals }: AI
         <div className="mx-auto grid max-w-[1280px] gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-18">
           <div className="self-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-background/15 bg-background/5 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-background/65">
-              <span className="size-1.5 rounded-full bg-primary" />
+              <span className="size-1.5 rounded-full bg-inverse-primary" />
               {content.hero.eyebrow}
             </div>
             <h1 className="mt-6 max-w-3xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
-              {content.hero.title} <span className="text-primary">{content.hero.accent}</span>
+              {content.hero.title} <span className="text-inverse-primary">{content.hero.accent}</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-background/65">{content.hero.description}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -169,7 +169,7 @@ export function AILabsHome({ freshSessionStarted = false, showcase, totals }: AI
           </div>
           <div className="mt-8 grid gap-5 lg:grid-cols-2">
             {supportingGames.map((game) => (
-              <Link className="group grid gap-5 rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg sm:grid-cols-[auto_1fr] sm:p-6" href={`/games/${game.slug}`} key={game.id}>
+              <Link className="group grid gap-5 rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm sm:grid-cols-[auto_1fr] sm:p-6" href={`/games/${game.slug}`} key={game.id}>
                 <span className="grid size-11 place-items-center rounded-lg border bg-background text-primary"><GameIcon category={game.category} className="size-5" /></span>
                 <span>
                   <span className="flex flex-wrap items-center gap-2 font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">
@@ -196,7 +196,7 @@ export function AILabsHome({ freshSessionStarted = false, showcase, totals }: AI
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {featuredExperiments.map((experiment) => (
-              <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg" href={`/experiments/${experiment.id}`} key={experiment.id}>
+              <Link className="group flex min-h-64 flex-col rounded-xl border bg-card p-5 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm" href={`/experiments/${experiment.id}`} key={experiment.id}>
                 <span className="grid size-10 place-items-center rounded-lg bg-primary/10 text-primary"><PlaygroundIcon type={experiment.type} /></span>
                 <p className="mt-7 font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-primary">{experiment.type.replaceAll("-", " ")}</p>
                 <h3 className="mt-2 text-lg font-semibold group-hover:text-primary">{experiment.title}</h3>
@@ -216,7 +216,7 @@ export function AILabsHome({ freshSessionStarted = false, showcase, totals }: AI
           </div>
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
             {featuredLabs.map((lab, index) => (
-              <Link className="group flex min-h-72 flex-col rounded-xl border bg-card p-6 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-lg" href={`/labs/${lab.slug}`} key={lab.id}>
+              <Link className="group flex min-h-72 flex-col rounded-xl border bg-card p-6 transition-[transform,border-color,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm" href={`/labs/${lab.slug}`} key={lab.id}>
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs text-muted-foreground">MISSION {String(index + 1).padStart(2, "0")}</span>
                   <Medal aria-hidden="true" className="size-4 text-primary" />

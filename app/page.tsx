@@ -120,7 +120,7 @@ export default function HomePage() {
 
           <div className="relative mx-auto w-full max-w-[650px] lg:mx-0">
             <div aria-hidden="true" className="absolute -inset-4 -z-10 rounded-3xl bg-primary/7 blur-2xl" />
-            <div className="overflow-hidden rounded-xl border bg-card shadow-[0_24px_80px_-36px_rgba(0,0,0,0.45)]">
+            <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
               <div className="flex items-center justify-between border-b bg-muted/40 px-4 py-3 sm:px-5">
                 <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
                   <TerminalSquare aria-hidden="true" className="size-3.5" /> AI Lab / NS-ROUTE-01
@@ -148,7 +148,7 @@ export default function HomePage() {
                   <span className="text-muted-foreground">System dimensions</span>
                   <span className="font-mono text-xs">4 SCORED</span>
                   <span className="text-muted-foreground">Setup required</span>
-                  <span className="font-mono text-xs font-medium text-emerald-600 dark:text-emerald-400">NONE</span>
+                  <span className="font-mono text-xs font-medium text-emerald-800 dark:text-emerald-400">NONE</span>
                 </div>
 
                 <div className="mt-5">
@@ -173,7 +173,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="absolute -bottom-4 -right-2 hidden items-center gap-2 rounded-md border bg-background px-3 py-2 text-xs font-medium shadow-lg sm:flex">
+            <div className="absolute -bottom-4 -right-2 hidden items-center gap-2 rounded-md border bg-background px-3 py-2 text-xs font-medium shadow-sm sm:flex">
               <CircleDot aria-hidden="true" className="size-3.5 text-primary" /> Consequences are immediate
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function HomePage() {
             ["03", "From handoff", "to end-to-end ownership"],
           ].map(([number, from, to]) => (
             <div className="flex gap-5 py-8 md:px-7 md:first:pl-0 md:last:pr-0" key={number}>
-              <span className="font-mono text-xs text-primary">{number}</span>
+              <span className="font-mono text-xs text-inverse-primary">{number}</span>
               <p className="text-lg font-medium tracking-tight">
                 <span className="text-background/50">{from}</span><br />{to}
               </p>
@@ -275,7 +275,7 @@ export default function HomePage() {
               Take Northstar Financial from a vague AI mandate to a secure, evaluated, adopted solution with a defensible ROI story.
             </p>
             <Button asChild className="mt-8" size="lg">
-              <Link href="/capstone">Preview the engagement <ArrowRight aria-hidden="true" className="size-4" /></Link>
+              <Link href="/capstone">Lead the engagement <ArrowRight aria-hidden="true" className="size-4" /></Link>
             </Button>
           </div>
         </div>

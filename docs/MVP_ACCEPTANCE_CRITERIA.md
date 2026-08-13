@@ -18,7 +18,7 @@ The MVP is releasable only when all P0 items pass.
 
 - [ ] Anonymous users can read public lessons.
 - [ ] User can mark lesson complete.
-- [ ] Lesson, practice, lab, and Arcade progress persists across reloads on the same browser.
+- [ ] Lesson, practice, lab, Arcade, and capstone progress persists across reloads on the same browser.
 - [ ] Progress page shows track completion.
 - [ ] No demo identity, sign-in option, or authentication gate is exposed.
 - [ ] Start fresh clears only app-owned visitor progress and preserves theme/unrelated browser settings.
@@ -88,6 +88,14 @@ Each:
 - [ ] Skill scores shown.
 - [ ] Skill scores are based on evidence, not lesson views.
 - [ ] Weak-area recommendations shown.
+
+## P1 — Transformation Capstone
+
+- [ ] All 12 Northstar phases are data-driven, editable, and sequentially resumable.
+- [ ] Authored deterministic rules alone control phase completion and unlocking.
+- [ ] Completed deterministic phases contribute verified skill evidence.
+- [ ] Optional mock/Anthropic coaching critiques reasoning but cannot affect completion or skills.
+- [ ] Start fresh clears capstone state while preserving theme and unrelated browser settings.
 
 ## P1 — Resources
 

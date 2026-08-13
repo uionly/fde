@@ -7,6 +7,9 @@ import { useMemo } from "react";
 import { useGameProfile } from "@/components/games/use-game-profile";
 import { ProgressBar } from "@/components/learning/progress-bar";
 import { Button } from "@/components/ui/button";
+import { getCompletedCapstoneEvidence, type CapstonePhaseSkillSummary } from "@/lib/capstone/evidence";
+import { useCapstoneProgress } from "@/lib/capstone/use-capstone-progress";
+import { getVerifiedCapstoneEvaluation } from "@/lib/capstone/verification";
 import type { Skill } from "@/lib/content/schemas";
 import { calculateSkillScores, recommendNext, type SkillEvidence, weakestSkills } from "@/lib/skills/scoring";
 import { useVisitorProgress } from "@/lib/visitor/use-visitor-progress";
@@ -16,12 +19,14 @@ type TrackSummary = { slug: string; title: string };
 type EvidenceSource = { id: string; skills: Skill[] };
 
 export function VisitorProgressDashboard({
+  capstonePhases,
   gameCount,
   labs,
   lessons,
   questions,
   tracks,
 }: {
+  capstonePhases: CapstonePhaseSkillSummary[];
   gameCount: number;
   labs: EvidenceSource[];
   lessons: LessonSummary[];
@@ -29,6 +34,7 @@ export function VisitorProgressDashboard({
   tracks: TrackSummary[];
 }) {
   const progress = useVisitorProgress();
+  const { progress: capstoneProgress } = useCapstoneProgress();
   const { hydrated: gameProfileHydrated, profile: gameProfile } = useGameProfile();
   const completedLessonIds = useMemo(
     () => new Set(Object.values(progress.lessons).filter((record) => record.completed).map((record) => record.lessonId)),
@@ -61,11 +67,25 @@ export function VisitorProgressDashboard({
       const lab = labById.get(labId);
       return lab ? [{ source: "lab" as const, skills: lab.skills, score: 100 }] : [];
     }),
+    ...getCompletedCapstoneEvidence(capstoneProgress, capstonePhases),
   ];
   const skillScores = calculateSkillScores(evidence);
   const recommendation = recommendNext(skillScores);
   const completedGames = gameProfile.completedGameIds.length;
-  const hasProgress = completedLessons > 0 || progress.practiceAttempts.length > 0 || Object.keys(progress.labs).length > 0 || completedGames > 0;
+  const completedCapstonePhases = capstonePhases.filter((phase) =>
+    getVerifiedCapstoneEvaluation(phase, capstoneProgress.phases[phase.id]),
+  ).length;
+  const startedCapstone = Object.keys(capstoneProgress.phases).length > 0;
+  const capstoneComplete = capstonePhases.length > 0 && completedCapstonePhases === capstonePhases.length;
+  const activeCapstonePhase = capstonePhases.find((phase) => phase.id === capstoneProgress.currentPhaseId)
+    ?? capstonePhases.find(
+      (phase) => !getVerifiedCapstoneEvaluation(phase, capstoneProgress.phases[phase.id]),
+    );
+  const hasProgress = completedLessons > 0
+    || progress.practiceAttempts.length > 0
+    || Object.keys(progress.labs).length > 0
+    || completedGames > 0
+    || startedCapstone;
 
   return (
     <div className="mx-auto max-w-[1000px] px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
@@ -89,11 +109,12 @@ export function VisitorProgressDashboard({
         </section>
       ) : null}
 
-      <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Visitor progress summary">
+      <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" aria-label="Visitor progress summary">
         <SummaryStat label="Lessons" value={`${completedLessons}/${lessons.length}`} />
         <SummaryStat label="Practice evidence" value={String(progress.practiceAttempts.length)} />
         <SummaryStat label="Field Missions" value={`${completedLabIds.size}/${labs.length}`} />
         <SummaryStat label="Arcade missions" value={gameProfileHydrated ? `${completedGames}/${gameCount}` : "—"} />
+        <SummaryStat label="Capstone phases" value={`${completedCapstonePhases}/${capstonePhases.length}`} />
       </section>
 
       <section className="mt-8 rounded-xl border bg-card p-6">
@@ -118,7 +139,7 @@ export function VisitorProgressDashboard({
 
       <section className="mt-8">
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <div><h2 className="text-sm font-semibold">Skill snapshot</h2><p className="mt-1 text-xs text-muted-foreground">Based on {evidence.length} saved practice and completed-Field-Mission evidence items—not lesson views.</p></div>
+          <div><h2 className="text-sm font-semibold">Skill snapshot</h2><p className="mt-1 text-xs text-muted-foreground">Based on {evidence.length} saved practice, completed Field Mission, and completed Capstone evidence items—not lesson views or optional AI coaching.</p></div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground"><Gamepad2 aria-hidden="true" className="size-3.5" />Arcade: {gameProfile.xp} XP</div>
         </div>
         <div className="mt-3 grid gap-3 rounded-xl border bg-card p-5 sm:grid-cols-2">
@@ -128,7 +149,22 @@ export function VisitorProgressDashboard({
 
       <section className="mt-8 grid gap-4 md:grid-cols-[1fr_1.3fr]">
         <div className="rounded-xl border bg-card p-5"><h2 className="text-sm font-semibold">Focus areas</h2><div className="mt-4 space-y-3">{weakestSkills(skillScores).map((item) => <div className="flex items-center justify-between text-sm" key={item.skill}><span>{item.skill}</span><span className="font-mono text-xs text-muted-foreground">{item.score}/100</span></div>)}</div></div>
-        <div className="rounded-xl border border-primary/20 bg-accent/35 p-5"><div className="flex items-center gap-2 text-sm font-semibold"><Sparkles aria-hidden="true" className="size-4 text-primary" />Recommended next</div><p className="mt-4 text-lg font-semibold">{recommendation.title}</p><p className="mt-2 text-sm text-muted-foreground">{recommendation.reason}</p><Button asChild className="mt-5"><Link href={recommendation.href}>Build {recommendation.skill} evidence <ArrowRight aria-hidden="true" className="size-4" /></Link></Button></div>
+        <div className="rounded-xl border border-primary/20 bg-accent/35 p-5">
+          <div className="flex items-center gap-2 text-sm font-semibold"><Sparkles aria-hidden="true" className="size-4 text-primary" />Recommended next</div>
+          {startedCapstone && !capstoneComplete ? (
+            <>
+              <p className="mt-4 text-lg font-semibold">Resume the Northstar capstone</p>
+              <p className="mt-2 text-sm text-muted-foreground">Continue {activeCapstonePhase?.title ?? "your active phase"}. Your decisions and field notes are saved on this device.</p>
+              <Button asChild className="mt-5"><Link href="/capstone">Resume engagement <ArrowRight aria-hidden="true" className="size-4" /></Link></Button>
+            </>
+          ) : (
+            <>
+              <p className="mt-4 text-lg font-semibold">{recommendation.title}</p>
+              <p className="mt-2 text-sm text-muted-foreground">{recommendation.reason}</p>
+              <Button asChild className="mt-5"><Link href={recommendation.href}>Build {recommendation.skill} evidence <ArrowRight aria-hidden="true" className="size-4" /></Link></Button>
+            </>
+          )}
+        </div>
       </section>
     </div>
   );

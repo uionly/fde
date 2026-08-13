@@ -32,7 +32,7 @@ export function PagePreview({ eyebrow, title, description, icon: Icon, items, no
 
       <div className="mt-12 grid gap-4 md:grid-cols-3">
         {items.map((item, index) => (
-          <article className="rounded-xl border bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" key={item.label}>
+          <article className="rounded-xl border bg-card p-5 shadow-sm" key={item.label}>
             <div className="mb-8 flex items-center justify-between">
               <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">Module {String(index + 1).padStart(2, "0")}</span>
               <CheckCircle2 aria-hidden="true" className="size-4 text-muted-foreground/40" />

@@ -1,0 +1,1919 @@
+{
+  "schemaVersion": 1,
+  "id": "northstar-ai-transformation",
+  "slug": "northstar-ai-transformation",
+  "title": "Northstar AI Transformation",
+  "customerCaseStudyId": "northstar-financial",
+  "description": "Lead a regulated AI deployment from ambiguous executive request through architecture, production, adoption, and a defensible investment recommendation.",
+  "estimatedMinutes": 180,
+  "phases": [
+    {
+      "id": "discovery",
+      "title": "Discovery",
+      "stage": "discover",
+      "order": 1,
+      "skills": [
+        "Discovery",
+        "Customer Delivery"
+      ],
+      "context": "Northstar executives request an autonomous customer-service agent, but support specialists, operations leaders, and compliance teams describe different problems and outcomes.",
+      "reveal": "Specialists spend 31% of handling time searching policy repositories, while only 8% of tickets are candidates for safe straight-through automation.",
+      "prompt": "Choose how you will learn the workflow and establish an evidence-backed starting point.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "first-move",
+          "prompt": "What should the engagement team do first?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "observe-workflow",
+              "label": "Observe real support work",
+              "description": "Shadow specialists, capture exceptions, and trace system handoffs."
+            },
+            {
+              "id": "executive-interviews",
+              "label": "Interview executives only",
+              "description": "Start with sponsor priorities without observing frontline work."
+            },
+            {
+              "id": "prototype-agent",
+              "label": "Prototype the agent immediately",
+              "description": "Use an early demo to infer what users need."
+            }
+          ]
+        },
+        {
+          "id": "evidence",
+          "prompt": "Which evidence should anchor discovery?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "workflow-baseline",
+              "label": "Workflow and baseline metrics",
+              "description": "Measure handling time, search time, transfers, and intervention rate."
+            },
+            {
+              "id": "stakeholder-map",
+              "label": "Stakeholder authority map",
+              "description": "Record users, owners, approvers, blockers, and incentives."
+            },
+            {
+              "id": "model-benchmark",
+              "label": "Public model benchmarks",
+              "description": "Use generic model scores as the primary customer baseline."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Uses direct workflow evidence and represents affected stakeholders.",
+        "architecture": "Maps systems and handoffs without assuming an architecture.",
+        "safety": "Surfaces regulated data, approvals, and unsafe automation early.",
+        "deliveryReadiness": "Establishes a measurable baseline and accountable decision owners."
+      },
+      "consequences": [
+        {
+          "controlId": "first-move",
+          "optionId": "observe-workflow",
+          "kind": "strength",
+          "message": "Observation exposes the workflow and its hidden constraints before a solution is chosen.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "first-move",
+          "optionId": "executive-interviews",
+          "kind": "tradeoff",
+          "message": "Sponsor interviews clarify intent but leave frontline exceptions and workarounds untested.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "first-move",
+          "optionId": "prototype-agent",
+          "kind": "risk",
+          "message": "A premature prototype anchors discovery on a solution before the customer problem is known.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "evidence",
+          "optionId": "workflow-baseline",
+          "kind": "strength",
+          "message": "A measured workflow makes later claims about improvement defensible.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "evidence",
+          "optionId": "stakeholder-map",
+          "kind": "strength",
+          "message": "An authority map exposes who can validate, approve, adopt, or block the change.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "evidence",
+          "optionId": "model-benchmark",
+          "kind": "risk",
+          "message": "Generic model benchmarks do not describe Northstar's workflow or business outcome.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Start with people doing the work, the systems they cross, and a baseline you can measure again after the pilot.",
+      "expertExample": "Shadow six specialists across common and exception tickets, map handoffs and policy searches, interview operations and compliance, then baseline handling time, escalations, and search effort before proposing a solution.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "map-current-workflow",
+        "stakeholders-and-incentives",
+        "baselines-and-success-metrics"
+      ]
+    },
+    {
+      "id": "problem-definition",
+      "title": "Problem Definition",
+      "stage": "define",
+      "order": 2,
+      "skills": [
+        "Discovery",
+        "Business Thinking"
+      ],
+      "context": "Discovery confirms that policy search delays specialists, but the executive request still describes the desired product as a fully autonomous service agent.",
+      "reveal": "Most delay occurs before a response is drafted, and high-risk refund exceptions represent a small but costly segment requiring manager judgment.",
+      "prompt": "Define the first customer outcome and a boundary the delivery team can defend.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "outcome",
+          "prompt": "Which outcome should phase one target?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "reduce-search-time",
+              "label": "Reduce policy-search time",
+              "description": "Help specialists find current, permitted policy evidence inside their workflow."
+            },
+            {
+              "id": "increase-answer-volume",
+              "label": "Increase generated-answer volume",
+              "description": "Measure how many responses the model can produce."
+            },
+            {
+              "id": "automate-all-support",
+              "label": "Automate all support",
+              "description": "Treat complete autonomy as the first delivery target."
+            }
+          ]
+        },
+        {
+          "id": "success-criteria",
+          "prompt": "Which success criteria belong in the problem statement?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "handling-time",
+              "label": "Median resolution time",
+              "description": "Compare resolution time for the scoped ticket cohort with baseline."
+            },
+            {
+              "id": "permission-incidents",
+              "label": "Permission incident rate",
+              "description": "Require zero restricted-policy disclosures during the pilot."
+            },
+            {
+              "id": "generic-accuracy",
+              "label": "Generic chatbot accuracy",
+              "description": "Use a context-free accuracy percentage as the main target."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Targets an observed user problem and measurable customer outcome.",
+        "architecture": "Defines a bounded system responsibility and explicit non-goals.",
+        "safety": "Makes regulated failure constraints part of success.",
+        "deliveryReadiness": "Names cohort, baseline, metrics, and accountable owners."
+      },
+      "consequences": [
+        {
+          "controlId": "outcome",
+          "optionId": "reduce-search-time",
+          "kind": "strength",
+          "message": "The outcome targets the observed bottleneck and can be measured against the discovery baseline.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "outcome",
+          "optionId": "increase-answer-volume",
+          "kind": "tradeoff",
+          "message": "Answer volume is observable but does not prove faster or safer ticket resolution.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "outcome",
+          "optionId": "automate-all-support",
+          "kind": "risk",
+          "message": "Full automation ignores exception handling, safety boundaries, and the evidence from discovery.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "success-criteria",
+          "optionId": "handling-time",
+          "kind": "strength",
+          "message": "Resolution time connects the intervention to the customer workflow.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "success-criteria",
+          "optionId": "permission-incidents",
+          "kind": "strength",
+          "message": "A safety criterion prevents speed gains from hiding access-control failures.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "success-criteria",
+          "optionId": "generic-accuracy",
+          "kind": "risk",
+          "message": "A generic accuracy target lacks workflow scope, failure severity, and operating context.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Write the problem around a user, observed friction, measurable outcome, constraints, and an explicit non-goal.",
+      "expertExample": "For tier-one policy questions, reduce median resolution time by 20% while preserving source permissions and requiring citations; exclude refunds and account mutations from the initial pilot.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "customer-request-to-problem",
+        "prioritize-customer-use-cases",
+        "baselines-and-success-metrics"
+      ]
+    },
+    {
+      "id": "architecture",
+      "title": "Architecture",
+      "stage": "design",
+      "order": 3,
+      "skills": [
+        "Architecture",
+        "Software Engineering"
+      ],
+      "context": "The scoped assistant must work inside Compass Support, search Polaris Knowledge, preserve Northstar SSO identity, and retrieve real-time account status from Ledger API.",
+      "reveal": "Atlas CRM is 24 hours stale, Polaris contains manager-only documents, and Ledger API is rate-limited behind Northstar's gateway.",
+      "prompt": "Choose boundaries and source responsibilities for the target architecture.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "integration-boundary",
+          "prompt": "Where should enterprise integrations live?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "server-adapters",
+              "label": "Server-side typed adapters",
+              "description": "Mediate identity, validation, retries, and source-specific contracts on the server."
+            },
+            {
+              "id": "shared-backend",
+              "label": "One generic backend proxy",
+              "description": "Forward flexible requests through a common privileged service."
+            },
+            {
+              "id": "browser-direct",
+              "label": "Direct browser integrations",
+              "description": "Let the browser call enterprise systems with embedded credentials."
+            }
+          ]
+        },
+        {
+          "id": "source-contracts",
+          "prompt": "Which source contracts are required?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "ledger-freshness",
+              "label": "Ledger owns current balances",
+              "description": "Use Ledger API for current payment and balance status."
+            },
+            {
+              "id": "identity-filter",
+              "label": "Identity filters policy retrieval",
+              "description": "Carry user and group claims into pre-retrieval authorization."
+            },
+            {
+              "id": "crm-authoritative",
+              "label": "CRM owns all customer facts",
+              "description": "Treat the overnight CRM copy as current for every answer."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Connects architecture decisions to the scoped workflow outcome.",
+        "architecture": "Defines typed system boundaries, data authority, and failure behavior.",
+        "safety": "Keeps identity, credentials, and authorization at trusted boundaries.",
+        "deliveryReadiness": "Supports a thin pilot and an explicit path toward production."
+      },
+      "consequences": [
+        {
+          "controlId": "integration-boundary",
+          "optionId": "server-adapters",
+          "kind": "strength",
+          "message": "Typed server adapters keep credentials, authorization, and failure policy outside generated text and clients.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "integration-boundary",
+          "optionId": "shared-backend",
+          "kind": "tradeoff",
+          "message": "A generic proxy centralizes traffic but obscures tool contracts and least-privilege boundaries.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "integration-boundary",
+          "optionId": "browser-direct",
+          "kind": "risk",
+          "message": "Direct client access exposes credentials and bypasses authoritative server controls.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "source-contracts",
+          "optionId": "ledger-freshness",
+          "kind": "strength",
+          "message": "An explicit freshness owner prevents stale CRM data from appearing authoritative.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "source-contracts",
+          "optionId": "identity-filter",
+          "kind": "strength",
+          "message": "Identity-aware retrieval removes forbidden content before it enters model context.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "source-contracts",
+          "optionId": "crm-authoritative",
+          "kind": "risk",
+          "message": "Using stale CRM data for current facts creates confident but incorrect customer answers.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Draw identity, data, and action flows separately; name the authority and failure behavior at each boundary.",
+      "expertExample": "Embed the assistant in Compass, propagate SSO claims to server adapters, filter Polaris before retrieval, use Ledger for current balances, and define cached read-only fallbacks when rate limits are reached.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "architecture-from-outcomes",
+        "integration-and-data-contracts",
+        "trust-boundaries-and-identity"
+      ]
+    },
+    {
+      "id": "prototype",
+      "title": "Prototype",
+      "stage": "demonstrate",
+      "order": 4,
+      "skills": [
+        "Software Engineering",
+        "Customer Delivery"
+      ],
+      "context": "Northstar wants a demonstration in two weeks. The team can validate workflow fit and technical risk, but cannot productionize every integration in that period.",
+      "reveal": "Compliance can provide a synthetic policy set and twelve representative ticket patterns; three specialists can participate in a facilitated workflow test.",
+      "prompt": "Shape a thin prototype that maximizes learning without being mistaken for production.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "prototype-slice",
+          "prompt": "What should the prototype prove?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "end-to-end-slice",
+              "label": "One end-to-end policy workflow",
+              "description": "Test identity, retrieval, citations, and specialist review for a bounded cohort."
+            },
+            {
+              "id": "chat-interface",
+              "label": "A polished chat interface",
+              "description": "Optimize interaction visuals using a hand-curated answer set."
+            },
+            {
+              "id": "autonomous-refunds",
+              "label": "Autonomous refunds",
+              "description": "Demonstrate irreversible actions before controls and evidence exist."
+            }
+          ]
+        },
+        {
+          "id": "prototype-evidence",
+          "prompt": "Which prototype evidence should be captured?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "task-observation",
+              "label": "Observed specialist task results",
+              "description": "Record completion time, corrections, trust signals, and failure cases."
+            },
+            {
+              "id": "trace-corpus",
+              "label": "Traces over representative tickets",
+              "description": "Store retrieval, citations, latency, and expected behavior for each test."
+            },
+            {
+              "id": "executive-applause",
+              "label": "Executive demo reaction",
+              "description": "Use sponsor enthusiasm as the primary prototype result."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Tests a real customer workflow with representative users.",
+        "architecture": "Exercises the most uncertain integration and retrieval boundaries.",
+        "safety": "Uses synthetic data and read-only scope to contain risk.",
+        "deliveryReadiness": "Defines decisions, measures, and exit criteria before the demo."
+      },
+      "consequences": [
+        {
+          "controlId": "prototype-slice",
+          "optionId": "end-to-end-slice",
+          "kind": "strength",
+          "message": "A vertical slice tests the riskiest assumptions in the real workflow without promising broad coverage.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "prototype-slice",
+          "optionId": "chat-interface",
+          "kind": "tradeoff",
+          "message": "A polished interface can test usability but hides integration, permission, and retrieval risk.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "prototype-slice",
+          "optionId": "autonomous-refunds",
+          "kind": "risk",
+          "message": "Automating refunds in the prototype creates avoidable safety and stakeholder risk.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "prototype-evidence",
+          "optionId": "task-observation",
+          "kind": "strength",
+          "message": "Observed task evidence reveals whether the slice fits real specialist work.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "prototype-evidence",
+          "optionId": "trace-corpus",
+          "kind": "strength",
+          "message": "Representative traces turn the demo into reusable technical evidence.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "prototype-evidence",
+          "optionId": "executive-applause",
+          "kind": "risk",
+          "message": "Positive demo reaction cannot establish generalization, safety, or workflow value.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Select the smallest vertical slice that tests a customer assumption and a technical risk with representative evidence.",
+      "expertExample": "Build a read-only Compass side panel for one policy cohort using synthetic data, test twelve representative tickets with three specialists, and report task time, citations, corrections, and unresolved risks.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "thin-slices-and-evolution",
+        "ambiguity-to-learning-plan",
+        "architecture-decisions-and-tradeoffs"
+      ]
+    },
+    {
+      "id": "retrieval",
+      "title": "Retrieval",
+      "stage": "de-risk",
+      "order": 5,
+      "skills": [
+        "AI Engineering",
+        "Data"
+      ],
+      "context": "The prototype retrieves formal policies well, but specialist abbreviations miss relevant documents and archived policies sometimes outrank current guidance.",
+      "reveal": "Polaris exposes document status, effective dates, business unit, and access groups; policy language differs sharply from ticket language.",
+      "prompt": "Design retrieval that is relevant, current, permission-aware, and measurable.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "retrieval-strategy",
+          "prompt": "Which retrieval strategy should the team test first?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "hybrid-rerank",
+              "label": "Hybrid retrieval with reranking",
+              "description": "Combine lexical and semantic signals, filter metadata, then rerank candidates."
+            },
+            {
+              "id": "vector-only",
+              "label": "Vector search only",
+              "description": "Use semantic similarity without lexical or lifecycle signals."
+            },
+            {
+              "id": "larger-context",
+              "label": "Send every policy to the model",
+              "description": "Avoid ranking by packing the entire corpus into context."
+            }
+          ]
+        },
+        {
+          "id": "retrieval-controls",
+          "prompt": "Which controls must apply before generation?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "permission-filter",
+              "label": "Permission filtering",
+              "description": "Filter candidates using the requesting user's effective access."
+            },
+            {
+              "id": "lifecycle-filter",
+              "label": "Lifecycle and effective-date filtering",
+              "description": "Exclude archived or not-yet-effective document versions."
+            },
+            {
+              "id": "prompt-ignore-archive",
+              "label": "Prompt the model to ignore archives",
+              "description": "Retrieve all versions and rely on the model to choose current policy."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Tests retrieval against specialist vocabulary and real task intent.",
+        "architecture": "Separates retrieval, filtering, ranking, and generation stages.",
+        "safety": "Enforces permissions and document lifecycle before generation.",
+        "deliveryReadiness": "Defines retrieval metrics, traces, and failure escalation."
+      },
+      "consequences": [
+        {
+          "controlId": "retrieval-strategy",
+          "optionId": "hybrid-rerank",
+          "kind": "strength",
+          "message": "Hybrid retrieval addresses vocabulary mismatch while preserving exact policy terms and metadata controls.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "retrieval-strategy",
+          "optionId": "vector-only",
+          "kind": "tradeoff",
+          "message": "Vector search helps paraphrases but can rank similar obsolete or non-governing content highly.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "retrieval-strategy",
+          "optionId": "larger-context",
+          "kind": "risk",
+          "message": "Unbounded context increases cost and latency while exposing irrelevant or forbidden content.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "retrieval-controls",
+          "optionId": "permission-filter",
+          "kind": "strength",
+          "message": "Pre-retrieval permission filtering prevents restricted content from reaching model context.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "retrieval-controls",
+          "optionId": "lifecycle-filter",
+          "kind": "strength",
+          "message": "Lifecycle filters keep obsolete guidance out of candidate results.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "retrieval-controls",
+          "optionId": "prompt-ignore-archive",
+          "kind": "risk",
+          "message": "Prompt instructions cannot replace deterministic lifecycle and authorization controls.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Separate candidate retrieval, deterministic filters, reranking, and generation so each layer can be evaluated independently.",
+      "expertExample": "Use hybrid candidate retrieval, filter by identity and effective status, rerank policy-grade documents, cap context, cite source versions, and evaluate recall before answer quality.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "retrieval-quality-and-hybrid-search",
+        "permission-aware-rag",
+        "ingestion-and-document-lifecycle"
+      ]
+    },
+    {
+      "id": "tools",
+      "title": "Tools",
+      "stage": "develop",
+      "order": 6,
+      "skills": [
+        "Architecture",
+        "AI Engineering"
+      ],
+      "context": "Northstar now wants account lookup and ticket updates. Existing internal APIs were designed for employees and expose broad payloads and ambiguous error responses.",
+      "reveal": "The ticket endpoint can edit risk status and refund eligibility, while Ledger calls can time out after committing a request.",
+      "prompt": "Define narrow tool contracts and deterministic policy enforcement around enterprise actions.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "tool-contract",
+          "prompt": "How should ticket updates be exposed?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "task-specific-tool",
+              "label": "Task-specific typed tools",
+              "description": "Expose narrow operations with validated inputs, idempotency, and explicit outcomes."
+            },
+            {
+              "id": "generic-update",
+              "label": "Generic record update",
+              "description": "Expose a flexible field map but validate common cases."
+            },
+            {
+              "id": "raw-api",
+              "label": "Raw internal API access",
+              "description": "Let the model construct arbitrary API paths and payloads."
+            }
+          ]
+        },
+        {
+          "id": "execution-controls",
+          "prompt": "Which execution controls belong outside the model?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "schema-policy",
+              "label": "Schema and policy validation",
+              "description": "Validate arguments and authorization before every call."
+            },
+            {
+              "id": "idempotency-audit",
+              "label": "Idempotency and audit records",
+              "description": "Use operation keys and record actor, intent, decision, and outcome."
+            },
+            {
+              "id": "model-self-check",
+              "label": "Model self-approval",
+              "description": "Ask the same model to confirm its proposed action before execution."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Tool operations map to bounded customer tasks.",
+        "architecture": "Contracts define inputs, outcomes, retries, and ownership.",
+        "safety": "Authorization and policy remain deterministic and server-side.",
+        "deliveryReadiness": "Tools expose observability, idempotency, and recovery evidence."
+      },
+      "consequences": [
+        {
+          "controlId": "tool-contract",
+          "optionId": "task-specific-tool",
+          "kind": "strength",
+          "message": "Task-specific contracts reduce the model's authority and make validation, auditing, and recovery explicit.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "tool-contract",
+          "optionId": "generic-update",
+          "kind": "tradeoff",
+          "message": "A generic update accelerates integration but permits unintended sensitive fields and ambiguous policy.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "tool-contract",
+          "optionId": "raw-api",
+          "kind": "risk",
+          "message": "Raw API access grants excessive authority and creates injection, validation, and audit risk.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "execution-controls",
+          "optionId": "schema-policy",
+          "kind": "strength",
+          "message": "Server validation makes policy independent of prompt behavior.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "execution-controls",
+          "optionId": "idempotency-audit",
+          "kind": "strength",
+          "message": "Idempotency and audit evidence make retries and incident review safer.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "execution-controls",
+          "optionId": "model-self-check",
+          "kind": "risk",
+          "message": "Model self-approval is not an independent authorization or safety boundary.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Give each tool one business purpose, the least authority needed, typed inputs, explicit errors, and safe retry semantics.",
+      "expertExample": "Expose read_account_status and add_ticket_note separately, validate user scope server-side, require idempotency keys, return applied-or-unknown outcomes, and audit every policy decision.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "agent-tool-contracts",
+        "integration-and-data-contracts",
+        "reliability-and-failure-design"
+      ]
+    },
+    {
+      "id": "agent",
+      "title": "Agent",
+      "stage": "design",
+      "order": 7,
+      "skills": [
+        "AI Engineering",
+        "Security"
+      ],
+      "context": "Leadership asks the system to resolve tickets end to end. Most scoped tasks are predictable, but some require investigation across policies, account state, and customer history.",
+      "reveal": "High-value refunds and suspected fraud need independent approval; downstream outages can otherwise trap the planner in repeated calls.",
+      "prompt": "Choose where agency is justified and define termination, approval, and recovery boundaries.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "orchestration",
+          "prompt": "What orchestration model fits the scoped workflow?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "bounded-workflow",
+              "label": "Bounded workflow with agentic investigation",
+              "description": "Use deterministic stages and allow bounded planning only for uncertain evidence gathering."
+            },
+            {
+              "id": "full-agent",
+              "label": "One autonomous general agent",
+              "description": "Give one planner every tool and ask it to finish the ticket."
+            },
+            {
+              "id": "fixed-script",
+              "label": "Fixed script for every ticket",
+              "description": "Encode one path even when evidence and exceptions vary."
+            }
+          ]
+        },
+        {
+          "id": "agent-boundaries",
+          "prompt": "Which boundaries are required before agent trials?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "bounded-steps",
+              "label": "Step and retry limits",
+              "description": "Terminate after bounded calls, time, retries, or repeated state."
+            },
+            {
+              "id": "pre-action-approval",
+              "label": "Approval before risky actions",
+              "description": "Require independent approval before high-value or irreversible execution."
+            },
+            {
+              "id": "post-action-review",
+              "label": "Review after execution",
+              "description": "Allow the action, then notify a supervisor for review."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Uses agency only for customer-relevant uncertainty.",
+        "architecture": "Defines state, tools, termination, and recovery explicitly.",
+        "safety": "Requires independent approval before consequential actions.",
+        "deliveryReadiness": "Makes escalation and agent traces operationally usable."
+      },
+      "consequences": [
+        {
+          "controlId": "orchestration",
+          "optionId": "bounded-workflow",
+          "kind": "strength",
+          "message": "A bounded workflow keeps predictable control explicit while using agency where it creates customer value.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "orchestration",
+          "optionId": "full-agent",
+          "kind": "risk",
+          "message": "A general autonomous agent expands authority, termination, and recovery risk without evidence it is needed.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "orchestration",
+          "optionId": "fixed-script",
+          "kind": "tradeoff",
+          "message": "A fixed script is predictable but may fail on the legitimate investigative cases in scope.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "agent-boundaries",
+          "optionId": "bounded-steps",
+          "kind": "strength",
+          "message": "Explicit limits stop loops and convert uncertainty into a controlled escalation.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "agent-boundaries",
+          "optionId": "pre-action-approval",
+          "kind": "strength",
+          "message": "Pre-action approval preserves meaningful human control over consequential changes.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "agent-boundaries",
+          "optionId": "post-action-review",
+          "kind": "risk",
+          "message": "Post-action review cannot prevent an unsafe or irreversible operation.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Prefer workflows for known paths; add agency only where bounded planning improves outcomes and can terminate safely.",
+      "expertExample": "Use a deterministic ticket workflow, permit an agent to gather bounded evidence, limit tool calls and retries, require approval before refunds, and preserve state for human escalation.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "workflow-or-agent",
+        "agent-approval-and-recovery",
+        "evaluating-agent-systems"
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security",
+      "stage": "de-risk",
+      "order": 8,
+      "skills": [
+        "Security",
+        "Architecture"
+      ],
+      "context": "The assistant processes customer messages, private policies, account data, and tool outputs. Each source can contain untrusted instructions or regulated information.",
+      "reveal": "A red-team document tells the assistant to reveal manager guidance and transmit account details through a support note connector.",
+      "prompt": "Threat-model the full workflow and select controls that remain authoritative when the model is manipulated.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "trust-model",
+          "prompt": "How should retrieved and user content be treated?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "untrusted-data",
+              "label": "Untrusted data across explicit boundaries",
+              "description": "Keep instructions separate and mediate all effects through policy-enforcing adapters."
+            },
+            {
+              "id": "trusted-repository",
+              "label": "Trusted because it is internal",
+              "description": "Allow internal documents to influence instructions and actions."
+            },
+            {
+              "id": "model-discretion",
+              "label": "Let the model classify trust",
+              "description": "Ask the model to decide which content is safe before acting."
+            }
+          ]
+        },
+        {
+          "id": "security-controls",
+          "prompt": "Which controls contain the demonstrated attack?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "least-privilege",
+              "label": "Least-privilege tools and identity",
+              "description": "Authorize each read and action using the effective user and narrow service scope."
+            },
+            {
+              "id": "egress-policy",
+              "label": "Destination and field allowlists",
+              "description": "Restrict outbound destinations and sensitive fields outside the model."
+            },
+            {
+              "id": "prompt-warning",
+              "label": "A stronger prompt warning",
+              "description": "Tell the model never to follow malicious document instructions."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Threat model covers users, content, systems, and operators.",
+        "architecture": "Places identity and policy controls at explicit trust boundaries.",
+        "safety": "Contains injection and exfiltration with least privilege and egress controls.",
+        "deliveryReadiness": "Supports audit, incident triage, and safe recovery."
+      },
+      "consequences": [
+        {
+          "controlId": "trust-model",
+          "optionId": "untrusted-data",
+          "kind": "strength",
+          "message": "Treating content as untrusted prevents embedded instructions from acquiring tool authority.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "trust-model",
+          "optionId": "trusted-repository",
+          "kind": "risk",
+          "message": "Internal repositories can contain compromised, stale, or malicious instructions.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "trust-model",
+          "optionId": "model-discretion",
+          "kind": "tradeoff",
+          "message": "Model classification can add a signal but cannot be the authoritative trust boundary.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "security-controls",
+          "optionId": "least-privilege",
+          "kind": "strength",
+          "message": "Least privilege limits what a successful prompt injection can access or change.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "security-controls",
+          "optionId": "egress-policy",
+          "kind": "strength",
+          "message": "Deterministic egress controls block exfiltration even when generated content is malicious.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "security-controls",
+          "optionId": "prompt-warning",
+          "kind": "risk",
+          "message": "Prompt warnings are useful defense-in-depth but do not contain an exploited model.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Map every actor, content source, credential, tool, and outbound path; then place controls outside generated reasoning.",
+      "expertExample": "Treat messages and documents as untrusted, propagate user identity, filter retrieval, expose least-privilege tools, allowlist egress, require approvals, and audit inputs, policy decisions, and effects.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "threat-modeling-ai-workflows",
+        "identity-and-least-privilege",
+        "data-exfiltration-controls"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "title": "Evaluation",
+      "stage": "evaluate",
+      "order": 9,
+      "skills": [
+        "AI Engineering",
+        "Production"
+      ],
+      "context": "The team must decide whether the Northstar pilot is safe and useful enough to release. A single answer-accuracy score currently mixes retrieval, generation, and tool failures.",
+      "reveal": "Rare permission leaks and false refund approvals matter far more than stylistic mistakes, and specialist ticket language differs from the curated demo set.",
+      "prompt": "Design a layered evaluation and release gate tied to workflow risk.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "evaluation-design",
+          "prompt": "Which evaluation design should govern release?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "layered-risk-suite",
+              "label": "Layered, risk-weighted suite",
+              "description": "Evaluate retrieval, answers, tools, agent trajectories, and workflow outcomes separately."
+            },
+            {
+              "id": "end-to-end-score",
+              "label": "One end-to-end score",
+              "description": "Average all test outcomes into a single headline number."
+            },
+            {
+              "id": "provider-benchmark",
+              "label": "Provider benchmark score",
+              "description": "Use the model vendor's public benchmark as release evidence."
+            }
+          ]
+        },
+        {
+          "id": "evaluation-evidence",
+          "prompt": "Which evidence must the suite contain?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "representative-set",
+              "label": "Representative and adversarial cases",
+              "description": "Sample real patterns, edge cases, attacks, and high-severity failures."
+            },
+            {
+              "id": "human-calibration",
+              "label": "Calibrated specialist review",
+              "description": "Align rubric examples and measure reviewer agreement on judgment tasks."
+            },
+            {
+              "id": "happy-path-demo",
+              "label": "Curated happy paths",
+              "description": "Use successful demonstration prompts as the complete test set."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Measures customer task success and consequential failure modes.",
+        "architecture": "Separates component, system, and workflow evaluation.",
+        "safety": "Weights safety failures by severity and uses adversarial cases.",
+        "deliveryReadiness": "Defines calibrated thresholds, owners, and regression gates."
+      },
+      "consequences": [
+        {
+          "controlId": "evaluation-design",
+          "optionId": "layered-risk-suite",
+          "kind": "strength",
+          "message": "Layered evaluation localizes failures and gives severe safety errors appropriate release weight.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "evaluation-design",
+          "optionId": "end-to-end-score",
+          "kind": "tradeoff",
+          "message": "A headline score is simple but can hide severe failures and does not localize regressions.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "evaluation-design",
+          "optionId": "provider-benchmark",
+          "kind": "risk",
+          "message": "A provider benchmark does not represent Northstar's data, workflow, tools, or risks.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "evaluation-evidence",
+          "optionId": "representative-set",
+          "kind": "strength",
+          "message": "Representative and adversarial cases exercise the behaviors Northstar will actually operate.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "evaluation-evidence",
+          "optionId": "human-calibration",
+          "kind": "strength",
+          "message": "Calibrated review makes subjective quality criteria more consistent and credible.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "evaluation-evidence",
+          "optionId": "happy-path-demo",
+          "kind": "risk",
+          "message": "Happy paths omit vocabulary variation, permissions, failures, and adversarial behavior.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Trace each important customer failure to the layer that causes it, an evaluator, and a release threshold.",
+      "expertExample": "Gate release on representative retrieval recall, grounded citations, permission leak rate, valid tool arguments, bounded trajectories, and specialist task success, with zero tolerance for critical leaks.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "evaluation-strategy",
+        "layered-ai-evaluation",
+        "representative-evaluation-sets"
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Production",
+      "stage": "deploy",
+      "order": 10,
+      "skills": [
+        "Production",
+        "Software Engineering"
+      ],
+      "context": "The pilot passes offline gates, but production traffic is bursty and depends on model, retrieval, Compass, Polaris, and Ledger services with different limits.",
+      "reveal": "A Ledger outage causes repeated tool calls, while a stuck Polaris connector remains healthy but serves obsolete policies.",
+      "prompt": "Define a rollout, failure strategy, and observability model for safe operation.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "rollout",
+          "prompt": "How should Northstar release the assistant?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "cohort-rollout",
+              "label": "Cohort rollout with rollback gates",
+              "description": "Start read-only with a small trained group, monitor gates, and expand deliberately."
+            },
+            {
+              "id": "all-support",
+              "label": "Release to all support staff",
+              "description": "Launch broadly after offline tests pass."
+            },
+            {
+              "id": "shadow-mode",
+              "label": "Indefinite shadow mode",
+              "description": "Observe outputs without a defined decision to expose value to users."
+            }
+          ]
+        },
+        {
+          "id": "production-controls",
+          "prompt": "Which production controls are release-critical?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "bounded-fallback",
+              "label": "Timeouts, bounded retries, and fallback",
+              "description": "Stop repeated calls, preserve state, and hand off safely."
+            },
+            {
+              "id": "semantic-observability",
+              "label": "Freshness, trace, quality, and cost signals",
+              "description": "Monitor source-to-index age, retrieval, actions, user outcomes, and unit cost."
+            },
+            {
+              "id": "api-uptime",
+              "label": "API uptime only",
+              "description": "Treat healthy process and endpoint status as sufficient monitoring."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Rollout protects users while testing the real workflow.",
+        "architecture": "Defines dependency failure, degradation, and rollback paths.",
+        "safety": "Monitors safety, freshness, quality, and audit evidence.",
+        "deliveryReadiness": "Assigns operational owners, thresholds, and response playbooks."
+      },
+      "consequences": [
+        {
+          "controlId": "rollout",
+          "optionId": "cohort-rollout",
+          "kind": "strength",
+          "message": "A staged cohort limits blast radius and produces operating evidence before wider exposure.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "rollout",
+          "optionId": "all-support",
+          "kind": "risk",
+          "message": "A broad launch makes unknown production behavior and adoption friction expensive to contain.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "rollout",
+          "optionId": "shadow-mode",
+          "kind": "tradeoff",
+          "message": "Shadow mode reduces risk but needs exit criteria or it cannot validate workflow adoption.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "production-controls",
+          "optionId": "bounded-fallback",
+          "kind": "strength",
+          "message": "Bounded failure behavior protects dependencies and gives specialists a clear recovery path.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "production-controls",
+          "optionId": "semantic-observability",
+          "kind": "strength",
+          "message": "Semantic observability detects failures that ordinary uptime checks miss.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "production-controls",
+          "optionId": "api-uptime",
+          "kind": "risk",
+          "message": "Uptime alone misses stale knowledge, degraded retrieval, unsafe actions, and poor customer outcomes.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Plan dependency failure, safe degradation, rollback, semantic monitoring, and ownership before expanding exposure.",
+      "expertExample": "Roll out read-only to a trained cohort, cap retries, degrade to cited search or human handoff, alert on freshness and safety gates, trace actions, track unit cost, and rehearse rollback.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "production-readiness-for-ai-systems",
+        "reliability-and-failure-design",
+        "llm-production-observability"
+      ]
+    },
+    {
+      "id": "adoption",
+      "title": "Adoption",
+      "stage": "drive-adoption",
+      "order": 11,
+      "skills": [
+        "Customer Delivery",
+        "Business Thinking"
+      ],
+      "context": "Quality gates pass, yet specialists use the assistant on fewer than one in five eligible tickets. Experienced staff keep their old policy-search shortcuts.",
+      "reveal": "Specialists say citations are difficult to inspect, the assistant opens outside Compass, and supervisors still measure the old workflow.",
+      "prompt": "Design adoption as an operating and product problem rather than a training announcement.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "adoption-move",
+          "prompt": "What is the strongest next move?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "workflow-redesign",
+              "label": "Fix workflow friction with users",
+              "description": "Embed the assistant, improve citation inspection, and iterate with champion specialists."
+            },
+            {
+              "id": "mandatory-training",
+              "label": "Require another training session",
+              "description": "Teach features again without changing workflow design."
+            },
+            {
+              "id": "usage-mandate",
+              "label": "Mandate daily usage",
+              "description": "Set a top-down activity target regardless of task success."
+            }
+          ]
+        },
+        {
+          "id": "adoption-signals",
+          "prompt": "Which signals should guide iteration?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "repeat-task-use",
+              "label": "Repeat use on eligible tasks",
+              "description": "Track whether specialists return after experiencing value."
+            },
+            {
+              "id": "override-feedback",
+              "label": "Overrides and qualitative feedback",
+              "description": "Study corrections, abandoned tasks, trust concerns, and improvement requests."
+            },
+            {
+              "id": "login-count",
+              "label": "Total login count",
+              "description": "Use page visits as the primary adoption metric."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Explains adoption through user workflow and incentives.",
+        "architecture": "Treats integration and trust friction as product requirements.",
+        "safety": "Preserves feedback, override, and escalation safety paths.",
+        "deliveryReadiness": "Measures repeat task use and assigns an iteration cadence."
+      },
+      "consequences": [
+        {
+          "controlId": "adoption-move",
+          "optionId": "workflow-redesign",
+          "kind": "strength",
+          "message": "Removing observed workflow friction makes useful behavior easier than the old workaround.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "adoption-move",
+          "optionId": "mandatory-training",
+          "kind": "tradeoff",
+          "message": "Training can close knowledge gaps but cannot fix integration, trust, or incentive problems.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "adoption-move",
+          "optionId": "usage-mandate",
+          "kind": "risk",
+          "message": "A usage mandate can inflate clicks while damaging trust and hiding product friction.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "adoption-signals",
+          "optionId": "repeat-task-use",
+          "kind": "strength",
+          "message": "Repeat use within the target workflow is stronger evidence than logins or page views.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "adoption-signals",
+          "optionId": "override-feedback",
+          "kind": "strength",
+          "message": "Override and feedback patterns turn user skepticism into an engineering backlog.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "adoption-signals",
+          "optionId": "login-count",
+          "kind": "risk",
+          "message": "Login counts do not show task completion, trust, or sustained workflow value.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Observe non-use, remove workflow costs, align supervisors and champions, and measure repeat task success—not attendance.",
+      "expertExample": "Embed cited answers in Compass, simplify source inspection, recruit specialist champions, update supervisor playbooks, review overrides weekly, and expand only when eligible-task reuse rises.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "adoption-is-engineering",
+        "customer-outcome-operating-loop",
+        "field-communication-rhythm"
+      ]
+    },
+    {
+      "id": "roi",
+      "title": "ROI",
+      "stage": "distill",
+      "order": 12,
+      "skills": [
+        "Business Thinking",
+        "Customer Delivery"
+      ],
+      "context": "The CIO asks whether Northstar should fund expansion. The team has quality metrics and usage data but has not yet translated them into attributable business impact.",
+      "reveal": "The scoped cohort handles 24,000 eligible tickets monthly; measured handling time fell 18%, interventions cost time, and model and support costs rise with volume.",
+      "prompt": "Build a defensible value story and recommend the next investment decision.",
+      "reasoningLabel": "Explain your field reasoning",
+      "reasoningPlaceholder": "State your assumptions, tradeoffs, risks, and the evidence you would seek next.",
+      "minReasoningCharacters": 80,
+      "controls": [
+        {
+          "id": "roi-method",
+          "prompt": "How should the team estimate impact?",
+          "type": "single",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "cohort-unit-economics",
+              "label": "Cohort comparison and unit economics",
+              "description": "Compare eligible tasks with baseline and include adoption, labor, model, review, and operating costs."
+            },
+            {
+              "id": "hours-times-salary",
+              "label": "Potential hours times salary",
+              "description": "Assume every theoretical minute saved becomes cash savings."
+            },
+            {
+              "id": "accuracy-as-roi",
+              "label": "Use model accuracy as ROI",
+              "description": "Treat quality score improvement as the financial result."
+            }
+          ]
+        },
+        {
+          "id": "executive-evidence",
+          "prompt": "Which evidence belongs in the investment recommendation?",
+          "type": "multiple",
+          "minSelections": 2,
+          "maxSelections": 2,
+          "options": [
+            {
+              "id": "net-value-range",
+              "label": "Conservative net-value range",
+              "description": "Show measured benefits, operating costs, assumptions, and sensitivity."
+            },
+            {
+              "id": "risk-adoption",
+              "label": "Adoption and risk-adjusted outcomes",
+              "description": "Include eligible-task use, intervention, severe failures, and avoided loss."
+            },
+            {
+              "id": "best-demo",
+              "label": "The best demonstration",
+              "description": "Use the strongest qualitative example as the primary expansion evidence."
+            }
+          ]
+        }
+      ],
+      "rubric": {
+        "customerAlignment": "Connects value to the scoped customer outcome and baseline.",
+        "architecture": "Uses attributable cohort evidence and transparent assumptions.",
+        "safety": "Includes intervention, safety loss, and operating risk.",
+        "deliveryReadiness": "Presents unit economics, sensitivity, and a bounded next decision."
+      },
+      "consequences": [
+        {
+          "controlId": "roi-method",
+          "optionId": "cohort-unit-economics",
+          "kind": "strength",
+          "message": "A bounded cohort and per-success economics connect measured change to a defensible financial result.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "roi-method",
+          "optionId": "hours-times-salary",
+          "kind": "tradeoff",
+          "message": "Potential capacity is useful context but is not realized cash without adoption and staffing decisions.",
+          "dimensions": {
+            "customerAlignment": 68,
+            "architecture": 72,
+            "safety": 66,
+            "deliveryReadiness": 70
+          }
+        },
+        {
+          "controlId": "roi-method",
+          "optionId": "accuracy-as-roi",
+          "kind": "risk",
+          "message": "Model accuracy alone does not establish adoption, productivity, avoided loss, or net value.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        },
+        {
+          "controlId": "executive-evidence",
+          "optionId": "net-value-range",
+          "kind": "strength",
+          "message": "A transparent range lets executives inspect assumptions instead of trusting false precision.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "executive-evidence",
+          "optionId": "risk-adoption",
+          "kind": "strength",
+          "message": "Risk and adoption prevent a technically successful pilot from overstating scalable value.",
+          "dimensions": {
+            "customerAlignment": 92,
+            "architecture": 88,
+            "safety": 88,
+            "deliveryReadiness": 90
+          }
+        },
+        {
+          "controlId": "executive-evidence",
+          "optionId": "best-demo",
+          "kind": "risk",
+          "message": "A memorable demo is not representative or sufficient for an investment decision.",
+          "dimensions": {
+            "customerAlignment": 35,
+            "architecture": 38,
+            "safety": 28,
+            "deliveryReadiness": 36
+          }
+        }
+      ],
+      "hint": "Use the baseline, eligible volume, observed adoption, attributable outcome change, full operating cost, and a sensitivity range.",
+      "expertExample": "Report an 18% handling-time reduction for 24,000 eligible monthly tickets, adjust for observed adoption and review time, subtract model and operations cost, show a conservative range, and fund the next bounded cohort.",
+      "dimensionWeights": {
+        "customerAlignment": 0.3,
+        "architecture": 0.25,
+        "safety": 0.25,
+        "deliveryReadiness": 0.2
+      },
+      "relatedLessons": [
+        "customer-outcome-operating-loop",
+        "baselines-and-success-metrics",
+        "outcome-ownership"
+      ]
+    }
+  ]
+}
