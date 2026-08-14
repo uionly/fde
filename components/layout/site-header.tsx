@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  { href: "/", label: "Home", exactOnly: true },
   { href: "/learn", label: "Learn", activePrefixes: ["/learn"] },
   { href: "/labs", label: "AI Labs", activePrefixes: ["/labs", "/games", "/experiments"] },
   { href: "/practice", label: "Practice", activePrefixes: ["/practice"] },
@@ -87,7 +88,7 @@ export function SiteHeader() {
         <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-0.5 lg:flex">
           {navItems.map((item) => {
             const exact = pathname === item.href;
-            const active = item.activePrefixes.some((prefix) => matchesPath(pathname, prefix));
+            const active = "exactOnly" in item && item.exactOnly ? exact : item.activePrefixes.some((prefix) => matchesPath(pathname, prefix));
             return (
               <Link
                 aria-current={exact ? "page" : active ? "location" : undefined}
