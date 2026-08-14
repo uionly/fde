@@ -1,0 +1,36 @@
+{
+  "environment": "northstar-prod",
+  "region": "us-east-1",
+  "updatedAt": "2026-08-14T13:24:00.000Z",
+  "metrics": [
+    { "id": "requests", "label": "Requests / min", "value": 1842, "unit": "", "delta": 12.4, "tone": "cyan" },
+    { "id": "tokens", "label": "Tokens processed", "value": 12849420, "unit": "", "delta": 8.7, "tone": "magenta" },
+    { "id": "latency", "label": "P95 latency", "value": 812, "unit": "ms", "delta": -6.1, "tone": "emerald" },
+    { "id": "success", "label": "Successful runs", "value": 99.72, "unit": "%", "delta": 0.18, "tone": "emerald" }
+  ],
+  "models": [
+    { "id": "router", "name": "Intent Router", "model": "claude-haiku", "status": "healthy", "load": 74, "latency": 118, "tokensPerSecond": 2210 },
+    { "id": "retrieval", "name": "Retrieval Synthesizer", "model": "claude-sonnet", "status": "healthy", "load": 61, "latency": 684, "tokensPerSecond": 890 },
+    { "id": "policy", "name": "Policy Guard", "model": "rules + haiku", "status": "degraded", "load": 88, "latency": 246, "tokensPerSecond": 1240 },
+    { "id": "summarizer", "name": "Case Summarizer", "model": "claude-sonnet", "status": "healthy", "load": 43, "latency": 522, "tokensPerSecond": 730 }
+  ],
+  "activity": [
+    { "source": "Customer API", "target": "Intent Router", "volume": 92 },
+    { "source": "Intent Router", "target": "Retrieval", "volume": 68 },
+    { "source": "Retrieval", "target": "Policy Guard", "volume": 54 },
+    { "source": "Policy Guard", "target": "Response", "volume": 49 }
+  ],
+  "incidents": [
+    { "id": "inc-2481", "severity": "warning", "title": "Policy guard queue above threshold", "service": "policy-guard", "ageMinutes": 3, "status": "investigating" },
+    { "id": "inc-2479", "severity": "critical", "title": "EU retrieval index returned stale policy", "service": "retrieval-eu", "ageMinutes": 18, "status": "mitigated" },
+    { "id": "inc-2476", "severity": "info", "title": "Model router fallback activated", "service": "intent-router", "ageMinutes": 31, "status": "monitoring" },
+    { "id": "inc-2472", "severity": "info", "title": "Evaluation drift check completed", "service": "eval-pipeline", "ageMinutes": 46, "status": "resolved" }
+  ],
+  "terminal": [
+    { "time": "13:23:54", "level": "info", "message": "router.route intent=refund_exception lane=high_reasoning" },
+    { "time": "13:23:55", "level": "success", "message": "retrieval.complete documents=7 acl_filtered=14 score=0.91" },
+    { "time": "13:23:57", "level": "warning", "message": "policy_guard.queue depth=142 threshold=120" },
+    { "time": "13:23:59", "level": "info", "message": "response.stream first_token_ms=392 output_tokens=684" },
+    { "time": "13:24:00", "level": "success", "message": "evaluation.sample grounded=true policy_safe=true" }
+  ]
+}

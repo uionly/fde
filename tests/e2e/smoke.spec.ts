@@ -32,12 +32,12 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
-  const mission = page.getByRole("link", { name: /Run a 5-minute AI mission/ });
+  const primaryAction = page.getByRole("main").getByRole("link", { name: /Start learning/ });
   const light = await page.evaluate(() => {
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color, font: body.fontFamily };
   });
-  const lightMission = await mission.evaluate((element) => {
+  const lightPrimaryAction = await primaryAction.evaluate((element) => {
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color, radius: style.borderRadius };
   });
@@ -47,7 +47,7 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     color: "rgb(33, 33, 39)",
     font: expect.stringContaining("Montserrat"),
   });
-  expect(lightMission).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
+  expect(lightPrimaryAction).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
   await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(244, 90, 166)");
 
   await page.evaluate(() => localStorage.setItem("theme", "dark"));
@@ -58,13 +58,13 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color };
   });
-  const darkMission = await mission.evaluate((element) => {
+  const darkPrimaryAction = await primaryAction.evaluate((element) => {
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color };
   });
 
   expect(dark).toEqual({ background: "rgb(26, 26, 30)", color: "rgb(242, 242, 245)" });
-  expect(darkMission).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
+  expect(darkPrimaryAction).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
   await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(163, 8, 87)");
 });
 
@@ -89,12 +89,29 @@ test("brand typography falls back safely on mobile with reduced motion", async (
 });
 
 test("all milestone routes render", async ({ page }) => {
-  const routes = ["/labs", "/games", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
+  const routes = ["/labs", "/games", "/operations", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
 
   for (const route of routes) {
     await page.goto(route);
     await expect(page.locator("h1")).toBeVisible();
   }
+});
+
+test("AI Operations Center feels live and remains usable on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/operations");
+
+  await expect(page.getByRole("heading", { level: 1, name: "AI Operations Center" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "AI activity grid" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Live response feed" })).toBeVisible();
+  await page.getByRole("button", { name: "Acknowledge inc-2481" }).click();
+  await expect(page.getByText("inc-2481 acknowledged. Response lead notified.")).toBeVisible();
+
+  const widths = await page.evaluate(() => ({
+    content: document.documentElement.scrollWidth,
+    viewport: document.documentElement.clientWidth,
+  }));
+  expect(widths.content).toBeLessThanOrEqual(widths.viewport);
 });
 
 test("AI Labs owns its arcade, playground, and field-mission routes", async ({ page }) => {
