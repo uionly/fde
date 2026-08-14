@@ -14,6 +14,7 @@ const navItems = [
   { href: "/", label: "Home", exactOnly: true },
   { href: "/learn", label: "Learn", activePrefixes: ["/learn"] },
   { href: "/labs", label: "AI Labs", activePrefixes: ["/labs", "/games", "/experiments"] },
+  { href: "/operations", label: "AI Operations", activePrefixes: ["/operations"] },
   { href: "/practice", label: "Practice", activePrefixes: ["/practice"] },
   { href: "/case-studies", label: "Customer Engagement", activePrefixes: ["/case-studies", "/capstone"] },
 ] as const;

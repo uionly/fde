@@ -89,12 +89,29 @@ test("brand typography falls back safely on mobile with reduced motion", async (
 });
 
 test("all milestone routes render", async ({ page }) => {
-  const routes = ["/labs", "/games", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
+  const routes = ["/labs", "/games", "/operations", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
 
   for (const route of routes) {
     await page.goto(route);
     await expect(page.locator("h1")).toBeVisible();
   }
+});
+
+test("AI Operations Center feels live and remains usable on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/operations");
+
+  await expect(page.getByRole("heading", { level: 1, name: "AI Operations Center" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "AI activity grid" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Live response feed" })).toBeVisible();
+  await page.getByRole("button", { name: "Acknowledge inc-2481" }).click();
+  await expect(page.getByText("inc-2481 acknowledged. Response lead notified.")).toBeVisible();
+
+  const widths = await page.evaluate(() => ({
+    content: document.documentElement.scrollWidth,
+    viewport: document.documentElement.clientWidth,
+  }));
+  expect(widths.content).toBeLessThanOrEqual(widths.viewport);
 });
 
 test("AI Labs owns its arcade, playground, and field-mission routes", async ({ page }) => {

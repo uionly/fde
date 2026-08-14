@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **B1 complete — TO THE NEW brand token refresh**
+Current milestone: **O1 implemented — AI Operations Center validation pending**
 
 ## Milestones
 
@@ -22,6 +22,7 @@ Current milestone: **B1 complete — TO THE NEW brand token refresh**
 - [x] C1 — Complete MVP Content Expansion
 - [x] C2 — Editable Capstone & Optional AI Coach
 - [x] B1 — TO THE NEW Brand Token Refresh
+- [ ] O1 — AI Operations Center
 
 ## M1 implementation summary
 
@@ -241,3 +242,10 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Added **What is FDE?** comparison section, six-track curriculum preview (reusing `TrackCard`), interactive AI Labs showcase with live counts, and a dedicated Northstar enterprise scenario block.
 - Added **Home** to primary navigation with exact-only active state for `/`.
 - Updated the landing-page Chromium smoke journey for the new headings and links.
+
+## O1 AI Operations Center implementation
+
+- Added a primary-navigation AI Operations tab and a dedicated `/operations` command-center route.
+- Added Zod-validated, repository-authored JSON for metrics, model lanes, topology traffic, terminal events, and incidents.
+- Built a responsive dark operations surface with live token/request counters, model-load movement, an animated activity topology, terminal output, incident acknowledgements, and accessible toast notifications.
+- Kept motion functional and disabled by the existing reduced-motion safeguard; validation is pending.
