@@ -35,6 +35,11 @@ function matchesPath(pathname: string, prefix: string) {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
 
+function isNavItemActive(pathname: string, item: typeof navItems[number]) {
+  if ("exactOnly" in item) return pathname === item.href;
+  return item.activePrefixes.some((prefix) => matchesPath(pathname, prefix));
+}
+
 function subscribeToHashChange(onStoreChange: () => void) {
   window.addEventListener("hashchange", onStoreChange);
   window.addEventListener("popstate", onStoreChange);
@@ -88,7 +93,7 @@ export function SiteHeader() {
         <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-0.5 lg:flex">
           {navItems.map((item) => {
             const exact = pathname === item.href;
-            const active = "exactOnly" in item && item.exactOnly ? exact : item.activePrefixes.some((prefix) => matchesPath(pathname, prefix));
+            const active = isNavItemActive(pathname, item);
             return (
               <Link
                 aria-current={exact ? "page" : active ? "location" : undefined}
@@ -137,7 +142,7 @@ export function SiteHeader() {
           <div className="mx-auto grid max-w-[1440px] gap-1 sm:grid-cols-2">
             {navItems.map((item) => {
               const exact = pathname === item.href;
-              const active = item.activePrefixes.some((prefix) => matchesPath(pathname, prefix));
+              const active = isNavItemActive(pathname, item);
               return (
                 <Link
                   aria-current={exact ? "page" : active ? "location" : undefined}
