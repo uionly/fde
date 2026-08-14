@@ -32,12 +32,12 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
-  const mission = page.getByRole("link", { name: /Run a 5-minute AI mission/ });
+  const primaryAction = page.getByRole("main").getByRole("link", { name: /Start learning/ });
   const light = await page.evaluate(() => {
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color, font: body.fontFamily };
   });
-  const lightMission = await mission.evaluate((element) => {
+  const lightPrimaryAction = await primaryAction.evaluate((element) => {
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color, radius: style.borderRadius };
   });
@@ -47,7 +47,7 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     color: "rgb(33, 33, 39)",
     font: expect.stringContaining("Montserrat"),
   });
-  expect(lightMission).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
+  expect(lightPrimaryAction).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
   await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(244, 90, 166)");
 
   await page.evaluate(() => localStorage.setItem("theme", "dark"));
@@ -58,13 +58,13 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color };
   });
-  const darkMission = await mission.evaluate((element) => {
+  const darkPrimaryAction = await primaryAction.evaluate((element) => {
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color };
   });
 
   expect(dark).toEqual({ background: "rgb(26, 26, 30)", color: "rgb(242, 242, 245)" });
-  expect(darkMission).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
+  expect(darkPrimaryAction).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
   await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(163, 8, 87)");
 });
 
