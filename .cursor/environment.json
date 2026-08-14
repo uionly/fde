@@ -1,0 +1,17 @@
+{
+  "name": "FDE Learning Lab",
+  "install": "./.cursor/install.sh",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "AI_MODE=mock npm run dev -- --hostname 127.0.0.1 --port 3000",
+      "description": "Next.js development server with credential-free mock AI mode"
+    }
+  ],
+  "ports": [
+    {
+      "name": "web",
+      "port": 3000
+    }
+  ]
+}
