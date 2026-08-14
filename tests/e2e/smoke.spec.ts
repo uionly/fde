@@ -10,10 +10,10 @@ test("landing page, navigation, and theme work", async ({ page }) => {
   await expect(page.getByText(/Can you ship AI that survives the enterprise/i)).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: /What is a Forward Deployed Engineer/i })).toBeVisible();
   await expect(page.getByText("Northstar Financial", { exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Start learning/ })).toHaveAttribute("href", "/learn");
-  await expect(page.getByRole("link", { name: /Run a 5-minute AI mission/ })).toHaveAttribute("href", "/games/model-router-arena");
-  await expect(page.getByRole("link", { name: /View full roadmap/ })).toHaveAttribute("href", "/learn");
-  await expect(page.getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
+  await expect(page.getByRole("main").getByRole("link", { name: /Start learning/ })).toHaveAttribute("href", "/learn");
+  await expect(page.getByRole("main").getByRole("link", { name: /Run a 5-minute AI mission/ })).toHaveAttribute("href", "/games/model-router-arena");
+  await expect(page.getByRole("main").getByRole("link", { name: /View full roadmap/ })).toHaveAttribute("href", "/learn");
+  await expect(page.getByRole("main").getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
   await expect(page.getByRole("link", { name: /Change the variables/ })).toHaveAttribute("href", "/experiments");
   await expect(page.getByRole("link", { name: /Deliver the outcome/ })).toHaveAttribute("href", "/labs#field-missions");
 
