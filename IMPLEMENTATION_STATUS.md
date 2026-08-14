@@ -234,3 +234,10 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Added accessible theme-specific semantic tones rather than using magenta-500 for normal text, plus a dedicated inverse-surface accent and higher-contrast status treatments. Primary, cyan accent, inverse accent, muted text, and status text were contrast-audited in light and dark themes.
 - Preserved visible focus, dark mode, reduced-motion behavior, theme persistence, and responsive layouts. Rendered Chromium review covered the landing page, AI Labs at 390px, and capstone in dark mode; automated coverage also blocks Google Fonts to verify the fallback stack and 360px overflow behavior.
 - Passed repository content validation, full ESLint, strict TypeScript, all 115 unit tests across 29 files, the 102-page production build plus coaching endpoint, and all 29 serial Chromium journeys.
+
+## Home page purpose refresh
+
+- Repositioned the landing hero around spec-aligned purpose copy: hybrid H1 (“Become a Forward Deployed Engineer”) plus enterprise challenge subhead, with **Start learning** as the primary CTA.
+- Added **What is FDE?** comparison section, six-track curriculum preview (reusing `TrackCard`), interactive AI Labs showcase with live counts, and a dedicated Northstar enterprise scenario block.
+- Added **Home** to primary navigation with exact-only active state for `/`.
+- Updated the landing-page Chromium smoke journey for the new headings and links.

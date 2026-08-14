@@ -6,7 +6,9 @@ import {
   CircleDot,
   Code2,
   FlaskConical,
+  Gamepad2,
   Gauge,
+  Medal,
   Network,
   Play,
   ShieldCheck,
@@ -14,12 +16,22 @@ import {
   TerminalSquare,
   Users,
   Wrench,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 
+import { TrackCard } from "@/components/learning/track-card";
 import { Button } from "@/components/ui/button";
 import { resolveAILabsShowcase } from "@/lib/ai-labs/showcase";
-import { getAILabsShowcase, getAllCaseStudies, getAllExperiments, getAllGames, getAllLabs } from "@/lib/content";
+import {
+  getAILabsShowcase,
+  getAllCaseStudies,
+  getAllExperiments,
+  getAllGames,
+  getAllLabs,
+  getAllLessons,
+  getAllTracks,
+} from "@/lib/content";
 
 const framework = [
   ["01", "Discover", "Find the real problem"],
@@ -74,12 +86,54 @@ const skills = [
   { icon: Gauge, label: "Production" },
 ] as const;
 
+const notThisItems = [
+  { not: "Video LMS", instead: "Scenario-driven field work" },
+  { not: "AI vocabulary quiz", instead: "Customer workflow decisions" },
+  { not: "Toy demos", instead: "Retrieval, security, cost, and latency trade-offs" },
+  { not: "Handoff at deploy", instead: "Adoption and ROI accountability" },
+] as const;
+
+const labModes = [
+  {
+    href: "/games",
+    icon: Gamepad2,
+    label: "Field Arcade",
+    countKey: "games" as const,
+    body: "Fast deployment decisions under time pressure with immediate consequences.",
+  },
+  {
+    href: "/experiments",
+    icon: FlaskConical,
+    label: "Playgrounds",
+    countKey: "experiments" as const,
+    body: "Change retrieval, chunking, security, and cost variables in deterministic simulations.",
+  },
+  {
+    href: "/labs#field-missions",
+    icon: Medal,
+    label: "Field Missions",
+    countKey: "labs" as const,
+    body: "Multi-step guided labs that build toward a production-ready enterprise artifact.",
+  },
+] as const;
+
 export default function HomePage() {
+  const tracks = getAllTracks();
+  const lessons = getAllLessons();
+  const featuredTracks = tracks.slice(0, 6);
+  const games = getAllGames();
+  const experiments = getAllExperiments();
+  const labs = getAllLabs();
+  const caseStudies = getAllCaseStudies();
+  const northstar = caseStudies.find((study) => study.slug === "northstar") ?? caseStudies[0];
+
+  const labTotals = { games: games.length, experiments: experiments.length, labs: labs.length };
+
   const featuredGame = resolveAILabsShowcase(getAILabsShowcase(), {
-    games: getAllGames(),
-    experiments: getAllExperiments(),
-    labs: getAllLabs(),
-    caseStudies: getAllCaseStudies(),
+    games,
+    experiments,
+    labs,
+    caseStudies,
   }).featuredGame;
   const featuredScenario = featuredGame.scenarios[0];
 
@@ -91,22 +145,28 @@ export default function HomePage() {
           <div className="fade-up max-w-3xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground shadow-sm">
               <span className="size-1.5 rounded-full bg-primary" />
-              Interactive enterprise AI field lab
+              FDE Learning Lab · Interactive field training
             </div>
-            <h1 className="text-balance text-[clamp(3.1rem,6.5vw,6.1rem)] font-semibold leading-[0.92] tracking-[-0.065em]">
-              Can you ship AI that survives the <span className="text-primary">enterprise?</span>
+            <h1 className="text-balance text-[clamp(2.75rem,5.8vw,5.5rem)] font-semibold leading-[0.94] tracking-[-0.065em]">
+              Become a Forward Deployed Engineer
             </h1>
-            <p className="mt-7 max-w-2xl text-balance text-lg leading-8 text-muted-foreground sm:text-xl">
-              Become a Forward Deployed Engineer by making the architecture, safety, and delivery decisions that turn ambiguous customer needs into production AI.
+            <p className="mt-6 max-w-2xl text-balance text-lg font-medium leading-8 sm:text-xl">
+              Can you ship AI that survives the <span className="text-primary">enterprise?</span>
             </p>
+            <p className="mt-4 max-w-2xl text-balance text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+              Learn how to take ambiguous enterprise problems from discovery to architecture, AI implementation, production deployment, adoption, and measurable business impact.
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">For experienced software engineers — not beginner programming.</p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
-                <Link href={`/games/${featuredGame.slug}`}>
-                  <Play aria-hidden="true" className="size-4" /> Run a {featuredGame.estimatedMinutes}-minute AI mission
+                <Link href="/learn">
+                  Start learning <ArrowRight aria-hidden="true" className="size-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link href="/labs">Explore AI Labs <ArrowRight aria-hidden="true" className="size-4" /></Link>
+                <Link href={`/games/${featuredGame.slug}`}>
+                  <Play aria-hidden="true" className="size-4" /> Run a {featuredGame.estimatedMinutes}-minute AI mission
+                </Link>
               </Button>
             </div>
             <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
@@ -180,6 +240,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="border-b bg-muted/35" id="what-is-fde">
+        <div className="mx-auto grid max-w-[1440px] gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:px-8 lg:py-28">
+          <div>
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">Why this exists</p>
+            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">What is a Forward Deployed Engineer?</h2>
+            <div className="mt-5 max-w-xl space-y-4 text-base leading-7 text-muted-foreground">
+              <p>
+                A Forward Deployed Engineer sits between the customer&apos;s business problem and the technical solution — owning discovery, design, build, deploy, and adoption.
+              </p>
+              <p>
+                Most engineers learn features in isolation. FDE work is ambiguous requests, enterprise constraints, and production accountability.
+              </p>
+              <p>
+                This lab exists because that skill set is rarely taught in traditional courses or internal onboarding.
+              </p>
+            </div>
+            <p className="mt-6 max-w-xl text-sm font-medium leading-6 text-foreground">
+              Every concept appears because a customer workflow, constraint, or production system demands it.
+            </p>
+          </div>
+          <div className="rounded-xl border bg-background p-6 sm:p-8">
+            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">This is not</p>
+            <ul className="mt-6 space-y-5">
+              {notThisItems.map((item) => (
+                <li className="grid gap-2 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4" key={item.not}>
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <X aria-hidden="true" className="size-3.5 shrink-0 text-rose-600 dark:text-rose-400" strokeWidth={2.5} />
+                    {item.not}
+                  </span>
+                  <ArrowRight aria-hidden="true" className="hidden size-4 text-muted-foreground sm:block" />
+                  <span className="flex items-center gap-2 text-sm font-medium">
+                    <Check aria-hidden="true" className="size-3.5 shrink-0 text-primary" strokeWidth={2.5} />
+                    {item.instead}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="border-b bg-foreground text-background">
         <div className="mx-auto grid max-w-[1440px] divide-y divide-background/15 px-4 sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
           {[
@@ -220,6 +321,90 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <section className="border-y bg-muted/35" id="roadmap">
+        <div className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div>
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">Curriculum</p>
+              <h2 className="mt-4 max-w-2xl text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">A field-ready skills roadmap</h2>
+              <p className="mt-5 max-w-2xl leading-7 text-muted-foreground">
+                {tracks.length} connected tracks — from FDE foundations through discovery, architecture, LLMs, evaluations, RAG, agents, security, and production.
+              </p>
+            </div>
+            <Button asChild className="shrink-0" variant="outline">
+              <Link href="/learn">View full roadmap <ArrowRight aria-hidden="true" className="size-4" /></Link>
+            </Button>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {featuredTracks.map((track, index) => {
+              const trackLessons = lessons.filter((lesson) => lesson.frontmatter.track === track.id);
+              return (
+                <TrackCard
+                  estimatedMinutes={trackLessons.reduce((total, lesson) => total + lesson.frontmatter.durationMinutes, 0)}
+                  index={index}
+                  key={track.id}
+                  lessonCount={trackLessons.length}
+                  track={track}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1440px] px-4 py-20 sm:px-6 lg:px-8 lg:py-28" id="interactive-labs">
+        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div>
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">AI Labs</p>
+            <h2 className="mt-4 max-w-2xl text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Interactive labs for enterprise decisions</h2>
+            <p className="mt-5 max-w-2xl leading-7 text-muted-foreground">
+              Simulate deployment calls, change system variables, and complete guided missions — all without API keys or setup.
+            </p>
+          </div>
+          <Button asChild className="shrink-0" variant="outline">
+            <Link href="/labs">Explore AI Labs <ArrowRight aria-hidden="true" className="size-4" /></Link>
+          </Button>
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {labModes.map((mode) => (
+            <Link className="group flex flex-col rounded-xl border bg-card p-6 transition-[border-color,transform,box-shadow] hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-sm" href={mode.href} key={mode.label}>
+              <mode.icon aria-hidden="true" className="size-5 text-primary" />
+              <p className="mt-6 font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">{labTotals[mode.countKey]} available</p>
+              <h3 className="mt-2 flex items-center justify-between gap-3 text-lg font-semibold tracking-tight transition-colors group-hover:text-primary">
+                {mode.label} <ArrowRight aria-hidden="true" className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{mode.body}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {northstar ? (
+        <section className="border-y bg-muted/35 px-4 sm:px-6 lg:px-8" id="enterprise-scenario">
+          <div className="dot-grid relative mx-auto max-w-[1376px] overflow-hidden rounded-2xl border bg-card px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
+            <div className="absolute inset-0 bg-gradient-to-r from-card via-card/95 to-card/55" />
+            <div className="relative max-w-3xl">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">Enterprise scenario</p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Meet your customer: {northstar.company}</h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{northstar.profile}</p>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
+                One fictional engagement threads through lessons, labs, practice, and the capstone — from a vague AI mandate to a secure, evaluated, adopted solution with a defensible ROI story.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg">
+                  <Link href={`/case-studies/${northstar.slug}`}>
+                    Read the case study <ArrowRight aria-hidden="true" className="size-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/capstone">Start the capstone</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="border-y bg-muted/35" id="framework">
         <div className="mx-auto grid max-w-[1440px] gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8 lg:py-28">
