@@ -1,0 +1,846 @@
+[
+  {
+    "id": "repository-reconnaissance-decision",
+    "type": "single_choice",
+    "category": "ai-native-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Software Engineering",
+      "Security"
+    ],
+    "scenario": "Northstar gives you a repository and asks for a CRM fix before tomorrow\u2019s demonstration. The README describes a retired authentication service. A coding agent proposes a large rewrite after reading only the entry point.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Rewrite the authentication stack from the README alone",
+        "rationale": "The README may be stale; runtime code and a reproducer establish the relevant boundary. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Inspect the existing authorization path and reproduce the failure before editing",
+        "rationale": "The README may be stale; runtime code and a reproducer establish the relevant boundary."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "The README may be stale; runtime code and a reproducer establish the relevant boundary.",
+    "relatedLesson": "repository-reconnaissance",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "repository-reconnaissance-verification",
+    "type": "single_choice",
+    "category": "ai-native-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Software Engineering",
+      "Security"
+    ],
+    "scenario": "Northstar gives you a repository and asks for a CRM fix before tomorrow\u2019s demonstration. The README describes a retired authentication service. A coding agent proposes a large rewrite after reading only the entry point.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "An authorized account lookup succeeds and an unrelated tenant remains denied",
+        "rationale": "A regression check must prove intended access and preserve denial, not merely hide a symptom."
+      },
+      {
+        "id": "shortcut",
+        "text": "The page no longer displays the error message",
+        "rationale": "A regression check must prove intended access and preserve denial, not merely hide a symptom. This alternative leaves the stated failure mode unresolved."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "A regression check must prove intended access and preserve denial, not merely hide a symptom.",
+    "relatedLesson": "repository-reconnaissance",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "agent-assisted-verification-decision",
+    "type": "single_choice",
+    "category": "ai-native-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Software Engineering",
+      "Security"
+    ],
+    "scenario": "An agent submits a patch claiming that all retry failures are fixed. Its new tests mock the adapter itself, and its summary says the build passed without showing the command outcome.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "evidence",
+        "text": "Exercise timeout-after-commit and concurrent retries at the adapter boundary",
+        "rationale": "Boundary tests expose the failure mode that the proposed change claims to fix."
+      },
+      {
+        "id": "shortcut",
+        "text": "Accept tests that replace the entire adapter with a success stub",
+        "rationale": "Boundary tests expose the failure mode that the proposed change claims to fix. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Boundary tests expose the failure mode that the proposed change claims to fix.",
+    "relatedLesson": "agent-assisted-verification",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "agent-assisted-verification-verification",
+    "type": "single_choice",
+    "category": "ai-native-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Software Engineering",
+      "Security"
+    ],
+    "scenario": "An agent submits a patch claiming that all retry failures are fixed. Its new tests mock the adapter itself, and its summary says the build passed without showing the command outcome.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Report production readiness because TypeScript compiled",
+        "rationale": "Type checking validates types, not the customer workflow or live authorization. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Record commands, outcomes, tested boundaries, and remaining integration uncertainty",
+        "rationale": "Type checking validates types, not the customer workflow or live authorization."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Type checking validates types, not the customer workflow or live authorization.",
+    "relatedLesson": "agent-assisted-verification",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "mcp-capability-contracts-decision",
+    "type": "single_choice",
+    "category": "mcp-enterprise-integration",
+    "difficulty": "intermediate",
+    "skills": [
+      "Architecture",
+      "Security",
+      "Software Engineering"
+    ],
+    "scenario": "Northstar wants one assistant to search policies, inspect accounts, and create support tickets. The first proposal exposes a generic SQL tool and assumes the protocol makes it safe.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Expose unrestricted SQL because MCP already provides a safety boundary",
+        "rationale": "The protocol does not replace authorization or task-specific effect controls. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Expose typed task-specific capabilities with explicit permissions and bounded outputs",
+        "rationale": "The protocol does not replace authorization or task-specific effect controls."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "The protocol does not replace authorization or task-specific effect controls.",
+    "relatedLesson": "mcp-capability-contracts",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "mcp-capability-contracts-verification",
+    "type": "single_choice",
+    "category": "mcp-enterprise-integration",
+    "difficulty": "intermediate",
+    "skills": [
+      "Architecture",
+      "Security",
+      "Software Engineering"
+    ],
+    "scenario": "Northstar wants one assistant to search policies, inspect accounts, and create support tickets. The first proposal exposes a generic SQL tool and assumes the protocol makes it safe.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Test negotiated capabilities, invalid arguments, denied access, and oversized output",
+        "rationale": "Initialization establishes a connection; it does not validate the business contract."
+      },
+      {
+        "id": "shortcut",
+        "text": "Only confirm that initialization returns successfully",
+        "rationale": "Initialization establishes a connection; it does not validate the business contract. This alternative leaves the stated failure mode unresolved."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Initialization establishes a connection; it does not validate the business contract.",
+    "relatedLesson": "mcp-capability-contracts",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "remote-tool-authorization-decision",
+    "type": "single_choice",
+    "category": "mcp-enterprise-integration",
+    "difficulty": "intermediate",
+    "skills": [
+      "Architecture",
+      "Security",
+      "Software Engineering"
+    ],
+    "scenario": "A remote MCP server accepts a token issued for another service. A support agent can now invoke operations outside the caller\u2019s intended permissions, even though sign-in looked successful.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "evidence",
+        "text": "Validate the intended resource and recheck authorization for the exact action",
+        "rationale": "A signed token for another resource is not sufficient authorization for this service."
+      },
+      {
+        "id": "shortcut",
+        "text": "Disable audience checks so every signed token works",
+        "rationale": "A signed token for another resource is not sufficient authorization for this service. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "A signed token for another resource is not sufficient authorization for this service.",
+    "relatedLesson": "remote-tool-authorization",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "remote-tool-authorization-verification",
+    "type": "single_choice",
+    "category": "mcp-enterprise-integration",
+    "difficulty": "intermediate",
+    "skills": [
+      "Architecture",
+      "Security",
+      "Software Engineering"
+    ],
+    "scenario": "A remote MCP server accepts a token issued for another service. A support agent can now invoke operations outside the caller\u2019s intended permissions, even though sign-in looked successful.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Only test with an administrator account",
+        "rationale": "An administrator-only test conceals the boundaries ordinary users depend on. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Try revoked roles, wrong tenants, and changed arguments after approval",
+        "rationale": "An administrator-only test conceals the boundaries ordinary users depend on."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "An administrator-only test conceals the boundaries ordinary users depend on.",
+    "relatedLesson": "remote-tool-authorization",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "customer-data-contracts-decision",
+    "type": "single_choice",
+    "category": "data-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Data",
+      "Architecture"
+    ],
+    "scenario": "Northstar\u2019s account feed passes JSON parsing but mixes monetary units, omits ownership information, and uses an empty string to represent an unknown closure date.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Accept every parseable JSON object as trustworthy data",
+        "rationale": "Parsing cannot establish business meaning, source authority, or correct units. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Agree units, null semantics, ownership, and versioning in addition to the schema",
+        "rationale": "Parsing cannot establish business meaning, source authority, or correct units."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Parsing cannot establish business meaning, source authority, or correct units.",
+    "relatedLesson": "customer-data-contracts",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "customer-data-contracts-verification",
+    "type": "single_choice",
+    "category": "data-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Data",
+      "Architecture"
+    ],
+    "scenario": "Northstar\u2019s account feed passes JSON parsing but mixes monetary units, omits ownership information, and uses an empty string to represent an unknown closure date.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Inject missing currency and late corrections and inspect quarantine and replay",
+        "rationale": "Volume can look healthy while records are semantically unusable."
+      },
+      {
+        "id": "shortcut",
+        "text": "Measure only the number of parsed rows",
+        "rationale": "Volume can look healthy while records are semantically unusable. This alternative leaves the stated failure mode unresolved."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Volume can look healthy while records are semantically unusable.",
+    "relatedLesson": "customer-data-contracts",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "freshness-reconciliation-decision",
+    "type": "single_choice",
+    "category": "data-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Data",
+      "Architecture"
+    ],
+    "scenario": "Northstar\u2019s ingestion dashboard is green, but an assistant cites a policy that was revoked yesterday. A connector checkpoint moved forward after skipping one source partition.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "evidence",
+        "text": "Trace the cited revision and reconcile the affected source partition",
+        "rationale": "The evidence is stale before generation; model settings cannot correct its source history."
+      },
+      {
+        "id": "shortcut",
+        "text": "Increase model temperature to avoid repeating the stale answer",
+        "rationale": "The evidence is stale before generation; model settings cannot correct its source history. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "The evidence is stale before generation; model settings cannot correct its source history.",
+    "relatedLesson": "freshness-reconciliation",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "freshness-reconciliation-verification",
+    "type": "single_choice",
+    "category": "data-engineering",
+    "difficulty": "intermediate",
+    "skills": [
+      "Data",
+      "Architecture"
+    ],
+    "scenario": "Northstar\u2019s ingestion dashboard is green, but an assistant cites a policy that was revoked yesterday. A connector checkpoint moved forward after skipping one source partition.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Confirm only that the connector process is running",
+        "rationale": "Process health is not evidence of current, correctly reconciled customer data. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Replay duplicate, out-of-order, and deletion events and compare the derived state",
+        "rationale": "Process health is not evidence of current, correctly reconciled customer data."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Process health is not evidence of current, correctly reconciled customer data.",
+    "relatedLesson": "freshness-reconciliation",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "workflow-observability-decision",
+    "type": "single_choice",
+    "category": "production-observability",
+    "difficulty": "intermediate",
+    "skills": [
+      "Production",
+      "Software Engineering"
+    ],
+    "scenario": "Northstar sees a fast model response but slow support resolution. The dashboard measures model latency only; document search, retries, and human handoffs are invisible.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Add only a model-latency chart",
+        "rationale": "The customer waits for the whole workflow, not one component. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Trace retrieval, model, tools, and handoff under one customer task",
+        "rationale": "The customer waits for the whole workflow, not one component."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "The customer waits for the whole workflow, not one component.",
+    "relatedLesson": "workflow-observability",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "workflow-observability-verification",
+    "type": "single_choice",
+    "category": "production-observability",
+    "difficulty": "intermediate",
+    "skills": [
+      "Production",
+      "Software Engineering"
+    ],
+    "scenario": "Northstar sees a fast model response but slow support resolution. The dashboard measures model latency only; document search, retries, and human handoffs are invisible.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Compare completion and latency by cohort with privacy-safe traces",
+        "rationale": "Useful observability requires bounded sensitive data handling."
+      },
+      {
+        "id": "shortcut",
+        "text": "Log all prompts and credentials to simplify debugging",
+        "rationale": "Useful observability requires bounded sensitive data handling. This alternative leaves the stated failure mode unresolved."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Useful observability requires bounded sensitive data handling.",
+    "relatedLesson": "workflow-observability",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "slo-incident-recovery-decision",
+    "type": "single_choice",
+    "category": "production-observability",
+    "difficulty": "intermediate",
+    "skills": [
+      "Production",
+      "Software Engineering"
+    ],
+    "scenario": "Northstar\u2019s pilot is ready to expand. The team promises perfect uptime, has no rollback owner, and cannot say whether a partial outage should halt the rollout.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "evidence",
+        "text": "Define an eligible-task indicator, a window, an owner, and rollback criteria",
+        "rationale": "A testable objective and recovery plan are more useful than an unsupported guarantee."
+      },
+      {
+        "id": "shortcut",
+        "text": "Promise perfect uptime before measuring the workflow",
+        "rationale": "A testable objective and recovery plan are more useful than an unsupported guarantee. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "A testable objective and recovery plan are more useful than an unsupported guarantee.",
+    "relatedLesson": "slo-incident-recovery",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "slo-incident-recovery-verification",
+    "type": "single_choice",
+    "category": "production-observability",
+    "difficulty": "intermediate",
+    "skills": [
+      "Production",
+      "Software Engineering"
+    ],
+    "scenario": "Northstar\u2019s pilot is ready to expand. The team promises perfect uptime, has no rollback owner, and cannot say whether a partial outage should halt the rollout.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Declare recovery as soon as the process restarts",
+        "rationale": "A running process does not prove the customer can complete the workflow. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Verify customer-task recovery and record corrective actions with owners",
+        "rationale": "A running process does not prove the customer can complete the workflow."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "A running process does not prove the customer can complete the workflow.",
+    "relatedLesson": "slo-incident-recovery",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "decision-workshops-decision",
+    "type": "single_choice",
+    "category": "customer-delivery",
+    "difficulty": "intermediate",
+    "skills": [
+      "Customer Delivery",
+      "Discovery"
+    ],
+    "scenario": "Northstar\u2019s sponsor, support lead, and security owner leave the same meeting with different definitions of pilot success. The team has many notes and no agreed release boundary.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Treat positive reactions to the demo as release approval",
+        "rationale": "A reaction is not a documented decision about scope or acceptance. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "End with a named decision owner, acceptance evidence, and unresolved risks",
+        "rationale": "A reaction is not a documented decision about scope or acceptance."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "A reaction is not a documented decision about scope or acceptance.",
+    "relatedLesson": "decision-workshops",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "decision-workshops-verification",
+    "type": "single_choice",
+    "category": "customer-delivery",
+    "difficulty": "intermediate",
+    "skills": [
+      "Customer Delivery",
+      "Discovery"
+    ],
+    "scenario": "Northstar\u2019s sponsor, support lead, and security owner leave the same meeting with different definitions of pilot success. The team has many notes and no agreed release boundary.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Ask stakeholders to restate the same pilot boundary and success measure",
+        "rationale": "Shared decisions and evidence establish alignment; slide volume does not."
+      },
+      {
+        "id": "shortcut",
+        "text": "Count the number of workshop slides delivered",
+        "rationale": "Shared decisions and evidence establish alignment; slide volume does not. This alternative leaves the stated failure mode unresolved."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Shared decisions and evidence establish alignment; slide volume does not.",
+    "relatedLesson": "decision-workshops",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "adoption-handover-decision",
+    "type": "single_choice",
+    "category": "customer-delivery",
+    "difficulty": "intermediate",
+    "skills": [
+      "Customer Delivery",
+      "Discovery"
+    ],
+    "scenario": "Northstar\u2019s pilot users liked the demo but continue using their old workflow. The implementation team is leaving, and nobody has accepted the escalation queue.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "evidence",
+        "text": "Observe workflow friction and have the receiving team perform a recovery exercise",
+        "rationale": "Ownership and operational capability need explicit transfer and verification."
+      },
+      {
+        "id": "shortcut",
+        "text": "Send the source repository and assume operations can take over",
+        "rationale": "Ownership and operational capability need explicit transfer and verification. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Ownership and operational capability need explicit transfer and verification.",
+    "relatedLesson": "adoption-handover",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "adoption-handover-verification",
+    "type": "single_choice",
+    "category": "customer-delivery",
+    "difficulty": "intermediate",
+    "skills": [
+      "Customer Delivery",
+      "Discovery"
+    ],
+    "scenario": "Northstar\u2019s pilot users liked the demo but continue using their old workflow. The implementation team is leaving, and nobody has accepted the escalation queue.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Measure only the number of training invitations sent",
+        "rationale": "Invitations measure distribution, not adoption or ability to operate. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Measure repeated useful task completion and test the escalation route",
+        "rationale": "Invitations measure distribution, not adoption or ability to operate."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Invitations measure distribution, not adoption or ability to operate.",
+    "relatedLesson": "adoption-handover",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "baseline-outcome-measurement-decision",
+    "type": "single_choice",
+    "category": "business-impact",
+    "difficulty": "intermediate",
+    "skills": [
+      "Business Thinking",
+      "Customer Delivery"
+    ],
+    "scenario": "Northstar claims a 50% productivity improvement because the assistant answered half of the pilot questions. Nobody checked whether users completed their work or whether pilot cases were easier.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Count generated answers as resolved customer cases",
+        "rationale": "The business unit of value is the completed workflow, not model output. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Compare eligible completed tasks including review and escalation time",
+        "rationale": "The business unit of value is the completed workflow, not model output."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "The business unit of value is the completed workflow, not model output.",
+    "relatedLesson": "baseline-outcome-measurement",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "baseline-outcome-measurement-verification",
+    "type": "single_choice",
+    "category": "business-impact",
+    "difficulty": "intermediate",
+    "skills": [
+      "Business Thinking",
+      "Customer Delivery"
+    ],
+    "scenario": "Northstar claims a 50% productivity improvement because the assistant answered half of the pilot questions. Nobody checked whether users completed their work or whether pilot cases were easier.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Keep the cohort and denominator stable and track quality guardrails",
+        "rationale": "Changing the denominator can manufacture an apparent improvement."
+      },
+      {
+        "id": "shortcut",
+        "text": "Remove all failed requests from the after-period denominator",
+        "rationale": "Changing the denominator can manufacture an apparent improvement. This alternative leaves the stated failure mode unresolved."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Changing the denominator can manufacture an apparent improvement.",
+    "relatedLesson": "baseline-outcome-measurement",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "unit-economics-roi-decision",
+    "type": "single_choice",
+    "category": "business-impact",
+    "difficulty": "intermediate",
+    "skills": [
+      "Business Thinking",
+      "Customer Delivery"
+    ],
+    "scenario": "Northstar\u2019s sponsor asks whether the pilot pays for itself. The proposal includes model tokens but excludes human review, integration support, and the cost of failed attempts.",
+    "prompt": "What is the strongest next action?",
+    "choices": [
+      {
+        "id": "evidence",
+        "text": "Divide full operating cost by successful customer tasks and expose assumptions",
+        "rationale": "Unit economics needs the agreed useful outcome and all material costs."
+      },
+      {
+        "id": "shortcut",
+        "text": "Divide token cost by every model response and call it ROI",
+        "rationale": "Unit economics needs the agreed useful outcome and all material costs. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Unit economics needs the agreed useful outcome and all material costs.",
+    "relatedLesson": "unit-economics-roi",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  },
+  {
+    "id": "unit-economics-roi-verification",
+    "type": "single_choice",
+    "category": "business-impact",
+    "difficulty": "intermediate",
+    "skills": [
+      "Business Thinking",
+      "Customer Delivery"
+    ],
+    "scenario": "Northstar\u2019s sponsor asks whether the pilot pays for itself. The proposal includes model tokens but excludes human review, integration support, and the cost of failed attempts.",
+    "prompt": "Which verification best supports the customer claim?",
+    "choices": [
+      {
+        "id": "shortcut",
+        "text": "Treat all time saved as guaranteed cash savings",
+        "rationale": "Released capacity and realized cash savings are different benefit claims. This alternative leaves the stated failure mode unresolved."
+      },
+      {
+        "id": "defer",
+        "text": "Proceed without documenting or testing the assumption",
+        "rationale": "An unrecorded assumption cannot support a defensible customer decision."
+      },
+      {
+        "id": "evidence",
+        "text": "Test adoption and review-rate sensitivity over a consistent time horizon",
+        "rationale": "Released capacity and realized cash savings are different benefit claims."
+      }
+    ],
+    "correct": [
+      "evidence"
+    ],
+    "explanation": "Released capacity and realized cash savings are different benefit claims.",
+    "relatedLesson": "unit-economics-roi",
+    "principle": "Make the customer decision and the evidence for it explicit."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "id": "ai-native-engineering",
+  "slug": "ai-native-engineering",
+  "title": "AI-Native Engineering",
+  "description": "Use coding agents to understand unfamiliar repositories, deliver bounded changes, and verify customer behavior.",
+  "order": 5,
+  "status": "published",
+  "skills": [
+    "Software Engineering",
+    "Security"
+  ]
+}

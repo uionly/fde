@@ -8,8 +8,8 @@ export function SiteFooter() {
         <div>
           <p className="font-semibold text-foreground">FDE Learning Lab</p>
           <p className="mt-2 max-w-xs text-sm leading-6 text-muted-foreground">Interactive field training for engineers who want to own the customer outcome.</p>
-          <Link className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary" href="/games/model-router-arena">
-            Run a mission <ArrowUpRight aria-hidden="true" className="size-3.5" />
+          <Link className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary" href="/learn">
+            Explore learning tracks <ArrowUpRight aria-hidden="true" className="size-3.5" />
           </Link>
         </div>
         <nav aria-label="Learning links">
@@ -17,6 +17,7 @@ export function SiteFooter() {
           <div className="mt-3 flex flex-col items-start gap-2 text-sm">
             <Link className="transition-colors hover:text-primary" href="/learn">Learning tracks</Link>
             <Link className="transition-colors hover:text-primary" href="/practice">Practice</Link>
+            <Link className="transition-colors hover:text-primary" href="/challenges">Field challenges</Link>
             <Link className="transition-colors hover:text-primary" href="/resources">Resources</Link>
           </div>
         </nav>

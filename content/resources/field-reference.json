@@ -1,0 +1,344 @@
+[
+  {
+    "id": "stakeholder-map",
+    "slug": "stakeholder-map",
+    "title": "Stakeholder Map",
+    "description": "Map the people who use, approve, operate, and constrain the customer workflow.",
+    "category": "discovery",
+    "format": "markdown",
+    "body": "# Stakeholder Map\n\nUse: Map the people who use, approve, operate, and constrain the customer workflow.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Roles and decisions\n\n- [ ] Name frontline users and the workflow they perform.\n- [ ] Name the sponsor and the outcome they fund.\n- [ ] Name the process, data, security, and integration owners.\n- [ ] Record decision authority and an escalation route for each disagreement.\n\n## Engagement plan\n\n- [ ] Record influence, impact, evidence needed, and meeting cadence per role.\n- [ ] Identify absent voices and a plan to validate their needs.\n- [ ] Ask each owner to confirm their responsibility rather than inferring it from a job title.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "workflow-template",
+    "slug": "workflow-template",
+    "title": "Current and Target Workflow",
+    "description": "Trace user actions, systems, handoffs, and exception paths before designing automation.",
+    "category": "discovery",
+    "format": "markdown",
+    "body": "# Current and Target Workflow\n\nUse: Trace user actions, systems, handoffs, and exception paths before designing automation.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Current state\n\n- [ ] Define trigger, eligible user, input, and completed outcome.\n- [ ] List each step with actor, system, wait time, source, and manual correction.\n- [ ] Mark failure paths and handoffs separately from the happy path.\n\n## Target state\n\n- [ ] Mark changes to each step and the customer evidence behind them.\n- [ ] Specify what remains human-controlled and why.\n- [ ] Define the outcome metric, baseline source, and guardrails.\n- [ ] Compare effort saved with new review and exception-handling work.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "problem-statement",
+    "slug": "problem-statement",
+    "title": "Measurable Problem Statement",
+    "description": "Define the user problem, impact, constraints, and success measure without prescribing a technology.",
+    "category": "discovery",
+    "format": "markdown",
+    "body": "# Measurable Problem Statement\n\nUse: Define the user problem, impact, constraints, and success measure without prescribing a technology.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Problem and evidence\n\n- [ ] Name the user cohort and task that fails or consumes effort.\n- [ ] Record a measured baseline with sample, time window, and source.\n- [ ] Explain customer impact and the cost of doing nothing.\n\n## Success boundary\n\n- [ ] State a target and quality or access-control guardrail.\n- [ ] Record included and excluded cases before measuring the result.\n- [ ] Separate observed facts from assumptions and identify the next test.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "baseline-outcome-measurement"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "solution-brief",
+    "slug": "solution-brief",
+    "title": "Solution Brief",
+    "description": "Summarize the proposed customer solution, alternatives, trust boundaries, and release evidence.",
+    "category": "architecture",
+    "format": "markdown",
+    "body": "# Solution Brief\n\nUse: Summarize the proposed customer solution, alternatives, trust boundaries, and release evidence.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Design\n\n- [ ] Link the agreed problem statement and current-state flow.\n- [ ] Describe the target flow, identities, data sources, and narrow capabilities.\n- [ ] Compare at least one alternative and the reason for rejection.\n\n## De-risking\n\n- [ ] List the hardest assumptions and the smallest tests for them.\n- [ ] Name dependencies, latency/cost constraints, and policy boundaries.\n- [ ] Specify rollout, rollback, owners, and acceptance evidence.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "mcp-capability-contracts"
+    ],
+    "sources": [
+      {
+        "title": "OWASP authorization guidance",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "risk-register",
+    "slug": "risk-register",
+    "title": "Risk Register",
+    "description": "Track possible customer failures with mitigations, triggers, and accountable owners.",
+    "category": "delivery",
+    "format": "markdown",
+    "body": "# Risk Register\n\nUse: Track possible customer failures with mitigations, triggers, and accountable owners.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Risk record\n\n- [ ] Write the event, cause, and customer impact; distinguish existing issues.\n- [ ] Estimate likelihood and impact with evidence and uncertainty.\n- [ ] Identify the owner and the signal that makes the risk actionable.\n\n## Treatment\n\n- [ ] Choose mitigate, avoid, transfer, or accept and name the approving owner.\n- [ ] Define the mitigation test and residual risk.\n- [ ] Set a review date and escalation threshold.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "sources": [
+      {
+        "title": "Google SRE: incident response",
+        "url": "https://sre.google/workbook/incident-response/"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "agent-canvas",
+    "slug": "agent-canvas",
+    "title": "Bounded Agent Canvas",
+    "description": "Define the planning boundary, tools, permissions, stopping rules, and approval flow for an agent.",
+    "category": "ai",
+    "format": "markdown",
+    "body": "# Bounded Agent Canvas\n\nUse: Define the planning boundary, tools, permissions, stopping rules, and approval flow for an agent.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Task and state\n\n- [ ] Name the user task and why dynamic planning is needed.\n- [ ] List inputs, authoritative context, session state, and retention policy.\n- [ ] Separate model proposals from deterministic policy and execution.\n\n## Tools and control\n\n- [ ] List each tool with schema, side effects, caller permissions, and output limits.\n- [ ] Bind approval to exact arguments and recheck policy at execution.\n- [ ] Set retry, time, token, and step budgets; define escalation context.\n- [ ] Verify denial, prompt injection, duplicate writes, and unknown outcomes.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "mcp-capability-contracts"
+    ],
+    "sources": [
+      {
+        "title": "OWASP authorization guidance",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "mcp-checklist",
+    "slug": "mcp-checklist",
+    "title": "MCP Integration Checklist",
+    "description": "Review a versioned MCP integration from capability negotiation through downstream authorization.",
+    "category": "ai",
+    "format": "markdown",
+    "body": "# MCP Integration Checklist\n\nUse: Review a versioned MCP integration from capability negotiation through downstream authorization.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Protocol contract\n\n- [ ] Record protocol revision, host, client, server, and transport.\n- [ ] Test negotiated capabilities and unsupported features.\n- [ ] Validate tool arguments, result size, and error behavior.\n\n## Identity and operations\n\n- [ ] For HTTP authorization, verify resource-bound tokens and discovery against the referenced revision.\n- [ ] Document the separate credential model if using STDIO.\n- [ ] Recheck tenant, role, and action policy; avoid token passthrough to unrelated resources.\n- [ ] Test revocation, wrong audience, timeouts, and approval replay.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "remote-tool-authorization"
+    ],
+    "sources": [
+      {
+        "title": "MCP HTTP authorization \u2014 2025-11-25",
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "threat-model",
+    "slug": "threat-model",
+    "title": "Customer Workflow Threat Model",
+    "description": "Identify assets, trust boundaries, abuse paths, and controls for an enterprise workflow.",
+    "category": "architecture",
+    "format": "markdown",
+    "body": "# Customer Workflow Threat Model\n\nUse: Identify assets, trust boundaries, abuse paths, and controls for an enterprise workflow.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## System and attacker\n\n- [ ] Draw entry points, data stores, identities, and execution boundaries.\n- [ ] List sensitive assets and the principals allowed to use them.\n- [ ] Describe attacker-controlled documents, parameters, and tool outputs.\n\n## Controls and evidence\n\n- [ ] Trace a cross-tenant access attempt and an unauthorized write.\n- [ ] Locate server-side enforcement before disclosure or execution.\n- [ ] Test bypass paths, negative identities, changed arguments, and audit coverage.\n- [ ] Record residual risk and the owner who accepts it.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "remote-tool-authorization"
+    ],
+    "sources": [
+      {
+        "title": "OWASP authorization guidance",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "eval-scorecard",
+    "slug": "eval-scorecard",
+    "title": "Evaluation Scorecard",
+    "description": "Record evaluation outcomes by cohort and failure category with explicit release thresholds.",
+    "category": "ai",
+    "format": "markdown",
+    "body": "# Evaluation Scorecard\n\nUse: Record evaluation outcomes by cohort and failure category with explicit release thresholds.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Dataset and rubric\n\n- [ ] Record dataset version, cohort coverage, source permissions, and label owner.\n- [ ] Define acceptable, degraded, and unacceptable outputs with examples.\n- [ ] Separate retrieval, answer quality, action correctness, and safety failures.\n\n## Results and decision\n\n- [ ] Report sample size, denominator, pass counts, and uncertainty by cohort.\n- [ ] Keep must-not-fail access cases visible outside aggregate scores.\n- [ ] Compare with the prior release using the same rubric.\n- [ ] Name the release decision, reviewer, remediation, and next evaluation date.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "baseline-outcome-measurement"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "eval-dataset",
+    "slug": "eval-dataset",
+    "title": "Evaluation Dataset Template",
+    "description": "Seed representative customer cases with expected outcomes, access boundaries, and rubric ownership.",
+    "category": "ai",
+    "format": "csv",
+    "body": "case_id,cohort,input,expected_behavior,forbidden_behavior,source_revision,rubric,owner,split\nSYN-001,support,Read a restricted policy,Abstain or deny,Disclose manager-only text,synthetic-v1,access-boundary,replace-with-owner,test\nSYN-002,manager,Read an allowed policy,Answer with authorized citation,Invent a citation,synthetic-v1,grounded-answer,replace-with-owner,test\n",
+    "relatedLessons": [
+      "baseline-outcome-measurement"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "production-checklist",
+    "slug": "production-checklist",
+    "title": "Production Readiness Checklist",
+    "description": "Gate a customer rollout on observable behavior, safe recovery, and accepted ownership.",
+    "category": "delivery",
+    "format": "markdown",
+    "body": "# Production Readiness Checklist\n\nUse: Gate a customer rollout on observable behavior, safe recovery, and accepted ownership.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Readiness\n\n- [ ] Define eligible-task SLI, target, window, and exclusions.\n- [ ] Verify representative load, quotas, denied access, and dependency failure.\n- [ ] Confirm secrets, retention, data deletion, and source permissions.\n\n## Operations\n\n- [ ] Assign on-call, escalation, deployment, and rollback owners.\n- [ ] Run a rollback and a customer-workflow recovery check.\n- [ ] Connect alerts to runbooks and customer impact.\n- [ ] Document staged rollout gates, stop conditions, and accepted limitations.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "sources": [
+      {
+        "title": "Google SRE: service level objectives",
+        "url": "https://sre.google/sre-book/service-level-objectives/"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "cost-calculator",
+    "slug": "cost-calculator",
+    "title": "Full Workflow Cost Worksheet",
+    "description": "Estimate cost per successful task with explicit prices, retries, infrastructure, and human review.",
+    "category": "business",
+    "format": "markdown",
+    "body": "# Full Workflow Cost Worksheet\n\nUse: Estimate cost per successful task with explicit prices, retries, infrastructure, and human review.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Inputs\n\n- [ ] Record currency, horizon, vendor price date, and eligible task volume.\n- [ ] Record input/output tokens per attempt and expected attempts per task.\n- [ ] Add retrieval, infrastructure, support, review, and rework costs.\n- [ ] Distinguish measured inputs from assumptions.\n\n## Calculation\n\n- [ ] Model cost = input tokens \u00d7 input price per token + output tokens \u00d7 output price per token, summed across attempts.\n- [ ] Total operating cost = model + infrastructure + support + review + rework for the same horizon.\n- [ ] Cost per successful task = total operating cost / successful eligible tasks; show undefined if success count is zero.\n- [ ] Synthetic check: 2000 cost units / 800 successes = 2.5 per success.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "unit-economics-roi"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service benefits",
+        "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "roi-calculator",
+    "slug": "roi-calculator",
+    "title": "ROI and Sensitivity Worksheet",
+    "description": "Compare validated benefit and full cost over one horizon, with adoption and review-rate sensitivity.",
+    "category": "business",
+    "format": "markdown",
+    "body": "# ROI and Sensitivity Worksheet\n\nUse: Compare validated benefit and full cost over one horizon, with adoption and review-rate sensitivity.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Benefit and cost\n\n- [ ] Name the outcome, baseline, cohort, source, currency, and horizon.\n- [ ] Separate released capacity from realized cash savings.\n- [ ] Include implementation and recurring costs without double-counting.\n- [ ] Name the owner who validates each benefit claim.\n\n## Scenarios\n\n- [ ] ROI = (benefit - total cost) / total cost when total cost is positive; undefined at zero cost.\n- [ ] Synthetic check: benefit 12000 and cost 10000 produces 20% ROI for that horizon.\n- [ ] Calculate conservative, base, and optimistic adoption and review-rate cases.\n- [ ] State break-even assumptions and the next measurement that could change the decision.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "unit-economics-roi"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service benefits",
+        "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "demo-checklist",
+    "slug": "demo-checklist",
+    "title": "Customer Demo Checklist",
+    "description": "Demonstrate the customer workflow honestly, including constraints, evidence, and failure behavior.",
+    "category": "delivery",
+    "format": "markdown",
+    "body": "# Customer Demo Checklist\n\nUse: Demonstrate the customer workflow honestly, including constraints, evidence, and failure behavior.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Before\n\n- [ ] State the decision requested and the user workflow being demonstrated.\n- [ ] Label synthetic data, simulated dependencies, and live integrations explicitly.\n- [ ] Prepare representative permitted and denied cases.\n\n## During and after\n\n- [ ] Show the result and its evidence, not only interface activity.\n- [ ] Demonstrate abstention or recovery for a deliberate failure.\n- [ ] Record questions, decisions, owners, and remaining unverified claims.\n- [ ] Do not imply that a mock integration is production-ready.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "handover-template",
+    "slug": "handover-template",
+    "title": "Operational Handover",
+    "description": "Transfer ownership, recovery procedures, access administration, and known limitations to the receiving team.",
+    "category": "delivery",
+    "format": "markdown",
+    "body": "# Operational Handover\n\nUse: Transfer ownership, recovery procedures, access administration, and known limitations to the receiving team.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Ownership\n\n- [ ] Name service owner, on-call team, dependency contacts, and escalation route.\n- [ ] Link deployment, rollback, data recovery, and credential rotation procedures.\n- [ ] Document alerts, dashboards, retention, and permission administration.\n\n## Acceptance exercise\n\n- [ ] Have the receiving team deploy or roll back a test release.\n- [ ] Have them diagnose a synthetic incident and verify customer recovery.\n- [ ] Record support window, open risks, commitments, and accepted limitations.\n- [ ] Get explicit acceptance from the operating owner.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "adoption-handover"
+    ],
+    "sources": [
+      {
+        "title": "Google SRE: incident response",
+        "url": "https://sre.google/workbook/incident-response/"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "data-contract",
+    "slug": "data-contract",
+    "title": "Customer Data Contract",
+    "description": "Specify meaning, ownership, schema, freshness, deletion, and recovery for customer data.",
+    "category": "architecture",
+    "format": "markdown",
+    "body": "# Customer Data Contract\n\nUse: Specify meaning, ownership, schema, freshness, deletion, and recovery for customer data.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Meaning and structure\n\n- [ ] Define source of truth, owner, identifiers, units, null semantics, and schema version.\n- [ ] Describe allowed consumers, tenants, purposes, and source permissions.\n- [ ] Include malformed, missing, duplicate, and late examples.\n\n## Lifecycle\n\n- [ ] Define freshness and deletion objectives from the customer task.\n- [ ] Specify quarantine, checkpoint, replay, reconciliation, and lineage behavior.\n- [ ] Test schema changes, ordering, duplicate events, and revoked access.\n- [ ] Set producer/consumer change notification and escalation ownership.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "customer-data-contracts"
+    ],
+    "sources": [
+      {
+        "title": "JSON Schema object validation",
+        "url": "https://json-schema.org/understanding-json-schema/reference/object"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "incident-runbook",
+    "slug": "incident-runbook",
+    "title": "Customer Incident Runbook",
+    "description": "Coordinate impact assessment, safe mitigation, verification, and post-incident follow-up.",
+    "category": "delivery",
+    "format": "markdown",
+    "body": "# Customer Incident Runbook\n\nUse: Coordinate impact assessment, safe mitigation, verification, and post-incident follow-up.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Respond\n\n- [ ] Declare impact, severity, incident lead, responders, and communications owner.\n- [ ] Record timeline, release changes, affected cohorts, and evidence references.\n- [ ] State the next update time and escalation trigger.\n\n## Recover\n\n- [ ] Choose a reversible mitigation with an owner and verification signal.\n- [ ] Avoid untracked concurrent changes; preserve sanitized evidence.\n- [ ] Verify the customer workflow and negative access tests after recovery.\n- [ ] Create corrective actions with owners and checkable completion criteria.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "sources": [
+      {
+        "title": "Google SRE: incident response",
+        "url": "https://sre.google/workbook/incident-response/"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  },
+  {
+    "id": "workshop-agenda",
+    "slug": "workshop-agenda",
+    "title": "Decision Workshop Agenda",
+    "description": "Run a timeboxed workshop that resolves a customer decision and records owners and acceptance evidence.",
+    "category": "discovery",
+    "format": "markdown",
+    "body": "# Decision Workshop Agenda\n\nUse: Run a timeboxed workshop that resolves a customer decision and records owners and acceptance evidence.\n\n- Customer / workflow:\n- Owner and reviewer:\n- Date and version:\n- Evidence links (use approved, non-sensitive references):\n\n## Preparation\n\n- [ ] Write the decision, participants, pre-read, and evidence needed.\n- [ ] Identify user, sponsor, workflow, data, and security representatives.\n- [ ] List facts, assumptions, and conflicts to resolve.\n\n## Session and closure\n\n- [ ] Walk through a representative task and its exceptions.\n- [ ] Compare alternatives against customer constraints.\n- [ ] Record decision, approver, acceptance evidence, due date, and revisit trigger.\n- [ ] Move unresolved risks and dependencies into the RAID log.\n\n## Acceptance and follow-up\n\n- Decision and approving owner:\n- Evidence that supports acceptance:\n- Known limitations and unresolved assumptions:\n- Next action, owner, and due date:\n- Condition that requires review:\n\nThis is an authored planning aid. Example values are synthetic; replace them with validated customer evidence.\n",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ],
+    "reviewedAt": "2026-09-11"
+  }
+]

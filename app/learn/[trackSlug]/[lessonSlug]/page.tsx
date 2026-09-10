@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { SourceNotes } from "@/components/resources/source-notes";
 import { LessonBody } from "@/components/lesson/lesson-body";
 import { DifficultyBadge } from "@/components/learning/difficulty-badge";
 import { LessonProgressButton } from "@/components/progress/lesson-progress-button";
@@ -59,6 +60,7 @@ export default async function LessonPage({ params }: PageProps) {
           </header>
 
           <div className="mt-8"><LessonBody source={lesson.content} /></div>
+          <SourceNotes sources={frontmatter.sources} reviewedAt={frontmatter.reviewedAt} />
 
           <div className="mt-14 rounded-xl border bg-card p-5 sm:flex sm:items-center sm:justify-between">
             <div><p className="font-semibold">Ready to apply the lesson?</p><p className="mt-1 text-sm text-muted-foreground">Practice the topic, then complete it to update your track progress.</p></div>

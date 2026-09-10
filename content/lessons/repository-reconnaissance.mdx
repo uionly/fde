@@ -1,0 +1,64 @@
+---
+{
+  "id": "repository-reconnaissance",
+  "slug": "repository-reconnaissance",
+  "title": "Enter an unfamiliar customer repository",
+  "track": "ai-native-engineering",
+  "module": "ai-native-engineering",
+  "order": 1,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [],
+  "skills": [
+    "Software Engineering",
+    "Security"
+  ],
+  "objectives": [
+    "Inspect the existing authorization path and reproduce the failure before editing",
+    "An authorized account lookup succeeds and an unrelated tenant remains denied"
+  ],
+  "experiments": [],
+  "practice": [
+    "repository-reconnaissance-decision",
+    "repository-reconnaissance-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "GitHub: responsible use of coding agents",
+      "url": "https://docs.github.com/en/enterprise-cloud%40latest/copilot/responsible-use/agents"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar gives you a repository and asks for a CRM fix before tomorrow’s demonstration. The README describes a retired authentication service. A coding agent proposes a large rewrite after reading only the entry point.
+</CustomerScenario>
+
+## Build an evidence map before a patch
+
+Start with the failing customer journey: sign in, select an account, and request permitted account data. Trace the route, server handler, identity mapper, adapter, and downstream contract. Record which files support each link. Read repository instructions and dependency versions before using remembered framework APIs. Run the smallest existing test that exercises the reported failure, and distinguish an observed failure from a hypothesis.
+
+An agent can propose a repository map, but the map is a claim to check against imports, call sites, and executable tests. Give it a bounded investigation: locate the authorization decision, identify its inputs, and show the test that establishes the current behavior. Do not send secrets, raw customer records, or unrestricted production credentials as debugging context. Use a redacted fixture that preserves the relevant role and tenant relationships.
+
+## Choose the smallest reversible change
+
+Create a failing regression test for the missing scoped role, then change the mapper or contract boundary that owns that behavior. A UI patch that suppresses the 403 message would improve the demo while leaving the customer unable to read accounts. A blanket administrator role would make the request pass while breaking the security requirement.
+
+Keep a short investigation log: observed evidence, rejected hypothesis, proposed change, test result, and residual uncertainty. Ask a repository owner about undocumented assumptions before relying on them. Compare the final diff with the original customer request; a formatting sweep or unrelated dependency upgrade adds review work without explaining the fix.
+
+<FDEPrinciple>
+The README may be stale; runtime code and a reproducer establish the relevant boundary.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Inspect the existing authorization path and reproduce the failure before editing.
+- Verification: An authorized account lookup succeeds and an unrelated tenant remains denied.
+- Review question: A regression check must prove intended access and preserve denial, not merely hide a symptom.
+
+[Apply this lesson in the field workspace](/challenges/crm-access-incident). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

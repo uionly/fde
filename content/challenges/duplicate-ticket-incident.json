@@ -1,0 +1,109 @@
+{
+  "id": "duplicate-ticket-incident",
+  "kind": "debugging",
+  "title": "One request creates two tickets",
+  "description": "Reconstruct a timeout and retry to find why the customer received duplicate tickets despite a low error rate.",
+  "skills": [
+    "Production",
+    "Data",
+    "Software Engineering"
+  ],
+  "relatedLessons": [
+    "integration-and-data-contracts"
+  ],
+  "sources": [
+    {
+      "title": "AWS Builders Library: idempotent APIs",
+      "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+    },
+    {
+      "title": "Google SRE: incident response",
+      "url": "https://sre.google/workbook/incident-response/"
+    }
+  ],
+  "hint": "A timeout describes what the caller observed. Compare the operation keys and the destination records before deciding that a write failed.",
+  "expertReasoning": "The first request committed T100 before its response timed out. The retry generated a new key and created T101. Reconcile by the original operation key, reuse that key for the same intent, and make the destination enforce deduplication atomically. Test concurrent retries and changed payloads. Resolve the existing duplicates with the owner rather than deleting records silently.",
+  "evidence": [
+    {
+      "id": "ticket",
+      "title": "Customer report",
+      "type": "ticket",
+      "body": "Synthetic ticket NS-DUP. The support agent pressed Create ticket once. Two identical tickets arrived within two seconds. The UI reported a transient timeout followed by success."
+    },
+    {
+      "id": "flow",
+      "title": "Write path",
+      "type": "architecture",
+      "body": "Support UI \u2192 agent runtime \u2192 ticket adapter \u2192 Atlas ticket service. The adapter retries network timeouts. There is no shared transaction spanning the adapter and the service."
+    },
+    {
+      "id": "attempts",
+      "title": "Attempt log",
+      "type": "logs",
+      "body": "12:00:00 attempt=1 intent=case-77 key=op-a sent\n12:00:01 attempt=1 result=timeout\n12:00:01 attempt=2 intent=case-77 key=op-b sent\n12:00:02 attempt=2 result=201 ticket=T101"
+    },
+    {
+      "id": "records",
+      "title": "Destination records",
+      "type": "data",
+      "body": "T100 created_at=12:00:00.400 operation_key=op-a intent=case-77\nT101 created_at=12:00:01.400 operation_key=op-b intent=case-77\nBoth records are committed. The first response was lost."
+    },
+    {
+      "id": "config",
+      "title": "Retry configuration",
+      "type": "configuration",
+      "body": "retry_network_errors=true\nmax_attempts=3\noperation_key=generate_new_uuid_per_attempt\nDestination deduplication is atomic within (tenant_id, operation_key) and rejects changed payloads for an existing key."
+    },
+    {
+      "id": "metrics",
+      "title": "Aggregate dashboard",
+      "type": "metrics",
+      "body": "Synthetic 24h HTTP success rate: 99.7%. Ticket-created event count: 2004. Distinct user intents: 2000. Aggregate HTTP success does not measure duplicate business effects."
+    }
+  ],
+  "causes": [
+    {
+      "id": "key",
+      "label": "Retry changed the operation key after an ambiguous outcome",
+      "explanation": "Both writes committed under different keys for the same user intent."
+    },
+    {
+      "id": "click",
+      "label": "The user clicked twice",
+      "explanation": "The log records one intent followed by an automated retry; the evidence does not show a second click."
+    },
+    {
+      "id": "model",
+      "label": "The model hallucinated a ticket ID",
+      "explanation": "The destination contains two committed records, so the failure is in the write path."
+    }
+  ],
+  "remediations": [
+    {
+      "id": "longer",
+      "label": "Only increase the timeout",
+      "explanation": "A longer timeout may reduce frequency but cannot eliminate ambiguous write outcomes."
+    },
+    {
+      "id": "stable",
+      "label": "Persist a stable key per intent, reconcile status, and test atomic deduplication",
+      "explanation": "Stable identity plus destination enforcement makes repeated attempts refer to the same intended operation."
+    },
+    {
+      "id": "delete",
+      "label": "Automatically delete every ticket with matching text",
+      "explanation": "Distinct legitimate requests may share text; deletion requires explicit business reconciliation."
+    }
+  ],
+  "correctCause": "key",
+  "correctRemediation": "stable",
+  "requiredEvidence": [
+    "attempts",
+    "records",
+    "config"
+  ],
+  "customer": "Northstar Financial \u2014 fictional training scenario",
+  "difficulty": "advanced",
+  "estimatedMinutes": 30,
+  "reviewedAt": "2026-09-11"
+}

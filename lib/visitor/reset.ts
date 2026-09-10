@@ -1,3 +1,4 @@
+import { clearChallenges, challengeStorageKey } from "@/lib/challenges/storage";
 import { capstoneProgressStorageKey, clearCapstoneProgress } from "@/lib/capstone/progress";
 import { clearStoredGameProfile, gameProfileStorageKey } from "@/lib/games/storage";
 import { clearVisitorProgress, visitorProgressStorageKey } from "@/lib/visitor/progress";
@@ -7,12 +8,14 @@ export function clearVisitorSessionData() {
   if (typeof window === "undefined") return false;
 
   try {
+    const challengesCleared = clearChallenges();
     const gameProfileCleared = clearStoredGameProfile();
     const learningProgressCleared = clearVisitorProgress();
     const capstoneProgressCleared = clearCapstoneProgress();
-    return gameProfileCleared
+    return challengesCleared && gameProfileCleared
       && learningProgressCleared
       && capstoneProgressCleared
+      && window.localStorage.getItem(challengeStorageKey) === null
       && window.localStorage.getItem(gameProfileStorageKey) === null
       && window.localStorage.getItem(visitorProgressStorageKey) === null
       && window.localStorage.getItem(capstoneProgressStorageKey) === null;

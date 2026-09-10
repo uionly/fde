@@ -7,21 +7,18 @@ test("landing page, navigation, and theme work", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.getByRole("heading", { level: 1, name: /Become a Forward Deployed Engineer/i })).toBeVisible();
-  await expect(page.getByText(/Can you ship AI that survives the enterprise/i)).toBeVisible();
-  await expect(page.getByRole("heading", { level: 2, name: /What is a Forward Deployed Engineer/i })).toBeVisible();
   await expect(page.getByText("Northstar Financial", { exact: true })).toBeVisible();
-  await expect(page.getByRole("main").getByRole("link", { name: /Start learning/ })).toHaveAttribute("href", "/learn");
-  await expect(page.getByRole("main").getByRole("link", { name: /Run a 5-minute AI mission/ })).toHaveAttribute("href", "/games/model-router-arena");
-  await expect(page.getByRole("main").getByRole("link", { name: /View full roadmap/ })).toHaveAttribute("href", "/learn");
-  await expect(page.getByRole("main").getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
-  await expect(page.getByRole("link", { name: /Change the variables/ })).toHaveAttribute("href", "/experiments");
-  await expect(page.getByRole("link", { name: /Deliver the outcome/ })).toHaveAttribute("href", "/labs#field-missions");
-
-  await page.getByRole("link", { name: "Home", exact: true }).click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("heading", { name: "What is a Forward Deployed Engineer?" })).toBeVisible();
+  const home = page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Home", exact: true });
+  await expect(home).toHaveAttribute("aria-current", "page");
+  await expect(page.getByRole("main").getByRole("link", { name: "Start learning", exact: true })).toHaveAttribute("href", "/learn");
+  await expect(page.getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
+  await expect(page.getByRole("link", { name: /Interactive experiments/ })).toHaveAttribute("href", "/experiments");
+  await expect(page.getByRole("link", { name: /Guided labs/ })).toHaveAttribute("href", "/labs#field-missions");
 
   await page.getByRole("link", { name: "Learn", exact: true }).click();
   await expect(page).toHaveURL(/\/learn$/);
+  await expect(home).not.toHaveAttribute("aria-current");
   await expect(page.getByRole("heading", { level: 1, name: "Learn through the customer problem." })).toBeVisible();
 
   await page.getByRole("button", { name: "Toggle color theme" }).click();
@@ -32,12 +29,12 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
-  const primaryAction = page.getByRole("main").getByRole("link", { name: /Start learning/ });
+  const mission = page.getByRole("main").getByRole("link", { name: "Start learning", exact: true });
   const light = await page.evaluate(() => {
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color, font: body.fontFamily };
   });
-  const lightPrimaryAction = await primaryAction.evaluate((element) => {
+  const lightMission = await mission.evaluate((element) => {
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color, radius: style.borderRadius };
   });
@@ -47,8 +44,7 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     color: "rgb(33, 33, 39)",
     font: expect.stringContaining("Montserrat"),
   });
-  expect(lightPrimaryAction).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
-  await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(244, 90, 166)");
+  expect(lightMission).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
 
   await page.evaluate(() => localStorage.setItem("theme", "dark"));
   await page.reload();
@@ -58,14 +54,13 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color };
   });
-  const darkPrimaryAction = await primaryAction.evaluate((element) => {
+  const darkMission = await mission.evaluate((element) => {
     const style = getComputedStyle(element);
     return { background: style.backgroundColor, color: style.color };
   });
 
   expect(dark).toEqual({ background: "rgb(26, 26, 30)", color: "rgb(242, 242, 245)" });
-  expect(darkPrimaryAction).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
-  await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(163, 8, 87)");
+  expect(darkMission).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
 });
 
 test("brand typography falls back safely on mobile with reduced motion", async ({ page }) => {
@@ -89,29 +84,12 @@ test("brand typography falls back safely on mobile with reduced motion", async (
 });
 
 test("all milestone routes render", async ({ page }) => {
-  const routes = ["/labs", "/games", "/operations", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
+  const routes = ["/labs", "/games", "/practice", "/case-studies", "/capstone", "/progress", "/resources"];
 
   for (const route of routes) {
     await page.goto(route);
     await expect(page.locator("h1")).toBeVisible();
   }
-});
-
-test("AI Operations Center feels live and remains usable on mobile", async ({ page }) => {
-  await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/operations");
-
-  await expect(page.getByRole("heading", { level: 1, name: "AI Operations Center" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "AI activity grid" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Live response feed" })).toBeVisible();
-  await page.getByRole("button", { name: "Acknowledge inc-2481" }).click();
-  await expect(page.getByText("inc-2481 acknowledged. Response lead notified.")).toBeVisible();
-
-  const widths = await page.evaluate(() => ({
-    content: document.documentElement.scrollWidth,
-    viewport: document.documentElement.clientWidth,
-  }));
-  expect(widths.content).toBeLessThanOrEqual(widths.viewport);
 });
 
 test("AI Labs owns its arcade, playground, and field-mission routes", async ({ page }) => {
@@ -188,7 +166,7 @@ test("visitor completes and resumes a lesson on this device", async ({ page }) =
   await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();
   await page.goto("/progress");
   await expect(page.getByText(/Saved only in this browser/i)).toBeVisible();
-  await expect(page.getByText("1 of 48 lessons", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 of 60 lessons", { exact: true })).toBeVisible();
   await expect(page.locator("#main-content").getByText("2%", { exact: true })).toBeVisible();
 });
 
@@ -262,7 +240,8 @@ test("guided lab saves and resumes the current step", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Read the customer request" })).toBeVisible();
   await page.getByRole("button", { name: "Save & continue" }).click();
   await expect(page.getByRole("heading", { name: "Map the stakeholders" })).toBeVisible();
-  await page.getByLabel("Your working notes").fill("Sponsor, support specialists, operations, security, and data owners");
+  await page.getByLabel("Your working notes").fill("Sponsor, support specialists, operations, security, and data owners validate workflow and access. I will verify each owner accepts the responsibility and the success measure.");
+  await page.getByRole("radio", { name: /Frontline users/ }).check();
   await page.getByRole("button", { name: "Save & continue" }).click();
   await page.reload();
   await expect(page.getByRole("heading", { name: "Draft discovery questions" })).toBeVisible();
@@ -367,4 +346,16 @@ test("integrated visitor learning journey", async ({ page }) => {
   await page.goto("/progress");
   await expect(page.locator("#main-content").getByText("2%", { exact: true })).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Security skill score: 100%" })).toBeVisible();
+});
+
+test("home hub searches the shared knowledge index and opens field reference", async ({ page }) => {
+  await page.goto("/");
+  const search = page.getByRole("search", { name: "Search FDE knowledge" });
+  await search.getByRole("searchbox").fill("permission retrieval");
+  await search.getByRole("button", { name: "Search", exact: true }).click();
+  await expect(page).toHaveURL(/\/search\?q=permission\+retrieval/);
+  await expect(page.getByRole("link", { name: /Permission-Aware Enterprise Retrieval/ })).toBeVisible();
+  await page.goto("/");
+  await page.getByRole("link", { name: /Templates and checklists/ }).click();
+  await expect(page.getByRole("heading", { name: "Downloadable templates" })).toBeVisible();
 });

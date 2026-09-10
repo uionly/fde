@@ -1,0 +1,104 @@
+{
+  "id": "crm-access-incident",
+  "kind": "debugging",
+  "title": "Login works, CRM returns 403",
+  "description": "Trace a successful login through a failing downstream authorization boundary without escalating privileges.",
+  "skills": [
+    "Security",
+    "Production",
+    "Software Engineering"
+  ],
+  "relatedLessons": [
+    "identity-and-least-privilege"
+  ],
+  "sources": [
+    {
+      "title": "OWASP Authorization Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+    }
+  ],
+  "hint": "Compare the API authorization contract with the mapped claims, rather than treating all access errors as failed authentication.",
+  "expertReasoning": "The token has the intended audience and has not expired. The gateway removed the CRM reader role while mapping group membership, so the CRM permission check correctly denies the call. Restore the scoped mapping; verify authorized reads and denial for unrelated users. Do not give the agent administrator privileges.",
+  "evidence": [
+    {
+      "id": "ticket",
+      "title": "Customer ticket",
+      "type": "ticket",
+      "body": "Synthetic ticket NS-403. Since release r42, support users can sign in and ask general policy questions, but account lookups fail. Compliance users were never permitted to read these accounts."
+    },
+    {
+      "id": "flow",
+      "title": "Request path",
+      "type": "architecture",
+      "body": "Browser \u2192 support API \u2192 identity mapper \u2192 CRM adapter \u2192 CRM. Policy search uses a separate read-only adapter. The model cannot issue raw HTTP calls."
+    },
+    {
+      "id": "token",
+      "title": "Validated token summary",
+      "type": "logs",
+      "body": "trace=ns-403-001 signature=valid exp=valid aud=crm-api sub=synthetic-user-17 groups=[support-tier-1] identity_mapper_release=r42 downstream_roles=[]; no raw token is included."
+    },
+    {
+      "id": "mapping",
+      "title": "Identity mapping diff",
+      "type": "configuration",
+      "body": "r41: support-tier-1 -> crm.reader\nr42: support-tier-1 -> support.viewer\nCRM contract: GET /accounts/{id} requires role crm.reader and tenant match. support.viewer is not a CRM role."
+    },
+    {
+      "id": "response",
+      "title": "CRM response",
+      "type": "api",
+      "body": "HTTP 403\n{\"error\":\"missing_role\",\"required\":\"crm.reader\",\"tenant_match\":true,\"trace_id\":\"ns-403-001\"}\nThe CRM enforces role checks before returning any account data."
+    },
+    {
+      "id": "metrics",
+      "title": "Dependency health",
+      "type": "metrics",
+      "body": "CRM p95 latency 180ms (baseline 182ms). CRM 5xx 0.1% (baseline 0.1%). CRM 403 for support group 100% since r42; policy-search success 99.8%. All values are synthetic."
+    }
+  ],
+  "causes": [
+    {
+      "id": "expired",
+      "label": "Expired login token",
+      "explanation": "The token summary says expiry and signature validation passed; this does not explain the role mismatch."
+    },
+    {
+      "id": "mapping",
+      "label": "Required CRM role lost in the identity mapping",
+      "explanation": "The r42 mapping removes crm.reader, and CRM reports that exact missing permission."
+    },
+    {
+      "id": "latency",
+      "label": "CRM overload",
+      "explanation": "Stable latency and 5xx rates do not support an overload diagnosis."
+    }
+  ],
+  "remediations": [
+    {
+      "id": "admin",
+      "label": "Grant all agents CRM administrator access",
+      "explanation": "Broad privileges bypass the intended least-privilege boundary and hide the mapping defect."
+    },
+    {
+      "id": "retry",
+      "label": "Retry every 403 five times",
+      "explanation": "Repeated permission failures cannot repair missing authorization."
+    },
+    {
+      "id": "restore",
+      "label": "Restore the scoped role mapping and test allowed and denied users",
+      "explanation": "A targeted mapping fix restores intended access while negative tests guard against privilege expansion."
+    }
+  ],
+  "correctCause": "mapping",
+  "correctRemediation": "restore",
+  "requiredEvidence": [
+    "mapping",
+    "response"
+  ],
+  "customer": "Northstar Financial \u2014 fictional training scenario",
+  "difficulty": "advanced",
+  "estimatedMinutes": 30,
+  "reviewedAt": "2026-09-11"
+}

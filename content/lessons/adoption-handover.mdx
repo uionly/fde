@@ -1,0 +1,66 @@
+---
+{
+  "id": "adoption-handover",
+  "slug": "adoption-handover",
+  "title": "Engineer adoption and an owned handover",
+  "track": "customer-delivery",
+  "module": "customer-delivery",
+  "order": 2,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [
+    "decision-workshops"
+  ],
+  "skills": [
+    "Customer Delivery",
+    "Discovery"
+  ],
+  "objectives": [
+    "Observe workflow friction and have the receiving team perform a recovery exercise",
+    "Measure repeated useful task completion and test the escalation route"
+  ],
+  "experiments": [],
+  "practice": [
+    "adoption-handover-decision",
+    "adoption-handover-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "GOV.UK: measuring service benefits",
+      "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar’s pilot users liked the demo but continue using their old workflow. The implementation team is leaving, and nobody has accepted the escalation queue.
+</CustomerScenario>
+
+## Investigate the workflow friction
+
+Observe where the new tool enters the user’s working day. Does it require another login, hide a source, create duplicate entry, or force the user to verify every answer? Segment adoption by role and task so a small enthusiastic cohort does not conceal widespread friction. Distinguish awareness, activation, repeated useful use, and completed customer outcomes.
+
+Train users on realistic exceptions as well as the happy path. Explain when the system abstains, how to inspect evidence, and how to escalate a bad result. Collect feedback with the task context and outcome, not only a satisfaction score. Assign an owner to review that feedback and connect repeated problems to the product backlog. Adoption work is incomplete when reports accumulate without decisions.
+
+## Transfer the ability to operate
+
+A handover should identify service ownership, deployment procedure, rollback, access administration, dependency contacts, dashboards, alerts, and incident response. Demonstrate a recovery exercise with the receiving team. Ask them to perform the task while the implementation team observes; watching a presentation does not establish that they can operate the system.
+
+Document known limitations and commitments with owners and dates. Define a support window and an escalation route that will still exist after the FDE leaves. Review reusable lessons with the product team: a customer-specific workaround may reveal a missing platform capability, but should not automatically become a global feature. Close the engagement with accepted operational artifacts and measured outcomes, not only a final presentation.
+
+<FDEPrinciple>
+Ownership and operational capability need explicit transfer and verification.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Observe workflow friction and have the receiving team perform a recovery exercise.
+- Verification: Measure repeated useful task completion and test the escalation route.
+- Review question: Invitations measure distribution, not adoption or ability to operate.
+
+[Apply this lesson in the field workspace](/resources/templates/handover-template). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

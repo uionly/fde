@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **O1 complete — AI Operations Center**
+Current milestone: **R3 complete — Remote reconciliation and operations removal**
 
 ## Milestones
 
@@ -22,7 +22,9 @@ Current milestone: **O1 complete — AI Operations Center**
 - [x] C1 — Complete MVP Content Expansion
 - [x] C2 — Editable Capstone & Optional AI Coach
 - [x] B1 — TO THE NEW Brand Token Refresh
-- [x] O1 — AI Operations Center
+- [x] R1 — Learning Hub & Obsolete Runtime Cleanup
+- [x] R2 — Field Depth, Applied Challenges & Reference
+- [x] R3 — Remote Reconciliation & Operations Removal
 
 ## M1 implementation summary
 
@@ -36,25 +38,25 @@ Current milestone: **O1 complete — AI Operations Center**
 
 ## Design decisions
 
-- Server Components are the default; only navigation state and theme switching use Client Components.
+- Server Components are the default; navigation, themes, interactive labs/challenges, practice, experiments, and browser progress use Client Components.
 - Product visuals are code-native and typography-led to preserve the professional engineering-lab character.
 - Montserrat drives interface, heading, and prose hierarchy; Geist Mono remains reserved for code, logs, and evidence labels.
 - Repository data and domain services drive lessons, labs, practice, experiments, case studies, search, and resources; route components stay thin.
-- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, Field Arcade, and capstone state on this device.
+- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, Field Arcade, challenge drafts, and capstone state on this device.
 - `AI_MODE=mock` is the credential-free default.
 
-## Verification
+## Verification — R2
 
-- `npm run validate:content` — passed (9 tracks, 48 lessons, 150 questions, 12 capstone phases, and all other repository content)
-- `npm run lint` — passed
-- `npm run typecheck` — passed
-- `npm run test` — passed (115 tests across 29 files)
-- `npm run build` — passed; 102 pages generated plus the dynamic capstone coaching endpoint
-- `npm run test:e2e` — passed (29 serial Chromium journeys, including light/dark brand rendering, offline font fallback, deterministic capstone completion, immediate navigation save, reload resume, mock coaching, verified skill evidence, 360px/reduced-motion coverage, full visitor reset, G2 mechanics, and the integrated visitor path)
+- Content validation passed: 15 tracks, 60 lessons, 174 questions, 4 challenges, 3 labs, 5 experiments, 6 games, 12 capstone phases, 38 glossary entries, 1 case study, 24 resources.
+- ESLint, TypeScript, and whitespace checks passed.
+- Unit tests: 129 passed across 33 files.
+- Production build passed: 173 generated pages.
+- Full Playwright suite: 35 Chromium journeys passed, including failure/bypass cases, persistence/reset, source-linked lesson rendering, all resource downloads, mobile layout, and `/operations` returning 404.
 
 ## Known limitations
 
-- The MVP curriculum target is complete at 48 published lessons and 150 scenario-heavy questions across nine tracks and eight practice categories.
+- The 15 tracks cover all 14 specification subject areas plus the retained bridge track. Depth and exercise limits are documented in `docs/CURRICULUM_COVERAGE.md`; counts do not imply exhaustive expertise.
+- Lab/challenge reasoning is self-reviewed. Authored checks validate decision selections, evidence presence, and graph structure; no deployed enforcement or live customer integration is certified.
 - Visitor evidence is intentionally local to one browser and does not synchronize across devices.
 - Model routing and retrieval now have dedicated mechanics. The other four Field Arcade missions retain the decision-card renderer until G3 and later expansion.
 - Field Arcade evidence remains separate from practice/Field Mission skill scoring until G4; Start fresh clears both app-owned visitor records while preserving theme and unrelated browser storage.
@@ -62,11 +64,11 @@ Current milestone: **O1 complete — AI Operations Center**
 - Optional Anthropic coaching is server-only and advisory. Multi-instance production still needs a shared rate limiter and provider cost/availability monitoring.
 - Capstone evidence is verified against authored rules but remains self-directed browser evidence, not tamper-proof certification or cross-device account history.
 - Montserrat uses the supplied Google Fonts stylesheet; the complete system-font fallback keeps the showcase usable when that request is unavailable.
-- The in-app visual inspection connection was unavailable in this environment; local Chromium rendering and comprehensive automated interaction coverage passed.
+- Mobile dark-mode architecture rendering was visually inspected from Chromium; browser checks also cover light/dark themes, reduced motion, keyboard controls, and horizontal overflow.
 
 ## Next milestone
 
-All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-MVP game milestone is G3 in `docs/GAME_IMPLEMENTATION_PLAN.md`: Prompt Injection Detective and Agent Access Lockdown.
+R3 is complete and stops here. No next milestone has been started. Remaining depth and non-goals are explicit in the coverage map; G3 remains in the Arcade backlog.
 
 ## M2 validation record
 
@@ -236,17 +238,34 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Preserved visible focus, dark mode, reduced-motion behavior, theme persistence, and responsive layouts. Rendered Chromium review covered the landing page, AI Labs at 390px, and capstone in dark mode; automated coverage also blocks Google Fonts to verify the fallback stack and 360px overflow behavior.
 - Passed repository content validation, full ESLint, strict TypeScript, all 115 unit tests across 29 files, the 102-page production build plus coaching endpoint, and all 29 serial Chromium journeys.
 
-## Home page purpose refresh
+## R1 validation record — 2026-09-11
 
-- Repositioned the landing hero around spec-aligned purpose copy: hybrid H1 (“Become a Forward Deployed Engineer”) plus enterprise challenge subhead, with **Start learning** as the primary CTA.
-- Added **What is FDE?** comparison section, six-track curriculum preview (reusing `TrackCard`), interactive AI Labs showcase with live counts, and a dedicated Northstar enterprise scenario block.
-- Added **Home** to primary navigation with exact-only active state for `/`.
-- Updated the landing-page Chromium smoke journey for the new headings and links.
+- Reviewed the product and source against the normative specifications; recorded prioritized gaps and evidence in `docs/APPLICATION_REVIEW.md`.
+- Replaced game-first homepage promotion with curriculum access, shared search, a content-driven roadmap, labs/practice/reference links, and browser-progress access. Retained Northstar and the 10D framework.
+- Removed redundant promotional UI, unused bootstrap preview, obsolete account-backed stores, Prisma dependencies, generated code, schema/migrations, and install hook. Existing visitor state remains intact.
+- Added homepage coverage and an end-to-end search/reference journey; updated branding tests for the new primary learning action.
+- ESLint and `git diff --check` passed (no standalone formatter is configured).
+- TypeScript passed; all 116 unit tests across 30 files passed.
+- Content validation passed: 9 tracks, 48 lessons, 150 questions, 3 labs, 5 experiments, 6 games, 12 capstone phases, 8 glossary entries, 1 case study, 6 resources.
+- Production build passed with 102 generated pages.
+- All 19 applicable Chromium smoke journeys passed, including mobile/reduced motion, light/dark branding, search, practice, lab resume, and the integrated visitor path. Other specialized capstone/game suites were not rerun for this milestone.
+- Initial sandbox process/network restrictions were resolved with execution access; lockfile regeneration succeeded. No deployment was performed.
 
-## O1 AI Operations Center implementation
+## R2 validation record — 2026-09-11
 
-- Added a primary-navigation AI Operations tab and a dedicated `/operations` command-center route.
-- Added Zod-validated, repository-authored JSON for metrics, model lanes, topology traffic, terminal events, and incidents.
-- Built a responsive dark operations surface with live token/request counters, model-load movement, an animated activity topology, terminal output, incident acknowledgements, and accessible toast notifications.
-- Kept motion functional and disabled by the existing reduced-motion safeguard.
-- Passed repository content validation, full ESLint, strict TypeScript, all 117 unit tests across 30 files, the 103-page production build, and all 30 serial Chromium journeys including desktop visual review and 360px overflow coverage.
+- Implemented the user-authorized expansion across all four priority gaps as one milestone.
+- Added six dedicated tracks, 12 customer-framed lessons and 24 scenario questions; ordered the new tracks within the existing curriculum without changing previous lesson URLs.
+- Added two evidence-based debugging incidents and two React Flow architecture challenges with alternate valid graphs, required-path and bypass checks, bounded JSON import/export, explicit draft saving, reset, sources, and progress visibility.
+- Added authored acceptance checks to all 11 non-reading lab steps. Re-evaluate saved work for completion and skill evidence; preserve legacy notes. Save draft keeps unfinished work without granting completion.
+- Expanded references to 24 artifacts covering all 20 requested template families, and 38 cross-linked glossary terms. Added source/review metadata, template text indexing, content-type search, and resource filters.
+- Confirmed `/operations` has no route, rewrite, or inbound link in this checkout. HTTP 404 test passes; no nonexistent file deletion was claimed.
+- Added a coverage map and claim/source ledger. Fictional data and automated evaluation limits are explicit. No live integration, account system, code execution, or deployment was introduced.
+- All quality checks above passed after correcting an accessible-name defect, stale count expectations, and repeated hint copy discovered during testing.
+
+## R3 remote reconciliation — 2026-09-11
+
+- Fetched `origin/main` at `98aa8ba`. The remote contained merged homepage, Cloud Agent environment, and O1 Operations Center changes; local main contained R1 and R2.
+- Merged the histories without rebasing or dropping either parent. Resolved overlapping homepage, header, smoke tests, and implementation status around the current learning-hub requirements.
+- Retained the remote Cloud Agent environment and executable setup script, exact-only Home navigation, and a compact FDE role explanation. Retained all R1/R2 learning, reference, validation, and challenge work.
+- Removed the remote mock O1 implementation as explicitly requested: `/operations`, its navigation, component, data, loader, styling, and obsolete tests. This route was absent during the earlier local R2 review but present in the subsequently fetched remote history. The prior O1 commits remain in Git history; the dashboard is not part of the merged application.
+- Validation: lint, TypeScript, 129 unit tests, content graph, 35 browser journeys, and the 173-page production build passed. Home active-state and `/operations` 404 assertions passed. Cloud environment JSON and setup-script syntax validated.

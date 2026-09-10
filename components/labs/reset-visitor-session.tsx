@@ -78,7 +78,7 @@ export function ResetVisitorSession({ className, triggerClassName }: { className
         <div className="p-5 sm:p-6">
           <p className="text-lg font-semibold" id={titleId}>Clear this visitor&apos;s progress?</p>
           <div className="mt-3 space-y-2 text-sm leading-6 text-muted-foreground" id={descriptionId}>
-            <p>This clears lesson, practice, Field Mission, Field Arcade, and Capstone progress saved by this app on this device. Your display theme stays unchanged.</p>
+            <p>This clears lesson, practice, Field Mission, Field Arcade, and Capstone progress, plus saved field challenges saved by this app on this device. Your display theme stays unchanged.</p>
             <p>Any unsaved work on the current screen will be lost.</p>
           </div>
           <p aria-live="assertive" className="mt-3 min-h-5 text-xs leading-5 text-rose-600 dark:text-rose-400">{error}</p>

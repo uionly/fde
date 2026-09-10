@@ -1,0 +1,66 @@
+---
+{
+  "id": "agent-assisted-verification",
+  "slug": "agent-assisted-verification",
+  "title": "Verify an agent-generated change",
+  "track": "ai-native-engineering",
+  "module": "ai-native-engineering",
+  "order": 2,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [
+    "repository-reconnaissance"
+  ],
+  "skills": [
+    "Software Engineering",
+    "Security"
+  ],
+  "objectives": [
+    "Exercise timeout-after-commit and concurrent retries at the adapter boundary",
+    "Record commands, outcomes, tested boundaries, and remaining integration uncertainty"
+  ],
+  "experiments": [],
+  "practice": [
+    "agent-assisted-verification-decision",
+    "agent-assisted-verification-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "GitHub: responsible use of coding agents",
+      "url": "https://docs.github.com/en/enterprise-cloud%40latest/copilot/responsible-use/agents"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+An agent submits a patch claiming that all retry failures are fixed. Its new tests mock the adapter itself, and its summary says the build passed without showing the command outcome.
+</CustomerScenario>
+
+## Turn claims into checks
+
+Treat generated code and its explanation as review inputs. Start by listing the customer invariants: one user intent creates at most one ticket; an unauthorized caller cannot write; and an unknown write outcome can be reconciled. Tests should exercise those boundaries rather than restating private helper functions. A mock that always returns success cannot reveal the failure you are trying to prevent.
+
+Run the stated commands and inspect their exit codes and scope. A passing unit suite does not establish that a real identity exchange works. A passing build does not establish business correctness. Record exactly what was exercised: simulated destination, duplicate attempts, timeout after commit, and denied caller. If a check could not run, state the missing evidence instead of promoting an unverified success claim.
+
+## Control the change surface
+
+Read the diff for new dependencies, network calls, secret handling, error suppression, and changes outside the requested behavior. Use a review checklist anchored in the customer threat model. Refactor only when it makes the boundary easier to reason about, and preserve a way to roll back the change.
+
+Measure engineering velocity as time to a reviewed, working outcome, including rework and incidents. Lines generated and prompts submitted are activity measures. A fast implementation that consumes days of customer debugging is not evidence of better delivery. After the change, capture a reusable fixture and a short explanation of the failure mode so the next engineer can verify the behavior independently.
+
+<FDEPrinciple>
+Boundary tests expose the failure mode that the proposed change claims to fix.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Exercise timeout-after-commit and concurrent retries at the adapter boundary.
+- Verification: Record commands, outcomes, tested boundaries, and remaining integration uncertainty.
+- Review question: Type checking validates types, not the customer workflow or live authorization.
+
+[Apply this lesson in the field workspace](/challenges/duplicate-ticket-incident). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

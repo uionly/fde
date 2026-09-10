@@ -1,0 +1,64 @@
+---
+{
+  "id": "customer-data-contracts",
+  "slug": "customer-data-contracts",
+  "title": "Make a customer data contract executable",
+  "track": "data-engineering",
+  "module": "data-engineering",
+  "order": 1,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [],
+  "skills": [
+    "Data",
+    "Architecture"
+  ],
+  "objectives": [
+    "Agree units, null semantics, ownership, and versioning in addition to the schema",
+    "Inject missing currency and late corrections and inspect quarantine and replay"
+  ],
+  "experiments": [],
+  "practice": [
+    "customer-data-contracts-decision",
+    "customer-data-contracts-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "JSON Schema object validation",
+      "url": "https://json-schema.org/understanding-json-schema/reference/object"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar’s account feed passes JSON parsing but mixes monetary units, omits ownership information, and uses an empty string to represent an unknown closure date.
+</CustomerScenario>
+
+## Agree meaning before transport
+
+A schema describes structure; the customer contract must also describe meaning. For an account balance, specify the currency, scale, source system, effective time, and permitted use. For an optional date, distinguish absent, unknown, and not applicable. Decide whether an unexpected field is tolerated or rejected and how producers introduce a new version without silently breaking consumers.
+
+Choose a representative sample with the source owner. Include empty values, duplicate identifiers, late corrections, deleted records, and records outside the requesting user’s tenant. A field that is present and string-shaped can still be operationally wrong. Record the source of truth for each important attribute and the owner who can resolve conflicts. Structured tables and unstructured documents need different parsing paths, but both need ownership and access rules.
+
+## Validate at the boundary
+
+Separate structural validation from semantic checks. A JSON schema can constrain required fields and value shapes; a domain rule can reject a balance without a known currency or a record whose account identifier cannot be resolved. Quarantine invalid records with a reason and a bounded retention policy rather than converting them into plausible defaults.
+
+ETL transforms before loading a destination; ELT loads before transformation. Choose based on governance, destination capability, and recovery needs rather than treating one label as universally superior. Keep an immutable source reference or revision where the policy permits it so a corrected transformation can be replayed. Before launch, demonstrate how a producer change is detected, which consumer is affected, who is notified, and how a corrected record becomes visible.
+
+<FDEPrinciple>
+Parsing cannot establish business meaning, source authority, or correct units.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Agree units, null semantics, ownership, and versioning in addition to the schema.
+- Verification: Inject missing currency and late corrections and inspect quarantine and replay.
+- Review question: Volume can look healthy while records are semantically unusable.
+
+[Apply this lesson in the field workspace](/resources/templates/data-contract). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

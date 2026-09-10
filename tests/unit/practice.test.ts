@@ -6,8 +6,8 @@ import { filterQuestions, orderedQuestionChoices, scoreQuestion } from "@/lib/pr
 describe("practice scoring", () => {
   const questions = getAllQuestions();
 
-  it("loads the complete 150-question scenario bank", () => {
-    expect(questions).toHaveLength(150);
+  it("loads the complete 174-question scenario bank", () => {
+    expect(questions).toHaveLength(174);
   });
 
   it("requires the exact answer set for full credit", () => {

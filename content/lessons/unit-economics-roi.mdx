@@ -1,0 +1,66 @@
+---
+{
+  "id": "unit-economics-roi",
+  "slug": "unit-economics-roi",
+  "title": "Build a defensible unit-economics model",
+  "track": "business-impact",
+  "module": "business-impact",
+  "order": 2,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [
+    "baseline-outcome-measurement"
+  ],
+  "skills": [
+    "Business Thinking",
+    "Customer Delivery"
+  ],
+  "objectives": [
+    "Divide full operating cost by successful customer tasks and expose assumptions",
+    "Test adoption and review-rate sensitivity over a consistent time horizon"
+  ],
+  "experiments": [],
+  "practice": [
+    "unit-economics-roi-decision",
+    "unit-economics-roi-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "GOV.UK: measuring service benefits",
+      "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar’s sponsor asks whether the pilot pays for itself. The proposal includes model tokens but excludes human review, integration support, and the cost of failed attempts.
+</CustomerScenario>
+
+## Count the full cost of useful work
+
+Separate one-time implementation cost from recurring operating cost. Include model usage, retrieval infrastructure, observability, support, human review, and rework when they are relevant to the customer workflow. State the time horizon and currency. Price assumptions are inputs to verify with the customer and vendors, not facts supplied by a timeless lesson.
+
+For a synthetic example, 1,000 eligible tasks cost 2,000 units to operate and 800 meet the agreed success definition. Cost per successful task is 2.5 units, not 2.0. If retries increase usage without increasing successful outcomes, the denominator stays the same while cost rises. Record where each estimate came from and distinguish measured inputs from assumptions.
+
+## Expose the sensitivity
+
+Define ROI for the chosen horizon as net benefit divided by total cost when total cost is positive. Do not divide by zero or combine monthly benefit with annual cost. Time saved becomes a financial saving only if the customer can translate it into an agreed benefit; otherwise report released capacity separately. Avoid counting both released time and a cash saving as independent benefits when they describe the same change.
+
+Build conservative, base, and optimistic cases for adoption, review rate, useful completion, and support load. Find the assumptions that change the decision and design the next pilot measurement around them. An executive summary should show the outcome, full cost, uncertainty, and recommended next step. A precise spreadsheet cell does not make an uncertain assumption precise.
+
+<FDEPrinciple>
+Unit economics needs the agreed useful outcome and all material costs.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Divide full operating cost by successful customer tasks and expose assumptions.
+- Verification: Test adoption and review-rate sensitivity over a consistent time horizon.
+- Review question: Released capacity and realized cash savings are different benefit claims.
+
+[Apply this lesson in the field workspace](/resources/templates/roi-calculator). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.
