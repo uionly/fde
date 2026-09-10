@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
+import { ChallengeProgress } from "@/components/challenges/challenge-progress";
 import { VisitorProgressDashboard } from "@/components/progress/visitor-progress-dashboard";
-import { getAllGames, getAllLabs, getAllLessons, getAllQuestions, getAllTracks, getCapstone } from "@/lib/content";
+import { getAllChallenges, getAllGames, getAllLabs, getAllLessons, getAllQuestions, getAllTracks, getCapstone } from "@/lib/content";
 
 export const metadata: Metadata = { title: "Progress" };
 
@@ -12,7 +13,7 @@ export default function ProgressPage() {
   }));
   const tracks = getAllTracks().map((track) => ({ slug: track.slug, title: track.title }));
   const questions = getAllQuestions().map((question) => ({ id: question.id, skills: question.skills }));
-  const labs = getAllLabs().map((lab) => ({ id: lab.id, skills: lab.skills }));
+  const labs = getAllLabs().map((lab) => ({ id: lab.id, skills: lab.skills, steps: lab.steps }));
   const capstonePhases = getCapstone().phases.map((phase) => ({
     consequences: phase.consequences,
     controls: phase.controls,
@@ -24,13 +25,13 @@ export default function ProgressPage() {
   }));
 
   return (
-    <VisitorProgressDashboard
+    <><VisitorProgressDashboard
       capstonePhases={capstonePhases}
       gameCount={getAllGames().length}
       labs={labs}
       lessons={lessons}
       questions={questions}
       tracks={tracks}
-    />
+    /><ChallengeProgress challenges={getAllChallenges()} /></>
   );
 }

@@ -17,6 +17,7 @@ export function SiteFooter() {
           <div className="mt-3 flex flex-col items-start gap-2 text-sm">
             <Link className="transition-colors hover:text-primary" href="/learn">Learning tracks</Link>
             <Link className="transition-colors hover:text-primary" href="/practice">Practice</Link>
+            <Link className="transition-colors hover:text-primary" href="/challenges">Field challenges</Link>
             <Link className="transition-colors hover:text-primary" href="/resources">Resources</Link>
           </div>
         </nav>

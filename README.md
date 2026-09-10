@@ -1,6 +1,6 @@
 # FDE Learning Lab
 
-FDE Learning Lab is an enterprise-AI deployment simulator for experienced Software Engineers moving into Forward Deployed Engineering.
+FDE Learning Lab is a learning and field-reference workspace for experienced Software Engineers moving into Forward Deployed Engineering.
 
 Learners work inside a continuous fictional customer engagement, Northstar Financial. They discover the real problem, make architecture and safety decisions, test system behavior, build customer artifacts, debug production failures, and connect technical work to adoption and business outcomes. The experience follows the **10D FDE loop**:
 
@@ -16,11 +16,12 @@ This is not a beginner programming course or a video LMS. Every concept starts w
 | Field Arcade — `/games` | Route production traffic, rank bounded retrieval evidence, make no-typing deployment decisions, and inspect deterministic quality, safety, cost, and latency consequences. | 6 games, 12 authored scenarios |
 | Playgrounds — `/experiments` | Change technical variables in chunking, retrieval, agent tools, prompt injection, and AI economics. | 5 deterministic experiments |
 | Field Missions — `/labs#field-missions` | Complete longer customer deliverables with ordered steps, notes, hints, solutions, and resume support. | 3 guided missions |
-| Learn — `/learn` | Build FDE and enterprise-AI mental models through repository-authored, validated MDX lessons. | 9 tracks, 48 lessons |
-| Practice — `/practice` | Work through scenario-heavy single- and multiple-choice decisions with rationales. | 150 questions across 8 categories |
+| Field challenges — `/challenges` | Diagnose incidents from evidence and connect editable architectures with constraint feedback. | 2 debugging and 2 architecture challenges |
+| Learn — `/learn` | Build FDE and enterprise-AI mental models through repository-authored, validated MDX lessons. | 15 tracks, 60 lessons |
+| Practice — `/practice` | Work through scenario-heavy single- and multiple-choice decisions with rationales. | 174 questions across 14 categories |
 | Customer Engagement — `/case-studies` | Follow Northstar across progressive enterprise incidents. | 10 incidents, 6 fictional systems |
 | Transformation Capstone — `/capstone` | Lead an editable, resumable 12-phase engagement; make decisions, explain reasoning, inspect deterministic evidence, and optionally request AI coaching. | 12 authored phases |
-| Progress, search, and resources | Review browser-local learning evidence, find content, and download field templates. | 9 skills, 8 glossary entries, 6 templates |
+| Progress, search, and resources | Review browser-local learning evidence, find content, and download field templates. | 9 skills, 38 glossary entries, 24 templates |
 
 All Northstar people, systems, records, and policies are synthetic.
 
@@ -38,7 +39,7 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The app is a visitor-only showcase: there is no account or sign-in flow. Lesson completion, practice evidence, Field Mission state, Field Arcade progress, and capstone drafts persist in versioned, validated browser storage on this device.
+Open [http://localhost:3000](http://localhost:3000). The app is a visitor-only showcase: there is no account or sign-in flow. Lesson completion, practice evidence, Field Mission state, Field Arcade progress, field challenge drafts, and capstone drafts persist in versioned, validated browser storage on this device.
 
 `AI_MODE=mock` is the credential-free default. It returns deterministic coaching and leaves every core experience usable without an API key. To enable optional live capstone coaching, create `.env.local` with server-only values, then restart the development server:
 
@@ -60,6 +61,7 @@ Experiments remain ephemeral and provide their own reset controls. There is no c
 | Lesson completion, practice attempts/evidence, and Field Mission state | Versioned, Zod-validated local storage in this browser | Clears all visitor learning state |
 | Field Arcade XP, streak, completions, and personal bests | This browser's local storage | Clears the device profile |
 | Capstone decisions, reasoning, deterministic results, and optional coach reviews | Separate versioned, Zod-validated local storage | Clears the engagement draft |
+| Field challenge reasoning, evidence, and graph drafts | Separate versioned, Zod-validated local storage | Clears saved challenges |
 | Playground inputs and results | Ephemeral component state | Already reset within each playground |
 | Theme and unrelated browser settings | Browser storage | Preserves them |
 
@@ -113,7 +115,8 @@ docs/                   Product source, architecture, plans, and deployment guid
 
 ## Current limitations
 
-- The MVP curriculum target is complete at 48 lessons and 150 questions; deeper coverage for data engineering, production observability, MCP integrations, customer delivery, and business impact can be added as post-MVP tracks.
+- The curriculum now has 60 lessons and 174 questions across 15 tracks. New areas cover AI-native engineering, MCP integration, data, production, delivery, and business impact. See the coverage map for scope and remaining depth.
+- Lab checks validate authored decisions and reasoning presence; prose quality remains self-reviewed. Challenge graph rules verify structure, not deployed enforcement. Neither result is a certification.
 - Model routing and retrieval now use distinct interactive mechanics. The remaining four Arcade missions use the decision-card renderer; dedicated security and agent mechanics are planned in G3.
 - All learner evidence is device-local and is not synchronized across browsers or devices.
 - Analytics are typed browser events without a configured collection adapter.
@@ -122,6 +125,8 @@ docs/                   Product source, architecture, plans, and deployment guid
 
 ## Documentation
 
+- [Curriculum coverage](docs/CURRICULUM_COVERAGE.md)
+- [Claim and validation ledger](docs/R2_VALIDATION_LEDGER.md)
 - [Application review and prioritized gaps](docs/APPLICATION_REVIEW.md)
 - [Product specification](docs/SPEC.md)
 - [MVP acceptance criteria](docs/MVP_ACCEPTANCE_CRITERIA.md)
@@ -133,4 +138,4 @@ docs/                   Product source, architecture, plans, and deployment guid
 - [Content expansion plan](docs/SEED_CONTENT_PLAN.md)
 - [Implementation status](IMPLEMENTATION_STATUS.md)
 
-The latest milestone is **R1 — Learning hub and obsolete runtime cleanup**. The [application review](docs/APPLICATION_REVIEW.md) recommends curriculum coverage and practical customer workflows next; G3 remains in the Arcade backlog.
+The latest milestone is **R2 — Field depth, applied challenges, and reference**. See the [coverage map](docs/CURRICULUM_COVERAGE.md) for what is taught and what the exercises validate. G3 remains in the Arcade backlog.

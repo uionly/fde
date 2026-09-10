@@ -1,0 +1,66 @@
+---
+{
+  "id": "freshness-reconciliation",
+  "slug": "freshness-reconciliation",
+  "title": "Recover freshness without losing history",
+  "track": "data-engineering",
+  "module": "data-engineering",
+  "order": 2,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [
+    "customer-data-contracts"
+  ],
+  "skills": [
+    "Data",
+    "Architecture"
+  ],
+  "objectives": [
+    "Trace the cited revision and reconcile the affected source partition",
+    "Replay duplicate, out-of-order, and deletion events and compare the derived state"
+  ],
+  "experiments": [],
+  "practice": [
+    "freshness-reconciliation-decision",
+    "freshness-reconciliation-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "AWS: making retries safe",
+      "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar’s ingestion dashboard is green, but an assistant cites a policy that was revoked yesterday. A connector checkpoint moved forward after skipping one source partition.
+</CustomerScenario>
+
+## Measure the age of usable data
+
+Define freshness from the customer decision, not just the connector schedule. Track source effective time, source revision, ingestion time, and the point at which the derived view is usable. A pipeline that ran recently may have processed only old records. Measure lag per source or partition so a global average cannot conceal one stale branch.
+
+Choose batch or streaming according to the tolerated delay, ordering requirements, and operating cost. Streaming reduces some waiting time but does not remove duplicate events, late arrivals, or reconciliation. Batch processing can be acceptable for a daily report but unsafe for a live authorization decision. Document what the application does when data exceeds the permitted age: display a warning, fall back to the source, abstain, or route to an owner.
+
+## Replay changes deliberately
+
+Store a checkpoint only after the corresponding work reaches its durable acceptance boundary. Make repeated ingestion safe using a stable source identifier and revision, and compare the current materialized view with an authoritative source sample. Include tombstones or equivalent deletion signals so derived indexes do not retain revoked content indefinitely.
+
+Lineage connects a displayed answer or record to its source and transformation. Use that path to locate affected outputs during a correction. A replay should distinguish a newer correction from an older duplicate, and a reconciliation job should expose mismatches rather than quietly hiding them. Have the data owner review deletion, retention, and access propagation requirements. A technically successful retry that restores content the owner removed is still a customer failure.
+
+<FDEPrinciple>
+The evidence is stale before generation; model settings cannot correct its source history.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Trace the cited revision and reconcile the affected source partition.
+- Verification: Replay duplicate, out-of-order, and deletion events and compare the derived state.
+- Review question: Process health is not evidence of current, correctly reconciled customer data.
+
+[Apply this lesson in the field workspace](/resources/templates/data-contract). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 import { AILabsHome } from "@/components/labs/ai-labs-home";
@@ -21,5 +22,5 @@ export default async function LabsPage({ searchParams }: { searchParams: Promise
     caseStudies: getAllCaseStudies(),
   });
 
-  return <AILabsHome freshSessionStarted={query.fresh === "1"} showcase={showcase} totals={{ experiments: experiments.length, games: games.length, labs: labs.length }} />;
+  return <><div className="mx-auto max-w-[1440px] px-4 pt-6 sm:px-6"><Link href="/challenges" className="text-sm font-semibold text-primary underline">Field challenges: investigate incidents and design architectures →</Link></div><AILabsHome freshSessionStarted={query.fresh === "1"} showcase={showcase} totals={{ experiments: experiments.length, games: games.length, labs: labs.length }} /></>;
 }

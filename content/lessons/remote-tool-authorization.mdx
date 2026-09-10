@@ -1,0 +1,67 @@
+---
+{
+  "id": "remote-tool-authorization",
+  "slug": "remote-tool-authorization",
+  "title": "Authorize remote tools without privilege shortcuts",
+  "track": "mcp-enterprise-integration",
+  "module": "mcp-enterprise-integration",
+  "order": 2,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [
+    "mcp-capability-contracts"
+  ],
+  "skills": [
+    "Architecture",
+    "Security",
+    "Software Engineering"
+  ],
+  "objectives": [
+    "Validate the intended resource and recheck authorization for the exact action",
+    "Try revoked roles, wrong tenants, and changed arguments after approval"
+  ],
+  "experiments": [],
+  "practice": [
+    "remote-tool-authorization-decision",
+    "remote-tool-authorization-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "MCP HTTP authorization \u2014 2025-11-25",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+A remote MCP server accepts a token issued for another service. A support agent can now invoke operations outside the caller’s intended permissions, even though sign-in looked successful.
+</CustomerScenario>
+
+## Separate authentication from authorization
+
+For the referenced MCP revision, the authorization specification applies to HTTP-based transports; local STDIO integrations use a different credential arrangement. Document which transport and revision you are implementing before copying an example. An authenticated caller is not automatically authorized for each tool, tenant, record, or action.
+
+At the remote boundary, validate the token for the intended resource and apply the service’s permission rules. Never solve an audience mismatch by disabling validation or forwarding tokens indiscriminately to unrelated systems. Map the user’s identity into the downstream system using an explicit, reviewed integration contract. Keep credentials on the server, and use sanitized identifiers in learner fixtures and routine logs.
+
+## Authorize the executed action
+
+The user may approve a proposed ticket action and lose the relevant role before execution. Recheck the current policy at the moment of execution. Bind approval to the target and exact arguments; changed arguments require a new decision. A cached affirmative model response cannot stand in for that authorization check.
+
+Test the positive path and the boundaries: wrong audience, expired token, missing scope, wrong tenant, revoked role, and modified arguments after approval. Interpret error codes through the service contract rather than assuming every denial means the user should sign in again. In the Northstar incident, a 403 with a missing-role explanation points to the mapper and downstream policy. Repeated retries would add load without repairing the permission mismatch.
+
+<FDEPrinciple>
+A signed token for another resource is not sufficient authorization for this service.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Validate the intended resource and recheck authorization for the exact action.
+- Verification: Try revoked roles, wrong tenants, and changed arguments after approval.
+- Review question: An administrator-only test conceals the boundaries ordinary users depend on.
+
+[Apply this lesson in the field workspace](/challenges/crm-access-incident). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

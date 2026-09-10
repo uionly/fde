@@ -20,9 +20,9 @@ describe("content validation", () => {
   it("validates the complete repository content graph", () => {
     const content = validateContent();
 
-    expect(content.tracks).toHaveLength(9);
-    expect(content.lessons).toHaveLength(48);
-    expect(content.questions).toHaveLength(150);
+    expect(content.tracks).toHaveLength(15);
+    expect(content.lessons).toHaveLength(60);
+    expect(content.questions).toHaveLength(174);
     expect(content.capstone.phases).toHaveLength(12);
     expect(content.lessons.every((lesson) => lesson.content.length > 0)).toBe(true);
     expect(content.lessons.every((lesson) => lesson.content.includes("<CustomerScenario") && lesson.content.includes("<FDEPrinciple"))).toBe(true);
@@ -35,7 +35,7 @@ describe("content validation", () => {
           .sort()
           .map((category) => [category, content.questions.filter((question) => question.category === category).length]),
       ),
-    ).toEqual({ agents: 18, architecture: 20, delivery: 16, discovery: 20, evaluations: 18, llm: 18, rag: 20, security: 20 });
+    ).toEqual({ "ai-native-engineering": 4, "mcp-enterprise-integration": 4, "data-engineering": 4, "production-observability": 4, "customer-delivery": 4, "business-impact": 4, agents: 18, architecture: 20, delivery: 16, discovery: 20, evaluations: 18, llm: 18, rag: 20, security: 20 });
   });
 
   it("rejects malformed slugs", () => {

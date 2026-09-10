@@ -1,0 +1,65 @@
+---
+{
+  "id": "mcp-capability-contracts",
+  "slug": "mcp-capability-contracts",
+  "title": "Design narrow MCP capabilities",
+  "track": "mcp-enterprise-integration",
+  "module": "mcp-enterprise-integration",
+  "order": 1,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [],
+  "skills": [
+    "Architecture",
+    "Security",
+    "Software Engineering"
+  ],
+  "objectives": [
+    "Expose typed task-specific capabilities with explicit permissions and bounded outputs",
+    "Test negotiated capabilities, invalid arguments, denied access, and oversized output"
+  ],
+  "experiments": [],
+  "practice": [
+    "mcp-capability-contracts-decision",
+    "mcp-capability-contracts-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "MCP architecture \u2014 2025-11-25",
+      "url": "https://modelcontextprotocol.io/specification/2025-11-25/architecture"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar wants one assistant to search policies, inspect accounts, and create support tickets. The first proposal exposes a generic SQL tool and assumes the protocol makes it safe.
+</CustomerScenario>
+
+## Name the capability boundary
+
+MCP uses a host, clients, and servers. A host coordinates the AI experience; a client maintains a connection to a server; a server exposes capabilities such as tools, resources, and prompts. That structure standardizes exchange, but does not determine the customer permissions for an account or ticket. Design those permissions explicitly.
+
+For this customer, expose search_policy, read_account_summary, and propose_ticket as separate, bounded capabilities. Define required fields, allowed values, output limits, and typed errors. Avoid passing a raw database connection string or allowing the model to invent arbitrary SQL. A resource can expose reference context; a tool can perform an operation. Review the effect and sensitivity of every capability rather than classifying all protocol traffic as equally safe.
+
+## Negotiate and test the contract
+
+Record the protocol revision and supported capabilities in your integration brief. Do not assume every host supports every server feature. Test initialization, unavailable capabilities, malformed inputs, empty results, and downstream timeouts. Keep protocol concerns in an adapter so changes do not spread through the customer application.
+
+A successful tool response is still untrusted application input. Validate its shape, bound its size, and preserve source identity where a later answer needs evidence. A document returned by a server is not an instruction to override the user’s task. Use deterministic policy checks for writes and explicit approval where the customer action requires it. The protocol connection should make a narrow capability understandable, not expand what the agent is allowed to do.
+
+<FDEPrinciple>
+The protocol does not replace authorization or task-specific effect controls.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Expose typed task-specific capabilities with explicit permissions and bounded outputs.
+- Verification: Test negotiated capabilities, invalid arguments, denied access, and oversized output.
+- Review question: Initialization establishes a connection; it does not validate the business contract.
+
+[Apply this lesson in the field workspace](/challenges/approved-action-architecture). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

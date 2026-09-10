@@ -1,0 +1,12 @@
+{
+  "id": "customer-delivery",
+  "slug": "customer-delivery",
+  "title": "Customer Delivery",
+  "description": "Run decision-oriented workshops, manage commitments, and transfer operational ownership.",
+  "order": 14,
+  "status": "published",
+  "skills": [
+    "Customer Delivery",
+    "Discovery"
+  ]
+}

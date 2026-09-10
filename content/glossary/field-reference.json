@@ -1,0 +1,452 @@
+[
+  {
+    "term": "Data contract",
+    "slug": "data-contract",
+    "shortDefinition": "An agreement about the meaning, structure, ownership, and lifecycle of data exchanged between a producer and a consumer.",
+    "relatedLessons": [
+      "customer-data-contracts"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "JSON Schema object validation",
+        "url": "https://json-schema.org/understanding-json-schema/reference/object"
+      }
+    ]
+  },
+  {
+    "term": "Data freshness",
+    "slug": "data-freshness",
+    "shortDefinition": "How current usable data is relative to the source event or effective time needed for a customer decision.",
+    "relatedLessons": [
+      "freshness-reconciliation"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "AWS: making retries safe",
+        "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+      }
+    ]
+  },
+  {
+    "term": "Data lineage",
+    "slug": "data-lineage",
+    "shortDefinition": "The recorded path from a data output back to its sources and transformations, used to investigate impact and corrections.",
+    "relatedLessons": [
+      "freshness-reconciliation"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "OpenLineage concepts",
+        "url": "https://openlineage.io/docs/"
+      }
+    ]
+  },
+  {
+    "term": "Reconciliation",
+    "slug": "reconciliation",
+    "shortDefinition": "Comparing a derived state with an authoritative source and resolving missing, extra, or inconsistent records.",
+    "relatedLessons": [
+      "freshness-reconciliation"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "AWS: making retries safe",
+        "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+      }
+    ]
+  },
+  {
+    "term": "Idempotency",
+    "slug": "idempotency",
+    "shortDefinition": "A property that lets repeated attempts of the same intended operation avoid additional business effects when enforced by the service.",
+    "relatedLessons": [
+      "freshness-reconciliation"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "AWS: making retries safe",
+        "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+      }
+    ]
+  },
+  {
+    "term": "Ambiguous write outcome",
+    "slug": "ambiguous-write-outcome",
+    "shortDefinition": "A caller cannot tell whether a write committed, such as when its response times out after the destination accepted it.",
+    "relatedLessons": [
+      "agent-assisted-verification"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "AWS: making retries safe",
+        "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+      }
+    ]
+  },
+  {
+    "term": "Schema evolution",
+    "slug": "schema-evolution",
+    "shortDefinition": "Changing a data structure while explicitly managing compatibility, versioning, and consumer migration.",
+    "relatedLessons": [
+      "customer-data-contracts"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "JSON Schema object validation",
+        "url": "https://json-schema.org/understanding-json-schema/reference/object"
+      }
+    ]
+  },
+  {
+    "term": "Quarantine",
+    "slug": "data-quarantine",
+    "shortDefinition": "Separating invalid records with a reason and an owner instead of silently converting them into trusted application data.",
+    "relatedLessons": [
+      "customer-data-contracts"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "JSON Schema object validation",
+        "url": "https://json-schema.org/understanding-json-schema/reference/object"
+      }
+    ]
+  },
+  {
+    "term": "Checkpoint",
+    "slug": "checkpoint",
+    "shortDefinition": "A saved processing position used for recovery; its meaning depends on which work was durably accepted before advancing it.",
+    "relatedLessons": [
+      "freshness-reconciliation"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "PostgreSQL logical decoding and replay",
+        "url": "https://www.postgresql.org/docs/18/logicaldecoding-explanation.html"
+      }
+    ]
+  },
+  {
+    "term": "MCP host",
+    "slug": "mcp-host",
+    "shortDefinition": "The application that coordinates MCP clients and the user-facing AI experience, including connection and context policies.",
+    "relatedLessons": [
+      "mcp-capability-contracts"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "MCP architecture \u2014 2025-11-25",
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25/architecture"
+      }
+    ]
+  },
+  {
+    "term": "MCP client",
+    "slug": "mcp-client",
+    "shortDefinition": "A protocol participant created by a host to maintain a connection with an MCP server.",
+    "relatedLessons": [
+      "mcp-capability-contracts"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "MCP architecture \u2014 2025-11-25",
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25/architecture"
+      }
+    ]
+  },
+  {
+    "term": "MCP server",
+    "slug": "mcp-server",
+    "shortDefinition": "A service or local process that exposes negotiated MCP capabilities such as tools, resources, and prompts.",
+    "relatedLessons": [
+      "mcp-capability-contracts"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "MCP architecture \u2014 2025-11-25",
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25/architecture"
+      }
+    ]
+  },
+  {
+    "term": "Token audience",
+    "slug": "token-audience",
+    "shortDefinition": "The intended recipient or resource for a token; validating it prevents accepting a token meant for another service.",
+    "relatedLessons": [
+      "remote-tool-authorization"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "MCP HTTP authorization \u2014 2025-11-25",
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization"
+      }
+    ]
+  },
+  {
+    "term": "Authorization",
+    "slug": "authorization",
+    "shortDefinition": "A policy decision about whether a principal may perform an action on a particular resource under the current conditions.",
+    "relatedLessons": [
+      "remote-tool-authorization"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "OWASP authorization guidance",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      }
+    ]
+  },
+  {
+    "term": "Trust boundary",
+    "slug": "trust-boundary",
+    "shortDefinition": "A point where data or control passes between components with different trust or authority assumptions.",
+    "relatedLessons": [
+      "remote-tool-authorization"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "OWASP authorization guidance",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      }
+    ]
+  },
+  {
+    "term": "Service-level indicator",
+    "slug": "service-level-indicator",
+    "shortDefinition": "A defined measure of service behavior, such as the fraction of eligible customer tasks completed successfully in a window.",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "Google SRE: service level objectives",
+        "url": "https://sre.google/sre-book/service-level-objectives/"
+      }
+    ]
+  },
+  {
+    "term": "Service-level objective",
+    "slug": "service-level-objective",
+    "shortDefinition": "A target for a service-level indicator over a defined period, with explicit scope and exclusions.",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "Google SRE: service level objectives",
+        "url": "https://sre.google/sre-book/service-level-objectives/"
+      }
+    ]
+  },
+  {
+    "term": "Error budget",
+    "slug": "error-budget",
+    "shortDefinition": "The amount of unreliability permitted by an agreed service-level objective over its measurement window.",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "Google SRE: service level objectives",
+        "url": "https://sre.google/sre-book/service-level-objectives/"
+      }
+    ]
+  },
+  {
+    "term": "Distributed trace",
+    "slug": "distributed-trace",
+    "shortDefinition": "A representation of related operations across a request path, useful for locating where time and failures occur.",
+    "relatedLessons": [
+      "workflow-observability"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "OpenTelemetry signals",
+        "url": "https://opentelemetry.io/docs/concepts/signals/"
+      }
+    ]
+  },
+  {
+    "term": "Metric cardinality",
+    "slug": "metric-cardinality",
+    "shortDefinition": "The number of distinct label combinations a metric produces; unbounded values can make telemetry expensive and difficult to use.",
+    "relatedLessons": [
+      "workflow-observability"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "OpenTelemetry metrics",
+        "url": "https://opentelemetry.io/docs/concepts/signals/metrics/"
+      }
+    ]
+  },
+  {
+    "term": "Incident mitigation",
+    "slug": "incident-mitigation",
+    "shortDefinition": "An action that reduces customer impact during an incident, possibly before the full root cause is known.",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "Google SRE: incident response",
+        "url": "https://sre.google/workbook/incident-response/"
+      }
+    ]
+  },
+  {
+    "term": "Rollback",
+    "slug": "rollback",
+    "shortDefinition": "Returning a deployment or configuration to a known earlier state as a controlled recovery action.",
+    "relatedLessons": [
+      "slo-incident-recovery"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "Google SRE: incident response",
+        "url": "https://sre.google/workbook/incident-response/"
+      }
+    ]
+  },
+  {
+    "term": "Acceptance criteria",
+    "slug": "acceptance-criteria",
+    "shortDefinition": "Observable conditions agreed in advance for deciding whether a customer deliverable satisfies its intended outcome and constraints.",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ]
+  },
+  {
+    "term": "RAID log",
+    "slug": "raid-log",
+    "shortDefinition": "A working record of risks, assumptions, issues, and dependencies with owners, actions, and review dates.",
+    "relatedLessons": [
+      "decision-workshops"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ]
+  },
+  {
+    "term": "Adoption",
+    "slug": "adoption",
+    "shortDefinition": "Sustained useful use of a changed workflow by the intended users, assessed beyond awareness or initial sign-in.",
+    "relatedLessons": [
+      "adoption-handover"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service benefits",
+        "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+      }
+    ]
+  },
+  {
+    "term": "Baseline",
+    "slug": "baseline",
+    "shortDefinition": "A defined before-period measurement with a stated cohort, denominator, window, and source for later comparison.",
+    "relatedLessons": [
+      "baseline-outcome-measurement"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service performance",
+        "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+      }
+    ]
+  },
+  {
+    "term": "Cost per successful task",
+    "slug": "cost-per-successful-task",
+    "shortDefinition": "Total relevant operating cost divided by the number of tasks meeting the agreed success definition over the same period.",
+    "relatedLessons": [
+      "unit-economics-roi"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service benefits",
+        "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+      }
+    ]
+  },
+  {
+    "term": "Released capacity",
+    "slug": "released-capacity",
+    "shortDefinition": "Time or effort made available for other work; it is not automatically a realized cash saving.",
+    "relatedLessons": [
+      "unit-economics-roi"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GOV.UK: measuring service benefits",
+        "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+      }
+    ]
+  },
+  {
+    "term": "Regression test",
+    "slug": "regression-test",
+    "shortDefinition": "A repeatable check that a previously established behavior remains intact after a change.",
+    "relatedLessons": [
+      "agent-assisted-verification"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "GitHub: responsible use of coding agents",
+        "url": "https://docs.github.com/en/enterprise-cloud%40latest/copilot/responsible-use/agents"
+      }
+    ]
+  },
+  {
+    "term": "Negative authorization test",
+    "slug": "negative-authorization-test",
+    "shortDefinition": "A test proving that a caller lacking the required permission or tenant relationship cannot access a resource or action.",
+    "relatedLessons": [
+      "remote-tool-authorization"
+    ],
+    "reviewedAt": "2026-09-11",
+    "sources": [
+      {
+        "title": "OWASP authorization guidance",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      }
+    ]
+  }
+]

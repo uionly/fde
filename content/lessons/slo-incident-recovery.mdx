@@ -1,0 +1,66 @@
+---
+{
+  "id": "slo-incident-recovery",
+  "slug": "slo-incident-recovery",
+  "title": "Set a release objective and lead an incident",
+  "track": "production-observability",
+  "module": "production-observability",
+  "order": 2,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [
+    "workflow-observability"
+  ],
+  "skills": [
+    "Production",
+    "Software Engineering"
+  ],
+  "objectives": [
+    "Define an eligible-task indicator, a window, an owner, and rollback criteria",
+    "Verify customer-task recovery and record corrective actions with owners"
+  ],
+  "experiments": [],
+  "practice": [
+    "slo-incident-recovery-decision",
+    "slo-incident-recovery-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "Google SRE: service level objectives",
+      "url": "https://sre.google/sre-book/service-level-objectives/"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar’s pilot is ready to expand. The team promises perfect uptime, has no rollback owner, and cannot say whether a partial outage should halt the rollout.
+</CustomerScenario>
+
+## Make reliability a customer agreement
+
+Define a service-level indicator for the workflow and a target over a stated window. For a synthetic planning example, the customer might choose successful eligible tasks within an agreed latency bound. Eligibility and exclusions must be explicit; excluding failed tasks after the fact makes the measure misleading. An objective is a decision aid, not an automatic guarantee about future uptime.
+
+Set release gates for representative load, denied-access behavior, dependency failure, and recovery. Define a safe fallback when the model or source is unavailable. A fallback that returns unverified account information is worse than a clear handoff. Use the remaining reliability budget to inform rollout pace, and review objectives when the customer workflow changes rather than copying another service’s target.
+
+## Coordinate mitigation and recovery
+
+During an incident, establish an incident lead, technical responders, and a communication owner. Record the timeline, impact, actions, and next update time. Separate mitigation from root-cause investigation: rolling back a suspect release can reduce customer harm before the team understands every contributing condition.
+
+Avoid simultaneous untracked changes that make attribution impossible. Preserve sanitized evidence and confirm recovery with customer-facing signals, not just a restarted process. Afterward, explain contributing factors, detection gaps, and corrective actions with owners and verification dates. Treat blame as a poor substitute for understanding the system. A useful post-incident artifact helps another engineer prevent or recover from the same class of failure.
+
+<FDEPrinciple>
+A testable objective and recovery plan are more useful than an unsupported guarantee.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Define an eligible-task indicator, a window, an owner, and rollback criteria.
+- Verification: Verify customer-task recovery and record corrective actions with owners.
+- Review question: A running process does not prove the customer can complete the workflow.
+
+[Apply this lesson in the field workspace](/resources/templates/incident-runbook). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

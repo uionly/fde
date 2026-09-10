@@ -2,7 +2,11 @@
 
 The platform, content engine, and MVP curriculum corpus are complete. Extend the curriculum incrementally and validate every addition against a customer problem.
 
-## Completed MVP Corpus
+## R2 expansion
+
+The current corpus has 15 tracks, 60 lessons, 174 questions, 4 applied challenges, 38 glossary terms, and 24 templates. The original MVP figures below are historical. See [curriculum coverage](CURRICULUM_COVERAGE.md) for the six deeper tracks and evidence limits.
+
+## Completed MVP Corpus (historical)
 
 - 9 published tracks
 - 48 customer-framed lessons

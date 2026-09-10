@@ -144,3 +144,11 @@ Keep course content in Git, not browser state.
 - no arbitrary shell execution
 - do not execute learner Python on Next.js host
 - use a dedicated sandbox later
+
+## R2 applied-work boundaries
+
+`lib/challenges` owns bounded Zod schemas, graph reachability/boundary evaluation, diagnostic checks, and versioned browser draft storage. `content/challenges` owns synthetic evidence and rules. React Flow is loaded only for architecture work; equivalent component/connection form controls provide keyboard access. Drafts save explicitly and graph JSON can be imported/exported without executing code.
+
+`lib/labs/validation.ts` rechecks every authored deliverable decision and reasoning presence. The workspace and skill dashboard apply the same rules to current content; historical completion flags cannot substitute for evidence. Prose quality is self-reviewed and the UI says so.
+
+Source metadata is optional on legacy lessons and provided for new field lessons/references. Search includes challenge content and template bodies, supports content-type filtering, and validates query parameters. No operations dashboard or live integration is introduced.

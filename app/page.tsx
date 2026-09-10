@@ -20,6 +20,7 @@ const framework = [
 export default function HomePage() {
   const tracks = getAllTracks();
   const destinations = [
+    { href: "/challenges", title: "Debugging and architecture challenges", detail: "Inspect incident evidence, connect architecture components, and test your decisions against customer constraints." },
     { href: "/learn", title: "Learning tracks", detail: `${getAllLessons().length} lessons across ${tracks.length} tracks. Build foundations, then work through customer discovery and enterprise systems.` },
     { href: "/experiments", title: "Interactive experiments", detail: `${getAllExperiments().length} playgrounds to explore chunking, retrieval, tool selection, security, and cost.` },
     { href: "/practice", title: "Scenario practice", detail: `${getAllQuestions().length} questions with explanations to sharpen your customer and engineering decisions.` },

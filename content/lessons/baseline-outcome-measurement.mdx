@@ -1,0 +1,64 @@
+---
+{
+  "id": "baseline-outcome-measurement",
+  "slug": "baseline-outcome-measurement",
+  "title": "Measure outcomes without moving the denominator",
+  "track": "business-impact",
+  "module": "business-impact",
+  "order": 1,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [],
+  "skills": [
+    "Business Thinking",
+    "Customer Delivery"
+  ],
+  "objectives": [
+    "Compare eligible completed tasks including review and escalation time",
+    "Keep the cohort and denominator stable and track quality guardrails"
+  ],
+  "experiments": [],
+  "practice": [
+    "baseline-outcome-measurement-decision",
+    "baseline-outcome-measurement-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "GOV.UK: measuring service performance",
+      "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar claims a 50% productivity improvement because the assistant answered half of the pilot questions. Nobody checked whether users completed their work or whether pilot cases were easier.
+</CustomerScenario>
+
+## Define a comparable baseline
+
+Write the outcome, unit of analysis, eligible population, and measurement window before interpreting the result. If the objective is faster case resolution, measure resolved cases and include review, correction, and escalation time. Answers generated and tokens consumed describe activity. They do not independently establish that the customer completed a useful task.
+
+Compare like-for-like cohorts where possible. Record case complexity, user experience, and workflow changes that could explain a difference. For a pilot, an observed association is useful evidence but may not prove that the AI caused the entire improvement. Keep the uncertainty visible rather than presenting a small, selected sample as a company-wide result. Use customer-approved data handling when linking operational observations.
+
+## Pair benefit with a guardrail
+
+A faster workflow that produces more rework or unsafe answers may reduce customer value. Pair handling time with quality, escalation, and access-control measures. Define a successful task consistently across the before and after periods. Do not remove failed attempts from the denominator merely because the new tool could not handle them.
+
+Report distribution and cohort differences alongside an aggregate. A median may conceal a long tail, and an average may conceal a harmed subgroup. Give the executive audience the decision implied by the evidence: expand, revise the workflow, collect more data, or stop. State the owner, the next measurement, and the condition that would change the recommendation. A credible result makes its limitations inspectable.
+
+<FDEPrinciple>
+The business unit of value is the completed workflow, not model output.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Compare eligible completed tasks including review and escalation time.
+- Verification: Keep the cohort and denominator stable and track quality guardrails.
+- Review question: Changing the denominator can manufacture an apparent improvement.
+
+[Apply this lesson in the field workspace](/resources/templates/roi-scorecard). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

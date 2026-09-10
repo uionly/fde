@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **R1 complete — Learning hub and obsolete runtime cleanup**
+Current milestone: **R2 complete — Field depth, applied challenges, and reference**
 
 ## Milestones
 
@@ -23,6 +23,7 @@ Current milestone: **R1 complete — Learning hub and obsolete runtime cleanup**
 - [x] C2 — Editable Capstone & Optional AI Coach
 - [x] B1 — TO THE NEW Brand Token Refresh
 - [x] R1 — Learning Hub & Obsolete Runtime Cleanup
+- [x] R2 — Field Depth, Applied Challenges & Reference
 
 ## M1 implementation summary
 
@@ -36,25 +37,25 @@ Current milestone: **R1 complete — Learning hub and obsolete runtime cleanup**
 
 ## Design decisions
 
-- Server Components are the default; only navigation state and theme switching use Client Components.
+- Server Components are the default; navigation, themes, interactive labs/challenges, practice, experiments, and browser progress use Client Components.
 - Product visuals are code-native and typography-led to preserve the professional engineering-lab character.
 - Montserrat drives interface, heading, and prose hierarchy; Geist Mono remains reserved for code, logs, and evidence labels.
 - Repository data and domain services drive lessons, labs, practice, experiments, case studies, search, and resources; route components stay thin.
-- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, Field Arcade, and capstone state on this device.
+- The shipped showcase is account-free. Versioned, Zod-validated browser storage persists lesson, practice, Field Mission, Field Arcade, challenge drafts, and capstone state on this device.
 - `AI_MODE=mock` is the credential-free default.
 
-## Verification
+## Verification — R2
 
-- `npm run validate:content` — passed (9 tracks, 48 lessons, 150 questions, 12 capstone phases, and all other repository content)
-- `npm run lint` — passed
-- `npm run typecheck` — passed
-- `npm run test` — passed (115 tests across 29 files)
-- `npm run build` — passed; 102 pages generated plus the dynamic capstone coaching endpoint
-- `npm run test:e2e` — passed (29 serial Chromium journeys, including light/dark brand rendering, offline font fallback, deterministic capstone completion, immediate navigation save, reload resume, mock coaching, verified skill evidence, 360px/reduced-motion coverage, full visitor reset, G2 mechanics, and the integrated visitor path)
+- Content validation passed: 15 tracks, 60 lessons, 174 questions, 4 challenges, 3 labs, 5 experiments, 6 games, 12 capstone phases, 38 glossary entries, 1 case study, 24 resources.
+- ESLint, TypeScript, and whitespace checks passed.
+- Unit tests: 129 passed across 33 files.
+- Production build passed: 173 generated pages.
+- Full Playwright suite: 35 Chromium journeys passed, including failure/bypass cases, persistence/reset, source-linked lesson rendering, all resource downloads, mobile layout, and `/operations` returning 404.
 
 ## Known limitations
 
-- The MVP curriculum target is complete at 48 published lessons and 150 scenario-heavy questions across nine tracks and eight practice categories.
+- The 15 tracks cover all 14 specification subject areas plus the retained bridge track. Depth and exercise limits are documented in `docs/CURRICULUM_COVERAGE.md`; counts do not imply exhaustive expertise.
+- Lab/challenge reasoning is self-reviewed. Authored checks validate decision selections, evidence presence, and graph structure; no deployed enforcement or live customer integration is certified.
 - Visitor evidence is intentionally local to one browser and does not synchronize across devices.
 - Model routing and retrieval now have dedicated mechanics. The other four Field Arcade missions retain the decision-card renderer until G3 and later expansion.
 - Field Arcade evidence remains separate from practice/Field Mission skill scoring until G4; Start fresh clears both app-owned visitor records while preserving theme and unrelated browser storage.
@@ -62,11 +63,11 @@ Current milestone: **R1 complete — Learning hub and obsolete runtime cleanup**
 - Optional Anthropic coaching is server-only and advisory. Multi-instance production still needs a shared rate limiter and provider cost/availability monitoring.
 - Capstone evidence is verified against authored rules but remains self-directed browser evidence, not tamper-proof certification or cross-device account history.
 - Montserrat uses the supplied Google Fonts stylesheet; the complete system-font fallback keeps the showcase usable when that request is unavailable.
-- The in-app visual inspection connection was unavailable in this environment; local Chromium rendering and comprehensive automated interaction coverage passed.
+- Mobile dark-mode architecture rendering was visually inspected from Chromium; browser checks also cover light/dark themes, reduced motion, keyboard controls, and horizontal overflow.
 
 ## Next milestone
 
-R1 is complete and stops here. The application review in `docs/APPLICATION_REVIEW.md` recommends mapping curriculum gaps and implementing one missing customer workflow next. G3 remains in the game backlog; no subsequent milestone has been started.
+R2 is complete and stops here. No next milestone has been started. Remaining depth and non-goals are explicit in the coverage map; G3 remains in the Arcade backlog.
 
 ## M2 validation record
 
@@ -248,3 +249,14 @@ R1 is complete and stops here. The application review in `docs/APPLICATION_REVIE
 - Production build passed with 102 generated pages.
 - All 19 applicable Chromium smoke journeys passed, including mobile/reduced motion, light/dark branding, search, practice, lab resume, and the integrated visitor path. Other specialized capstone/game suites were not rerun for this milestone.
 - Initial sandbox process/network restrictions were resolved with execution access; lockfile regeneration succeeded. No deployment was performed.
+
+## R2 validation record — 2026-09-11
+
+- Implemented the user-authorized expansion across all four priority gaps as one milestone.
+- Added six dedicated tracks, 12 customer-framed lessons and 24 scenario questions; ordered the new tracks within the existing curriculum without changing previous lesson URLs.
+- Added two evidence-based debugging incidents and two React Flow architecture challenges with alternate valid graphs, required-path and bypass checks, bounded JSON import/export, explicit draft saving, reset, sources, and progress visibility.
+- Added authored acceptance checks to all 11 non-reading lab steps. Re-evaluate saved work for completion and skill evidence; preserve legacy notes. Save draft keeps unfinished work without granting completion.
+- Expanded references to 24 artifacts covering all 20 requested template families, and 38 cross-linked glossary terms. Added source/review metadata, template text indexing, content-type search, and resource filters.
+- Confirmed `/operations` has no route, rewrite, or inbound link in this checkout. HTTP 404 test passes; no nonexistent file deletion was claimed.
+- Added a coverage map and claim/source ledger. Fictional data and automated evaluation limits are explicit. No live integration, account system, code execution, or deployment was introduced.
+- All quality checks above passed after correcting an accessible-name defect, stale count expectations, and repeated hint copy discovered during testing.

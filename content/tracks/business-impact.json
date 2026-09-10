@@ -1,0 +1,12 @@
+{
+  "id": "business-impact",
+  "slug": "business-impact",
+  "title": "Business Impact",
+  "description": "Measure adoption, workflow outcomes, and unit economics without mistaking activity for value.",
+  "order": 15,
+  "status": "published",
+  "skills": [
+    "Business Thinking",
+    "Customer Delivery"
+  ]
+}

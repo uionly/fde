@@ -139,3 +139,11 @@ relatedLessons:
 - invalid difficulty/type fail
 - unpublished content is excluded from public indexes
 - capstone phases appear in the required order and every decision option has exactly one authored consequence
+
+## R2 content additions
+
+- New lessons, glossary entries, and resources carry `reviewedAt` and HTTPS `sources` (title/URL); resources also carry `relatedLessons`. Legacy metadata remains compatible.
+- Non-content lab steps require `validation`: `minCharacters`, explicit `criteria`, and a choice `check` with a valid correct ID and unique options.
+- Debug challenges define typed synthetic evidence, cause/remediation options, required evidence IDs, and related lessons.
+- Architecture challenges define a catalog of component responsibilities, starter/example graphs, and node/path/boundary rules. A boundary requires every directed path between endpoints to include each named guard.
+- Graphs have bounded unique nodes and edges with valid endpoint references. Expert graphs must pass current rules during content validation. Scores and completion are derived from current drafts and authored rules, never imported as trusted results.

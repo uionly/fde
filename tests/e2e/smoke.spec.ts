@@ -162,7 +162,7 @@ test("visitor completes and resumes a lesson on this device", async ({ page }) =
   await expect(page.getByRole("button", { name: "Completed" })).toBeVisible();
   await page.goto("/progress");
   await expect(page.getByText(/Saved only in this browser/i)).toBeVisible();
-  await expect(page.getByText("1 of 48 lessons", { exact: true })).toBeVisible();
+  await expect(page.getByText("1 of 60 lessons", { exact: true })).toBeVisible();
   await expect(page.locator("#main-content").getByText("2%", { exact: true })).toBeVisible();
 });
 
@@ -236,7 +236,8 @@ test("guided lab saves and resumes the current step", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Read the customer request" })).toBeVisible();
   await page.getByRole("button", { name: "Save & continue" }).click();
   await expect(page.getByRole("heading", { name: "Map the stakeholders" })).toBeVisible();
-  await page.getByLabel("Your working notes").fill("Sponsor, support specialists, operations, security, and data owners");
+  await page.getByLabel("Your working notes").fill("Sponsor, support specialists, operations, security, and data owners validate workflow and access. I will verify each owner accepts the responsibility and the success measure.");
+  await page.getByRole("radio", { name: /Frontline users/ }).check();
   await page.getByRole("button", { name: "Save & continue" }).click();
   await page.reload();
   await expect(page.getByRole("heading", { name: "Draft discovery questions" })).toBeVisible();

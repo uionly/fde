@@ -1,5 +1,7 @@
 # Application review — FDE learning and reference hub
 
+**R2 update (2026-09-11):** The four requested gaps have been addressed with deeper tracks, two debugging and two architecture exercises, authored lab checks, and an expanded searchable reference library. See [current coverage](CURRICULUM_COVERAGE.md) and the [claim ledger](R2_VALIDATION_LEDGER.md). The findings below retain the R1 baseline; coding execution, account sync, and exhaustive expert certification remain outside the implemented scope.
+
 Reviewed 2026-09-10 against SPEC.md, MVP_ACCEPTANCE_CRITERIA.md, the implementation plan, and the current source/content. This is a product and source review, not a security audit or an expert assessment of every lesson.
 
 ## R1 — Learning hub and obsolete runtime cleanup
@@ -31,4 +33,4 @@ Completed:
 
 Retain the functioning lessons, practice, labs, simulations, Northstar, capstone, templates, progress, mock AI mode, and branded theme. They support the intended product. Do not add a forum, certificates, payments, video hosting, live enterprise integrations, or a browser IDE solely to claim an “all-in-one” solution; these are V1 non-goals in SPEC §5.
 
-Recommended next milestone: a coverage map and one focused missing FDE workflow. R1 stops after validation; future priorities here are recommendations, not automatic authorization to implement every gap.
+R1 stopped after validation. The user subsequently authorized R2 to address the four main gaps together; current evidence is in the linked coverage map and ledger.

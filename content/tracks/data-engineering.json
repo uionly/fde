@@ -1,0 +1,12 @@
+{
+  "id": "data-engineering",
+  "slug": "data-engineering",
+  "title": "Data Engineering for FDEs",
+  "description": "Make customer data usable through contracts, freshness objectives, reconciliation, and source ownership.",
+  "order": 11,
+  "status": "published",
+  "skills": [
+    "Data",
+    "Architecture"
+  ]
+}

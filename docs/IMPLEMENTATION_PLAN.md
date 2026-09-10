@@ -353,3 +353,17 @@ Turn the Northstar preview into a complete, resumable field engagement without m
 ## Acceptance
 
 The learner can leave and resume the engagement on the same browser. Authored rules—not AI—control completion and evidence. The entire journey works with no credentials in `AI_MODE=mock`; live coaching activates only when server-side Anthropic configuration is present.
+
+# Post-MVP Milestone R2 — Field Depth, Applied Challenges & Reference
+
+User-authorized scope: address the four R1 gaps together, validate claims, and remove the mock `/operations` surface if present.
+
+Deliverables:
+- six deeper subject tracks with customer-framed lessons, linked practice and artifacts
+- realistic debugging evidence and editable React Flow architecture challenges
+- authored validation for every guided-lab deliverable and re-evaluated skill evidence
+- complete SPEC §30 template-family coverage, expanded glossary, sources/review dates, and searchable references
+- browser-local challenge drafts, scoped reset, progress visibility, bounded graph JSON import/export
+- verified `/operations` absence, content/claim coverage record, tests, build and accessibility verification
+
+Acceptance: invalid work cannot pass by advancing steps or trusting a saved completion flag; alternative valid graph layouts can pass while bypass routes fail; new learning and reference artifacts are discoverable and usable without credentials. Stop after R2 validation and status update.

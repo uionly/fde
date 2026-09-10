@@ -1,0 +1,12 @@
+{
+  "id": "production-observability",
+  "slug": "production-observability",
+  "title": "Production & Observability",
+  "description": "Instrument customer workflows, define release objectives, and manage incidents with verifiable recovery.",
+  "order": 13,
+  "status": "published",
+  "skills": [
+    "Production",
+    "Software Engineering"
+  ]
+}

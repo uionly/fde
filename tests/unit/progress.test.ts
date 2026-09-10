@@ -16,7 +16,7 @@ describe("progress calculations", () => {
     const tracks = calculateTrackProgress(lessons, records);
 
     expect(tracks.find((track) => track.trackSlug === "fde-foundations")).toMatchObject({ completed: 1, total: 6, percent: 17 });
-    expect(calculateOverallProgress(tracks)).toMatchObject({ completed: 1, total: 48, percent: 2 });
+    expect(calculateOverallProgress(tracks)).toMatchObject({ completed: 1, total: 60, percent: 2 });
   });
 
   it("returns the most recently updated lesson", () => {

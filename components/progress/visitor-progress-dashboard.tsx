@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import { getCompletedCapstoneEvidence, type CapstonePhaseSkillSummary } from "@/lib/capstone/evidence";
 import { useCapstoneProgress } from "@/lib/capstone/use-capstone-progress";
 import { getVerifiedCapstoneEvaluation } from "@/lib/capstone/verification";
-import type { Skill } from "@/lib/content/schemas";
+import { validateLab } from "@/lib/labs/validation";
+import type { Lab, Skill } from "@/lib/content/schemas";
 import { calculateSkillScores, recommendNext, type SkillEvidence, weakestSkills } from "@/lib/skills/scoring";
 import { useVisitorProgress } from "@/lib/visitor/use-visitor-progress";
 
@@ -28,7 +29,7 @@ export function VisitorProgressDashboard({
 }: {
   capstonePhases: CapstonePhaseSkillSummary[];
   gameCount: number;
-  labs: EvidenceSource[];
+  labs: Array<EvidenceSource & Pick<Lab, "steps">>;
   lessons: LessonSummary[];
   questions: EvidenceSource[];
   tracks: TrackSummary[];
@@ -41,8 +42,8 @@ export function VisitorProgressDashboard({
     [progress.lessons],
   );
   const completedLabIds = useMemo(
-    () => new Set(Object.values(progress.labs).filter((record) => record.completed).map((record) => record.labId)),
-    [progress.labs],
+    () => new Set(Object.values(progress.labs).filter((record) => { const lab = labs.find((item) => item.id === record.labId); return record.completed && lab && validateLab(lab, record.state); }).map((record) => record.labId)),
+    [progress.labs, labs],
   );
   const trackProgress = tracks.map((track) => {
     const trackLessons = lessons.filter((lesson) => lesson.trackSlug === track.slug);
@@ -139,7 +140,7 @@ export function VisitorProgressDashboard({
 
       <section className="mt-8">
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <div><h2 className="text-sm font-semibold">Skill snapshot</h2><p className="mt-1 text-xs text-muted-foreground">Based on {evidence.length} saved practice, completed Field Mission, and completed Capstone evidence items—not lesson views or optional AI coaching.</p></div>
+          <div><h2 className="text-sm font-semibold">Skill snapshot</h2><p className="mt-1 text-xs text-muted-foreground">Based on {evidence.length} saved practice, authored-check-validated Field Mission, and completed Capstone evidence items—not lesson views or optional AI coaching.</p></div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground"><Gamepad2 aria-hidden="true" className="size-3.5" />Arcade: {gameProfile.xp} XP</div>
         </div>
         <div className="mt-3 grid gap-3 rounded-xl border bg-card p-5 sm:grid-cols-2">

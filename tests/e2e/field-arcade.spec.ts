@@ -71,7 +71,7 @@ test("Start fresh clears visitor and arcade progress while preserving display an
   await page.goto("/learn/fde-foundations/what-is-fde");
   await expect(page.getByRole("button", { name: "Mark complete" })).toBeVisible();
   await page.goto("/progress");
-  await expect(page.getByText("0 of 48 lessons", { exact: true })).toBeVisible();
+  await expect(page.getByText("0 of 60 lessons", { exact: true })).toBeVisible();
   await expect(page.getByText(/Based on 0 saved practice/)).toBeVisible();
 });
 

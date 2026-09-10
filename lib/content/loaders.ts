@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { challengeSchema } from "@/lib/challenges/schemas";
+import { evaluateArchitecture } from "@/lib/challenges/evaluate";
+
 import matter from "gray-matter";
 import { parse as parseYaml } from "yaml";
 import { ZodError, type ZodType } from "zod";
@@ -238,7 +241,15 @@ export function validateGameNextActionReferences(games: FieldGame[], repositorie
   }
 }
 
+export function getAllChallenges() {
+  const directory = path.join(contentDirectory, "challenges");
+  const challenges = filesIn(directory, [".json"]).map((file) => parseFile(path.join(directory, file), challengeSchema));
+  assertUnique(challenges, (item) => item.id, "challenge id");
+  return challenges;
+}
+
 export function validateContent() {
+  const challenges = getAllChallenges();
   const tracks = getAllTracks({ includeDrafts: true });
   const lessons = getAllLessons({ includeDrafts: true });
   const questions = getAllQuestions();
@@ -325,6 +336,13 @@ export function validateContent() {
     }
   }
 
+  for (const item of [...glossary, ...resources, ...challenges]) {
+    for (const id of item.relatedLessons) if (!lessonIds.has(id)) throw new Error(`Reference links to missing lesson ${id}`);
+  }
+  for (const challenge of challenges) {
+    if (challenge.kind === "architecture" && !evaluateArchitecture(challenge, challenge.example).every((check) => check.passed)) throw new Error(`Architecture ${challenge.id} expert graph must pass its authored checks`);
+  }
+
   validateGameNextActionReferences(games, { lessons, experiments, labs, caseStudies, resources });
 
   resolveAILabsShowcase(aiLabsShowcase, {
@@ -335,6 +353,7 @@ export function validateContent() {
   });
 
   return {
+    challenges,
     tracks,
     lessons,
     questions,

@@ -122,7 +122,7 @@ test("the Northstar capstone deterministically completes, resumes, coaches, and 
   await page.locator("header").getByRole("link", { name: "Progress" }).click();
   const summary = page.getByLabel("Visitor progress summary");
   await expect(summary.getByText("1/12", { exact: true })).toBeVisible();
-  await expect(page.getByText(/Based on 1 saved practice, completed Field Mission, and completed Capstone evidence item/)).toBeVisible();
+  await expect(page.getByText(/Based on 1 saved practice, authored-check-validated Field Mission, and completed Capstone evidence item/)).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Discovery skill score: 90%" })).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Customer Delivery skill score: 90%" })).toBeVisible();
   await expect(page.getByText("Continue Problem Definition. Your decisions and field notes are saved on this device.")).toBeVisible();

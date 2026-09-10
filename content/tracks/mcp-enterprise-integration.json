@@ -1,0 +1,13 @@
+{
+  "id": "mcp-enterprise-integration",
+  "slug": "mcp-enterprise-integration",
+  "title": "MCP & Enterprise Integration",
+  "description": "Expose narrow enterprise capabilities through explicit protocol, identity, and execution boundaries.",
+  "order": 10,
+  "status": "published",
+  "skills": [
+    "Architecture",
+    "Security",
+    "Software Engineering"
+  ]
+}

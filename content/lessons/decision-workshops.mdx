@@ -1,0 +1,64 @@
+---
+{
+  "id": "decision-workshops",
+  "slug": "decision-workshops",
+  "title": "Run a workshop that produces a decision",
+  "track": "customer-delivery",
+  "module": "customer-delivery",
+  "order": 1,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [],
+  "skills": [
+    "Customer Delivery",
+    "Discovery"
+  ],
+  "objectives": [
+    "End with a named decision owner, acceptance evidence, and unresolved risks",
+    "Ask stakeholders to restate the same pilot boundary and success measure"
+  ],
+  "experiments": [],
+  "practice": [
+    "decision-workshops-decision",
+    "decision-workshops-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "GOV.UK: measuring service performance",
+      "url": "https://www.gov.uk/service-manual/measuring-success/using-data-to-improve-your-service-an-introduction"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar’s sponsor, support lead, and security owner leave the same meeting with different definitions of pilot success. The team has many notes and no agreed release boundary.
+</CustomerScenario>
+
+## Prepare the decision, not the slide count
+
+State the decision the workshop must produce: which user workflow enters the pilot, what evidence will justify expansion, and who owns approval. Invite the people who operate the workflow and the people accountable for its constraints. Send a short customer brief, current-state diagram, known evidence, and unresolved questions so meeting time can resolve disagreements.
+
+Separate observations from assumptions. Ask a frontline user to walk through a real or representative task, including exceptions and handoffs. Capture the baseline and where it came from. When stakeholders disagree, record the competing outcomes and the cost of choosing incorrectly. Do not let an attractive prototype quietly replace the original customer problem or imply that a capability demonstration is a production commitment.
+
+## Close with owners and evidence
+
+Use an architecture review to examine trust boundaries, failure behavior, and rejected alternatives. Use a technical demo to show a workflow outcome and a deliberate failure case, not only a happy path. Explain what is synthetic, what is connected, and what remains unverified. A demo audience should be able to distinguish a working capability from an illustrative screen.
+
+At the end, record the decision, owner, acceptance evidence, due date, and revisit condition. Put unresolved risks, assumptions, issues, and dependencies into a RAID log. A risk describes a possible future problem; an issue already exists. Communicate scope changes with their delivery impact, and get the responsible stakeholder to resolve priority conflicts rather than absorbing every request into an invisible backlog.
+
+<FDEPrinciple>
+A reaction is not a documented decision about scope or acceptance.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: End with a named decision owner, acceptance evidence, and unresolved risks.
+- Verification: Ask stakeholders to restate the same pilot boundary and success measure.
+- Review question: Shared decisions and evidence establish alignment; slide volume does not.
+
+[Apply this lesson in the field workspace](/resources/templates/workshop-agenda). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

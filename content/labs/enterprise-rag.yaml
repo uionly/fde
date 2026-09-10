@@ -2,7 +2,8 @@ id: enterprise-rag-architecture
 slug: enterprise-rag-architecture
 title: Enterprise RAG Architecture
 description: Design a permission-aware knowledge assistant for Northstar Financial.
-scenario: Northstar support staff need answers from public, operations, manager-only, and compliance documents.
+scenario: Northstar support staff need answers from public, operations,
+  manager-only, and compliance documents.
 goals:
   - Preserve source permissions through retrieval
   - Define a testable retrieval and evaluation flow
@@ -18,22 +19,103 @@ steps:
     type: multi_input
     instruction: List source systems, owners, freshness, and access models.
     hint: Treat permissions and deletion as ingestion requirements.
-    solution: Capture Polaris Knowledge, compliance store, owner, sync SLA, ACL shape, and deletion propagation.
+    solution: Capture Polaris Knowledge, compliance store, owner, sync SLA, ACL
+      shape, and deletion propagation.
+    validation:
+      minCharacters: 80
+      criteria:
+        - List source systems, owners, freshness, and access models.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: What happens when a source document is deleted or access is revoked?
+        choices:
+          - id: unsafe
+            text: Leave indexed copies available until an annual rebuild
+            rationale: Derived copies must not bypass deletion and access changes in the
+              source.
+          - id: bounded
+            text: Propagate deletion and permission changes to every derived index under an
+              agreed SLA
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+        correct: bounded
   - id: identity-flow
     title: Design identity propagation
     type: architecture
     instruction: Describe how user identity reaches retrieval and filters candidates.
     hint: The model should never receive content the user cannot retrieve.
-    solution: Browser session to server identity, mapped group claims, ACL-filtered search, then authorized chunks to the model.
+    solution: Browser session to server identity, mapped group claims, ACL-filtered
+      search, then authorized chunks to the model.
+    validation:
+      minCharacters: 80
+      criteria:
+        - Describe how user identity reaches retrieval and filters candidates.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: Where should source permissions be enforced?
+        choices:
+          - id: bounded
+            text: On the server before unauthorized passages can enter model context
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+          - id: unsafe
+            text: Ask the model to ignore restricted passages after retrieval
+            rationale: A prompt is not an access-control boundary; authorization belongs
+              before model context.
+        correct: bounded
   - id: retrieval-plan
     title: Choose retrieval strategy
     type: text
     instruction: Propose candidate retrieval, filtering, reranking, and citation behavior.
     hint: Northstar users and policies use different vocabulary.
-    solution: Hybrid candidates, pre-filter by ACL, rerank, then return source-linked authorized passages.
+    solution: Hybrid candidates, pre-filter by ACL, rerank, then return
+      source-linked authorized passages.
+    validation:
+      minCharacters: 80
+      criteria:
+        - Propose candidate retrieval, filtering, reranking, and citation
+          behavior.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: What should an answer provide when authorized evidence is insufficient?
+        choices:
+          - id: unsafe
+            text: A confident answer from model memory with invented citations
+            rationale: Citation and relevance checks need actual authorized evidence;
+              unsupported answers hide retrieval failure.
+          - id: bounded
+            text: A bounded abstention or escalation instead of unsupported claims
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+        correct: bounded
   - id: evaluation-plan
     title: Define evaluation
     type: text
-    instruction: Define offline tests for retrieval quality, groundedness, and permission leakage.
+    instruction: Define offline tests for retrieval quality, groundedness, and
+      permission leakage.
     hint: Evaluate retrieval and generation separately.
-    solution: Representative query set with recall@k, grounded answer rubric, citation accuracy, and zero-tolerance access tests.
+    solution: Representative query set with recall@k, grounded answer rubric,
+      citation accuracy, and zero-tolerance access tests.
+    validation:
+      minCharacters: 80
+      criteria:
+        - Define offline tests for retrieval quality, groundedness, and
+          permission leakage.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: Which test catches a permission regression?
+        choices:
+          - id: bounded
+            text: Run the same query under allowed and disallowed identities and inspect
+              retrieved passages
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+          - id: unsafe
+            text: Measure average answer fluency across all identities
+            rationale: Aggregate fluency can conceal leakage; test retrieval access
+              separately for each relevant role.
+        correct: bounded

@@ -1,0 +1,258 @@
+{
+  "id": "approved-action-architecture",
+  "kind": "architecture",
+  "title": "Design an approved ticket action",
+  "description": "Build a proposal-to-execution path with explicit approval, authorization, and idempotent execution boundaries.",
+  "skills": [
+    "Architecture",
+    "Security",
+    "AI Engineering"
+  ],
+  "relatedLessons": [
+    "workflow-or-agent",
+    "integration-and-data-contracts"
+  ],
+  "sources": [
+    {
+      "title": "OWASP Authorization Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+    }
+  ],
+  "hint": "Follow each directed path from entry to sensitive output. A disconnected guard cannot protect a bypass route.",
+  "expertReasoning": "The model proposes a typed action. Approval covers the exact target and arguments; a trusted policy check revalidates authorization before an idempotent tool executes it. A queue may transport the approved work, but cannot introduce a path that skips approval or policy. These structural checks do not prove the policy implementation or replay resistance; test expiration, changed arguments, revoked roles, retries, and audit records in a real adapter.",
+  "catalog": [
+    {
+      "id": "user",
+      "label": "User",
+      "responsibility": "Requests a consequential customer action."
+    },
+    {
+      "id": "api",
+      "label": "Application API",
+      "responsibility": "Validates caller identity and accepts the request."
+    },
+    {
+      "id": "identity",
+      "label": "Identity provider",
+      "responsibility": "Supplies caller identity to the application."
+    },
+    {
+      "id": "model",
+      "label": "Agent proposal",
+      "responsibility": "Proposes typed arguments without executing the write."
+    },
+    {
+      "id": "approval",
+      "label": "Human approval",
+      "responsibility": "Binds approval to exact target and arguments."
+    },
+    {
+      "id": "policy",
+      "label": "Policy check",
+      "responsibility": "Rechecks authorization for the approved action immediately before execution."
+    },
+    {
+      "id": "tool",
+      "label": "Idempotent tool",
+      "responsibility": "Executes approved writes using a stable operation key."
+    },
+    {
+      "id": "queue",
+      "label": "Approved work queue",
+      "responsibility": "Optional durable transport for approved proposals."
+    }
+  ],
+  "starter": {
+    "nodes": [
+      {
+        "id": "user",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": "api",
+        "position": {
+          "x": 240,
+          "y": 0
+        }
+      }
+    ],
+    "edges": []
+  },
+  "example": {
+    "nodes": [
+      {
+        "id": "user",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": "api",
+        "position": {
+          "x": 240,
+          "y": 0
+        }
+      },
+      {
+        "id": "identity",
+        "position": {
+          "x": 480,
+          "y": 0
+        }
+      },
+      {
+        "id": "model",
+        "position": {
+          "x": 0,
+          "y": 140
+        }
+      },
+      {
+        "id": "approval",
+        "position": {
+          "x": 240,
+          "y": 140
+        }
+      },
+      {
+        "id": "policy",
+        "position": {
+          "x": 480,
+          "y": 140
+        }
+      },
+      {
+        "id": "tool",
+        "position": {
+          "x": 0,
+          "y": 280
+        }
+      },
+      {
+        "id": "queue",
+        "position": {
+          "x": 240,
+          "y": 280
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "user",
+        "target": "api"
+      },
+      {
+        "source": "identity",
+        "target": "api"
+      },
+      {
+        "source": "api",
+        "target": "model"
+      },
+      {
+        "source": "model",
+        "target": "approval"
+      },
+      {
+        "source": "approval",
+        "target": "policy"
+      },
+      {
+        "source": "policy",
+        "target": "tool"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "needs-user",
+      "type": "node",
+      "node": "user",
+      "message": "Include the user responsibility."
+    },
+    {
+      "id": "needs-api",
+      "type": "node",
+      "node": "api",
+      "message": "Include the api responsibility."
+    },
+    {
+      "id": "needs-identity",
+      "type": "node",
+      "node": "identity",
+      "message": "Include the identity responsibility."
+    },
+    {
+      "id": "needs-model",
+      "type": "node",
+      "node": "model",
+      "message": "Include the model responsibility."
+    },
+    {
+      "id": "needs-approval",
+      "type": "node",
+      "node": "approval",
+      "message": "Include the approval responsibility."
+    },
+    {
+      "id": "needs-policy",
+      "type": "node",
+      "node": "policy",
+      "message": "Include the policy responsibility."
+    },
+    {
+      "id": "needs-tool",
+      "type": "node",
+      "node": "tool",
+      "message": "Include the tool responsibility."
+    },
+    {
+      "id": "identity-api",
+      "type": "path",
+      "from": "identity",
+      "to": "api",
+      "message": "Provide a directed path from identity to api."
+    },
+    {
+      "id": "user-tool-boundary",
+      "type": "boundary",
+      "from": "user",
+      "to": "tool",
+      "via": [
+        "api",
+        "approval",
+        "policy"
+      ],
+      "message": "Every user \u2192 tool path must pass through api, approval, policy."
+    },
+    {
+      "id": "model-tool-boundary",
+      "type": "boundary",
+      "from": "model",
+      "to": "tool",
+      "via": [
+        "approval",
+        "policy"
+      ],
+      "message": "Every model \u2192 tool path must pass through approval, policy."
+    },
+    {
+      "id": "approval-tool-boundary",
+      "type": "boundary",
+      "from": "approval",
+      "to": "tool",
+      "via": [
+        "policy"
+      ],
+      "message": "Every approval \u2192 tool path must pass through policy."
+    }
+  ],
+  "customer": "Northstar Financial \u2014 fictional training scenario",
+  "difficulty": "advanced",
+  "estimatedMinutes": 30,
+  "reviewedAt": "2026-09-11"
+}

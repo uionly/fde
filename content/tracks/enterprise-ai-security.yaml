@@ -2,7 +2,7 @@ id: enterprise-ai-security
 slug: enterprise-ai-security
 title: Enterprise AI Security
 description: Protect enterprise AI workflows with identity, least privilege, trust boundaries, injection defenses, and auditable controls.
-order: 9
+order: 12
 status: published
 skills:
   - Security

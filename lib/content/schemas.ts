@@ -23,6 +23,15 @@ const applicationPathSchema = z
   .string()
   .regex(/^\/(?!\/)[a-z0-9][a-z0-9/-]*(?:[?#][a-z0-9=&-]+)?$/, "must be a same-origin application path");
 
+export const referenceSourceSchema = z.object({
+  title: z.string().min(3),
+  url: z.url().refine((url) => url.startsWith("https://"), "sources must use HTTPS"),
+});
+const referenceMetadata = {
+  reviewedAt: z.iso.date().optional(),
+  sources: z.array(referenceSourceSchema).default([]),
+};
+
 export const trackSchema = z.object({
   id: slugSchema,
   slug: slugSchema,
@@ -34,6 +43,7 @@ export const trackSchema = z.object({
 });
 
 export const lessonFrontmatterSchema = z.object({
+  ...referenceMetadata,
   id: slugSchema,
   slug: slugSchema,
   title: z.string().min(2),
@@ -97,6 +107,17 @@ export const questionSchema = z
     }
   });
 
+export const labCheckSchema = z.object({
+  prompt: z.string().min(10),
+  choices: z.array(choiceSchema).min(2),
+  correct: slugSchema,
+}).superRefine((check, ctx) => {
+  const ids = check.choices.map((choice) => choice.id);
+  if (new Set(ids).size !== ids.length || !ids.includes(check.correct)) {
+    ctx.addIssue({ code: "custom", message: "check choices must be unique and include the correct answer" });
+  }
+});
+
 export const labStepSchema = z.object({
   id: slugSchema,
   title: z.string().min(2),
@@ -104,6 +125,13 @@ export const labStepSchema = z.object({
   instruction: z.string().min(5).optional(),
   hint: z.string().min(3).optional(),
   solution: z.string().min(3).optional(),
+  validation: z.object({
+    minCharacters: z.number().int().min(40).max(500),
+    criteria: z.array(z.string().min(10)).min(2),
+    check: labCheckSchema,
+  }).optional(),
+}).superRefine((step, ctx) => {
+  if (step.type !== "content" && !step.validation) ctx.addIssue({ code: "custom", message: "deliverable steps require authored validation" });
 });
 
 export const labSchema = z.object({
@@ -117,6 +145,8 @@ export const labSchema = z.object({
   estimatedMinutes: z.number().int().positive(),
   skills: z.array(skillSchema).min(1),
   steps: z.array(labStepSchema).min(1),
+}).superRefine((lab, ctx) => {
+  if (new Set(lab.steps.map((step) => step.id)).size !== lab.steps.length) ctx.addIssue({ code: "custom", message: "lab step ids must be unique" });
 });
 
 export const capstonePhaseIds = [
@@ -594,6 +624,7 @@ export const retrievalRankGameSchema = z
 export const fieldGameSchema = z.discriminatedUnion("type", [quickDecisionGameSchema, modelRouterGameSchema, retrievalRankGameSchema]);
 
 export const glossaryEntrySchema = z.object({
+  ...referenceMetadata,
   term: z.string().min(2),
   slug: slugSchema,
   shortDefinition: z.string().min(10),
@@ -680,6 +711,8 @@ export const aiLabsShowcaseSchema = z
   });
 
 export const resourceSchema = z.object({
+  ...referenceMetadata,
+  relatedLessons: z.array(slugSchema).default([]),
   id: slugSchema,
   slug: slugSchema,
   title: z.string().min(3),

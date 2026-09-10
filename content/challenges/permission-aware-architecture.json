@@ -1,0 +1,230 @@
+{
+  "id": "permission-aware-architecture",
+  "kind": "architecture",
+  "title": "Design a permission-aware knowledge assistant",
+  "description": "Connect identity, retrieval, and generation so restricted source data cannot bypass the authorization boundary.",
+  "skills": [
+    "Architecture",
+    "Security",
+    "AI Engineering"
+  ],
+  "relatedLessons": [
+    "permission-aware-retrieval"
+  ],
+  "sources": [
+    {
+      "title": "OWASP Authorization Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+    }
+  ],
+  "hint": "Follow each directed path from entry to sensitive output. A disconnected guard cannot protect a bypass route.",
+  "expertReasoning": "The API receives trusted identity; authorized retrieval checks document access before supplying passages to the model. Data can reach the index through an optional ingestion queue. Neither a direct source-to-model connection nor a user-to-model shortcut is acceptable. Diagram checks assume components implement their stated responsibility; deployment tests must still verify actual ACL enforcement, deletion propagation, and authorized citations.",
+  "catalog": [
+    {
+      "id": "user",
+      "label": "User",
+      "responsibility": "A support specialist authenticated for a tenant."
+    },
+    {
+      "id": "api",
+      "label": "Application API",
+      "responsibility": "Trusted orchestration; validates session and propagates identity."
+    },
+    {
+      "id": "identity",
+      "label": "Identity provider",
+      "responsibility": "Issues validated caller identity to the API."
+    },
+    {
+      "id": "data",
+      "label": "Source documents",
+      "responsibility": "Private source evidence with document access metadata."
+    },
+    {
+      "id": "retrieval",
+      "label": "Authorized retrieval",
+      "responsibility": "Server-side component that enforces caller ACLs before releasing passages."
+    },
+    {
+      "id": "model",
+      "label": "Model",
+      "responsibility": "Generates an answer from the authorized context only."
+    },
+    {
+      "id": "queue",
+      "label": "Ingestion queue",
+      "responsibility": "Optional asynchronous ingestion between sources and retrieval."
+    }
+  ],
+  "starter": {
+    "nodes": [
+      {
+        "id": "user",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": "api",
+        "position": {
+          "x": 240,
+          "y": 0
+        }
+      }
+    ],
+    "edges": []
+  },
+  "example": {
+    "nodes": [
+      {
+        "id": "user",
+        "position": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": "api",
+        "position": {
+          "x": 240,
+          "y": 0
+        }
+      },
+      {
+        "id": "identity",
+        "position": {
+          "x": 480,
+          "y": 0
+        }
+      },
+      {
+        "id": "data",
+        "position": {
+          "x": 0,
+          "y": 140
+        }
+      },
+      {
+        "id": "retrieval",
+        "position": {
+          "x": 240,
+          "y": 140
+        }
+      },
+      {
+        "id": "model",
+        "position": {
+          "x": 480,
+          "y": 140
+        }
+      },
+      {
+        "id": "queue",
+        "position": {
+          "x": 0,
+          "y": 280
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "user",
+        "target": "api"
+      },
+      {
+        "source": "identity",
+        "target": "api"
+      },
+      {
+        "source": "api",
+        "target": "retrieval"
+      },
+      {
+        "source": "data",
+        "target": "retrieval"
+      },
+      {
+        "source": "retrieval",
+        "target": "model"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "needs-user",
+      "type": "node",
+      "node": "user",
+      "message": "Include the user responsibility."
+    },
+    {
+      "id": "needs-api",
+      "type": "node",
+      "node": "api",
+      "message": "Include the api responsibility."
+    },
+    {
+      "id": "needs-identity",
+      "type": "node",
+      "node": "identity",
+      "message": "Include the identity responsibility."
+    },
+    {
+      "id": "needs-data",
+      "type": "node",
+      "node": "data",
+      "message": "Include the data responsibility."
+    },
+    {
+      "id": "needs-retrieval",
+      "type": "node",
+      "node": "retrieval",
+      "message": "Include the retrieval responsibility."
+    },
+    {
+      "id": "needs-model",
+      "type": "node",
+      "node": "model",
+      "message": "Include the model responsibility."
+    },
+    {
+      "id": "identity-api",
+      "type": "path",
+      "from": "identity",
+      "to": "api",
+      "message": "Provide a directed path from identity to api."
+    },
+    {
+      "id": "api-retrieval",
+      "type": "path",
+      "from": "api",
+      "to": "retrieval",
+      "message": "Provide a directed path from api to retrieval."
+    },
+    {
+      "id": "user-model-boundary",
+      "type": "boundary",
+      "from": "user",
+      "to": "model",
+      "via": [
+        "api",
+        "retrieval"
+      ],
+      "message": "Every user \u2192 model path must pass through api, retrieval."
+    },
+    {
+      "id": "data-model-boundary",
+      "type": "boundary",
+      "from": "data",
+      "to": "model",
+      "via": [
+        "retrieval"
+      ],
+      "message": "Every data \u2192 model path must pass through retrieval."
+    }
+  ],
+  "customer": "Northstar Financial \u2014 fictional training scenario",
+  "difficulty": "advanced",
+  "estimatedMinutes": 30,
+  "reviewedAt": "2026-09-11"
+}

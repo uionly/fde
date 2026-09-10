@@ -1,0 +1,64 @@
+---
+{
+  "id": "workflow-observability",
+  "slug": "workflow-observability",
+  "title": "Observe the complete customer workflow",
+  "track": "production-observability",
+  "module": "production-observability",
+  "order": 1,
+  "difficulty": "intermediate",
+  "durationMinutes": 18,
+  "status": "published",
+  "prerequisites": [],
+  "skills": [
+    "Production",
+    "Software Engineering"
+  ],
+  "objectives": [
+    "Trace retrieval, model, tools, and handoff under one customer task",
+    "Compare completion and latency by cohort with privacy-safe traces"
+  ],
+  "experiments": [],
+  "practice": [
+    "workflow-observability-decision",
+    "workflow-observability-verification"
+  ],
+  "reviewedAt": "2026-09-11",
+  "sources": [
+    {
+      "title": "OpenTelemetry signals",
+      "url": "https://opentelemetry.io/docs/concepts/signals/"
+    }
+  ]
+}
+---
+
+<CustomerScenario title="Northstar field assignment — synthetic">
+Northstar sees a fast model response but slow support resolution. The dashboard measures model latency only; document search, retries, and human handoffs are invisible.
+</CustomerScenario>
+
+## Instrument the decision path
+
+Trace one customer task from request through retrieval, model use, tool calls, and final outcome. Logs capture discrete events, metrics aggregate measurements, and traces connect work across a request. Use correlation identifiers to join the relevant evidence, while avoiding raw private prompts, access tokens, or account contents in routine telemetry.
+
+Measure latency at the user-visible boundary as well as individual components. A fast model cannot compensate for a slow downstream API or repeated unsuccessful searches. Record bounded attributes such as release version, operation class, outcome, and error category. Avoid identifiers with unbounded cardinality as metric labels. Keep sensitive diagnostic payloads behind an explicit access and retention policy rather than attaching them to every trace.
+
+## Choose signals that drive an action
+
+For the support workflow, define completion rate, escalation rate, end-to-end latency, and duplicate-write rate. Explain the denominator and the observation window for each metric. A request that returns HTTP 200 but produces no usable answer should not automatically count as customer success. Report failures by cohort so a minority tenant or permission group is not hidden by an average.
+
+Connect each alert to a response: the on-call owner, a diagnostic query, a safe mitigation, and an escalation condition. Estimate model token and retry cost with stated inputs; do not treat a demonstration calculator as a current vendor quote. Use sampled traces to explain a metric change, then verify that the chosen instrumentation does not leak the very data the service is meant to protect.
+
+<FDEPrinciple>
+The customer waits for the whole workflow, not one component.
+</FDEPrinciple>
+
+## Produce the field artifact
+
+Write a short decision record for Northstar using the scenario above. Name the customer outcome, the evidence you would collect, the boundary you would change or preserve, and the owner who can accept the result. Include one rejected alternative and explain its concrete failure mode. Use the acceptance check below to review your work before marking this lesson complete.
+
+- Decision: Trace retrieval, model, tools, and handoff under one customer task.
+- Verification: Compare completion and latency by cohort with privacy-safe traces.
+- Review question: Useful observability requires bounded sensitive data handling.
+
+[Apply this lesson in the field workspace](/challenges/duplicate-ticket-incident). The exercise uses authored, synthetic customer conditions. Passing an automated check is feedback on those conditions; it is not evidence that an untested production integration is safe.

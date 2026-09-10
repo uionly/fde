@@ -2,7 +2,8 @@ id: discovery-workshop
 slug: discovery-workshop
 title: Customer Discovery Workshop
 description: Turn a vague AI request into a measurable customer problem definition.
-scenario: Northstar asks you to build an AI chatbot for support without defining the workflow or outcome.
+scenario: Northstar asks you to build an AI chatbot for support without defining
+  the workflow or outcome.
 goals:
   - Identify stakeholders and unknowns
   - Write a measurable problem statement
@@ -16,22 +17,84 @@ steps:
     type: content
     instruction: Identify what is known and what is merely assumed.
     hint: Separate facts in the request from your proposed solution.
-    solution: The only facts are that support is involved and leadership is interested in AI.
+    solution: The only facts are that support is involved and leadership is
+      interested in AI.
   - id: stakeholder-map
     title: Map the stakeholders
     type: multi_input
     instruction: List the users, decision makers, technical owners, and likely blockers.
-    hint: Include frontline support specialists, operations leaders, security, and data owners.
-    solution: A useful map covers sponsor, users, process owner, identity/security, data, and integration owners.
+    hint: Include frontline support specialists, operations leaders, security, and
+      data owners.
+    solution: A useful map covers sponsor, users, process owner, identity/security,
+      data, and integration owners.
+    validation:
+      minCharacters: 80
+      criteria:
+        - List the users, decision makers, technical owners, and likely blockers.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: Who must confirm the workflow and the access constraints?
+        choices:
+          - id: bounded
+            text: Frontline users, process owner, sponsor, and identity/data owners
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+          - id: unsafe
+            text: Only the executive sponsor
+            rationale: Users establish the actual work; owners validate permissions and
+              operational constraints.
+        correct: bounded
   - id: discovery-questions
     title: Draft discovery questions
     type: text
     instruction: Write the five questions that would most reduce uncertainty.
     hint: Ask about workflow, volume, baseline, data, risk, and desired outcome.
-    solution: Strong questions expose current time, handoffs, source systems, access rules, failure cost, and target KPI.
+    solution: Strong questions expose current time, handoffs, source systems, access
+      rules, failure cost, and target KPI.
+    validation:
+      minCharacters: 80
+      criteria:
+        - Write the five questions that would most reduce uncertainty.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: Which observation best reduces solution uncertainty?
+        choices:
+          - id: unsafe
+            text: Ask which model the sponsor prefers
+            rationale: A model preference does not establish the workflow baseline or
+              failure consequences.
+          - id: bounded
+            text: Measure current handoffs and failure cost with a representative user
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+        correct: bounded
   - id: problem-statement
     title: Define the problem
     type: text
     instruction: Write one measurable problem statement without prescribing an AI solution.
     hint: Use user, workflow, baseline, impact, target, and constraints.
-    solution: Northstar support specialists spend 31% of handling time searching three repositories; reduce median resolution time while preserving document permissions.
+    solution: Northstar support specialists spend 31% of handling time searching
+      three repositories; reduce median resolution time while preserving
+      document permissions.
+    validation:
+      minCharacters: 80
+      criteria:
+        - Write one measurable problem statement without prescribing an AI
+          solution.
+        - Explain the customer consequence, name the responsible owner, and
+          describe a positive and a negative verification case.
+      check:
+        prompt: Which outcome can anchor an acceptance decision?
+        choices:
+          - id: bounded
+            text: Reduce measured handling time for the agreed cohort while preserving
+              source permissions
+            rationale: This satisfies the authored check; the written deliverable still
+              needs human review.
+          - id: unsafe
+            text: Launch an AI chatbot with the largest available model
+            rationale: Acceptance needs a measurable workflow outcome and constraints, not a
+              technology deliverable.
+        correct: bounded
