@@ -42,6 +42,11 @@ export default function HomePage() {
         <p className="mt-4 text-sm text-muted-foreground">No account or API keys needed. Progress is saved in this browser.</p>
       </section>
 
+      <section id="what-is-fde" aria-labelledby="fde-role-title" className="mt-10 max-w-3xl border-t pt-6">
+        <h2 id="fde-role-title" className="text-xl font-semibold">What is a Forward Deployed Engineer?</h2>
+        <p className="mt-3 text-sm leading-7 text-muted-foreground">A Forward Deployed Engineer works directly with customers to turn ambiguous business problems into working systems, from discovery and design through implementation, deployment, and adoption. This lab helps experienced software engineers practice that end-to-end responsibility.</p>
+      </section>
+
       <form action="/search" role="search" aria-label="Search FDE knowledge" className="mt-10 rounded-xl border bg-card p-5 sm:p-6">
         <label htmlFor="home-search" className="font-semibold">What do you need to learn or solve?</label>
         <div className="mt-3 flex flex-col gap-3 sm:flex-row">

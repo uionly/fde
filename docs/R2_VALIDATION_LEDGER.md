@@ -34,3 +34,7 @@ The following primary references were opened during implementation. New lesson s
 Numerical examples were checked: 2000 / 800 = 2.5 cost units per successful task; (12000 - 10000) / 10000 = 20% ROI over the same horizon. Zero denominators are explicitly undefined. No live model prices or claimed customer performance improvements were added.
 
 Review dates denote this authored-content review. They do not assert that every statement in all 48 older lessons has undergone a new independent expert review. Existing lesson routes and content are preserved; runtime/content validation covers their structure and references.
+
+## Remote reconciliation addendum — R3
+
+The subsequent fetch discovered `/operations` in remote main (`98aa8ba`), which was not available in the local R2 checkout reviewed above. R3 merges that remote history and removes the mock dashboard, navigation, styling, data, loader, and tests. The merged application's `/operations` route is verified to return 404.

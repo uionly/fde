@@ -8,6 +8,9 @@ test("landing page, navigation, and theme work", async ({ page }) => {
 
   await expect(page.getByRole("heading", { level: 1, name: /Become a Forward Deployed Engineer/i })).toBeVisible();
   await expect(page.getByText("Northstar Financial", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What is a Forward Deployed Engineer?" })).toBeVisible();
+  const home = page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Home", exact: true });
+  await expect(home).toHaveAttribute("aria-current", "page");
   await expect(page.getByRole("main").getByRole("link", { name: "Start learning", exact: true })).toHaveAttribute("href", "/learn");
   await expect(page.getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
   await expect(page.getByRole("link", { name: /Interactive experiments/ })).toHaveAttribute("href", "/experiments");
@@ -15,6 +18,7 @@ test("landing page, navigation, and theme work", async ({ page }) => {
 
   await page.getByRole("link", { name: "Learn", exact: true }).click();
   await expect(page).toHaveURL(/\/learn$/);
+  await expect(home).not.toHaveAttribute("aria-current");
   await expect(page.getByRole("heading", { level: 1, name: "Learn through the customer problem." })).toBeVisible();
 
   await page.getByRole("button", { name: "Toggle color theme" }).click();

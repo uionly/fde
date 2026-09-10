@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **R2 complete — Field depth, applied challenges, and reference**
+Current milestone: **R3 complete — Remote reconciliation and operations removal**
 
 ## Milestones
 
@@ -24,6 +24,7 @@ Current milestone: **R2 complete — Field depth, applied challenges, and refere
 - [x] B1 — TO THE NEW Brand Token Refresh
 - [x] R1 — Learning Hub & Obsolete Runtime Cleanup
 - [x] R2 — Field Depth, Applied Challenges & Reference
+- [x] R3 — Remote Reconciliation & Operations Removal
 
 ## M1 implementation summary
 
@@ -67,7 +68,7 @@ Current milestone: **R2 complete — Field depth, applied challenges, and refere
 
 ## Next milestone
 
-R2 is complete and stops here. No next milestone has been started. Remaining depth and non-goals are explicit in the coverage map; G3 remains in the Arcade backlog.
+R3 is complete and stops here. No next milestone has been started. Remaining depth and non-goals are explicit in the coverage map; G3 remains in the Arcade backlog.
 
 ## M2 validation record
 
@@ -260,3 +261,11 @@ R2 is complete and stops here. No next milestone has been started. Remaining dep
 - Confirmed `/operations` has no route, rewrite, or inbound link in this checkout. HTTP 404 test passes; no nonexistent file deletion was claimed.
 - Added a coverage map and claim/source ledger. Fictional data and automated evaluation limits are explicit. No live integration, account system, code execution, or deployment was introduced.
 - All quality checks above passed after correcting an accessible-name defect, stale count expectations, and repeated hint copy discovered during testing.
+
+## R3 remote reconciliation — 2026-09-11
+
+- Fetched `origin/main` at `98aa8ba`. The remote contained merged homepage, Cloud Agent environment, and O1 Operations Center changes; local main contained R1 and R2.
+- Merged the histories without rebasing or dropping either parent. Resolved overlapping homepage, header, smoke tests, and implementation status around the current learning-hub requirements.
+- Retained the remote Cloud Agent environment and executable setup script, exact-only Home navigation, and a compact FDE role explanation. Retained all R1/R2 learning, reference, validation, and challenge work.
+- Removed the remote mock O1 implementation as explicitly requested: `/operations`, its navigation, component, data, loader, styling, and obsolete tests. This route was absent during the earlier local R2 review but present in the subsequently fetched remote history. The prior O1 commits remain in Git history; the dashboard is not part of the merged application.
+- Validation: lint, TypeScript, 129 unit tests, content graph, 35 browser journeys, and the 173-page production build passed. Home active-state and `/operations` 404 assertions passed. Cloud environment JSON and setup-script syntax validated.
