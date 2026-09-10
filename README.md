@@ -122,6 +122,7 @@ docs/                   Product source, architecture, plans, and deployment guid
 
 ## Documentation
 
+- [Application review and prioritized gaps](docs/APPLICATION_REVIEW.md)
 - [Product specification](docs/SPEC.md)
 - [MVP acceptance criteria](docs/MVP_ACCEPTANCE_CRITERIA.md)
 - [Architecture](docs/ARCHITECTURE.md)
@@ -132,4 +133,4 @@ docs/                   Product source, architecture, plans, and deployment guid
 - [Content expansion plan](docs/SEED_CONTENT_PLAN.md)
 - [Implementation status](IMPLEMENTATION_STATUS.md)
 
-The next product milestone is **G3 — Security and Agent Simulations**, defined in the [Field Arcade roadmap](docs/GAME_IMPLEMENTATION_PLAN.md).
+The latest milestone is **R1 — Learning hub and obsolete runtime cleanup**. The [application review](docs/APPLICATION_REVIEW.md) recommends curriculum coverage and practical customer workflows next; G3 remains in the Arcade backlog.

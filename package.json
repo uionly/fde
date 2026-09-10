@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "postinstall": "prisma generate",
     "prebuild": "npm run validate:content",
     "build": "next build",
     "start": "next start",
@@ -18,8 +17,6 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
-    "@prisma/adapter-pg": "^7.9.1",
-    "@prisma/client": "^7.9.1",
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -47,7 +44,6 @@
     "eslint": "^9.39.0",
     "eslint-config-next": "16.3.0",
     "jsdom": "^27.0.0",
-    "prisma": "^7.9.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.2",

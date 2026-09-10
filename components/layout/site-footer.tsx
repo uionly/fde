@@ -8,8 +8,8 @@ export function SiteFooter() {
         <div>
           <p className="font-semibold text-foreground">FDE Learning Lab</p>
           <p className="mt-2 max-w-xs text-sm leading-6 text-muted-foreground">Interactive field training for engineers who want to own the customer outcome.</p>
-          <Link className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary" href="/games/model-router-arena">
-            Run a mission <ArrowUpRight aria-hidden="true" className="size-3.5" />
+          <Link className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary" href="/learn">
+            Explore learning tracks <ArrowUpRight aria-hidden="true" className="size-3.5" />
           </Link>
         </div>
         <nav aria-label="Learning links">

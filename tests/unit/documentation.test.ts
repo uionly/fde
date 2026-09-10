@@ -59,6 +59,8 @@ describe("project documentation", () => {
     ];
 
     expect(packageJson.dependencies).not.toHaveProperty("next-auth");
+    expect(packageJson.dependencies).not.toHaveProperty("@prisma/client");
+    expect(packageJson.dependencies).not.toHaveProperty("@prisma/adapter-pg");
     expect(packageJson.dependencies).not.toHaveProperty("@auth/prisma-adapter");
     for (const sourceFile of sourceFiles) {
       expect(read(sourceFile)).not.toMatch(/next-auth|@\/auth|href=["']\/signin/);

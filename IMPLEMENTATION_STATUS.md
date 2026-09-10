@@ -1,6 +1,6 @@
 # Implementation Status
 
-Current milestone: **B1 complete — TO THE NEW brand token refresh**
+Current milestone: **R1 complete — Learning hub and obsolete runtime cleanup**
 
 ## Milestones
 
@@ -22,6 +22,7 @@ Current milestone: **B1 complete — TO THE NEW brand token refresh**
 - [x] C1 — Complete MVP Content Expansion
 - [x] C2 — Editable Capstone & Optional AI Coach
 - [x] B1 — TO THE NEW Brand Token Refresh
+- [x] R1 — Learning Hub & Obsolete Runtime Cleanup
 
 ## M1 implementation summary
 
@@ -65,7 +66,7 @@ Current milestone: **B1 complete — TO THE NEW brand token refresh**
 
 ## Next milestone
 
-All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-MVP game milestone is G3 in `docs/GAME_IMPLEMENTATION_PLAN.md`: Prompt Injection Detective and Agent Access Lockdown.
+R1 is complete and stops here. The application review in `docs/APPLICATION_REVIEW.md` recommends mapping curriculum gaps and implementing one missing customer workflow next. G3 remains in the game backlog; no subsequent milestone has been started.
 
 ## M2 validation record
 
@@ -234,3 +235,16 @@ All milestones in `docs/IMPLEMENTATION_PLAN.md` remain complete. The next post-M
 - Added accessible theme-specific semantic tones rather than using magenta-500 for normal text, plus a dedicated inverse-surface accent and higher-contrast status treatments. Primary, cyan accent, inverse accent, muted text, and status text were contrast-audited in light and dark themes.
 - Preserved visible focus, dark mode, reduced-motion behavior, theme persistence, and responsive layouts. Rendered Chromium review covered the landing page, AI Labs at 390px, and capstone in dark mode; automated coverage also blocks Google Fonts to verify the fallback stack and 360px overflow behavior.
 - Passed repository content validation, full ESLint, strict TypeScript, all 115 unit tests across 29 files, the 102-page production build plus coaching endpoint, and all 29 serial Chromium journeys.
+
+## R1 validation record — 2026-09-11
+
+- Reviewed the product and source against the normative specifications; recorded prioritized gaps and evidence in `docs/APPLICATION_REVIEW.md`.
+- Replaced game-first homepage promotion with curriculum access, shared search, a content-driven roadmap, labs/practice/reference links, and browser-progress access. Retained Northstar and the 10D framework.
+- Removed redundant promotional UI, unused bootstrap preview, obsolete account-backed stores, Prisma dependencies, generated code, schema/migrations, and install hook. Existing visitor state remains intact.
+- Added homepage coverage and an end-to-end search/reference journey; updated branding tests for the new primary learning action.
+- ESLint and `git diff --check` passed (no standalone formatter is configured).
+- TypeScript passed; all 116 unit tests across 30 files passed.
+- Content validation passed: 9 tracks, 48 lessons, 150 questions, 3 labs, 5 experiments, 6 games, 12 capstone phases, 8 glossary entries, 1 case study, 6 resources.
+- Production build passed with 102 generated pages.
+- All 19 applicable Chromium smoke journeys passed, including mobile/reduced motion, light/dark branding, search, practice, lab resume, and the integrated visitor path. Other specialized capstone/game suites were not rerun for this milestone.
+- Initial sandbox process/network restrictions were resolved with execution access; lockfile regeneration succeeded. No deployment was performed.

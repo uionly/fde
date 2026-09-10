@@ -34,7 +34,7 @@ export default function LearnPage() {
       </div>
 
       <div className="mt-10 rounded-xl border border-dashed p-6 text-center">
-        <p className="text-sm font-medium">A complete field curriculum, connected by one customer story.</p>
+        <p className="text-sm font-medium">A growing field curriculum, connected by one customer story.</p>
         <p className="mt-1 text-sm text-muted-foreground">Work from FDE foundations through discovery, architecture, LLM systems, evaluations, RAG, agents, security, and production outcomes.</p>
       </div>
     </div>

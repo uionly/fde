@@ -6,12 +6,12 @@ test("landing page, navigation, and theme work", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { level: 1, name: /Can you ship AI that survives the enterprise/i })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: /Become a Forward Deployed Engineer/i })).toBeVisible();
   await expect(page.getByText("Northstar Financial", { exact: true })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Run a 5-minute AI mission/ })).toHaveAttribute("href", "/games/model-router-arena");
+  await expect(page.getByRole("main").getByRole("link", { name: "Start learning", exact: true })).toHaveAttribute("href", "/learn");
   await expect(page.getByRole("link", { name: /Explore AI Labs/ })).toHaveAttribute("href", "/labs");
-  await expect(page.getByRole("link", { name: /Change the variables/ })).toHaveAttribute("href", "/experiments");
-  await expect(page.getByRole("link", { name: /Deliver the outcome/ })).toHaveAttribute("href", "/labs#field-missions");
+  await expect(page.getByRole("link", { name: /Interactive experiments/ })).toHaveAttribute("href", "/experiments");
+  await expect(page.getByRole("link", { name: /Guided labs/ })).toHaveAttribute("href", "/labs#field-missions");
 
   await page.getByRole("link", { name: "Learn", exact: true }).click();
   await expect(page).toHaveURL(/\/learn$/);
@@ -25,7 +25,7 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
-  const mission = page.getByRole("link", { name: /Run a 5-minute AI mission/ });
+  const mission = page.getByRole("main").getByRole("link", { name: "Start learning", exact: true });
   const light = await page.evaluate(() => {
     const body = getComputedStyle(document.body);
     return { background: body.backgroundColor, color: body.color, font: body.fontFamily };
@@ -41,7 +41,6 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
     font: expect.stringContaining("Montserrat"),
   });
   expect(lightMission).toEqual({ background: "rgb(204, 10, 107)", color: "rgb(248, 248, 250)", radius: "8px" });
-  await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(244, 90, 166)");
 
   await page.evaluate(() => localStorage.setItem("theme", "dark"));
   await page.reload();
@@ -58,7 +57,6 @@ test("TO THE NEW brand tokens render in light and dark themes", async ({ page })
 
   expect(dark).toEqual({ background: "rgb(26, 26, 30)", color: "rgb(242, 242, 245)" });
   expect(darkMission).toEqual({ background: "rgb(244, 90, 166)", color: "rgb(26, 26, 30)" });
-  await expect(page.locator("section.bg-foreground").getByText("01", { exact: true })).toHaveCSS("color", "rgb(163, 8, 87)");
 });
 
 test("brand typography falls back safely on mobile with reduced motion", async ({ page }) => {
@@ -343,4 +341,16 @@ test("integrated visitor learning journey", async ({ page }) => {
   await page.goto("/progress");
   await expect(page.locator("#main-content").getByText("2%", { exact: true })).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Security skill score: 100%" })).toBeVisible();
+});
+
+test("home hub searches the shared knowledge index and opens field reference", async ({ page }) => {
+  await page.goto("/");
+  const search = page.getByRole("search", { name: "Search FDE knowledge" });
+  await search.getByRole("searchbox").fill("permission retrieval");
+  await search.getByRole("button", { name: "Search", exact: true }).click();
+  await expect(page).toHaveURL(/\/search\?q=permission\+retrieval/);
+  await expect(page.getByRole("link", { name: /Permission-Aware Enterprise Retrieval/ })).toBeVisible();
+  await page.goto("/");
+  await page.getByRole("link", { name: /Templates and checklists/ }).click();
+  await expect(page.getByRole("heading", { name: "Downloadable templates" })).toBeVisible();
 });
