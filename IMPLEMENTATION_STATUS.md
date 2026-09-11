@@ -269,3 +269,12 @@ R3 is complete and stops here. No next milestone has been started. Remaining dep
 - Retained the remote Cloud Agent environment and executable setup script, exact-only Home navigation, and a compact FDE role explanation. Retained all R1/R2 learning, reference, validation, and challenge work.
 - Removed the remote mock O1 implementation as explicitly requested: `/operations`, its navigation, component, data, loader, styling, and obsolete tests. This route was absent during the earlier local R2 review but present in the subsequently fetched remote history. The prior O1 commits remain in Git history; the dashboard is not part of the merged application.
 - Validation: lint, TypeScript, 129 unit tests, content graph, 35 browser journeys, and the 173-page production build passed. Home active-state and `/operations` 404 assertions passed. Cloud environment JSON and setup-script syntax validated.
+
+## R4 Fieldbook naming — 2026-09-11
+
+- Started from latest `origin/main` at `78688b0` on `codex/fde-fieldbook-branding`.
+- Renamed the product to FDE Fieldbook in the header, accessible home link, homepage, footer, metadata, package metadata, and current product documentation. Descriptive copy identifies both learning and field-reference use.
+- Renamed the seventh 10D stage to Determine readiness, retaining Prove quality, and synchronized the specification, README, and introductory lesson. Ordinary evaluation terminology remains appropriate in exercises and lessons.
+- Preserved browser storage keys so existing saved progress remains available.
+- Extended the landing browser check for the product title, accessible brand link, footer brand, and readiness stage.
+- Validation passed: ESLint, TypeScript, 129 unit tests across 33 files, content validation, production build with 173 generated pages, and all 19 Chromium smoke journeys including mobile, reduced motion, themes, and progress persistence. Whitespace checks passed. No standalone formatter is configured.

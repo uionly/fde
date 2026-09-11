@@ -10,8 +10,8 @@ import "./globals.css";
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "FDE Learning Lab", template: "%s · FDE Learning Lab" },
-  description: "Practice Forward Deployed Engineering through interactive enterprise AI simulations, technical playgrounds, and customer missions.",
+  title: { default: "FDE Fieldbook", template: "%s · FDE Fieldbook" },
+  description: "Learn Forward Deployed Engineering with structured lessons, hands-on labs, customer scenarios, and a searchable field reference.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

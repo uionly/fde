@@ -1,8 +1,8 @@
-# FDE Learning Lab — Product Specification
+# FDE Fieldbook — Product Specification
 
 ## 1. Product
 
-**Name:** FDE Learning Lab
+**Name:** FDE Fieldbook
 
 **Tagline:** Learn Forward Deployed Engineering by solving real enterprise problems.
 
@@ -34,7 +34,7 @@ The learner should repeatedly operate through the **10D FDE Framework**:
 4. Design
 5. Demonstrate
 6. Develop
-7. Evaluate
+7. Determine readiness
 8. Deploy
 9. Drive Adoption
 10. Distill

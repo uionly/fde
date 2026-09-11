@@ -2,7 +2,7 @@
 
 ## Mission
 
-Build the FDE Learning Lab defined in `docs/SPEC.md`.
+Build the FDE Fieldbook defined in `docs/SPEC.md`.
 
 The application teaches experienced Software Engineers how to become Forward Deployed Engineers by combining structured lessons, enterprise scenarios, interactive experiments, labs, debugging exercises, architecture challenges, and a continuous fictional customer engagement.
 

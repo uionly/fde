@@ -7,7 +7,7 @@ import { getAllCaseStudies } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Northstar Financial",
-  description: "The continuous fictional customer engagement for FDE Learning Lab.",
+  description: "The continuous fictional customer engagement for FDE Fieldbook.",
 };
 
 type NorthstarPageProps = {
