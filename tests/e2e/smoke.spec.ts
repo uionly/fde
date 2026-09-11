@@ -6,6 +6,12 @@ test("landing page, navigation, and theme work", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
 
+  await expect(page).toHaveTitle("FDE Fieldbook");
+  await expect(page.getByRole("link", { name: "FDE Fieldbook home" })).toBeVisible();
+  await expect(page.getByRole("contentinfo").getByText("FDE Fieldbook", { exact: true })).toBeVisible();
+  await expect(page.getByText("Determine readiness", { exact: true })).toBeVisible();
+  await expect(page.getByText("Prove quality", { exact: true })).toBeVisible();
+
   await expect(page.getByRole("heading", { level: 1, name: /Become a Forward Deployed Engineer/i })).toBeVisible();
   await expect(page.getByText("Northstar Financial", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "What is a Forward Deployed Engineer?" })).toBeVisible();

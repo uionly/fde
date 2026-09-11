@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Northstar Financial is the primary fictional customer used throughout FDE Learning Lab.
+Northstar Financial is the primary fictional customer used throughout FDE Fieldbook.
 
 It allows a learner to encounter one evolving enterprise context instead of disconnected toy exercises.
 

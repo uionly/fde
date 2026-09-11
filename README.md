@@ -1,10 +1,10 @@
-# FDE Learning Lab
+# FDE Fieldbook
 
-FDE Learning Lab is a learning and field-reference workspace for experienced Software Engineers moving into Forward Deployed Engineering.
+FDE Fieldbook is a learning and field-reference workspace for experienced Software Engineers moving into Forward Deployed Engineering.
 
 Learners work inside a continuous fictional customer engagement, Northstar Financial. They discover the real problem, make architecture and safety decisions, test system behavior, build customer artifacts, debug production failures, and connect technical work to adoption and business outcomes. The experience follows the **10D FDE loop**:
 
-**Discover → Define → De-risk → Design → Demonstrate → Develop → Evaluate → Deploy → Drive Adoption → Distill**
+**Discover → Define → De-risk → Design → Demonstrate → Develop → Determine readiness → Deploy → Drive Adoption → Distill**
 
 This is not a beginner programming course or a video LMS. Every concept starts with a customer or production problem.
 

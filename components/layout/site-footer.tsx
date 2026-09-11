@@ -6,8 +6,8 @@ export function SiteFooter() {
     <footer className="border-t">
       <div className="mx-auto grid max-w-[1440px] gap-10 px-4 py-10 sm:px-6 md:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr] lg:px-8">
         <div>
-          <p className="font-semibold text-foreground">FDE Learning Lab</p>
-          <p className="mt-2 max-w-xs text-sm leading-6 text-muted-foreground">Interactive field training for engineers who want to own the customer outcome.</p>
+          <p className="font-semibold text-foreground">FDE Fieldbook</p>
+          <p className="mt-2 max-w-xs text-sm leading-6 text-muted-foreground">Learning and field reference for engineers who want to own the customer outcome.</p>
           <Link className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary" href="/learn">
             Explore learning tracks <ArrowUpRight aria-hidden="true" className="size-3.5" />
           </Link>

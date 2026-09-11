@@ -11,7 +11,7 @@ const framework = [
   ["04", "Design", "Shape the system"],
   ["05", "Demonstrate", "Make it tangible"],
   ["06", "Develop", "Build the path"],
-  ["07", "Evaluate", "Prove quality"],
+  ["07", "Determine readiness", "Prove quality"],
   ["08", "Deploy", "Ship safely"],
   ["09", "Drive adoption", "Change the workflow"],
   ["10", "Distill", "Productize learning"],
@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
       <section aria-labelledby="home-title" className="max-w-3xl">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">FDE Learning Lab</p>
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">FDE Fieldbook</p>
         <h1 id="home-title" className="mt-4 text-balance text-4xl font-semibold tracking-[-0.045em] sm:text-6xl">Become a Forward Deployed Engineer</h1>
         <p className="mt-5 text-lg leading-8 text-muted-foreground">Your workspace for FDE learning and field reference. Take ambiguous customer problems through discovery, architecture, implementation, production, adoption, and measurable business impact.</p>
         <div className="mt-7 flex flex-wrap gap-3">

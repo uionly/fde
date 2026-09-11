@@ -83,11 +83,11 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-6 px-4 sm:px-6 lg:px-8">
-        <Link aria-label="FDE Learning Lab home" className="group flex shrink-0 items-center gap-2.5" href="/">
+        <Link aria-label="FDE Fieldbook home" className="group flex shrink-0 items-center gap-2.5" href="/">
           <span className="grid size-8 place-items-center rounded-md bg-foreground text-background transition-transform group-hover:-rotate-3">
             <BookOpen aria-hidden="true" className="size-[17px]" strokeWidth={2.25} />
           </span>
-          <span className="hidden text-sm font-bold tracking-[-0.02em] sm:inline">FDE Learning Lab</span>
+          <span className="hidden text-sm font-bold tracking-[-0.02em] sm:inline">FDE Fieldbook</span>
         </Link>
 
         <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-0.5 lg:flex">
